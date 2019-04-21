@@ -11,4 +11,8 @@
 
 #include <stdio.h>
 
+class Cpp{
+public:
+};
+
 #endif /* cpp_hpp */

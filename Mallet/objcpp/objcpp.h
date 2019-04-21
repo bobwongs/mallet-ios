@@ -9,5 +9,10 @@
 #ifndef objcpp_h
 #define objcpp_h
 
+#import <Foundation/Foundation.h>
+
+@interface ObjCpp : NSObject
+
+@end
 
 #endif /* objcpp_h */

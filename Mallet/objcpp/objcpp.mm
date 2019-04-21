@@ -7,3 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "objcpp.h"
+#import "../cpp/cpp.hpp"
+
+@implementation ObjCpp : NSObject {
+    Cpp *cpp;
+}
+
+@end

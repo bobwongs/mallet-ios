@@ -14,6 +14,8 @@
 		0EF478B3226B78CE007315DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */; };
 		0EF478BE226B78CE007315DB /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478BD226B78CE007315DB /* MalletTests.swift */; };
 		0EF478C9226B78CE007315DB /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478C8226B78CE007315DB /* MalletUITests.swift */; };
+		0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478D9226B7ABE007315DB /* objcpp.mm */; };
+		0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478DC226B7AEB007315DB /* cpp.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,11 @@
 		0EF478C4226B78CE007315DB /* MalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF478C8226B78CE007315DB /* MalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletUITests.swift; sourceTree = "<group>"; };
 		0EF478CA226B78CE007315DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mallet-Bridging-Header.h"; sourceTree = "<group>"; };
+		0EF478D9226B7ABE007315DB /* objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
+		0EF478DB226B7AD8007315DB /* objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
+		0EF478DC226B7AEB007315DB /* cpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp.cpp; sourceTree = "<group>"; };
+		0EF478DD226B7AEB007315DB /* cpp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +104,8 @@
 		0EF478A7226B78CD007315DB /* Mallet */ = {
 			isa = PBXGroup;
 			children = (
+				0EF478D7226B7A92007315DB /* objcpp */,
+				0EF478D6226B7A88007315DB /* cpp */,
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
 				0EF478AA226B78CD007315DB /* ViewController.swift */,
 				0EF478AC226B78CD007315DB /* Main.storyboard */,
@@ -123,6 +132,25 @@
 				0EF478CA226B78CE007315DB /* Info.plist */,
 			);
 			path = MalletUITests;
+			sourceTree = "<group>";
+		};
+		0EF478D6226B7A88007315DB /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
+				0EF478DC226B7AEB007315DB /* cpp.cpp */,
+				0EF478DD226B7AEB007315DB /* cpp.hpp */,
+			);
+			path = cpp;
+			sourceTree = "<group>";
+		};
+		0EF478D7226B7A92007315DB /* objcpp */ = {
+			isa = PBXGroup;
+			children = (
+				0EF478D9226B7ABE007315DB /* objcpp.mm */,
+				0EF478DB226B7AD8007315DB /* objcpp.h */,
+			);
+			path = objcpp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,6 +221,7 @@
 				TargetAttributes = {
 					0EF478A4226B78CD007315DB = {
 						CreatedOnToolsVersion = 10.2.1;
+						LastSwiftMigration = 1020;
 					};
 					0EF478B8226B78CE007315DB = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -257,7 +286,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0EF478AB226B78CD007315DB /* ViewController.swift in Sources */,
+				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
+				0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,6 +463,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Mallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -440,6 +472,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kats.Mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,6 +483,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Mallet/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -457,6 +492,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kats.Mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
