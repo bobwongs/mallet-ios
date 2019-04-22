@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kGm-ie-ZMa">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="PhQ-Ly-SLF">
+            <objects>
+                <navigationController id="IsP-cq-zCf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mjN-oh-Ctb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kGm-ie-ZMa" kind="relationship" relationship="rootViewController" id="GFv-gS-IYg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vb-83-nGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-612" y="169"/>
+        </scene>
+        <!--Code-->
+        <scene sceneID="sfj-0k-qiA">
+            <objects>
+                <viewController id="kGm-ie-ZMa" customClass="EditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NRm-FY-EAT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="var a = 0 repeat(10) {     print(a)     a = a + 1 }" translatesAutoresizingMaskIntoConstraints="NO" id="0w2-hr-ICW">
+                                <rect key="frame" x="10" y="108" width="394" height="654"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="22"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4Nd-Y1-dgR" firstAttribute="bottom" secondItem="0w2-hr-ICW" secondAttribute="bottom" constant="100" id="Xls-BO-6AO"/>
+                            <constraint firstItem="4Nd-Y1-dgR" firstAttribute="trailing" secondItem="0w2-hr-ICW" secondAttribute="trailing" constant="10" id="bM6-yN-6vo"/>
+                            <constraint firstItem="0w2-hr-ICW" firstAttribute="leading" secondItem="4Nd-Y1-dgR" secondAttribute="leading" constant="10" id="gvU-ei-pwg"/>
+                            <constraint firstItem="0w2-hr-ICW" firstAttribute="top" secondItem="4Nd-Y1-dgR" secondAttribute="top" constant="20" id="iy7-vy-msY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4Nd-Y1-dgR"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Code" id="w9t-fp-98G">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="Q2R-qp-oVn">
+                            <connections>
+                                <action selector="RunButton:" destination="kGm-ie-ZMa" id="ltX-g3-DHD"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CJV-wB-OFq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="692.75362318840587" y="168.75"/>
+        </scene>
+    </scenes>
+</document>
