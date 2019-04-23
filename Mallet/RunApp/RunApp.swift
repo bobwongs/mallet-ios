@@ -10,12 +10,24 @@ import UIKit
 
 class RunApp: UIViewController {
 
+    @IBOutlet weak var appView: UIView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+
+        let uiData = ScreenDataController().generateRandomUIData()
+
+        let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)
+
+        view.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.leftAnchor.constraint(equalTo: appView.leftAnchor, constant: 10).isActive = true
+        stackView.rightAnchor.constraint(equalTo: appView.rightAnchor, constant: -10).isActive = true
+        stackView.topAnchor.constraint(equalTo: appView.topAnchor, constant: 30).isActive = true
     }
-    
+
 
     /*
     // MARK: - Navigation

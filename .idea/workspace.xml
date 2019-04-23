@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9904ed9b-42dc-46c0-9db3-7475a9877016" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Mallet/Editor/Editor.storyboard" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/Editor/EditorController.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/Home/Base.lproj/Main.storyboard" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/Home/DataSource.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/Home/HomeViewCell.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/RunApp/RunApp.storyboard" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet.xcodeproj/xcuserdata/katsu.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet.xcodeproj/xcuserdata/katsu.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/Base.lproj/Main.storyboard" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/ViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/Home/HomeViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mallet/RunApp/RunApp.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/RunApp/RunApp.storyboard" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" afterDir="false" />
     </list>
     <ignored path="$USER_HOME$/Library/Caches/AppCode2019.1/DerivedData/Mallet-ennzgquimcwlqggbjlxtjiwlahjd/Build/Intermediates.noindex/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,6 +15,20 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_66A86B52-BFD8-4142-810A-723472E5D07C" />
   <component name="FileEditorManager">
@@ -43,10 +52,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Mallet/RunApp/RunApp.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="36" selection-start-line="36" selection-end-line="36" />
+            <state relative-caret-position="480">
+              <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="600">
+              <caret line="30" column="55" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -54,8 +90,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/Home/HomeViewController.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="23" column="118" lean-forward="true" selection-start-line="23" selection-start-column="118" selection-end-line="23" selection-end-column="118" />
+            <state relative-caret-position="460">
+              <caret line="23" column="118" selection-start-line="23" selection-start-column="118" selection-end-line="23" selection-end-column="118" />
             </state>
           </provider>
         </entry>
@@ -77,6 +113,9 @@
         <option value="$PROJECT_DIR$/Mallet/Home/DataSource.swift" />
         <option value="$PROJECT_DIR$/Mallet/Home/HomeViewController.swift" />
         <option value="$PROJECT_DIR$/Mallet/Editor/EditorController.swift" />
+        <option value="$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift" />
+        <option value="$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift" />
+        <option value="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" />
       </list>
     </option>
   </component>
@@ -92,9 +131,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="121" />
+    <option name="x" value="1047" />
     <option name="y" value="23" />
-    <option name="width" value="1790" />
+    <option name="width" value="1513" />
     <option name="height" value="1417" />
   </component>
   <component name="ProjectView">
@@ -102,7 +141,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Cidr.FilesView" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -137,11 +176,14 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="Cidr.FilesView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
@@ -178,18 +220,22 @@
       <option name="presentableId" value="Default" />
       <updated>1555940882421</updated>
       <workItem from="1555940885643" duration="318000" />
-      <workItem from="1555941218270" duration="2424000" />
+      <workItem from="1555941218270" duration="2913000" />
+      <workItem from="1555946038309" duration="2244000" />
+      <workItem from="1556020574086" duration="1235000" />
+      <workItem from="1556022008887" duration="224000" />
+      <workItem from="1556023332437" duration="1214000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2742000" />
+    <option name="totallyTimeSpent" value="8148000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="121" y="23" width="1790" height="1417" extended-state="0" />
+    <frame x="1047" y="23" width="1513" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19679634" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17519909" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -208,9 +254,32 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32941943" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17519909" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="3" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.22566038" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Changes" order="7" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32830188" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32830188" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32941943" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -254,17 +323,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/Home/HomeViewController.swift">
+    <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="23" column="118" lean-forward="true" selection-start-line="23" selection-start-column="118" selection-end-line="23" selection-end-column="118" />
+        <state relative-caret-position="480">
+          <caret line="24" column="71" selection-start-line="24" selection-start-column="71" selection-end-line="24" selection-end-column="71" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
+    <entry file="file://$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
+        <state relative-caret-position="600">
+          <caret line="30" column="55" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" column="31" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/Home/HomeViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="23" column="118" selection-start-line="23" selection-start-column="118" selection-end-line="23" selection-end-column="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/RunApp/RunApp.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
         </state>
       </provider>
     </entry>
