@@ -10,9 +10,11 @@
 #define cpp_hpp
 
 #include <stdio.h>
+#include <string>
 
-class Cpp{
+class Cpp {
 public:
+    std::string ConvertCodeToJson(std::string code);
 };
 
 #endif /* cpp_hpp */

@@ -14,6 +14,13 @@ class ViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let objcpp = ObjCpp()
+        let code = "var str:String str=\"hoge\" print(str)"
+        let json = objcpp.convertCode(toJson: code)
+
+        print("From Swift : " + json!)
+
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

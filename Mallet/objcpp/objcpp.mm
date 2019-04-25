@@ -14,4 +14,12 @@
     Cpp *cpp;
 }
 
+- (NSString *)ConvertCodeToJson:(NSString *)code {
+    std::string codeString = [code UTF8String];
+    std::string json = cpp->ConvertCodeToJson(codeString);
+    NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
+
+    return jsonNSString;
+}
+
 @end

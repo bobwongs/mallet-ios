@@ -13,6 +13,8 @@
 
 @interface ObjCpp : NSObject
 
+- (NSString *)ConvertCodeToJson:(NSString *)code;
+
 @end
 
 #endif /* objcpp_h */
