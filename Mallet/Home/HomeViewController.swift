@@ -16,7 +16,7 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
 
         let objcpp = ObjCpp()
-        let code = "var str:String str=\"hoge\" print(str)"
+        let code = "print(114514)" //"var str:String str=\"hoge\" print(str)"
         let json = objcpp.convertCode(toJson: code)
 
         print("From Swift : " + json!)

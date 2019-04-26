@@ -15,6 +15,8 @@
 
 - (NSString *)ConvertCodeToJson:(NSString *)code;
 
+- (void)RunCode:(NSString *)json;
+
 @end
 
 #endif /* objcpp_h */

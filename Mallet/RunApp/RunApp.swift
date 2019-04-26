@@ -9,14 +9,25 @@
 import UIKit
 
 class RunApp: UIViewController {
-
     @IBOutlet weak var appView: UIView!
+
+    public var codeStr = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        let objcpp = ObjCpp()
 
+        print(codeStr)
+        let json = objcpp.convertCode(toJson: codeStr)
+        print(json!)
+
+        objcpp.runCode(json)
+
+        generateAppScreen()
+    }
+
+    private func generateAppScreen() {
         let uiData = ScreenDataController().generateRandomUIData()
 
         let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)

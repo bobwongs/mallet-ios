@@ -25,6 +25,7 @@
 		0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478D9226B7ABE007315DB /* objcpp.mm */; };
 		0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478DC226B7AEB007315DB /* cpp.cpp */; };
 		0EFDB0C12271E2D400340875 /* Converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB0BF2271E2D400340875 /* Converter.cpp */; };
+		0EFDB0C422720FF400340875 /* Runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB0C222720FF400340875 /* Runner.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,8 @@
 		0EF478DD226B7AEB007315DB /* cpp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp.hpp; sourceTree = "<group>"; };
 		0EFDB0BF2271E2D400340875 /* Converter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Converter.cpp; sourceTree = "<group>"; };
 		0EFDB0C02271E2D400340875 /* Converter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Converter.hpp; sourceTree = "<group>"; };
+		0EFDB0C222720FF400340875 /* Runner.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Runner.cpp; sourceTree = "<group>"; };
+		0EFDB0C322720FF400340875 /* Runner.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Runner.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +196,8 @@
 				0EF478DD226B7AEB007315DB /* cpp.hpp */,
 				0EFDB0BF2271E2D400340875 /* Converter.cpp */,
 				0EFDB0C02271E2D400340875 /* Converter.hpp */,
+				0EFDB0C222720FF400340875 /* Runner.cpp */,
+				0EFDB0C322720FF400340875 /* Runner.hpp */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -349,6 +354,7 @@
 				0EC33345226E0B7F005B968A /* RunApp.swift in Sources */,
 				0EFDB0C12271E2D400340875 /* Converter.cpp in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
+				0EFDB0C422720FF400340875 /* Runner.cpp in Sources */,
 				0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 			);
