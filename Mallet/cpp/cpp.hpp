@@ -15,6 +15,8 @@
 class Cpp {
 public:
     std::string ConvertCodeToJson(std::string code);
+
+    void RunCode(int code[], int codeSize, std::string stringVariableInitialValue[], int stringVariableInitialValueSize);
 };
 
 #endif /* cpp_hpp */

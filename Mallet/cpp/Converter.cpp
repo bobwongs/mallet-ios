@@ -232,6 +232,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
             }
         } else {
             //! 宣言済み
+            printf("The variable %s has already declared!\n", variableName.c_str());
         }
 
         convertedCodeSize = 3;
@@ -343,13 +344,14 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
     } else {
         //* 変数代入
 
-        convertedCode[convertedCodeIndex] = 3001;
-        convertedCodeIndex += 2;
 
         convertedCodeSize = 5;
 
         switch (variableType[code[i]]) {
             case 1:
+                convertedCode[convertedCodeIndex] = 3001;
+                convertedCodeIndex += 2;
+
                 convertedCode[convertedCodeIndex] = 3003;
                 convertedCode[convertedCodeIndex + 1] = 3;
                 convertedCode[convertedCodeIndex + 2] = numberVariableAddress[code[i]];
@@ -358,13 +360,17 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                 break;
 
             case 2:
+                convertedCode[convertedCodeIndex] = 3007;
+                convertedCodeIndex += 2;
+
                 convertedCode[convertedCodeIndex] = 3003;
                 convertedCode[convertedCodeIndex + 1] = 3;
                 convertedCode[convertedCodeIndex + 2] = stringVariableAddress[code[i]];
                 convertedCodeIndex += 3;
 
+                break;
+
             default:
-                //! 存在しない変数
                 printf("The variable %s does not exist!\n", code[i].c_str());
                 break;
         }
@@ -442,8 +448,6 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     json += "[";
 
     for (auto i : stringVariableAddress) {
-        printf("%s\n", i.first.c_str());
-
         if (i.second >= stringMaxNum)
             continue;
 
