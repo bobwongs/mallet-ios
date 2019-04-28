@@ -25,7 +25,7 @@ public class ScreenDataController {
     public func generateRandomUIData() -> [[UIData]] {
         var randomUIData = [[UIData]]()
 
-        for i in 0..<10 {
+        for i in 0..<2 {
             randomUIData.append([UIData]())
             for _ in 2...4 {
                 let uiID = Int.random(in: 0..<3)
@@ -37,7 +37,32 @@ public class ScreenDataController {
             }
         }
 
+        print(randomUIData)
+
         return randomUIData
+    }
+
+    public func generateTestUIData() -> [[UIData]] {
+        var testUIData = [[UIData]]()
+
+        for _ in 0..<2 {
+            testUIData.append([UIData]())
+        }
+
+        testUIData[0].append(generateButtonUIData())
+        testUIData[1].append(generateTextLabelUIData())
+
+        print(testUIData)
+
+        return testUIData
+    }
+
+    private func generateButtonUIData() -> UIData {
+        return UIData(uiID: 0, text: "Button", value: 0)
+    }
+
+    private func generateTextLabelUIData() -> UIData {
+        return UIData(uiID: 1, text: "Text", value: 0)
     }
 
     public func saveUIData(saveData: [[UIData]]) {
@@ -65,8 +90,6 @@ public class ScreenDataController {
     }
 
     public func loadUIData() -> [[UIData]] {
-        var loadedUIData = [[UIData]]()
-
         var jsonStr = String()
 
         if let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
@@ -80,9 +103,25 @@ public class ScreenDataController {
             }
         }
 
+        return stringToUIData(jsonStr: jsonStr)
+    }
+
+    public func uiDataToString(uiData: [[UIData]]) -> String {
+        do {
+            let jsonData = try JSONEncoder().encode(uiData)
+            let jsonStr = String(bytes: jsonData, encoding: .utf8)!
+
+            return jsonStr
+        } catch let error {
+            print(error)
+            return ""
+        }
+    }
+
+    public func stringToUIData(jsonStr: String) -> [[UIData]] {
         let jsonData = jsonStr.data(using: .utf8)
 
-        loadedUIData = try! JSONDecoder().decode([[UIData]].self, from: jsonData!)
+        let loadedUIData = try! JSONDecoder().decode([[UIData]].self, from: jsonData!)
 
         return loadedUIData
     }

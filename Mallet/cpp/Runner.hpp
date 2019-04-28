@@ -22,6 +22,8 @@ void Variable(int code[], int firstIndex, int numberVariable[], std::string stri
 
 int OperateNumber(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
 
+void UI(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
+
 std::string OperateString(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
 
 void Do(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
@@ -39,5 +41,7 @@ void SetStringVariable(int code[], int firstIndex, int numberVariable[], std::st
 void Repeat(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
 
 void If(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
+
+void SetUIText(int code[], int firstIndex, int numberVariable[], std::string stringVariable[]);
 
 #endif /* Runner_hpp */

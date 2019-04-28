@@ -8,14 +8,22 @@
 
 import UIKit
 
+@objcMembers
 class RunApp: UIViewController {
+
     @IBOutlet weak var appView: UIView!
 
     public var codeStr = ""
+    public var uiDataStr = ""
+
+    public var code: [String] = [String]()
+
+    public var appUI: Dictionary<Int, UIView> = Dictionary()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        /*
         let objcpp = ObjCpp()
 
         print(codeStr)
@@ -23,12 +31,14 @@ class RunApp: UIViewController {
         print(json!)
 
         objcpp.runCode(json)
+        */
 
         generateAppScreen()
+
     }
 
     private func generateAppScreen() {
-        let uiData = ScreenDataController().generateRandomUIData()
+        let uiData = ScreenDataController().stringToUIData(jsonStr: uiDataStr)
 
         let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)
 
@@ -37,6 +47,34 @@ class RunApp: UIViewController {
         stackView.leftAnchor.constraint(equalTo: appView.leftAnchor, constant: 10).isActive = true
         stackView.rightAnchor.constraint(equalTo: appView.rightAnchor, constant: -10).isActive = true
         stackView.topAnchor.constraint(equalTo: appView.topAnchor, constant: 30).isActive = true
+    }
+
+    public func SetUIText(id: Int, text: String) {
+
+        let typeOfUI = type(of: appUI[id]!)
+
+        print(typeOfUI)
+
+        if typeOfUI == AppButton.self {
+            let button = appUI[id] as! UIButton
+            button.setTitle(text, for: .normal)
+        }
+        if typeOfUI == AppLabel.self {
+            let label = appUI[id] as! UILabel
+            label.text = text
+        }
+    }
+
+    public func SetUIText_(id: Int, text: String) {
+        let runApp = ScreenGenerator().topViewController() as! RunApp
+        runApp.SetUIText(id: id, text: text)
+    }
+
+    public func RunCode(id: Int) {
+        let objcpp = ObjCpp()
+
+        let json = objcpp.convertCode(toJson: code[id])
+        objcpp.runCode(json)
     }
 
 
@@ -49,5 +87,14 @@ class RunApp: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
+
+    @objc public func hoge(_ sender: UIButton) {
+        print("button pressed!")
+    }
+
+    public func Hello(name: String) {
+        print("Hello, " + name + "!")
+    }
 
 }

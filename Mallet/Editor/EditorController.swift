@@ -12,16 +12,22 @@ class EditorController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var editorArea: UITextView!
 
+    var code: [String] = [String]()
+
     var editorText = " var str:String str=\"ho ge\" print(str)"
+
+    var uiData = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        editorText = code[0]
 
         editorArea.layer.borderWidth = 1
         editorArea.layer.borderColor = UIColor.gray.cgColor
         editorArea.text = editorText
+        editorArea.autocapitalizationType = UITextAutocapitalizationType.none
+        editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self
     }
 
@@ -42,13 +48,14 @@ class EditorController: UIViewController, UITextViewDelegate {
             fatalError()
         }
 
-        controller.codeStr = editorText
+        controller.code = code
+        controller.uiDataStr = uiData
 
         navigationController?.pushViewController(controller, animated: true)
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        editorText = editorArea.text
+        code[0] = editorArea.text
         print(editorText)
     }
 }

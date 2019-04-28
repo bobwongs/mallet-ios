@@ -13,20 +13,23 @@
 #include <unordered_map>
 
 int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType) {
+                 std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
+                 std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType)
+{
     int i = firstIndex;
 
     int type = 0;
     int codeSize = 0;
     int valueOrAddress = 0;
 
-    if (code[i][0] == '"') {
+    if (code[i][0] == '"')
+    {
         //* 文字列
 
         std::string str = code[i]; //.substr(1, code[i].size() - 2);
 
-        if (stringVariableAddress[str] == 0) {
+        if (stringVariableAddress[str] == 0)
+        {
             stringVariableNum++;
             stringVariableAddress[str] = stringVariableNum;
         }
@@ -36,20 +39,27 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
         valueOrAddress = stringVariableAddress[str];
 
         i++;
-    } else if ((0 <= (code[i][0] - '0') && (code[i][0] - '0') <= 9) || code[i][0] == '-') {
+    }
+    else if (code[i] == std::to_string(atoi(code[i].c_str())))
+    {
         //* 数値
 
         int value = 0;
         int coe = 1;
 
-        for (int j = code[i].size() - 1; j >= 0; j--) {
-            if (j > 0 && ((code[i][j] - '0') < 0 || 9 < (code[i][j] - '0'))) {
+        for (int j = code[i].size() - 1; j >= 0; j--)
+        {
+            if (j > 0 && ((code[i][j] - '0') < 0 || 9 < (code[i][j] - '0')))
+            {
                 //! 数値ではない
             }
 
-            if (j == 0 && code[i][j] == '-') {
+            if (j == 0 && code[i][j] == '-')
+            {
                 value *= -1;
-            } else {
+            }
+            else
+            {
                 value += (code[i][j] - '0') * coe;
                 coe *= 10;
             }
@@ -60,39 +70,48 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
         valueOrAddress = value;
 
         i++;
-    } else {
+    }
+    else
+    {
         //* 変数
 
-        switch (variableType[code[i]]) {
-            case 1:
-                //* 数値型
-                type = 3002;
-                codeSize = 3;
+        switch (variableType[code[i]])
+        {
+        case 1:
+            //* 数値型
+            type = 3002;
+            codeSize = 3;
 
-                if (numberVariableAddress[code[i]] == 0) {
-                    printf("The variable %s (Type:Int) is not declared!\n", code[i].c_str());
-                } else {
-                    valueOrAddress = numberVariableAddress[code[i]];
-                }
+            if (numberVariableAddress[code[i]] == 0)
+            {
+                printf("The variable %s (Type:Int) is not declared!\n", code[i].c_str());
+            }
+            else
+            {
+                valueOrAddress = numberVariableAddress[code[i]];
+            }
 
-                break;
+            break;
 
-            case 2:
-                //* 文字列型
-                type = 3004;
-                codeSize = 3;
+        case 2:
+            //* 文字列型
+            type = 3004;
+            codeSize = 3;
 
-                if (stringVariableAddress[code[i]] == 0) {
-                    printf("The variable %s (Type:String) is not declared!\n", code[i].c_str());
-                } else {
-                    valueOrAddress = stringVariableAddress[code[i]];
-                }
+            if (stringVariableAddress[code[i]] == 0)
+            {
+                printf("The variable %s (Type:String) is not declared!\n", code[i].c_str());
+            }
+            else
+            {
+                valueOrAddress = stringVariableAddress[code[i]];
+            }
 
-                break;
+            break;
 
-            default:
-                printf("The variable %s is not declared!\n", code[i].c_str());
-                break;
+        default:
+            //!  printf("The variable %s is not declared!\n", code[i].c_str());
+            break;
         }
 
         i++;
@@ -106,7 +125,8 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
     return originalCodeSize;
 }
 
-int convertOperator(std::string operatorString) {
+int convertOperator(std::string operatorString)
+{
     int convertedCode = 0;
 
     if (operatorString == "+")
@@ -123,6 +143,8 @@ int convertOperator(std::string operatorString) {
         convertedCode = 4005;
     if (operatorString == ">" || operatorString == "<")
         convertedCode = 4006;
+    if (operatorString == "!=")
+        convertedCode = 4008;
 
     return convertedCode;
 }
@@ -130,8 +152,9 @@ int convertOperator(std::string operatorString) {
 //2項演算OR単一の数値
 //TODO:エラー処理
 int ConvertFormula(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType) {
+                   std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
+                   std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType)
+{
     int converterCodeIndex = 0;
     int i = firstIndex;
 
@@ -144,28 +167,34 @@ int ConvertFormula(std::string code[], int codeMaxSize, int convertedCode[], int
     int value1MaxSize = 5;
     int value2MaxSize = 5;
 
-    //* それぞれの値取得
+    //* 1番目の値取得
     ConvertValue(code, codeMaxSize, value1, value1MaxSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
     i++;
-    if ((code[i].size() != 1 && !doubleSymbol.count(code[i])) || code[i] == ")") {
+    if (code[i] == ")" || code[i] == "}" || (code[i].size() == 1 && !symbol.count(code[i][0])) || (code[i].size() == 2 && !doubleSymbol.count(code[i])) || code[i].size() > 2)
+    {
         //* 値が一つのみ(式ではない)
 
-        for (int j = 0; j < value1[1]; j++) {
+        for (int j = 0; j < value1[1]; j++)
+        {
             convertedCode[converterCodeIndex] = value1[j];
             converterCodeIndex++;
         }
 
         size = value1[1];
-    } else {
+    }
+    else
+    {
         //* 値が2つ(式が成立する)
 
         operatorCode = convertOperator(code[i]);
         i++;
         i += ConvertValue(code, codeMaxSize, value2, value2MaxSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        if (code[i] == "<") {
-            for (int j = 0; j < std::min(value1MaxSize, value2MaxSize); j++) {
+        if (code[i] == "<")
+        {
+            for (int j = 0; j < std::min(value1MaxSize, value2MaxSize); j++)
+            {
                 int tmp = value1[j];
                 value1[j] = value2[j];
                 value2[j] = tmp;
@@ -178,11 +207,13 @@ int ConvertFormula(std::string code[], int codeMaxSize, int convertedCode[], int
         convertedCode[converterCodeIndex] = operatorCode;
         converterCodeIndex += 2;
 
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 3; j++)
+        {
             convertedCode[converterCodeIndex] = value1[j];
             converterCodeIndex++;
         }
-        for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 3; j++)
+        {
             convertedCode[converterCodeIndex] = value2[j];
             converterCodeIndex++;
         }
@@ -197,8 +228,15 @@ int ConvertFormula(std::string code[], int codeMaxSize, int convertedCode[], int
 }
 
 int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType) {
+                  std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
+                  std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType)
+{
+
+    if (firstIndex < codeMaxSize)
+    {
+        printf("%d\n", firstIndex);
+    }
+
     int i = firstIndex;
     int convertedCodeIndex = 0;
 
@@ -206,12 +244,15 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
     std::string token = code[i];
 
-    if (token == "var") {
+    if (token == "var")
+    {
         std::string variableName = code[firstIndex + 1];
         std::string type = code[firstIndex + 3];
 
-        if (variableType[variableName] == 0) {
-            if (type == "Int") {
+        if (variableType[variableName] == 0)
+        {
+            if (type == "Int")
+            {
                 numberVariableNum++;
                 numberVariableAddress[variableName] = numberVariableNum;
 
@@ -219,7 +260,9 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                 convertedCode[convertedCodeIndex + 2] = numberVariableAddress[variableName];
 
                 variableType[variableName] = 1;
-            } else if (type == "String") {
+            }
+            else if (type == "String")
+            {
                 stringVariableNum++;
                 stringVariableAddress[variableName] = stringVariableNum;
 
@@ -227,10 +270,14 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                 convertedCode[convertedCodeIndex + 2] = stringVariableAddress[variableName];
 
                 variableType[variableName] = 2;
-            } else {
+            }
+            else
+            {
                 //! 存在しない型
             }
-        } else {
+        }
+        else
+        {
             //! 宣言済み
             printf("The variable %s has already declared!\n", variableName.c_str());
         }
@@ -238,8 +285,9 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
         convertedCodeSize = 3;
 
         i += 4;
-
-    } else if (token == "print") {
+    }
+    else if (token == "print")
+    {
         convertedCode[convertedCodeIndex] = 1000;
         convertedCodeIndex += 2;
 
@@ -247,7 +295,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         i++;
 
-        if (code[i] != "(") {
+        if (code[i] != "(")
+        {
             //TODO: エラー処理 構文エラー
             return -1;
         }
@@ -259,13 +308,16 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         i += ConvertValue(code, codeMaxSize, value, valueSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        for (int j = 0; j < value[1]; j++) {
+        for (int j = 0; j < value[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = value[j];
             convertedCodeIndex++;
         }
 
         i++;
-    } else if (token == "if") {
+    }
+    else if (token == "if")
+    {
         convertedCode[convertedCodeIndex] = 2001;
         convertedCodeIndex += 2;
 
@@ -273,7 +325,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         i++;
 
-        if (code[i] != "(") {
+        if (code[i] != "(")
+        {
             return -1;
         }
 
@@ -286,7 +339,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         convertedCodeSize += value[1];
 
-        for (int j = 0; j < value[1]; j++) {
+        for (int j = 0; j < value[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = value[j];
             convertedCodeIndex++;
         }
@@ -297,13 +351,16 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
         int actionSize = 100000;
         i += ConvertBlock(code, codeMaxSize, action, actionSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        for (int j = 0; j < action[1]; j++) {
+        for (int j = 0; j < action[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = action[j];
             convertedCodeIndex++;
         }
 
         convertedCodeSize += action[1];
-    } else if (token == "repeat") {
+    }
+    else if (token == "repeat")
+    {
         convertedCode[convertedCodeIndex] = 2002;
         convertedCodeIndex += 2;
 
@@ -311,7 +368,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         i++;
 
-        if (code[i] != "(") {
+        if (code[i] != "(")
+        {
             return -1;
         }
 
@@ -324,7 +382,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         convertedCodeSize += value[1];
 
-        for (int j = 0; j < value[1]; j++) {
+        for (int j = 0; j < value[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = value[j];
             convertedCodeIndex++;
         }
@@ -335,44 +394,78 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
         int actionSize = 100000;
         i += ConvertBlock(code, codeMaxSize, action, actionSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        for (int j = 0; j < action[1]; j++) {
+        for (int j = 0; j < action[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = action[j];
             convertedCodeIndex++;
         }
 
         convertedCodeSize += action[1];
-    } else {
-        //* 変数代入
+    }
+    else if (token == "SetUIText")
+    {
+        convertedCodeSize = 8;
 
+        convertedCode[convertedCodeIndex] = 5000;
+        convertedCodeIndex += 2;
+
+        int uiName[5]; // = code[firstIndex + 2];
+        int uiText[5]; // = code[firstIndex + 4];
+        int uiNameMaxSize = 5;
+        int uiTextMaxSize = 5;
+        int uiNameIndex = firstIndex + 2;
+        int uiTextIndex = firstIndex + 4;
+
+        ConvertValue(code, codeMaxSize, uiName, uiNameMaxSize, uiNameIndex, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
+        ConvertValue(code, codeMaxSize, uiText, uiTextMaxSize, uiTextIndex, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
+
+        for (int i = 0; i < 3; i++)
+        {
+            convertedCode[convertedCodeIndex] = uiName[i];
+            convertedCodeIndex++;
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            convertedCode[convertedCodeIndex] = uiText[i];
+            convertedCodeIndex++;
+        }
+
+        i += 6;
+    }
+    else
+    {
+        //* 変数代入
 
         convertedCodeSize = 5;
 
-        switch (variableType[code[i]]) {
-            case 1:
-                convertedCode[convertedCodeIndex] = 3001;
-                convertedCodeIndex += 2;
+        switch (variableType[code[i]])
+        {
+        case 1:
+            convertedCode[convertedCodeIndex] = 3001;
+            convertedCodeIndex += 2;
 
-                convertedCode[convertedCodeIndex] = 3003;
-                convertedCode[convertedCodeIndex + 1] = 3;
-                convertedCode[convertedCodeIndex + 2] = numberVariableAddress[code[i]];
-                convertedCodeIndex += 3;
+            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex + 1] = 3;
+            convertedCode[convertedCodeIndex + 2] = numberVariableAddress[code[i]];
+            convertedCodeIndex += 3;
 
-                break;
+            break;
 
-            case 2:
-                convertedCode[convertedCodeIndex] = 3007;
-                convertedCodeIndex += 2;
+        case 2:
+            convertedCode[convertedCodeIndex] = 3007;
+            convertedCodeIndex += 2;
 
-                convertedCode[convertedCodeIndex] = 3003;
-                convertedCode[convertedCodeIndex + 1] = 3;
-                convertedCode[convertedCodeIndex + 2] = stringVariableAddress[code[i]];
-                convertedCodeIndex += 3;
+            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex + 1] = 3;
+            convertedCode[convertedCodeIndex + 2] = stringVariableAddress[code[i]];
+            convertedCodeIndex += 3;
 
-                break;
+            break;
 
-            default:
-                printf("The variable %s does not exist!\n", code[i].c_str());
-                break;
+        default:
+            //!    printf("The variable %s does not exist!\n", code[i].c_str());
+            break;
         }
 
         i += 2;
@@ -384,7 +477,8 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
         i += ConvertFormula(code, codeMaxSize, value, valueSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        for (int j = 0; j < value[1]; j++) {
+        for (int j = 0; j < value[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = value[j];
             convertedCodeIndex++;
         }
@@ -404,8 +498,9 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 //TODO:エラー処理
 //* firstIndex: {のindex
 int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType) {
+                 std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
+                 std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType)
+{
 
     int i = firstIndex;
     int convertedCodeIndex = 0;
@@ -416,12 +511,14 @@ int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int c
     convertedCodeIndex += 2;
 
     i++;
-    while (code[i] != "}") {
+    while (code[i] != "}")
+    {
         int convertedCodePart[1000];
         int convertedCodePartMaxSize = 1000;
         i += ConvertAction(code, codeMaxSize, convertedCodePart, convertedCodePartMaxSize, i, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-        for (int j = 0; j < convertedCodePart[1]; j++) {
+        for (int j = 0; j < convertedCodePart[1]; j++)
+        {
             convertedCode[convertedCodeIndex] = convertedCodePart[j];
             convertedCodeIndex++;
         }
@@ -435,7 +532,8 @@ int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int c
     return originalCodeSize;
 }
 
-std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<std::string, int> &stringVariableAddress) {
+std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<std::string, int> &stringVariableAddress)
+{
     std::string json = "{";
 
     //* ###############
@@ -447,7 +545,8 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     json += "\"string\":";
     json += "[";
 
-    for (auto i : stringVariableAddress) {
+    for (auto i : stringVariableAddress)
+    {
         if (i.second >= stringMaxNum)
             continue;
 
@@ -459,7 +558,8 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
         maxIndex = std::max(i.second, maxIndex);
     }
 
-    for (int i = 0; i <= maxIndex; i++) {
+    for (int i = 0; i <= maxIndex; i++)
+    {
         if (strings[i] == "")
             strings[i] = "\"\"";
 
@@ -474,7 +574,8 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     json += "\"code\":";
     json += "[";
 
-    for (int i = 0; i < convertedCode[1]; i++) {
+    for (int i = 0; i < convertedCode[1]; i++)
+    {
         json += std::to_string(convertedCode[i]) + (i < convertedCode[1] - 1 ? "," : "");
     }
 
@@ -487,9 +588,10 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     return json;
 }
 
-std::string Cpp::ConvertCodeToJson(std::string code) {
-//}(std::string code[], int codeSize, int convertedCode[], int convertedCodeMaxSize) {
-    std::set<char> symbol{'(', ')', '{', '}', '>', '<', '=', '+', '-', '*', '/', '%', '&', '|', '!', ':'};
+std::string Cpp::ConvertCodeToJson(std::string code)
+{
+    //}(std::string code[], int codeSize, int convertedCode[], int convertedCodeMaxSize) {
+    std::set<char> symbol{'(', ')', '{', '}', '>', '<', '=', '+', '-', '*', '/', '%', '&', '|', '!', ':', ','};
     std::set<std::string> doubleSymbol{"==", "!=", "&&", "||"};
     std::set<std::string> reservedWord{"print", "var", "repeat", "if", "else"};
 
@@ -511,11 +613,21 @@ std::string Cpp::ConvertCodeToJson(std::string code) {
 
     //$:改行コード
 
+    for (int i = 0; i < code.size(); i++)
+    {
+        if (code[i] == '\n')
+        {
+            code[i] = ' ';
+        }
+    }
+
     int i = 0;
 
-    while (i < code.size()) {
+    while (i < code.size())
+    {
 
-        if (code[i] == ' ') {
+        if (code[i] == ' ')
+        {
             if (codeStr[codeStr.size() - 1] != '$')
                 codeStr += '$';
             while (code[i] == ' ')
@@ -524,14 +636,19 @@ std::string Cpp::ConvertCodeToJson(std::string code) {
             continue;
         }
 
-        if (code[i] == '"') {
+        if (code[i] == '"')
+        {
             codeStr += "\"";
             i++;
-            while (code[i] != '"') {
-                if (code[i] == '\\' && code[i + 1] == '"') {
+            while (code[i] != '"')
+            {
+                if (code[i] == '\\' && code[i + 1] == '"')
+                {
                     codeStr += "\"";
                     i += 2;
-                } else {
+                }
+                else
+                {
                     codeStr += code[i];
                     i += 1;
                 }
@@ -548,31 +665,33 @@ std::string Cpp::ConvertCodeToJson(std::string code) {
 
         std::string thisPlusNext = std::string() + code[i] + code[i + 1];
 
-        bool isDoubleSymbol = (bool) doubleSymbol.count(thisPlusNext);
-        bool isSymbol = (bool) symbol.count(code[i]);
-        bool isSymbolNext = (bool) symbol.count(code[i + 1]);
+        bool isDoubleSymbol = (bool)doubleSymbol.count(thisPlusNext);
+        bool isSymbol = (bool)symbol.count(code[i]);
+        bool isSymbolNext = (bool)symbol.count(code[i + 1]);
 
         if ((isSymbol && !isDoubleSymbol) ||
-                (!isSymbol && isSymbolNext))
+            (!isSymbol && isSymbolNext))
             codeStr += '$';
 
         i++;
     }
-
 
     codeStr += "$}";
 
     printf("%s\n", codeStr.c_str());
 
     i = 0;
-    while (i < codeStr.size()) {
-        if (codeStr[i] == '$') {
+    while (i < codeStr.size())
+    {
+        if (codeStr[i] == '$')
+        {
             i++;
             continue;
         }
 
         std::string token = "";
-        while (i < codeStr.size() && codeStr[i] != '$') {
+        while (i < codeStr.size() && codeStr[i] != '$')
+        {
             token += codeStr[i];
             i++;
         }
@@ -581,7 +700,8 @@ std::string Cpp::ConvertCodeToJson(std::string code) {
         strictCodeSize++;
     }
 
-    for (int i = 0; i < strictCodeSize; i++) {
+    for (int i = 0; i < strictCodeSize; i++)
+    {
         printf("%s\n", strictCode[i].c_str());
     }
 
@@ -590,7 +710,8 @@ std::string Cpp::ConvertCodeToJson(std::string code) {
 
     ConvertBlock(strictCode, strictCodeSize, convertedCode, convertedCodeMaxSize, 0, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
 
-    for (int j = 0; j < convertedCode[1]; j++) {
+    for (int j = 0; j < convertedCode[1]; j++)
+    {
         printf("%d\n", convertedCode[j]);
     }
 

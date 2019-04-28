@@ -11,6 +11,7 @@
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* Editor.storyboard */; };
+		0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6645D22748F780017A016 /* cpp2objcpp.mm */; };
 		0EC33345226E0B7F005B968A /* RunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* RunApp.swift */; };
 		0EC33347226E0B92005B968A /* RunApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* RunApp.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
@@ -50,6 +51,8 @@
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
+		0EA6645D22748F780017A016 /* cpp2objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = cpp2objcpp.mm; sourceTree = "<group>"; };
+		0EA6645F22748F850017A016 /* cpp2objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpp2objcpp.h; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* RunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunApp.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* RunApp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RunApp.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -207,6 +210,8 @@
 			children = (
 				0EF478D9226B7ABE007315DB /* objcpp.mm */,
 				0EF478DB226B7AD8007315DB /* objcpp.h */,
+				0EA6645D22748F780017A016 /* cpp2objcpp.mm */,
+				0EA6645F22748F850017A016 /* cpp2objcpp.h */,
 			);
 			path = objcpp;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
 				0EFDB0C422720FF400340875 /* Runner.cpp in Sources */,
 				0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */,
+				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

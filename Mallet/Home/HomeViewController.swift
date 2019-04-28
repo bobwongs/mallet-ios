@@ -40,12 +40,13 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appInfo = dataSource.appInfo[(indexPath as NSIndexPath).row]
 
-
         let storyboard = UIStoryboard(name: "Editor", bundle: nil)
-        guard let controller: UIViewController = storyboard.instantiateInitialViewController() else {
+        guard let controller = storyboard.instantiateInitialViewController() as? EditorController else {
             fatalError()
         }
 
+        controller.code = appInfo.code
+        controller.uiData = appInfo.ui
 
         navigationController?.pushViewController(controller, animated: true)
 
