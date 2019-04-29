@@ -110,7 +110,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
             break;
 
         default:
-            //!  printf("The variable %s is not declared!\n", code[i].c_str());
+            printf("The variable %s is not declared!\n", code[i].c_str());
             break;
         }
 
@@ -231,12 +231,6 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                   std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
                   std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType)
 {
-
-    if (firstIndex < codeMaxSize)
-    {
-        printf("%d\n", firstIndex);
-    }
-
     int i = firstIndex;
     int convertedCodeIndex = 0;
 
@@ -464,7 +458,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
             break;
 
         default:
-            //!    printf("The variable %s does not exist!\n", code[i].c_str());
+            printf("The variable %s does not exist!\n", code[i].c_str());
             break;
         }
 
@@ -622,12 +616,14 @@ std::string Cpp::ConvertCodeToJson(std::string codeStr)
 
     std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
+    /*
     for (int j = 0; j < convertedCode[1]; j++)
     {
         printf("%d\n", convertedCode[j]);
     }
 
     printf("%s\n", json.c_str());
+    */
 
     return json;
 }

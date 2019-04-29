@@ -46,6 +46,7 @@ void Print(int code[], int firstIndex, int numberVariable[], std::string stringV
         //文字列を出力
         std::string value = GetStringValue(code, valueIndex, numberVariable, stringVariable);
 
+        //! DONT DELETE THIS
         printf("%s\n", value.c_str());
     }
     if (code[valueIndex] == 3002 || code[valueIndex] == 3003)
@@ -54,6 +55,7 @@ void Print(int code[], int firstIndex, int numberVariable[], std::string stringV
 
         int value = GetNumberValue(code, valueIndex, numberVariable, stringVariable);
 
+        //! DONT DELETE THIS
         printf("%d\n", value);
     }
 }
@@ -314,7 +316,7 @@ void Cpp::RunCode(int code[], int codeSize, std::string stringVariableInitialVal
         return;
     }
 
-    printf("Hello from Runner!\n");
+    printf("Process started!\n");
 
     int i = 0;
     while (i < code[1])

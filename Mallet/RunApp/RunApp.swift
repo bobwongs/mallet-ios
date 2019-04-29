@@ -77,7 +77,6 @@ class RunApp: UIViewController {
         objcpp.runCode(json)
     }
 
-
     /*
     // MARK: - Navigation
 
@@ -87,14 +86,4 @@ class RunApp: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
-
-    @objc public func hoge(_ sender: UIButton) {
-        print("button pressed!")
-    }
-
-    public func Hello(name: String) {
-        print("Hello, " + name + "!")
-    }
-
 }
