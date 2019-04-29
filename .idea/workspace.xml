@@ -2,22 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9904ed9b-42dc-46c0-9db3-7475a9877016" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/objcpp/cpp2objcpp.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Mallet/objcpp/cpp2objcpp.mm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/Editor/EditorController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/Editor/EditorController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/Home/DataSource.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/Home/DataSource.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/Home/HomeViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/Home/HomeViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/RunApp/RunApp.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/RunApp/ScreenGenerator.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/cpp/Converter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/Converter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/cpp/Runner.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/Runner.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/cpp/Runner.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/Runner.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/objcpp/objcpp.h" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/objcpp/objcpp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/objcpp/objcpp.mm" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/objcpp/objcpp.mm" afterDir="false" />
     </list>
     <ignored path="$USER_HOME$/Library/Caches/AppCode2019.1/DerivedData/Mallet-ennzgquimcwlqggbjlxtjiwlahjd/Build/Intermediates.noindex/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -47,15 +33,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Mallet/objcpp/objcpp.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="10" selection-start-line="10" selection-end-line="10" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/RunApp/ScreenDataController.swift">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="364">
@@ -64,11 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/Home/DataSource.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="560">
-              <caret line="20" column="176" selection-start-line="20" selection-start-column="176" selection-end-line="20" selection-end-column="176" />
+            <state relative-caret-position="56">
+              <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -76,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
+            <state relative-caret-position="1232">
               <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
             </state>
           </provider>
@@ -85,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/cpp/Converter.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
+            <state relative-caret-position="4928">
               <caret line="176" selection-start-line="176" selection-end-line="176" />
               <folding>
                 <element signature="e#149#173#0" expanded="true" />
@@ -106,8 +83,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/cpp/Runner.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="197">
-              <caret line="144" column="64" lean-forward="true" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
+            <state relative-caret-position="4032">
+              <caret line="144" column="64" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
               <folding>
                 <element signature="e#137#158#0" expanded="true" />
               </folding>
@@ -118,11 +95,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Mallet/cpp/Runner.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="826">
-              <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+            <state relative-caret-position="784">
+              <caret line="28" column="88" selection-start-line="28" selection-start-column="88" selection-end-line="28" selection-end-column="88" />
               <folding>
                 <element signature="e#176#194#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Mallet/cpp/specification.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="392">
+                <caret line="43" selection-start-line="43" selection-end-line="43" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -181,11 +170,12 @@
         <option value="$PROJECT_DIR$/Mallet/Editor/EditorController.swift" />
         <option value="$PROJECT_DIR$/Mallet/cpp/Converter.cpp" />
         <option value="$PROJECT_DIR$/Mallet/Home/DataSource.swift" />
+        <option value="$PROJECT_DIR$/Mallet/cpp/specification.md" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="35" />
+    <option name="x" value="282" />
     <option name="y" value="23" />
     <option name="width" value="1626" />
     <option name="height" value="1417" />
@@ -298,12 +288,13 @@
       <workItem from="1556276274371" duration="28000" />
       <workItem from="1556276334157" duration="13651000" />
       <workItem from="1556342552511" duration="19431000" />
-      <workItem from="1556448546905" duration="5662000" />
+      <workItem from="1556448546905" duration="6361000" />
+      <workItem from="1556529300156" duration="825000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63631000" />
+    <option name="totallyTimeSpent" value="65155000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -315,16 +306,16 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="35" y="23" width="1626" height="1417" extended-state="0" />
+    <frame x="282" y="23" width="1626" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49891305" visible="true" weight="0.19002526" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49891305" visible="true" weight="0.1919192" />
       <window_info id="Structure" order="1" sideWeight="0.50108695" side_tool="true" weight="0.14285715" />
       <window_info id="Designer" order="2" />
       <window_info id="Favorites" order="3" sideWeight="0.50108695" side_tool="true" weight="0.14285715" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49970812" visible="true" weight="0.22459893" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49970812" visible="true" weight="0.22459893" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -506,6 +497,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/Home/DataSource.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="2" column="10" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1232">
+          <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/cpp/Converter.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4928">
+          <caret line="176" selection-start-line="176" selection-end-line="176" />
+          <folding>
+            <element signature="e#149#173#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/Home/HomeViewCell.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mallet/cpp/Runner.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4032">
+          <caret line="144" column="64" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
+          <folding>
+            <element signature="e#137#158#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Mallet/objcpp/objcpp.mm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -523,54 +555,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/Home/HomeViewCell.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="14" column="15" selection-start-line="14" selection-start-column="15" selection-end-line="14" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/cpp/Converter.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="176" selection-start-line="176" selection-end-line="176" />
-          <folding>
-            <element signature="e#149#173#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/Editor/EditorController.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="44" column="32" selection-start-line="44" selection-start-column="32" selection-end-line="44" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Mallet/cpp/Runner.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="826">
-          <caret line="36" column="28" selection-start-line="36" selection-start-column="28" selection-end-line="36" selection-end-column="28" />
+        <state relative-caret-position="784">
+          <caret line="28" column="88" selection-start-line="28" selection-start-column="88" selection-end-line="28" selection-end-column="88" />
           <folding>
             <element signature="e#176#194#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/cpp/Runner.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="144" column="64" lean-forward="true" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
-          <folding>
-            <element signature="e#137#158#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mallet/Home/DataSource.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="560">
-          <caret line="20" column="176" selection-start-line="20" selection-start-column="176" selection-end-line="20" selection-end-column="176" />
+    <entry file="file://$PROJECT_DIR$/Mallet/cpp/specification.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="392">
+            <caret line="43" selection-start-line="43" selection-end-line="43" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
