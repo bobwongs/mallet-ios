@@ -24,6 +24,7 @@ std::string DeleteComments(std::string code)
             {
                 if (i + 1 < code.size() && code[i] == '\\' && code[i + 1] == '"')
                 {
+                    processedCode += code[i];
                     i++;
                 }
 

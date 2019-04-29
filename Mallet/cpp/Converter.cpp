@@ -617,6 +617,11 @@ std::string Cpp::ConvertCodeToJson(std::string codeStr)
     std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
     /*
+    for (int j = 0; j < splitCodeSize; j++)
+    {
+        printf("%s\n", splitCode[j].c_str());
+    }
+
     for (int j = 0; j < convertedCode[1]; j++)
     {
         printf("%d\n", convertedCode[j]);

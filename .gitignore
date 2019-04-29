@@ -1,4 +1,6 @@
 .vscode/ipch
+.idea/workspace.xml
+.idea/tasks.xml
 
 Mallet/cpp/test.cpp
 Mallet/cpp/Makefile
