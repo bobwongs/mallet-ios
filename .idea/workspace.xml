@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9904ed9b-42dc-46c0-9db3-7475a9877016" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet.xcodeproj/project.pbxproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mallet/cpp/Converter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/Converter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mallet/cpp/Refactor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/Refactor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mallet/cpp/cpp.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/Mallet/cpp/cpp.hpp" afterDir="false" />
     </list>
     <ignored path="$USER_HOME$/Library/Caches/AppCode2019.1/DerivedData/Mallet-ennzgquimcwlqggbjlxtjiwlahjd/Build/Intermediates.noindex/" />
@@ -166,7 +163,7 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="281" />
+    <option name="x" value="101" />
     <option name="y" value="23" />
     <option name="width" value="1626" />
     <option name="height" value="1417" />
@@ -280,12 +277,12 @@
       <workItem from="1556276334157" duration="13651000" />
       <workItem from="1556342552511" duration="19431000" />
       <workItem from="1556448546905" duration="6361000" />
-      <workItem from="1556529300156" duration="2178000" />
+      <workItem from="1556529300156" duration="2782000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66508000" />
+    <option name="totallyTimeSpent" value="67112000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -297,7 +294,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="281" y="23" width="1626" height="1417" extended-state="0" />
+    <frame x="101" y="23" width="1626" height="1417" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49891305" visible="true" weight="0.1919192" />
       <window_info id="Structure" order="1" sideWeight="0.50108695" side_tool="true" weight="0.14285715" />

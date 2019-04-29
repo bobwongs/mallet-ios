@@ -588,9 +588,16 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     return json;
 }
 
-std::string Cpp::ConvertCodeToJson(std::string code, std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord)
+std::string Cpp::ConvertCodeToJson(std::string codeStr)
 {
-    //}(std::string code[], int codeSize, int convertedCode[], int convertedCodeMaxSize) {
+    //* ##################
+    //* 変数等
+
+    Cpp cpp;
+
+    std::set<char> symbol{'(', ')', '{', '}', '>', '<', '=', '+', '-', '*', '/', '%', '&', '|', '!', ':', ',', '"'};
+    std::set<std::string> doubleSymbol{"==", "!=", "&&", "||"};
+    std::set<std::string> reservedWord{"print", "var", "repeat", "if", "else"};
 
     //* 1:数値 2:文字列
     std::unordered_map<std::string, int> variableType;
@@ -601,118 +608,24 @@ std::string Cpp::ConvertCodeToJson(std::string code, std::set<char> &symbol, std
     std::unordered_map<std::string, int> stringVariableAddress;
     int stringVariableNum = 0;
 
-    std::string strictCode[10000];
-    int strictCodeSize = 0;
-
-    std::string codeStr = "";
-
-    codeStr += "{$";
-
-    //$:改行コード
-
-    for (int i = 0; i < code.size(); i++)
-    {
-        if (code[i] == '\n')
-        {
-            code[i] = ' ';
-        }
-    }
-
-    int i = 0;
-
-    while (i < code.size())
-    {
-
-        if (code[i] == ' ')
-        {
-            if (codeStr[codeStr.size() - 1] != '$')
-                codeStr += '$';
-            while (code[i] == ' ')
-                i++;
-
-            continue;
-        }
-
-        if (code[i] == '"')
-        {
-            codeStr += "\"";
-            i++;
-            while (code[i] != '"')
-            {
-                if (code[i] == '\\' && code[i + 1] == '"')
-                {
-                    codeStr += "\"";
-                    i += 2;
-                }
-                else
-                {
-                    codeStr += code[i];
-                    i += 1;
-                }
-            }
-            codeStr += "\"";
-            codeStr += "$";
-
-            i++;
-
-            continue;
-        }
-
-        codeStr += code[i];
-
-        std::string thisPlusNext = std::string() + code[i] + code[i + 1];
-
-        bool isDoubleSymbol = (bool)doubleSymbol.count(thisPlusNext);
-        bool isSymbol = (bool)symbol.count(code[i]);
-        bool isSymbolNext = (bool)symbol.count(code[i + 1]);
-
-        if ((isSymbol && !isDoubleSymbol) ||
-            (!isSymbol && isSymbolNext))
-            codeStr += '$';
-
-        i++;
-    }
-
-    codeStr += "$}";
-
-    printf("%s\n", codeStr.c_str());
-
-    i = 0;
-    while (i < codeStr.size())
-    {
-        if (codeStr[i] == '$')
-        {
-            i++;
-            continue;
-        }
-
-        std::string token = "";
-        while (i < codeStr.size() && codeStr[i] != '$')
-        {
-            token += codeStr[i];
-            i++;
-        }
-
-        strictCode[strictCodeSize] = token;
-        strictCodeSize++;
-    }
-
-    for (int i = 0; i < strictCodeSize; i++)
-    {
-        printf("%s\n", strictCode[i].c_str());
-    }
+    std::string splitCode[100000];
+    int splitCodeMaxSize = 100000;
 
     int convertedCode[1000000];
     int convertedCodeMaxSize = 1000000;
 
-    ConvertBlock(strictCode, strictCodeSize, convertedCode, convertedCodeMaxSize, 0, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
+    //* ##################
+
+    int splitCodeSize = cpp.SplitCode(codeStr, splitCode, splitCodeMaxSize, symbol, doubleSymbol, reservedWord);
+
+    ConvertBlock(splitCode, splitCodeSize, convertedCode, convertedCodeMaxSize, 0, symbol, doubleSymbol, reservedWord, numberVariableAddress, numberVariableNum, stringVariableAddress, stringVariableNum, variableType);
+
+    std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
     for (int j = 0; j < convertedCode[1]; j++)
     {
         printf("%d\n", convertedCode[j]);
     }
-
-    std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
     printf("%s\n", json.c_str());
 
