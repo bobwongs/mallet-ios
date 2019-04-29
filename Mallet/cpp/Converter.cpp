@@ -588,12 +588,9 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     return json;
 }
 
-std::string Cpp::ConvertCodeToJson(std::string code)
+std::string Cpp::ConvertCodeToJson(std::string code, std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord)
 {
     //}(std::string code[], int codeSize, int convertedCode[], int convertedCodeMaxSize) {
-    std::set<char> symbol{'(', ')', '{', '}', '>', '<', '=', '+', '-', '*', '/', '%', '&', '|', '!', ':', ','};
-    std::set<std::string> doubleSymbol{"==", "!=", "&&", "||"};
-    std::set<std::string> reservedWord{"print", "var", "repeat", "if", "else"};
 
     //* 1:数値 2:文字列
     std::unordered_map<std::string, int> variableType;

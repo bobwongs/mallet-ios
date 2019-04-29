@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E37ECC22276FB62008D1946 /* specification.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E37ECC12276FB62008D1946 /* specification.md */; };
 		0E37ECC52276FC55008D1946 /* Refactor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37ECC32276FC55008D1946 /* Refactor.cpp */; };
+		0E37ECC722772828008D1946 /* Splitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37ECC622772828008D1946 /* Splitter.cpp */; };
 		0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */; };
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
@@ -52,6 +53,7 @@
 		0E37ECC12276FB62008D1946 /* specification.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = specification.md; sourceTree = "<group>"; };
 		0E37ECC32276FC55008D1946 /* Refactor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Refactor.cpp; sourceTree = "<group>"; };
 		0E37ECC42276FC55008D1946 /* Refactor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Refactor.hpp; sourceTree = "<group>"; };
+		0E37ECC622772828008D1946 /* Splitter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Splitter.cpp; sourceTree = "<group>"; };
 		0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
@@ -166,10 +168,10 @@
 			isa = PBXGroup;
 			children = (
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
+				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
 				0E3FDD78226CA7A200F20326 /* Home */,
 				0E3FDD7D226CB99700F20326 /* Editor */,
 				0EC33343226E0B3C005B968A /* RunApp */,
-				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
 				0EF478AF226B78CE007315DB /* Assets.xcassets */,
 				0EF478B4226B78CE007315DB /* Info.plist */,
 				0EF478D7226B7A92007315DB /* objcpp */,
@@ -209,6 +211,7 @@
 				0EFDB0C322720FF400340875 /* Runner.hpp */,
 				0E37ECC32276FC55008D1946 /* Refactor.cpp */,
 				0E37ECC42276FC55008D1946 /* Refactor.hpp */,
+				0E37ECC622772828008D1946 /* Splitter.cpp */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
 				0EFDB0C422720FF400340875 /* Runner.cpp in Sources */,
 				0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */,
+				0E37ECC722772828008D1946 /* Splitter.cpp in Sources */,
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				0E37ECC52276FC55008D1946 /* Refactor.cpp in Sources */,

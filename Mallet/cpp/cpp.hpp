@@ -9,14 +9,20 @@
 #ifndef cpp_hpp
 #define cpp_hpp
 
-#include <stdio.h>
+#include <set>
 #include <string>
 
 class Cpp
 {
 public:
+    int SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
+                  std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
+
     std::string RefactorCode(std::string code);
-    std::string ConvertCodeToJson(std::string code);
+
+    std::string ConvertCodeToJson(std::string code,
+                                  std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
+
     void RunCode(int code[], int codeSize, std::string stringVariableInitialValue[], int stringVariableInitialValueSize);
 };
 
