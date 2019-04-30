@@ -109,6 +109,7 @@ int Cpp::SplitCode(std::string originalCodeStr, std::string code[], int codeMaxS
             {
                 if (i + 1 < originalCodeStr.size() && originalCodeStr[i] == '\\' && originalCodeStr[i + 1] == '"')
                 {
+                    str += originalCodeStr[i];
                     i++;
                 }
 
