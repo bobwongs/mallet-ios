@@ -13,7 +13,7 @@
 
 @interface ObjCpp : NSObject
 
-- (NSString *)ConvertCodeToJson:(NSString *)code;
+- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress;
 
 - (void)RunCode:(NSString *)json;
 

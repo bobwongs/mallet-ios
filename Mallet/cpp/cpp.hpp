@@ -11,6 +11,7 @@
 
 #include <set>
 #include <string>
+#include <unordered_map>
 
 class Cpp
 {
@@ -20,7 +21,8 @@ public:
 
     std::string RefactorCode(std::string code);
 
-    std::string ConvertCodeToJson(std::string codeStr);
+    std::string ConvertCodeToJson(std::string codeStr,
+                                  std::unordered_map<std::string, int> numberGlobalVariableAddress, std::unordered_map<std::string, int> stringGlobalVariableAddress);
 
     void RunCode(int code[], int codeSize, std::string stringVariableInitialValue[], int stringVariableInitialValueSize);
 };

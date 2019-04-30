@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 #import <ModelIO/ModelIO.h>
+#include <unordered_map>
 #import "objcpp.h"
 #import "../cpp/cpp.hpp"
 
@@ -17,10 +18,25 @@
     Cpp *cpp;
 }
 
-- (NSString *)ConvertCodeToJson:(NSString *)code
+- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
 {
     std::string codeString = [code UTF8String];
-    std::string json = cpp->ConvertCodeToJson(codeString);
+    std::unordered_map<std::string, int> numberGlobalVariableAddressMap;
+    std::unordered_map<std::string, int> stringGlobalVariableAddressMap;
+
+    for (id key in [numberGlobalVariableAddress keyEnumerator])
+    {
+        std::string keyStr = [key UTF8String];
+        numberGlobalVariableAddressMap[keyStr] = ((NSNumber *) [numberGlobalVariableAddress valueForKey:key]).integerValue;
+    }
+
+    for (id key in [stringGlobalVariableAddress keyEnumerator])
+    {
+        std::string keyStr = [key UTF8String];
+        stringGlobalVariableAddressMap[keyStr] = ((NSNumber *) [stringGlobalVariableAddress valueForKey:key]).integerValue;
+    }
+
+    std::string json = cpp->ConvertCodeToJson(codeString, numberGlobalVariableAddressMap, stringGlobalVariableAddressMap);
     NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
 
     return jsonNSString;

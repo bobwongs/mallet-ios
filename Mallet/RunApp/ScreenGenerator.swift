@@ -26,7 +26,7 @@ class AppButton: UIButton {
 
         self.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
 
-        let runApp = ScreenGenerator().topViewController() as! RunApp
+        let runApp = RunApp().topViewController() as! RunApp
         runApp.appUI[uiData.uiID!] = self
     }
 
@@ -35,7 +35,7 @@ class AppButton: UIButton {
     }
 
     @objc func tapButton(_ sender: UIButton) {
-        let runApp = ScreenGenerator().topViewController() as! RunApp
+        let runApp = RunApp().topViewController() as! RunApp
         runApp.RunCode(id: uiData.uiID!)
     }
 }
@@ -47,7 +47,7 @@ class AppLabel: UILabel {
         self.text = uiData.text
         self.textColor = UIColor.black
 
-        let runApp = ScreenGenerator().topViewController() as! RunApp
+        let runApp = RunApp().topViewController() as! RunApp
         runApp.appUI[uiData.uiID!] = self
     }
 
@@ -145,18 +145,4 @@ class ScreenGenerator {
         print("button pressed!")
     }
 
-    func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
-        }
-        if let tabController = controller as? UITabBarController {
-            if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
-            }
-        }
-        if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
-        }
-        return controller
-    }
 }

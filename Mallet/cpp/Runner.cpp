@@ -15,11 +15,18 @@ int GetNumberValue(int code[], int firstIndex, int numberVariable[], std::string
 
     if (code[firstIndex] == 3002)
     {
+        //* 変数
         value = numberVariable[code[firstIndex + 2]];
     }
     if (code[firstIndex] == 3003)
     {
+        //* 数値
         value = code[firstIndex + 2];
+    }
+    if (code[firstIndex] == 3102)
+    {
+        //* グローバル変数
+        value = Cpp2ObjCpp::GetNumberGlobalVariable(code[firstIndex + 2]);
     }
 
     return value;
@@ -32,6 +39,11 @@ std::string GetStringValue(int code[], int firstIndex, int numberVariable[], std
     if (code[firstIndex] == 3004)
     {
         value = stringVariable[code[firstIndex + 2]];
+    }
+    if (code[firstIndex] == 3104)
+    {
+        char *str = Cpp2ObjCpp::GetStringGlobalVariable(code[firstIndex + 2]);
+        value = std::string(str);
     }
 
     return value;
@@ -80,6 +92,27 @@ void SetStringVariable(int code[], int firstIndex, int numberVariable[], std::st
     stringVariable[address] = value;
 }
 
+void SetNumberGlobalVariable(int *code, int firstIndex, int *numberVariable, std::string *stringVariable)
+{
+    int addressIndex = firstIndex + 2;
+    int valueIndex = firstIndex + 5;
+
+    int address = OperateNumber(code, addressIndex, numberVariable, stringVariable);
+    int value = OperateNumber(code, valueIndex, numberVariable, stringVariable);
+    Cpp2ObjCpp::SetNumberGlobalVariable(address, value);
+}
+
+void SetStringGlobalVariable(int *code, int firstIndex, int *numberVariable, std::string *stringVariable)
+{
+    int addressIndex = firstIndex + 2;
+    int valueIndex = firstIndex + 5;
+
+    int address = OperateNumber(code, addressIndex, numberVariable, stringVariable);
+    const char *value = GetStringValue(code, valueIndex, numberVariable, stringVariable).c_str();
+    Cpp2ObjCpp::SetStringGlobalVariable(address, value);
+}
+
+
 void Repeat(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
 {
     int processIndex = firstIndex + 5;
@@ -125,7 +158,7 @@ void SetUIText(int code[], int firstIndex, int numberVariable[], std::string str
     int uiName = GetNumberValue(code, uiNameIndex, numberVariable, stringVariable);
 
     char uiTextStr[1000];
-    if (code[uiTextIndex] == 3004)
+    if (code[uiTextIndex] == 3004 || code[uiTextIndex] == 3104)
     {
         std::string uiText = GetStringValue(code, uiTextIndex, numberVariable, stringVariable);
         snprintf(uiTextStr, 1000, "%s", uiText.c_str());
@@ -191,6 +224,14 @@ void Variable(int code[], int firstIndex, int numberVariable[], std::string stri
 
     case 3007:
         SetStringVariable(code, firstIndex, numberVariable, stringVariable);
+        break;
+
+    case 3101:
+        SetNumberGlobalVariable(code, firstIndex, numberVariable, stringVariable);
+        break;
+
+    case 3107:
+        SetStringGlobalVariable(code, firstIndex, numberVariable, stringVariable);
         break;
 
     default:

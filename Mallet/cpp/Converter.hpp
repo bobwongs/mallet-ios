@@ -15,25 +15,37 @@
 #include <string>
 #include <unordered_map>
 
+typedef struct
+{
+    std::set<char> &symbol;
+    std::set<std::string> &doubleSymbol;
+    std::set<std::string> &reservedWord;
+
+    std::unordered_map<std::string, int> &numberVariableAddress;
+    int &numberVariableNum;
+    std::unordered_map<std::string, int> &stringVariableAddress;
+    int &stringVariableNum;
+
+    std::unordered_map<std::string, int> &numberGlobalVariableAddress;
+    std::unordered_map<std::string, int> &stringGlobalVariableAddress;
+
+    std::unordered_map<std::string, int> &variableType;
+} ArgData;
+
 int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType);
+                 ArgData argData);
 
 int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType);
+                  ArgData argData);
 
 int ConvertFormula(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType);
+                   ArgData argData);
 
 int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType);
+                 ArgData argData);
 
 std::string ConvertString(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,
-        std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord,
-        std::unordered_map<std::string, int> &numberVariableAddress, int &numberVariableNum, std::unordered_map<std::string, int> &stringVariableAddress, int &stringVariableNum, std::unordered_map<std::string, int> &variableType);
+                          ArgData argData);
 
 int convertOperator(std::string operatorString);
 

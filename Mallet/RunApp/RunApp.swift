@@ -20,21 +20,26 @@ class RunApp: UIViewController {
 
     public var appUI: Dictionary<Int, UIView> = Dictionary()
 
+    public var numberGlobalVariableAddress: Dictionary<String, Int> = Dictionary();
+    public var stringGlobalVariableAddress: Dictionary<String, Int> = Dictionary();
+
+    public var numberGlobalVariable: [Int] = [Int](repeating: 0, count: 100000)
+    public var stringGlobalVariable: [String] = [String](repeating: "", count: 1000)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*
-        let objcpp = ObjCpp()
+        numberGlobalVariableAddress["a"] = 1
+        numberGlobalVariableAddress["b"] = 2
 
-        print(codeStr)
-        let json = objcpp.convertCode(toJson: codeStr)
-        print(json!)
+        numberGlobalVariable[1] = 1
+        numberGlobalVariable[2] = 0
 
-        objcpp.runCode(json)
-        */
+        stringGlobalVariableAddress["globStr"] = 1
+
+        stringGlobalVariable[1] = ""
 
         generateAppScreen()
-
     }
 
     private func generateAppScreen() {
@@ -50,31 +55,65 @@ class RunApp: UIViewController {
     }
 
     public func SetUIText(id: Int, text: String) {
+        let runApp = topViewController() as! RunApp
 
-        let typeOfUI = type(of: appUI[id]!)
-
-        print(typeOfUI)
+        let typeOfUI = type(of: runApp.appUI[id]!)
 
         if typeOfUI == AppButton.self {
-            let button = appUI[id] as! UIButton
+            let button = runApp.appUI[id] as! UIButton
             button.setTitle(text, for: .normal)
         }
         if typeOfUI == AppLabel.self {
-            let label = appUI[id] as! UILabel
+            let label = runApp.appUI[id] as! UILabel
             label.text = text
         }
     }
 
-    public func SetUIText_(id: Int, text: String) {
-        let runApp = ScreenGenerator().topViewController() as! RunApp
-        runApp.SetUIText(id: id, text: text)
+    public func SetNumberGlobalVariable(address: Int, value: Int) {
+        let runApp = topViewController() as! RunApp
+
+        runApp.numberGlobalVariable[address] = value
+    }
+
+    public func GetNumberGlobalVariable(address: Int) -> Int {
+        let runApp = topViewController() as! RunApp
+
+        return runApp.numberGlobalVariable[address]
+    }
+
+    public func SetStringGlobalVariable(address: Int, value: String) {
+        let runApp = topViewController() as! RunApp
+
+        runApp.stringGlobalVariable[address] = value
+    }
+
+    public func GetStringGlobalVariable(address: Int) -> String {
+        let runApp = topViewController() as! RunApp
+
+        return runApp.stringGlobalVariable[address]
     }
 
     public func RunCode(id: Int) {
         let objcpp = ObjCpp()
 
-        let json = objcpp.convertCode(toJson: code[id])
+        let json = objcpp.convertCode(toJson: code[id], numberGlobalVariableAddress, stringGlobalVariableAddress)
+
         objcpp.runCode(json)
+    }
+
+    func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let navigationController = controller as? UINavigationController {
+            return topViewController(controller: navigationController.visibleViewController)
+        }
+        if let tabController = controller as? UITabBarController {
+            if let selected = tabController.selectedViewController {
+                return topViewController(controller: selected)
+            }
+        }
+        if let presented = controller?.presentedViewController {
+            return topViewController(controller: presented)
+        }
+        return controller
     }
 
     /*
