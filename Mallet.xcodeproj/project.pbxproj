@@ -113,6 +113,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E33E2CB22799AF800352BDB /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				0E3FDD78226CA7A200F20326 /* Home */,
+				0E3FDD7D226CB99700F20326 /* Editor */,
+				0EC33343226E0B3C005B968A /* RunApp */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
 		0E3FDD78226CA7A200F20326 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,11 +177,9 @@
 		0EF478A7226B78CD007315DB /* Mallet */ = {
 			isa = PBXGroup;
 			children = (
+				0E33E2CB22799AF800352BDB /* Screens */,
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
 				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
-				0E3FDD78226CA7A200F20326 /* Home */,
-				0E3FDD7D226CB99700F20326 /* Editor */,
-				0EC33343226E0B3C005B968A /* RunApp */,
 				0EF478AF226B78CE007315DB /* Assets.xcassets */,
 				0EF478B4226B78CE007315DB /* Info.plist */,
 				0EF478D7226B7A92007315DB /* objcpp */,

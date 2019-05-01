@@ -8,11 +8,15 @@
 
 import UIKit
 
-class EditorController: UIViewController, UITextViewDelegate {
+class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var editorArea: UITextView!
 
+    @IBOutlet weak var codeList: UITableView!
+
     var code: [String] = [String]()
+
+    var currentCodeIndex = 0
 
     var editorText = " var str:String str=\"ho ge\" print(str)"
 
@@ -23,12 +27,42 @@ class EditorController: UIViewController, UITextViewDelegate {
 
         editorText = code[0]
 
+        /*
         editorArea.layer.borderWidth = 1
         editorArea.layer.borderColor = UIColor.gray.cgColor
+        */
+
+        editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        editorArea.sizeToFit()
         editorArea.text = editorText
         editorArea.autocapitalizationType = UITextAutocapitalizationType.none
         editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self
+
+        codeList.layer.cornerRadius = 15
+        codeList.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+
+        //codeList.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return code.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+
+        cell.textLabel?.text = "code" + String(indexPath.row)
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        currentCodeIndex = indexPath.row
+        editorArea.text = code[currentCodeIndex]
+
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 
@@ -55,7 +89,7 @@ class EditorController: UIViewController, UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        code[0] = editorArea.text
+        code[currentCodeIndex] = editorArea.text
         print(editorText)
     }
 }
