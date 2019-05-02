@@ -26,9 +26,12 @@ class RunApp: UIViewController {
     public var numberGlobalVariable: [Int] = [Int](repeating: 0, count: 100000)
     public var stringGlobalVariable: [String] = [String](repeating: "", count: 1000)
 
+    private let objCpp = ObjCpp()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        /*
         numberGlobalVariableAddress["a"] = 1
         numberGlobalVariableAddress["b"] = 2
 
@@ -38,11 +41,14 @@ class RunApp: UIViewController {
         stringGlobalVariableAddress["globStr"] = 1
 
         stringGlobalVariable[1] = ""
+        */
 
-        generateAppScreen()
+        GenerateAppScreen()
+
+        InitRunner()
     }
 
-    private func generateAppScreen() {
+    private func GenerateAppScreen() {
         let uiData = ScreenDataController().stringToUIData(jsonStr: uiDataStr)
 
         let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)
@@ -93,12 +99,19 @@ class RunApp: UIViewController {
         return runApp.stringGlobalVariable[address]
     }
 
+    private func InitRunner() {
+        var jsons: Array<String> = Array<String>()
+
+        for i in code {
+            let json = objCpp.convertCode(toJson: i, numberGlobalVariableAddress, stringGlobalVariableAddress)
+            jsons.append(json!)
+        }
+
+        objCpp.extractCodes(jsons)
+    }
+
     public func RunCode(id: Int) {
-        let objcpp = ObjCpp()
-
-        let json = objcpp.convertCode(toJson: code[id], numberGlobalVariableAddress, stringGlobalVariableAddress)
-
-        objcpp.runCode(json)
+        objCpp.runCode(Int32(id))
     }
 
     func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

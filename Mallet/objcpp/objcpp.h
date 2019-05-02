@@ -13,9 +13,13 @@
 
 @interface ObjCpp : NSObject
 
+- (void)ExtractCodes:(NSArray<NSString *> *)codeJsons;
+
 - (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress;
 
-- (void)RunCode:(NSString *)json;
+- (void)RunCodeFromJson:(NSString *)json;
+
+- (void)RunCode:(int)index;
 
 @end
 

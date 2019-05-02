@@ -18,23 +18,16 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     var currentCodeIndex = 0
 
-    var editorText = " var str:String str=\"ho ge\" print(str)"
-
     var uiData = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        editorText = code[0]
-
-        /*
-        editorArea.layer.borderWidth = 1
-        editorArea.layer.borderColor = UIColor.gray.cgColor
-        */
+        currentCodeIndex = 0
 
         editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         editorArea.sizeToFit()
-        editorArea.text = editorText
+        editorArea.text = code[0]
         editorArea.autocapitalizationType = UITextAutocapitalizationType.none
         editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self
@@ -90,6 +83,5 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     func textViewDidChange(_ textView: UITextView) {
         code[currentCodeIndex] = editorArea.text
-        print(editorText)
     }
 }

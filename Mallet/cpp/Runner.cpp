@@ -8,6 +8,8 @@
 
 #include "Runner.hpp"
 #include "../objcpp/cpp2objcpp.h"
+#include <time.h>
+#include <iostream>
 
 int GetNumberValue(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
 {
@@ -18,12 +20,12 @@ int GetNumberValue(int code[], int firstIndex, int numberVariable[], std::string
         //* 変数
         value = numberVariable[code[firstIndex + 2]];
     }
-    if (code[firstIndex] == 3003)
+    else if (code[firstIndex] == 3003)
     {
         //* 数値
         value = code[firstIndex + 2];
     }
-    if (code[firstIndex] == 3102)
+    else if (code[firstIndex] == 3102)
     {
         //* グローバル変数
         value = Cpp2ObjCpp::GetNumberGlobalVariable(code[firstIndex + 2]);
@@ -40,7 +42,7 @@ std::string GetStringValue(int code[], int firstIndex, int numberVariable[], std
     {
         value = stringVariable[code[firstIndex + 2]];
     }
-    if (code[firstIndex] == 3104)
+    else if (code[firstIndex] == 3104)
     {
         char *str = Cpp2ObjCpp::GetStringGlobalVariable(code[firstIndex + 2]);
         value = std::string(str);
@@ -340,7 +342,6 @@ void RunBlock(int code[], int firstIndex, int numberVariable[], std::string stri
 
 void Cpp::RunCode(int code[], int codeSize, std::string stringVariableInitialValue[], int stringVariableInitialValueSize)
 {
-
     // 変数
     int numberVariable[100000];
     std::string stringVariable[10000];
