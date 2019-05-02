@@ -25,6 +25,8 @@
 
 - (void)ExtractCodes:(NSArray<NSString *> *)codeJsons
 {
+    cpp = new Cpp();
+
     for (int i = 0; i < codeJsons.count; i++)
     {
         int code[100000];
@@ -64,6 +66,8 @@
         //codes.push_back(code);
         //stringVariableInitialValues.push_back(stringVariableInitialValue);
     }
+
+    cpp->InitRunner(codes, stringVariableInitialValues);
 }
 
 - (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
@@ -83,6 +87,9 @@
         std::string keyStr = [key UTF8String];
         stringGlobalVariableAddressMap[keyStr] = ((NSNumber *) [stringGlobalVariableAddress valueForKey:key]).integerValue;
     }
+
+    Cpp::numberGlobalVariableAddress = numberGlobalVariableAddressMap;
+    Cpp::stringGlobalVariableAddress = stringGlobalVariableAddressMap;
 
     std::string json = cpp->ConvertCodeToJson(codeString, numberGlobalVariableAddressMap, stringGlobalVariableAddressMap);
     NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
@@ -116,12 +123,13 @@
         stringVariableInitialValue[i] = [string UTF8String];
     }
 
-    cpp->RunCode(code, codeSize, stringVariableInitialValue, stringSize);
+    // cpp->RunCode(code, codeSize, stringVariableInitialValue, stringSize);
 
 }
 
 - (void)RunCode:(int)index
 {
+    /*
     int code[100000];
     std::string stringVariableInitialValue[10000];
 
@@ -130,8 +138,10 @@
 
     for (int i = 0; i < stringVariableInitialValues[index].size(); i++)
         stringVariableInitialValue[i] = stringVariableInitialValues[index][i];
+    */
 
-    cpp->RunCode(code, codeSizes[index], stringVariableInitialValue, stringSizes[index]);
+    //cpp->RunCode(code, codeSizes[index], stringVariableInitialValue, stringSizes[index]);
+    cpp->RunCode(index);
 }
 
 @end

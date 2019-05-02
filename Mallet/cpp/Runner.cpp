@@ -8,10 +8,10 @@
 
 #include "Runner.hpp"
 #include "../objcpp/cpp2objcpp.h"
-#include <time.h>
-#include <iostream>
+#include <vector>
+//#include "../objcpp/objcpp.h"
 
-int GetNumberValue(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+int GetNumberValue(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int value = 0;
 
@@ -28,13 +28,14 @@ int GetNumberValue(int code[], int firstIndex, int numberVariable[], std::string
     else if (code[firstIndex] == 3102)
     {
         //* グローバル変数
-        value = Cpp2ObjCpp::GetNumberGlobalVariable(code[firstIndex + 2]);
+        value = Cpp::numberGlobalVariable[code[firstIndex + 2]];
+        //value = Cpp2ObjCpp::GetNumberGlobalVariable(code[firstIndex + 2]);
     }
 
     return value;
 }
 
-std::string GetStringValue(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+std::string GetStringValue(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     std::string value = "";
 
@@ -44,14 +45,14 @@ std::string GetStringValue(int code[], int firstIndex, int numberVariable[], std
     }
     else if (code[firstIndex] == 3104)
     {
-        char *str = Cpp2ObjCpp::GetStringGlobalVariable(code[firstIndex + 2]);
-        value = std::string(str);
+        //char *str = Cpp2ObjCpp::GetStringGlobalVariable(code[firstIndex + 2]);
+        value = Cpp::stringGlobalVariable[code[firstIndex + 2]];
     }
 
     return value;
 }
 
-void Print(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void Print(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int valueIndex = firstIndex + 2;
 
@@ -74,7 +75,7 @@ void Print(int code[], int firstIndex, int numberVariable[], std::string stringV
     }
 }
 
-void SetNumberVariable(int *code, int firstIndex, int *numberVariable, std::string *stringVariable)
+void SetNumberVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int addressIndex = firstIndex + 2;
     int valueIndex = firstIndex + 5;
@@ -84,7 +85,7 @@ void SetNumberVariable(int *code, int firstIndex, int *numberVariable, std::stri
     numberVariable[address] = value;
 }
 
-void SetStringVariable(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void SetStringVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int addressIndex = firstIndex + 2;
     int valueIndex = firstIndex + 5;
@@ -94,28 +95,29 @@ void SetStringVariable(int code[], int firstIndex, int numberVariable[], std::st
     stringVariable[address] = value;
 }
 
-void SetNumberGlobalVariable(int *code, int firstIndex, int *numberVariable, std::string *stringVariable)
+void SetNumberGlobalVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int addressIndex = firstIndex + 2;
     int valueIndex = firstIndex + 5;
 
     int address = OperateNumber(code, addressIndex, numberVariable, stringVariable);
     int value = OperateNumber(code, valueIndex, numberVariable, stringVariable);
-    Cpp2ObjCpp::SetNumberGlobalVariable(address, value);
+    //Cpp2ObjCpp::SetNumberGlobalVariable(address, value);
+    Cpp::numberGlobalVariable[address] = value;
 }
 
-void SetStringGlobalVariable(int *code, int firstIndex, int *numberVariable, std::string *stringVariable)
+void SetStringGlobalVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int addressIndex = firstIndex + 2;
     int valueIndex = firstIndex + 5;
 
     int address = OperateNumber(code, addressIndex, numberVariable, stringVariable);
     const char *value = GetStringValue(code, valueIndex, numberVariable, stringVariable).c_str();
-    Cpp2ObjCpp::SetStringGlobalVariable(address, value);
+    //Cpp2ObjCpp::SetStringGlobalVariable(address, value);
+    Cpp::stringGlobalVariable[address] = value;
 }
 
-
-void Repeat(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void Repeat(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int processIndex = firstIndex + 5;
     int repeatTimeIndex = firstIndex + 2;
@@ -127,7 +129,7 @@ void Repeat(int code[], int firstIndex, int numberVariable[], std::string string
     }
 }
 
-void If(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void If(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int processIndex = firstIndex + 5;
     int checkIndex = firstIndex + 2;
@@ -140,7 +142,7 @@ void If(int code[], int firstIndex, int numberVariable[], std::string stringVari
     Do(code, processIndex, numberVariable, stringVariable);
 }
 
-void Do(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void Do(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int i = firstIndex + 2;
     int codeSize = code[firstIndex + 1];
@@ -152,7 +154,7 @@ void Do(int code[], int firstIndex, int numberVariable[], std::string stringVari
     }
 }
 
-void SetUIText(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void SetUIText(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     int uiNameIndex = firstIndex + 2;
     int uiTextIndex = firstIndex + 5;
@@ -174,7 +176,7 @@ void SetUIText(int code[], int firstIndex, int numberVariable[], std::string str
     Cpp2ObjCpp::SetUIText(uiName, uiTextStr);
 }
 
-void IO(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void IO(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     switch (code[firstIndex])
     {
@@ -187,7 +189,7 @@ void IO(int code[], int firstIndex, int numberVariable[], std::string stringVari
     }
 }
 
-void Control(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void Control(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     switch (code[firstIndex])
     {
@@ -208,7 +210,7 @@ void Control(int code[], int firstIndex, int numberVariable[], std::string strin
     }
 }
 
-void Variable(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void Variable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     switch (code[firstIndex])
     {
@@ -241,7 +243,7 @@ void Variable(int code[], int firstIndex, int numberVariable[], std::string stri
     }
 }
 
-int OperateNumber(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+int OperateNumber(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     if (code[firstIndex] / 1000 == 3)
     {
@@ -296,14 +298,14 @@ int OperateNumber(int code[], int firstIndex, int numberVariable[], std::string 
     return value;
 }
 
-std::string OperateString(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+std::string OperateString(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     std::string value = "";
 
     return value;
 }
 
-void UI(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void UI(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     switch (code[firstIndex])
     {
@@ -315,7 +317,7 @@ void UI(int code[], int firstIndex, int numberVariable[], std::string stringVari
     }
 }
 
-void RunBlock(int code[], int firstIndex, int numberVariable[], std::string stringVariable[])
+void RunBlock(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable)
 {
     switch (code[firstIndex] / 1000)
     {
@@ -340,20 +342,21 @@ void RunBlock(int code[], int firstIndex, int numberVariable[], std::string stri
     }
 }
 
-void Cpp::RunCode(int code[], int codeSize, std::string stringVariableInitialValue[], int stringVariableInitialValueSize)
+void Cpp::RunCode(int id)  //(std::vector<int> code, int codeSize, std::vector<std::string> stringVariableInitialValue, int stringVariableInitialValueSize)
 {
     // 変数
-    int numberVariable[100000];
-    std::string stringVariable[10000];
+    std::vector<int> numberVariable(100000);
+    std::vector<std::string> stringVariable(10000);
+
+    std::vector<int> code = Cpp::codes[id];
 
     //変数初期化
-    memset(numberVariable, 0, sizeof(numberVariable));
-    for (int i = 0; i < stringVariableInitialValueSize; i++)
+    for (int i = 0; i < Cpp::stringVariableInitialValues[id].size(); i++)
     {
-        stringVariable[i] = stringVariableInitialValue[i];
+        stringVariable[i] = Cpp::stringVariableInitialValues[id][i];
     }
 
-    if (code[1] > codeSize)
+    if (code[1] > code.size())
     {
         return;
     }

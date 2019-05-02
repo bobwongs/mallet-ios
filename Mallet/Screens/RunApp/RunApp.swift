@@ -31,17 +31,10 @@ class RunApp: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /*
         numberGlobalVariableAddress["a"] = 1
         numberGlobalVariableAddress["b"] = 2
 
-        numberGlobalVariable[1] = 1
-        numberGlobalVariable[2] = 0
-
         stringGlobalVariableAddress["globStr"] = 1
-
-        stringGlobalVariable[1] = ""
-        */
 
         GenerateAppScreen()
 
@@ -94,21 +87,21 @@ class RunApp: UIViewController {
     }
 
     public func GetStringGlobalVariable(address: Int) -> String {
-        let runApp = topViewController() as! RunApp
+    let runApp = topViewController() as! RunApp
 
-        return runApp.stringGlobalVariable[address]
+return runApp.stringGlobalVariable[address]
+}
+
+private func InitRunner() {
+    var jsons: Array<String> = Array<String>()
+
+    for i in code {
+        let json = objCpp.convertCode(toJson: i, numberGlobalVariableAddress, stringGlobalVariableAddress)
+        jsons.append(json!)
     }
 
-    private func InitRunner() {
-        var jsons: Array<String> = Array<String>()
-
-        for i in code {
-            let json = objCpp.convertCode(toJson: i, numberGlobalVariableAddress, stringGlobalVariableAddress)
-            jsons.append(json!)
-        }
-
-        objCpp.extractCodes(jsons)
-    }
+    objCpp.extractCodes(jsons)
+}
 
     public func RunCode(id: Int) {
         objCpp.runCode(Int32(id))
