@@ -23,11 +23,15 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        code[0] = "//Declare global variables here\n\n" + code[0]
+        code[1] = "//Called when the app starts\n\n" + code[1]
+        code[2] = "//Called when the button is pressed\n\n" + code[2]
+
         currentCodeIndex = 0
 
         editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         editorArea.sizeToFit()
-        editorArea.text = code[0]
+        editorArea.text = code[2]
         editorArea.autocapitalizationType = UITextAutocapitalizationType.none
         editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self

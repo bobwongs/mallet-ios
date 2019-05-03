@@ -31,7 +31,7 @@
 
 + (int)GetNumberGlobalVariable:(int)address
 {
-    return [[RunApp alloc] GetNumberGlobalVariableWithAddress:address];
+    return (int) [[RunApp alloc] GetNumberGlobalVariableWithAddress:address];
 }
 
 

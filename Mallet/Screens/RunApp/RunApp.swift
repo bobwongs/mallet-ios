@@ -26,15 +26,11 @@ class RunApp: UIViewController {
     public var numberGlobalVariable: [Int] = [Int](repeating: 0, count: 100000)
     public var stringGlobalVariable: [String] = [String](repeating: "", count: 1000)
 
-    private let objCpp = ObjCpp()
+    private let converter = ConverterObjCpp()
+    private let runner = RunnerObjCpp()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        numberGlobalVariableAddress["a"] = 1
-        numberGlobalVariableAddress["b"] = 2
-
-        stringGlobalVariableAddress["globStr"] = 1
 
         GenerateAppScreen()
 
@@ -87,24 +83,28 @@ class RunApp: UIViewController {
     }
 
     public func GetStringGlobalVariable(address: Int) -> String {
-    let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! RunApp
 
-return runApp.stringGlobalVariable[address]
-}
-
-private func InitRunner() {
-    var jsons: Array<String> = Array<String>()
-
-    for i in code {
-        let json = objCpp.convertCode(toJson: i, numberGlobalVariableAddress, stringGlobalVariableAddress)
-        jsons.append(json!)
+        return runApp.stringGlobalVariable[address]
     }
 
-    objCpp.extractCodes(jsons)
-}
+    private func InitRunner() {
+        // コード -> Jsonの塊 -> 展開 -> InitialScript実行
+
+        var jsons: Array<String> = Array<String>()
+
+        for i in 0..<code.count {
+            let json = converter.convertCode(toJson: code[i], i == 0)
+            jsons.append(json!)
+        }
+
+        runner.extractCodes(jsons)
+
+        runner.runCode(1)
+    }
 
     public func RunCode(id: Int) {
-        objCpp.runCode(Int32(id))
+        runner.runCode(Int32(id))
     }
 
     func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {

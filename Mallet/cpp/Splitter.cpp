@@ -36,7 +36,7 @@ std::string DeleteComments(std::string code)
             i++;
         }
         else if (code[i] == '/' &&
-                 (code[i + 1] == '*' || code[i + 1] == '/'))
+                (code[i + 1] == '*' || code[i + 1] == '/'))
         {
             if (code[i + 1] == '*')
             {
@@ -66,8 +66,8 @@ std::string DeleteComments(std::string code)
     return processedCode;
 }
 
-int Cpp::SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
-                   std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord)
+int Converter::SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
+                         std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord)
 {
 
     originalCodeStr = DeleteComments(originalCodeStr);
@@ -134,7 +134,7 @@ int Cpp::SplitCode(std::string originalCodeStr, std::string code[], int codeMaxS
         {
             str += originalCodeStr[i];
 
-            bool isSymbol = (bool)symbol.count(originalCodeStr[i]);
+            bool isSymbol = (bool) symbol.count(originalCodeStr[i]);
 
             bool isNextSymbol = false;
 
@@ -144,8 +144,8 @@ int Cpp::SplitCode(std::string originalCodeStr, std::string code[], int codeMaxS
 
             if (i + 1 < originalCodeStr.size())
             {
-                isNextSymbol = (bool)symbol.count(originalCodeStr[i + 1]);
-                isDoubleSymbol = (bool)doubleSymbol.count(std::string() + originalCodeStr[i] + originalCodeStr[i + 1]);
+                isNextSymbol = (bool) symbol.count(originalCodeStr[i + 1]);
+                isDoubleSymbol = (bool) doubleSymbol.count(std::string() + originalCodeStr[i] + originalCodeStr[i + 1]);
                 isNextBlank = originalCodeStr[i + 1] == ' ';
             }
 

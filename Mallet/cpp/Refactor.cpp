@@ -8,7 +8,7 @@
 
 #include "Refactor.hpp"
 
-std::string Cpp::RefactorCode(std::string code)
+std::string Converter::RefactorCode(std::string code)
 {
     std::string refactoredCode = "";
 

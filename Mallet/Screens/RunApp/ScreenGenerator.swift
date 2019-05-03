@@ -12,8 +12,11 @@ class AppButton: UIButton {
 
     var uiData: UIData
 
-    init(uiData: UIData) {
+    let onButtonClickID: Int
+
+    init(uiData: UIData, onButtonClickID: Int) {
         self.uiData = uiData
+        self.onButtonClickID = onButtonClickID
 
         super.init(frame: CGRect())
 
@@ -24,7 +27,7 @@ class AppButton: UIButton {
         self.setTitleColor(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1), for: .highlighted)
         self.layer.cornerRadius = 7
 
-        self.addTarget(self, action: #selector(tapButton(_:)), for: .touchUpInside)
+        self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
         let runApp = RunApp().topViewController() as! RunApp
         runApp.appUI[uiData.uiID!] = self
@@ -34,10 +37,11 @@ class AppButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func tapButton(_ sender: UIButton) {
+    @objc func onButtonClick(_ sender: UIButton) {
         let runApp = RunApp().topViewController() as! RunApp
-        runApp.RunCode(id: uiData.uiID!)
+        runApp.RunCode(id: onButtonClickID)
     }
+
 }
 
 class AppLabel: UILabel {
@@ -89,9 +93,8 @@ class ScreenGenerator {
 
                 switch id {
                 case 0:
-                    //let button = generateButton(uiData: i)
-                    //button.addTarget(self, action: #selector(buttonEvent(_:)), for: .touchUpInside)
-                    uiView = AppButton(uiData: i) //generateButton(uiData: i)
+                    //uiView = AppButton(uiData: i, onButtonClickID: i.uiID ?? 0)
+                    uiView = AppButton(uiData: i, onButtonClickID: 2)
 
                 case 1:
                     uiView = AppLabel(uiData: i)

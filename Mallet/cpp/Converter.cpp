@@ -45,7 +45,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
         int value = 0;
         int coe = 1;
 
-        for (int j = code[i].size() - 1; j >= 0; j--)
+        for (int j = (int) code[i].size() - 1; j >= 0; j--)
         {
             if (j > 0 && ((code[i][j] - '0') < 0 || 9 < (code[i][j] - '0')))
             {
@@ -112,13 +112,13 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
             type = 3102;
             codeSize = 3;
 
-            if (argData.numberGlobalVariableAddress[code[i]] == 0)
+            if (argData.converter.numberGlobalVariableAddress[code[i]] == 0)
             {
                 printf("The global variable %s (Type:Int) is not declared!\n", code[i].c_str());
             }
             else
             {
-                valueOrAddress = argData.numberGlobalVariableAddress[code[i]];
+                valueOrAddress = argData.converter.numberGlobalVariableAddress[code[i]];
             }
 
             break;
@@ -128,13 +128,13 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
             type = 3104;
             codeSize = 3;
 
-            if (argData.stringGlobalVariableAddress[code[i]] == 0)
+            if (argData.converter.stringGlobalVariableAddress[code[i]] == 0)
             {
                 printf("The global variable %s (Type:String) is not declared!\n", code[i].c_str());
             }
             else
             {
-                valueOrAddress = argData.stringGlobalVariableAddress[code[i]];
+                valueOrAddress = argData.converter.stringGlobalVariableAddress[code[i]];
             }
 
             break;
@@ -273,23 +273,49 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
         {
             if (type == "Int")
             {
-                argData.numberVariableNum++;
-                argData.numberVariableAddress[variableName] = argData.numberVariableNum;
+                if (argData.isDefinitionOfGlobalVariable)
+                {
+                    argData.converter.numberGlobalVariableNum++;
+                    argData.converter.numberGlobalVariableAddress[variableName] = argData.converter.numberGlobalVariableNum;
 
-                convertedCode[convertedCodeIndex] = 3000;
-                convertedCode[convertedCodeIndex + 2] = argData.numberVariableAddress[variableName];
+                    convertedCode[convertedCodeIndex] = 3100;
+                    convertedCode[convertedCodeIndex + 2] = argData.converter.numberGlobalVariableAddress[variableName];
 
-                argData.variableType[variableName] = 1;
+                    argData.variableType[variableName] = 3;
+                }
+                else
+                {
+                    argData.numberVariableNum++;
+                    argData.numberVariableAddress[variableName] = argData.numberVariableNum;
+
+                    convertedCode[convertedCodeIndex] = 3000;
+                    convertedCode[convertedCodeIndex + 2] = argData.numberVariableAddress[variableName];
+
+                    argData.variableType[variableName] = 1;
+                }
             }
             else if (type == "String")
             {
-                argData.stringVariableNum++;
-                argData.stringVariableAddress[variableName] = argData.stringVariableNum;
+                if (argData.isDefinitionOfGlobalVariable)
+                {
+                    argData.converter.stringGlobalVariableNum++;
+                    argData.converter.stringGlobalVariableAddress[variableName] = argData.converter.stringGlobalVariableNum;
 
-                convertedCode[convertedCodeIndex] = 3006;
-                convertedCode[convertedCodeIndex + 2] = argData.stringVariableAddress[variableName];
+                    convertedCode[convertedCodeIndex] = 3106;
+                    convertedCode[convertedCodeIndex + 2] = argData.converter.stringGlobalVariableAddress[variableName];
 
-                argData.variableType[variableName] = 2;
+                    argData.variableType[variableName] = 4;
+                }
+                else
+                {
+                    argData.stringVariableNum++;
+                    argData.stringVariableAddress[variableName] = argData.stringVariableNum;
+
+                    convertedCode[convertedCodeIndex] = 3006;
+                    convertedCode[convertedCodeIndex + 2] = argData.stringVariableAddress[variableName];
+
+                    argData.variableType[variableName] = 2;
+                }
             }
             else
             {
@@ -489,7 +515,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
             convertedCode[convertedCodeIndex] = 3003;
             convertedCode[convertedCodeIndex + 1] = 3;
-            convertedCode[convertedCodeIndex + 2] = argData.numberGlobalVariableAddress[code[i]];
+            convertedCode[convertedCodeIndex + 2] = argData.converter.numberGlobalVariableAddress[code[i]];
             convertedCodeIndex += 3;
 
             break;
@@ -500,7 +526,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
 
             convertedCode[convertedCodeIndex] = 3003;
             convertedCode[convertedCodeIndex + 1] = 3;
-            convertedCode[convertedCodeIndex + 2] = argData.stringGlobalVariableAddress[code[i]];
+            convertedCode[convertedCodeIndex + 2] = argData.converter.stringGlobalVariableAddress[code[i]];
             convertedCodeIndex += 3;
 
             break;
@@ -628,13 +654,10 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     return json;
 }
 
-std::string Cpp::ConvertCodeToJson(std::string codeStr,
-                                   std::unordered_map<std::string, int> numberGlobalVariableAddress, std::unordered_map<std::string, int> stringGlobalVariableAddress)
+std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter &converter)
 {
     //* ##################
     //* 変数等
-
-    Cpp cpp;
 
     std::set<char> symbol{'(', ')', '{', '}', '>', '<', '=', '+', '-', '*', '/', '%', '&', '|', '!', ':', ',', '"'};
     std::set<std::string> doubleSymbol{"==", "!=", "&&", "||"};
@@ -663,29 +686,32 @@ std::string Cpp::ConvertCodeToJson(std::string codeStr,
             numberVariableNum,
             stringVariableAddress,
             stringVariableNum,
-            numberGlobalVariableAddress,
-            stringGlobalVariableAddress,
+            // converter.numberGlobalVariableAddress,
+            //converter.stringGlobalVariableAddress,
             variableType,
+            isDefinitionOfGlobalVariable,
+            converter,
     };
 
-    for (auto i : numberGlobalVariableAddress)
+    for (auto i :  converter.numberGlobalVariableAddress)
     {
         variableType[i.first] = 3;
     }
 
-    for (auto i : stringGlobalVariableAddress)
+    for (auto i :  converter.stringGlobalVariableAddress)
     {
         variableType[i.first] = 4;
     }
 
     //* ##################
 
-    int splitCodeSize = cpp.SplitCode(codeStr, splitCode, splitCodeMaxSize, symbol, doubleSymbol, reservedWord);
+    int splitCodeSize = Converter::SplitCode(codeStr, splitCode, splitCodeMaxSize, symbol, doubleSymbol, reservedWord);
 
     ConvertBlock(splitCode, splitCodeSize, convertedCode, convertedCodeMaxSize, 0, argData);
 
     std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
+    /*
     for (int j = 0; j < splitCodeSize; j++)
     {
         printf("%s\n", splitCode[j].c_str());
@@ -697,6 +723,7 @@ std::string Cpp::ConvertCodeToJson(std::string codeStr,
     }
 
     printf("%s\n", json.c_str());
+    */
 
     return json;
 }

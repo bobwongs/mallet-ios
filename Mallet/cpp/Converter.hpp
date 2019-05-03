@@ -26,10 +26,11 @@ typedef struct
     std::unordered_map<std::string, int> &stringVariableAddress;
     int &stringVariableNum;
 
-    std::unordered_map<std::string, int> &numberGlobalVariableAddress;
-    std::unordered_map<std::string, int> &stringGlobalVariableAddress;
-
     std::unordered_map<std::string, int> &variableType;
+
+    bool isDefinitionOfGlobalVariable;
+
+    Converter &converter;
 } ArgData;
 
 int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int convertedCodeMaxSize, int firstIndex,

@@ -11,16 +11,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ObjCpp : NSObject
+@interface ConverterObjCpp : NSObject
+
+- (NSString *)ConvertCodeToJson:(NSString *)code :(bool)isDefinitionOfGlobalVariable;// :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
+
+@end
+
+@interface RunnerObjCpp : NSObject
 
 - (void)ExtractCodes:(NSArray<NSString *> *)codeJsons;
 
-- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress;
-
-- (void)RunCodeFromJson:(NSString *)json;
-
 - (void)RunCode:(int)index;
 
+- (void)InitRunner;
 @end
 
 #endif /* objcpp_h */

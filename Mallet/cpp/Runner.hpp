@@ -12,36 +12,43 @@
 #include "cpp.hpp"
 #include <stdio.h>
 
-void RunBlock(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+typedef struct
+{
+    std::vector<int> &numberVariable;
+    std::vector<std::string> &stringVariable;
+    Runner &runner;
+} ArgData;
 
-void IO(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void RunBlock(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void Control(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void IO(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void Variable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void Control(std::vector<int> &code, int firstIndex, ArgData argData);
 
-int OperateNumber(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void Variable(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void UI(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData);
 
-std::string OperateString(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void UI(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void Do(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+std::string OperateString(std::vector<int> &code, int firstIndex, ArgData argData);
 
-int GetNumberValue(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void Do(std::vector<int> &code, int firstIndex, ArgData argData);
 
-std::string GetStringValue(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+int GetNumberValue(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void Print(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+std::string GetStringValue(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void SetNumberVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void Print(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void SetStringVariable(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void SetNumberVariable(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void Repeat(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void SetStringVariable(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void If(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void Repeat(std::vector<int> &code, int firstIndex, ArgData argData);
 
-void SetUIText(std::vector<int> &code, int firstIndex, std::vector<int> &numberVariable, std::vector<std::string> &stringVariable);
+void If(std::vector<int> &code, int firstIndex, ArgData argData);
+
+void SetUIText(std::vector<int> &code, int firstIndex, ArgData argData);
 
 #endif /* Runner_hpp */
