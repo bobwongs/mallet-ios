@@ -80,7 +80,7 @@ int Converter::SplitCode(std::string originalCodeStr, std::string code[], int co
 
     for (int i = 0; i < originalCodeStr.size(); i++)
     {
-        if (originalCodeStr[i] == '\n')
+        if (originalCodeStr[i] == '\n' || originalCodeStr[i] == '\t')
             originalCodeStr[i] = ' ';
     }
 
