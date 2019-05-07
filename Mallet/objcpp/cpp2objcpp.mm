@@ -24,54 +24,9 @@
     [[RunApp alloc] SetUITextWithId:uiID text:textStr];
 }
 
-+ (void)SetNumberGlobalVariable:(int)address :(int)value
-{
-    [[RunApp alloc] SetNumberGlobalVariableWithAddress:address value:value];
-}
-
-+ (int)GetNumberGlobalVariable:(int)address
-{
-    return (int) [[RunApp alloc] GetNumberGlobalVariableWithAddress:address];
-}
-
-
-+ (void)SetStringGlobalVariable:(int)address :(NSString *)value
-{
-    [[RunApp alloc] SetStringGlobalVariableWithAddress:address value:value];
-}
-
-+ (NSString *)GetStringGlobalVariable:(int)address
-{
-    return [[RunApp alloc] GetStringGlobalVariableWithAddress:address];
-}
 @end
 
 void Cpp2ObjCpp::SetUIText(int uiID, char *text)
 {
     [ObjCpp2Swift SetUIText:uiID :text];
-}
-
-void Cpp2ObjCpp::SetNumberGlobalVariable(int address, int value)
-{
-    [ObjCpp2Swift SetNumberGlobalVariable:address :value];
-}
-
-int Cpp2ObjCpp::GetNumberGlobalVariable(int address)
-{
-    return [ObjCpp2Swift GetNumberGlobalVariable:address];
-}
-
-void Cpp2ObjCpp::SetStringGlobalVariable(int address, const char *value)
-{
-    NSString *str = [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
-    [ObjCpp2Swift SetStringGlobalVariable:address :str];
-}
-
-
-char *Cpp2ObjCpp::GetStringGlobalVariable(int address)
-{
-    NSString *str = [ObjCpp2Swift GetStringGlobalVariable:address];
-    char *cstr = (char *) [str UTF8String];
-
-    return cstr;
 }

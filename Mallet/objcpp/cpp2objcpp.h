@@ -14,14 +14,6 @@ class Cpp2ObjCpp
 {
 public:
     static void SetUIText(int uiID, char *text);
-
-    static void SetNumberGlobalVariable(int address, int value);
-
-    static int GetNumberGlobalVariable(int address);
-
-    static void SetStringGlobalVariable(int address, const char *value);
-
-    static char *GetStringGlobalVariable(int address);
 };
 
 #endif /* cpp2objcpp_h */
