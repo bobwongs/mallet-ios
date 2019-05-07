@@ -32,7 +32,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
             argData.stringVariableAddress[str] = argData.stringVariableNum;
         }
 
-        type = 3004;
+        type = CmdID::StringVariableValue;
         codeSize = 3;
         valueOrAddress = argData.stringVariableAddress[str];
 
@@ -45,7 +45,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
         int value = 0;
         int coe = 1;
 
-        for (int j = (int) code[i].size() - 1; j >= 0; j--)
+        for (int j = (int)code[i].size() - 1; j >= 0; j--)
         {
             if (j > 0 && ((code[i][j] - '0') < 0 || 9 < (code[i][j] - '0')))
             {
@@ -63,7 +63,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
             }
         }
 
-        type = 3003;
+        type = CmdID::IntValue;
         codeSize = 3;
         valueOrAddress = value;
 
@@ -77,7 +77,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
         {
         case 1:
             //* 数値型
-            type = 3002;
+            type = CmdID::IntVariableValue;
             codeSize = 3;
 
             if (argData.numberVariableAddress[code[i]] == 0)
@@ -93,7 +93,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
 
         case 2:
             //* 文字列型
-            type = 3004;
+            type = CmdID::StringVariableValue;
             codeSize = 3;
 
             if (argData.stringVariableAddress[code[i]] == 0)
@@ -109,7 +109,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
 
         case 3:
             //* 数値型(グローバル)
-            type = 3102;
+            type = CmdID::IntGlobalVariableValue;
             codeSize = 3;
 
             if (argData.converter.numberGlobalVariableAddress[code[i]] == 0)
@@ -125,7 +125,7 @@ int ConvertValue(std::string code[], int codeMaxSize, int convertedCode[], int c
 
         case 4:
             //* 文字列型(グローバル)
-            type = 3104;
+            type = CmdID::StringGlobalVariableValue;
             codeSize = 3;
 
             if (argData.converter.stringGlobalVariableAddress[code[i]] == 0)
@@ -160,21 +160,21 @@ int convertOperator(std::string operatorString)
     int convertedCode = 0;
 
     if (operatorString == "+")
-        convertedCode = 4000;
+        convertedCode = CmdID::Sum;
     if (operatorString == "-")
-        convertedCode = 4001;
+        convertedCode = CmdID::Sub;
     if (operatorString == "*")
-        convertedCode = 4002;
+        convertedCode = CmdID::Mul;
     if (operatorString == "/")
-        convertedCode = 4003;
+        convertedCode = CmdID::Div;
     if (operatorString == "%")
-        convertedCode = 4004;
+        convertedCode = CmdID::Mod;
     if (operatorString == "==")
-        convertedCode = 4005;
+        convertedCode = CmdID::Equal;
     if (operatorString == ">" || operatorString == "<")
-        convertedCode = 4006;
+        convertedCode = CmdID::Bigger;
     if (operatorString == "!=")
-        convertedCode = 4008;
+        convertedCode = CmdID::Inequal;
 
     return convertedCode;
 }
@@ -278,7 +278,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                     argData.converter.numberGlobalVariableNum++;
                     argData.converter.numberGlobalVariableAddress[variableName] = argData.converter.numberGlobalVariableNum;
 
-                    convertedCode[convertedCodeIndex] = 3100;
+                    convertedCode[convertedCodeIndex] = CmdID::DeclareIntGlobalVariable;
                     convertedCode[convertedCodeIndex + 2] = argData.converter.numberGlobalVariableAddress[variableName];
 
                     argData.variableType[variableName] = 3;
@@ -288,7 +288,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                     argData.numberVariableNum++;
                     argData.numberVariableAddress[variableName] = argData.numberVariableNum;
 
-                    convertedCode[convertedCodeIndex] = 3000;
+                    convertedCode[convertedCodeIndex] = CmdID::DeclareIntVariable;
                     convertedCode[convertedCodeIndex + 2] = argData.numberVariableAddress[variableName];
 
                     argData.variableType[variableName] = 1;
@@ -301,7 +301,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                     argData.converter.stringGlobalVariableNum++;
                     argData.converter.stringGlobalVariableAddress[variableName] = argData.converter.stringGlobalVariableNum;
 
-                    convertedCode[convertedCodeIndex] = 3106;
+                    convertedCode[convertedCodeIndex] = CmdID::DeclareStringGlobalVariable;
                     convertedCode[convertedCodeIndex + 2] = argData.converter.stringGlobalVariableAddress[variableName];
 
                     argData.variableType[variableName] = 4;
@@ -311,7 +311,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
                     argData.stringVariableNum++;
                     argData.stringVariableAddress[variableName] = argData.stringVariableNum;
 
-                    convertedCode[convertedCodeIndex] = 3006;
+                    convertedCode[convertedCodeIndex] = CmdID::DeclareStringVariable;
                     convertedCode[convertedCodeIndex + 2] = argData.stringVariableAddress[variableName];
 
                     argData.variableType[variableName] = 2;
@@ -334,7 +334,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
     }
     else if (token == "print")
     {
-        convertedCode[convertedCodeIndex] = 1000;
+        convertedCode[convertedCodeIndex] = CmdID::Print;
         convertedCodeIndex += 2;
 
         convertedCodeSize = 5;
@@ -364,7 +364,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
     }
     else if (token == "if")
     {
-        convertedCode[convertedCodeIndex] = 2001;
+        convertedCode[convertedCodeIndex] = CmdID::If;
         convertedCodeIndex += 2;
 
         convertedCodeSize = 2;
@@ -407,7 +407,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
     }
     else if (token == "repeat")
     {
-        convertedCode[convertedCodeIndex] = 2002;
+        convertedCode[convertedCodeIndex] = CmdID::Repeat;
         convertedCodeIndex += 2;
 
         convertedCodeSize = 2;
@@ -452,7 +452,7 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
     {
         convertedCodeSize = 8;
 
-        convertedCode[convertedCodeIndex] = 5000;
+        convertedCode[convertedCodeIndex] = CmdID::SetUIText;
         convertedCodeIndex += 2;
 
         int uiName[5]; // = code[firstIndex + 2];
@@ -488,10 +488,10 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
         switch (argData.variableType[code[i]])
         {
         case 1:
-            convertedCode[convertedCodeIndex] = 3001;
+            convertedCode[convertedCodeIndex] = CmdID::AssignIntVariable;
             convertedCodeIndex += 2;
 
-            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex] = CmdID::IntValue;
             convertedCode[convertedCodeIndex + 1] = 3;
             convertedCode[convertedCodeIndex + 2] = argData.numberVariableAddress[code[i]];
             convertedCodeIndex += 3;
@@ -499,10 +499,10 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
             break;
 
         case 2:
-            convertedCode[convertedCodeIndex] = 3007;
+            convertedCode[convertedCodeIndex] = CmdID::AssignStringVariable;
             convertedCodeIndex += 2;
 
-            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex] = CmdID::IntValue;
             convertedCode[convertedCodeIndex + 1] = 3;
             convertedCode[convertedCodeIndex + 2] = argData.stringVariableAddress[code[i]];
             convertedCodeIndex += 3;
@@ -510,10 +510,10 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
             break;
 
         case 3:
-            convertedCode[convertedCodeIndex] = 3101;
+            convertedCode[convertedCodeIndex] = CmdID::AssignIntGlobalVariable;
             convertedCodeIndex += 2;
 
-            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex] = CmdID::IntValue;
             convertedCode[convertedCodeIndex + 1] = 3;
             convertedCode[convertedCodeIndex + 2] = argData.converter.numberGlobalVariableAddress[code[i]];
             convertedCodeIndex += 3;
@@ -521,10 +521,10 @@ int ConvertAction(std::string code[], int codeMaxSize, int convertedCode[], int 
             break;
 
         case 4:
-            convertedCode[convertedCodeIndex] = 3107;
+            convertedCode[convertedCodeIndex] = CmdID::AssignStringGlobalVariable;
             convertedCodeIndex += 2;
 
-            convertedCode[convertedCodeIndex] = 3003;
+            convertedCode[convertedCodeIndex] = CmdID::IntValue;
             convertedCode[convertedCodeIndex + 1] = 3;
             convertedCode[convertedCodeIndex + 2] = argData.converter.stringGlobalVariableAddress[code[i]];
             convertedCodeIndex += 3;
@@ -573,7 +573,7 @@ int ConvertBlock(std::string code[], int codeMaxSize, int convertedCode[], int c
 
     int size = 2;
 
-    convertedCode[convertedCodeIndex] = 2000;
+    convertedCode[convertedCodeIndex] = CmdID::Do;
     convertedCodeIndex += 2;
 
     i++;
@@ -679,26 +679,24 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
     int convertedCodeMaxSize = 1000000;
 
     ArgData argData = {
-            symbol,
-            doubleSymbol,
-            reservedWord,
-            numberVariableAddress,
-            numberVariableNum,
-            stringVariableAddress,
-            stringVariableNum,
-            // converter.numberGlobalVariableAddress,
-            //converter.stringGlobalVariableAddress,
-            variableType,
-            isDefinitionOfGlobalVariable,
-            converter,
+        symbol,
+        doubleSymbol,
+        reservedWord,
+        numberVariableAddress,
+        numberVariableNum,
+        stringVariableAddress,
+        stringVariableNum,
+        variableType,
+        isDefinitionOfGlobalVariable,
+        converter,
     };
 
-    for (auto i :  converter.numberGlobalVariableAddress)
+    for (auto i : converter.numberGlobalVariableAddress)
     {
         variableType[i.first] = 3;
     }
 
-    for (auto i :  converter.stringGlobalVariableAddress)
+    for (auto i : converter.stringGlobalVariableAddress)
     {
         variableType[i.first] = 4;
     }
