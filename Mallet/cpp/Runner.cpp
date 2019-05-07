@@ -15,17 +15,17 @@ int GetNumberValue(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     int value = 0;
 
-    if (code[firstIndex] == 3002)
+    if (code[firstIndex] == CmdID::IntVariableValue)
     {
         //* 変数
         value = argData.numberVariable[code[firstIndex + 2]];
     }
-    else if (code[firstIndex] == 3003)
+    else if (code[firstIndex] == CmdID::IntValue)
     {
         //* 数値
         value = code[firstIndex + 2];
     }
-    else if (code[firstIndex] == 3102)
+    else if (code[firstIndex] == CmdID::IntGlobalVariableValue)
     {
         //* グローバル変数
         value = argData.runner.numberGlobalVariable[code[firstIndex + 2]];
@@ -38,11 +38,11 @@ std::string GetStringValue(std::vector<int> &code, int firstIndex, ArgData argDa
 {
     std::string value = "";
 
-    if (code[firstIndex] == 3004)
+    if (code[firstIndex] == CmdID::StringVariableValue)
     {
         value = argData.stringVariable[code[firstIndex + 2]];
     }
-    else if (code[firstIndex] == 3104)
+    else if (code[firstIndex] == CmdID::StringGlobalVariableValue)
     {
         //char *str = Cpp2ObjCpp::GetStringGlobalVariable(code[firstIndex + 2]);
         value = argData.runner.stringGlobalVariable[code[firstIndex + 2]];
@@ -55,7 +55,7 @@ void Print(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     int valueIndex = firstIndex + 2;
 
-    if (code[valueIndex] == 3004)
+    if (code[valueIndex] == CmdID::StringVariableValue)
     {
         //文字列を出力
         std::string value = GetStringValue(code, valueIndex, argData);
@@ -63,7 +63,7 @@ void Print(std::vector<int> &code, int firstIndex, ArgData argData)
         //! DONT DELETE THIS
         printf("%s\n", value.c_str());
     }
-    if (code[valueIndex] == 3002 || code[valueIndex] == 3003)
+    if (code[valueIndex] == CmdID::IntVariableValue || code[valueIndex] == CmdID::IntValue)
     {
         //数値を出力
 
@@ -161,7 +161,7 @@ void SetUIText(std::vector<int> &code, int firstIndex, ArgData argData)
     int uiName = GetNumberValue(code, uiNameIndex, argData);
 
     char uiTextStr[1000];
-    if (code[uiTextIndex] == 3004 || code[uiTextIndex] == 3104)
+    if (code[uiTextIndex] == CmdID::StringVariableValue || code[uiTextIndex] == CmdID::StringGlobalVariableValue)
     {
         std::string uiText = GetStringValue(code, uiTextIndex, argData);
         snprintf(uiTextStr, 1000, "%s", uiText.c_str());
@@ -172,7 +172,6 @@ void SetUIText(std::vector<int> &code, int firstIndex, ArgData argData)
         snprintf(uiTextStr, 1000, "%d", uiText);
     }
 
-
     Cpp2ObjCpp::SetUIText(uiName, uiTextStr);
 }
 
@@ -180,7 +179,7 @@ void IO(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     switch (code[firstIndex])
     {
-    case 1000:
+    case CmdID::Print:
         Print(code, firstIndex, argData);
         break;
 
@@ -193,15 +192,15 @@ void Control(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     switch (code[firstIndex])
     {
-    case 2000:
+    case CmdID::Do:
         Do(code, firstIndex, argData);
         break;
 
-    case 2001:
+    case CmdID::If:
         If(code, firstIndex, argData);
         break;
 
-    case 2002:
+    case CmdID::Repeat:
         Repeat(code, firstIndex, argData);
         break;
 
@@ -214,27 +213,27 @@ void Variable(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     switch (code[firstIndex])
     {
-    case 3000:
+    case CmdID::DeclareIntVariable:
         //数値型変数宣言
         break;
 
-    case 3006:
+    case CmdID::DeclareStringVariable:
         //文字列型変数宣言
         break;
 
-    case 3001:
+    case CmdID::AssignIntVariable:
         SetNumberVariable(code, firstIndex, argData);
         break;
 
-    case 3007:
+    case CmdID::AssignStringVariable:
         SetStringVariable(code, firstIndex, argData);
         break;
 
-    case 3101:
+    case CmdID::AssignIntGlobalVariable:
         SetNumberGlobalVariable(code, firstIndex, argData);
         break;
 
-    case 3107:
+    case CmdID::AssignStringGlobalVariable:
         SetStringGlobalVariable(code, firstIndex, argData);
         break;
 
@@ -257,38 +256,38 @@ int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData)
     int value = 0;
     int firstValue = GetNumberValue(code, firstValueIndex, argData);
     int secondValue = 0;
-    if (code[firstIndex] == 4007)
+    if (code[firstIndex] == CmdID::Not)
         secondValue = 0;
     else
         secondValue = GetNumberValue(code, secondValueIndex, argData);
 
     switch (code[firstIndex])
     {
-    case 4000:
+    case CmdID::Sum:
         value = firstValue + secondValue;
         break;
-    case 4001:
+    case CmdID::Sub:
         value = firstValue - secondValue;
         break;
-    case 4002:
+    case CmdID::Mul:
         value = firstValue * secondValue;
         break;
-    case 4003:
+    case CmdID::Div:
         value = firstValue / secondValue;
         break;
-    case 4004:
+    case CmdID::Mod:
         value = firstValue % secondValue;
         break;
-    case 4005:
+    case CmdID::Equal:
         value = firstValue == secondValue ? 1 : 0;
         break;
-    case 4006:
+    case CmdID::Bigger:
         value = firstValue > secondValue ? 1 : 0;
         break;
-    case 4007:
+    case CmdID::Not:
         value = firstValue > 0 ? 0 : 1;
         break;
-    case 4008:
+    case CmdID::Inequal:
         value = firstValue != secondValue ? 1 : 0;
         break;
     default:
@@ -309,7 +308,7 @@ void UI(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     switch (code[firstIndex])
     {
-    case 5000:
+    case CmdID::SetUIText:
         SetUIText(code, firstIndex, argData);
         break;
     default:
@@ -342,7 +341,7 @@ void RunBlock(std::vector<int> &code, int firstIndex, ArgData argData)
     }
 }
 
-void Runner::RunCode(int id, Runner &runner)  //(std::vector<int> code, int codeSize, std::vector<std::string> stringVariableInitialValue, int stringVariableInitialValueSize)
+void Runner::RunCode(int id, Runner &runner) //(std::vector<int> code, int codeSize, std::vector<std::string> stringVariableInitialValue, int stringVariableInitialValueSize)
 {
     // 変数
     std::vector<int> numberVariable(100000);
@@ -351,9 +350,9 @@ void Runner::RunCode(int id, Runner &runner)  //(std::vector<int> code, int code
     std::vector<int> code = runner.codes[id];
 
     ArgData argData = {
-            numberVariable,
-            stringVariable,
-            runner,
+        numberVariable,
+        stringVariable,
+        runner,
     };
 
     //変数初期化
