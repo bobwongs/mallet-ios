@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E37ECC22276FB62008D1946 /* specification.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E37ECC12276FB62008D1946 /* specification.md */; };
 		0E37ECC52276FC55008D1946 /* Refactor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37ECC32276FC55008D1946 /* Refactor.cpp */; };
 		0E37ECC722772828008D1946 /* Splitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E37ECC622772828008D1946 /* Splitter.cpp */; };
@@ -28,7 +29,6 @@
 		0EF478BE226B78CE007315DB /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478BD226B78CE007315DB /* MalletTests.swift */; };
 		0EF478C9226B78CE007315DB /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478C8226B78CE007315DB /* MalletUITests.swift */; };
 		0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478D9226B7ABE007315DB /* objcpp.mm */; };
-		0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478DC226B7AEB007315DB /* cpp.cpp */; };
 		0EFDB0C12271E2D400340875 /* Converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB0BF2271E2D400340875 /* Converter.cpp */; };
 		0EFDB0C422720FF400340875 /* Runner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EFDB0C222720FF400340875 /* Runner.cpp */; };
 /* End PBXBuildFile section */
@@ -51,6 +51,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E37ECC12276FB62008D1946 /* specification.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = specification.md; sourceTree = "<group>"; };
 		0E37ECC32276FC55008D1946 /* Refactor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Refactor.cpp; sourceTree = "<group>"; };
 		0E37ECC42276FC55008D1946 /* Refactor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Refactor.hpp; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mallet-Bridging-Header.h"; sourceTree = "<group>"; };
 		0EF478D9226B7ABE007315DB /* objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0EF478DB226B7AD8007315DB /* objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
-		0EF478DC226B7AEB007315DB /* cpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp.cpp; sourceTree = "<group>"; };
 		0EF478DD226B7AEB007315DB /* cpp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp.hpp; sourceTree = "<group>"; };
 		0EFDB0BF2271E2D400340875 /* Converter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Converter.cpp; sourceTree = "<group>"; };
 		0EFDB0C02271E2D400340875 /* Converter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Converter.hpp; sourceTree = "<group>"; };
@@ -115,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E149C04228030C800952F9C /* AppUI */ = {
+			isa = PBXGroup;
+			children = (
+				0E149C05228030DE00952F9C /* AppUI.swift */,
+			);
+			path = AppUI;
+			sourceTree = "<group>";
+		};
 		0E33E2CB22799AF800352BDB /* Screens */ = {
 			isa = PBXGroup;
 			children = (
@@ -180,6 +188,7 @@
 		0EF478A7226B78CD007315DB /* Mallet */ = {
 			isa = PBXGroup;
 			children = (
+				0E149C04228030C800952F9C /* AppUI */,
 				0E33E2CB22799AF800352BDB /* Screens */,
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
 				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
@@ -214,7 +223,6 @@
 			children = (
 				0E37ECC12276FB62008D1946 /* specification.md */,
 				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
-				0EF478DC226B7AEB007315DB /* cpp.cpp */,
 				0EF478DD226B7AEB007315DB /* cpp.hpp */,
 				0EFDB0BF2271E2D400340875 /* Converter.cpp */,
 				0EFDB0C02271E2D400340875 /* Converter.hpp */,
@@ -376,6 +384,7 @@
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */,
 				0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */,
+				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
 				0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */,
 				0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */,
@@ -383,7 +392,6 @@
 				0EFDB0C12271E2D400340875 /* Converter.cpp in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
 				0EFDB0C422720FF400340875 /* Runner.cpp in Sources */,
-				0EF478DE226B7AEB007315DB /* cpp.cpp in Sources */,
 				0E37ECC722772828008D1946 /* Splitter.cpp in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AppButton: UIButton {
+class AppButton: AppUIButton {
 
     var uiData: UIData
 
@@ -20,12 +20,14 @@ class AppButton: UIButton {
 
         super.init(frame: CGRect())
 
+        /*
         self.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.backgroundColor = UIColor(red: 0, green: 122 / 255, blue: 1, alpha: 1)
         self.setTitle(uiData.text, for: .normal)
         self.setTitleColor(UIColor.white, for: .normal)
         self.setTitleColor(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1), for: .highlighted)
         self.layer.cornerRadius = 7
+        */
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 

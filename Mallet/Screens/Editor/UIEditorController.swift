@@ -10,13 +10,29 @@ import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var appScreen: UIStackView!
+    @IBOutlet weak var editorView: UIView!
     @IBOutlet weak var uiTable: UITableView!
+    @IBOutlet weak var appScreenParent: UIView!
+
+    var appScreen: UIView = UIView()
 
     var uiList: Array<UIView> = Array<UIView>()
 
+    var uiScale: CGFloat = 0.7
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        let screenSize = editorView.bounds.size //UIScreen.main.bounds.size
+        appScreen = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width * uiScale, height: screenSize.height * uiScale))
+        appScreen.center = appScreenParent.center
+        appScreen.backgroundColor = UIColor.white
+        appScreen.layer.borderColor = UIColor.lightGray.cgColor
+        appScreen.layer.borderWidth = 1
+        appScreenParent.addSubview(appScreen)
+
+        uiTable.delegate = self
+        uiTable.dataSource = self
 
         initUIList()
     }
@@ -28,45 +44,64 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         let ui = uiList[indexPath.row]
-        let wall = UIView()
 
         cell.addSubview(ui)
 
+        ui.isUserInteractionEnabled = false
         ui.translatesAutoresizingMaskIntoConstraints = false
         ui.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         ui.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
 
-        if indexPath.row < 5 {
-            cell.addSubview(wall)
-            wall.translatesAutoresizingMaskIntoConstraints = false
-            wall.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: 0).isActive = true
-            wall.rightAnchor.constraint(equalTo: cell.rightAnchor, constant: 0).isActive = true
-            wall.topAnchor.constraint(equalTo: cell.topAnchor, constant: 0).isActive = true
-            wall.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: 0).isActive = true
-        }
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (indexPath.row != 1) {
+            return
+        }
 
-        tableView.deselectRow(at: indexPath, animated: true)
+        let button = AppSampleUIButton()
+
+        button.tag = 1
+        button.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
+        let cellPoint = tableView.cellForRow(at: indexPath)?.center ?? CGPoint()
+        button.center = CGPoint(x: tableView.frame.origin.x + cellPoint.x, y: tableView.frame.origin.y + cellPoint.y)
+
+        editorView.addSubview(button)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            if let touchedView = touch.view {
+                if touchedView.tag == 1 {
+                    touchedView.center = touch.location(in: view)
+                }
+            }
+        }
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        touchesBegan(touches, with: event)
     }
 
     func initUIList() {
-        let uiLabel = UILabel()
-        uiLabel.text = "Text"
+        let uiLabel = AppUILabel()
 
-        let uiButton = UIButton()
-        uiButton.setTitle("Button", for: .normal)
-        uiButton.setTitleColor(UIColor(red: 0, green: 122 / 255, blue: 255 / 255, alpha: 1), for: .normal)
+        let uiButton = AppUIButton()
 
-        let uiSwitch = UISwitch()
+        let uiSwitch = AppUISwitch()
         uiSwitch.isOn = true
 
         uiList.append(uiLabel)
         uiList.append(uiButton)
         uiList.append(uiSwitch)
+
+        for i in uiList {
+            i.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
+        }
+
     }
 
 }
