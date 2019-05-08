@@ -1,6 +1,6 @@
 //
 //  Converter.cpp
-//  LangRunner2-iOS
+//  Mallet
 //
 //  Created by Katsu Matsuda on 2019/04/12.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
