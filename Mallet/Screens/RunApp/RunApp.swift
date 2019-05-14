@@ -94,6 +94,7 @@ class RunApp: UIViewController {
         var jsons: Array<String> = Array<String>()
 
         for i in 0..<code.count {
+            print("##" + code[i])
             let json = converter.convertCode(toJson: code[i], i == 0)
             jsons.append(json!)
         }

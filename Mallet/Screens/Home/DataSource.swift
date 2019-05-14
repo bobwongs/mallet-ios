@@ -21,6 +21,7 @@ struct AppInfoDataSource {
         AppInfo(title: "条件分岐", code: ["", "", "var a : Int\nvar b : Int\na = 1\nb = a == 1\nif(b)\n{\n    SetUIText(1,\"aは1\")\n}\nb = a != 1\nif(b)\n{\n    SetUIText(1,\"aは1ではない\")\n}", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]"),
         AppInfo(title: "高負荷な処理", code: ["", "", "var a : Int\na = 0\nrepeat(100000000)\n{\n    a = a + 1\n}\nSetUIText(1,a)", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]"),
         AppInfo(title: "フィボナッチ数列", code: ["var a : Int\nvar b : Int", "a = 1\nb = 0\nSetUIText(1,1)", "var c : Int\nc = a + b\nb = a\na = c\nSetUIText(1,c)", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]"),
-        AppInfo(title: "文字列グローバル変数", code: ["var globStr : String", "globStr = \"Hello,World!\"", "SetUIText(1,globStr)", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]")
+        AppInfo(title: "文字列グローバル変数", code: ["var globStr : String", "globStr = \"Hello,World!\"", "SetUIText(1,globStr)", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]"),
+        AppInfo(title: "While文", code: ["", "", "var a : Int\nvar check : Int\na = 0\ncheck = 10 > a\nwhile(check)\n{\n   a = a + 1\n    check = 10 > a\n}\nSetUIText(1,a)", ""], ui: "[[{\"value\":0,\"text\":\"Button\",\"uiID\":0}],[{\"value\":0,\"text\":\"Text\",\"uiID\":1}]]"),
     ]
 }
