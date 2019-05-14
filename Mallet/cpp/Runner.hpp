@@ -49,6 +49,8 @@ void Repeat(std::vector<int> &code, int firstIndex, ArgData argData);
 
 void If(std::vector<int> &code, int firstIndex, ArgData argData);
 
+void While(std::vector<int> &code, int firstIndex, ArgData argData);
+
 void SetUIText(std::vector<int> &code, int firstIndex, ArgData argData);
 
 #endif /* Runner_hpp */

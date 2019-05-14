@@ -141,6 +141,21 @@ void If(std::vector<int> &code, int firstIndex, ArgData argData)
     Do(code, processIndex, argData);
 }
 
+void While(std::vector<int> &code, int firstIndex, ArgData argData)
+{
+    int processIndex = firstIndex + 5;
+    int checkIndex = firstIndex + 2;
+
+    int check = GetNumberValue(code, checkIndex, argData);
+
+    while (check > 0)
+    {
+        Do(code, processIndex, argData);
+
+        check = GetNumberValue(code, checkIndex, argData);
+    }
+}
+
 void Do(std::vector<int> &code, int firstIndex, ArgData argData)
 {
     int i = firstIndex + 2;
@@ -202,6 +217,10 @@ void Control(std::vector<int> &code, int firstIndex, ArgData argData)
 
     case CmdID::Repeat:
         Repeat(code, firstIndex, argData);
+        break;
+
+    case CmdID::While:
+        While(code, firstIndex, argData);
         break;
 
     default:
