@@ -27,7 +27,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         code[1] = "//Called when the app starts\n\n" + code[1]
         code[2] = "//Called when the button is pressed\n\n" + code[2]
 
-        currentCodeIndex = 0
+        currentCodeIndex = 2
 
         editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         editorArea.sizeToFit()
