@@ -303,6 +303,9 @@ int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData)
     case CmdID::Bigger:
         value = firstValue > secondValue ? 1 : 0;
         break;
+    case CmdID::Lower:
+        value = firstValue < secondValue ? 1 : 0;
+        break;
     case CmdID::Not:
         value = firstValue > 0 ? 0 : 1;
         break;

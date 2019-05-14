@@ -172,8 +172,10 @@ int convertOperator(std::string operatorString)
         convertedCode = CmdID::Mod;
     if (operatorString == "==")
         convertedCode = CmdID::Equal;
-    if (operatorString == ">" || operatorString == "<")
+    if (operatorString == ">")
         convertedCode = CmdID::Bigger;
+    if (operatorString == "<")
+        convertedCode = CmdID::Lower;
     if (operatorString == "!=")
         convertedCode = CmdID::Inequal;
 
