@@ -61,8 +61,8 @@ public class AppSampleUISwitch: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        self.backgroundColor = UIColor.blue
+        let wall = UIView(frame: self.frame)
+        self.addSubview(wall)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -71,17 +71,32 @@ public class AppSampleUISwitch: UIView {
 }
 
 public class AppSampleUIButton: AppUIButton {
+    var testDelegate: testDelegate?
+
     var localTouchPosition: CGPoint?
+
+    var isOnUIList: Bool?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
+        //testDelegate?.test(button: self)
+
+        let wall = UIView(frame: self.frame)
+        self.addSubview(wall)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /*
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if isOnUIList ?? false {
+            testDelegate?.test(button: self)
+            isOnUIList = false
+        }
+
         super.touchesBegan(touches, with: event)
         let touch = touches.first
         let selfPos = self.frame.origin
@@ -91,6 +106,7 @@ public class AppSampleUIButton: AppUIButton {
 
     public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesMoved(touches, with: event)
+
         let touch = touches.first
         guard  let location = touch?.location(in: self.superview), let localTouchPosition = self.localTouchPosition else {
             return
@@ -108,4 +124,9 @@ public class AppSampleUIButton: AppUIButton {
         super.touchesCancelled(touches, with: event)
         self.localTouchPosition = nil
     }
+    */
+}
+
+protocol testDelegate: class {
+    func test(button: AppUIButton)
 }

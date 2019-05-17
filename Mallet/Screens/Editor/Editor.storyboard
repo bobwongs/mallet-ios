@@ -24,7 +24,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5vb-83-nGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-566" y="168"/>
+            <point key="canvasLocation" x="-234" y="168"/>
         </scene>
         <!--Code-->
         <scene sceneID="sfj-0k-qiA">

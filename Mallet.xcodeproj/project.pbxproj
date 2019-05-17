@@ -69,7 +69,7 @@
 		0EC3334A226E1226005B968A /* ScreenDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDataController.swift; sourceTree = "<group>"; };
 		0EF478A5226B78CD007315DB /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF478A8226B78CD007315DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0EF478AA226B78CD007315DB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0EF478AA226B78CD007315DB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		0EF478AD226B78CD007315DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0EF478AF226B78CE007315DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0EF478B2226B78CE007315DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
