@@ -19,6 +19,15 @@ repeat(10) //{}内の処理を10回繰り返す
 {
     a = a + 1
 }
+
+a = 0
+check = a < 10
+while(check) //checkがtrue(1以上)の間繰り返す
+{
+    a = a + 1
+    check = a < 10
+}
+
 ```
 
 ## 条件分岐
