@@ -33,17 +33,38 @@ typedef struct
     Converter &converter;
 } ArgData;
 
+typedef struct
+{
+    int id;
+    int varAddress;
+    int originalCodeSize;
+    int convertedCodeSize;
+    int tmpVarNum;
+} TmpVarData;
+
+typedef struct
+{
+    int id;
+    int value;
+} ValueData;
+
+typedef struct
+{
+    int originalCodeSize;
+    int convertedCodeSize;
+} ConvertedCodeData;
+
 int ConvertBlock(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
                  ArgData argData);
 
-int ConvertAction(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
-                  ArgData argData);
+ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
+                                ArgData argData);
 
-int ConvertFormula(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
-                   ArgData argData);
+TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
+                          ArgData argData, int tmpVarNum);
 
-int ConvertValue(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
-                 ArgData argData);
+ValueData ConvertValue(std::string code[], int codeMaxSize, int codeFirstIndex,
+                       ArgData argData, int tmpVarNum);
 
 std::string ConvertString(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
                           ArgData argData);

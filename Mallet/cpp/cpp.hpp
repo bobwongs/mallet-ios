@@ -43,6 +43,9 @@ public:
     static constexpr int DeclareStringGlobalVariable = 3106;
     static constexpr int AssignStringGlobalVariable = 3107;
 
+    static constexpr int AssignIntTmpVariable = 3201;
+    static constexpr int IntTmpVariableValue = 3202;
+
     //* Operation
     static constexpr int Sum = 4000;
     static constexpr int Sub = 4001;
