@@ -10,11 +10,11 @@ import UIKit
 
 class AppButton: AppUIButton {
 
-    var uiData: UIData
+    var uiData: UIData_
 
     let onButtonClickID: Int
 
-    init(uiData: UIData, onButtonClickID: Int) {
+    init(uiData: UIData_, onButtonClickID: Int) {
         self.uiData = uiData
         self.onButtonClickID = onButtonClickID
 
@@ -47,7 +47,7 @@ class AppButton: AppUIButton {
 }
 
 class AppLabel: UILabel {
-    init(uiData: UIData) {
+    init(uiData: UIData_) {
         super.init(frame: CGRect())
 
         self.text = uiData.text
@@ -63,7 +63,7 @@ class AppLabel: UILabel {
 }
 
 class ScreenGenerator {
-    public func generateScreen(inputUIData: [[UIData]]) -> UIStackView {
+    public func generateScreen(inputUIData: [[UIData_]]) -> UIStackView {
 
         let stackView = UIStackView()
 
@@ -82,7 +82,7 @@ class ScreenGenerator {
         return stackView
     }
 
-    private func generateHorizontalStackView(inputUIData: [UIData]) -> UIStackView {
+    private func generateHorizontalStackView(inputUIData: [UIData_]) -> UIStackView {
         let stackView = UIStackView()
 
         stackView.axis = NSLayoutConstraint.Axis.horizontal
@@ -116,7 +116,7 @@ class ScreenGenerator {
         return stackView
     }
 
-    private func generateButton(uiData: UIData) -> UIButton {
+    private func generateButton(uiData: UIData_) -> UIButton {
         let button = UIButton()
 
         button.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -131,7 +131,7 @@ class ScreenGenerator {
         return button
     }
 
-    private func generateTextLabel(uiData: UIData) -> UILabel {
+    private func generateTextLabel(uiData: UIData_) -> UILabel {
         let textLabel = UILabel()
 
         textLabel.text = uiData.text
@@ -140,7 +140,7 @@ class ScreenGenerator {
         return textLabel
     }
 
-    private func generateSwitch(uiData: UIData) -> UISwitch {
+    private func generateSwitch(uiData: UIData_) -> UISwitch {
         let switchUI = UISwitch()
 
         return switchUI

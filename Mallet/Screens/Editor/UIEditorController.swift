@@ -8,19 +8,37 @@
 
 import UIKit
 
+public struct UIData: Codable {
+    let uiID: Int?
+    let uiType: Int?
+    let text: String?
+    let value: Int?
+    let x: Float?
+    let y: Float?
+
+    init(uiID: Int, uiType: Int, text: String, value: Int, x: Float, y: Float) {
+        self.uiID = uiID
+        self.uiType = uiType
+        self.text = text
+        self.value = value
+        self.x = x
+        self.y = y
+    }
+}
+
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var editorView: UIView!
     @IBOutlet weak var uiTable: UITableView!
     @IBOutlet weak var appScreenParent: UIView!
 
-    var appScreen: UIView! // = UIView()
+    var appScreen: UIView = UIView()
 
-    var uiList: Array<UIView> = Array<UIView>()
+    var UIDic: Dictionary<Int, UIData> = Dictionary<Int, UIData>()
 
     var uiScale: CGFloat = 0.7
 
-    var cells: [UIView] = [UIView]()
+    let uiTypeNum = 3
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,20 +54,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         uiTable.delegate = self
         uiTable.dataSource = self
-
-        initUIList()
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return uiList.count
+        return uiTypeNum
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
-        let ui = uiList[indexPath.row]
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
-        cells.append(cell)
-
+        let ui = generateSampleUI(uiType: indexPath.row)
         cell.addSubview(ui)
 
         ui.translatesAutoresizingMaskIntoConstraints = false
@@ -61,12 +76,11 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         tap.delegate = self
         ui.addGestureRecognizer(tap)
 
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
         return cell
     }
 
 
+    /*
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         if (indexPath.row != 1) {
             return
@@ -87,16 +101,16 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         editorView.addSubview(button)
     }
+    */
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
         if sender.state == .began {
             if let senderView = sender.view {
                 if senderView.superview != editorView {
                     if let superView = senderView.superview {
-
-                        let ui = AppSampleUIButton()
+                        let uiType = (senderView as! AppSampleUIData).uiType
+                        let ui = generateSampleUI(uiType: uiType)
                         ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
-
                         superView.addSubview(ui)
 
                         ui.translatesAutoresizingMaskIntoConstraints = false
@@ -107,7 +121,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                         let tap: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
                         tap.delegate = self
                         ui.addGestureRecognizer(tap)
-
                     }
 
 
@@ -128,12 +141,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         sender.setTranslation(CGPoint.zero, in: self.view)
     }
 
+    /*
     func initUIList() {
-        let uiLabel = AppUILabel()
+        let uiLabel = AppSampleUILabel()
 
         let uiButton = AppSampleUIButton()
 
-        let uiSwitch = AppUISwitch()
+        let uiSwitch = AppSampleUISwitch()
         uiSwitch.isOn = true
 
         uiList.append(uiLabel)
@@ -144,5 +158,26 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             i.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
         }
 
+    }
+    */
+
+    func generateSampleUI(uiType: Int) -> UIView {
+        var ui: UIView = UIView()
+
+        switch uiType {
+        case 0:
+            ui = AppSampleUILabel()
+        case 1:
+            ui = AppSampleUIButton()
+        case 2:
+            ui = AppSampleUISwitch()
+            (ui as! AppSampleUISwitch).isOn = true
+        default:
+            break
+        }
+
+        ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
+
+        return ui
     }
 }

@@ -57,7 +57,15 @@ public class AppUISwitch: UISwitch {
     }
 }
 
-public class AppSampleUISwitch: UIView {
+protocol AppSampleUIData {
+    var uiID: Int { set get }
+    var uiType: Int { get }
+}
+
+public class AppSampleUILabel: AppUILabel, AppSampleUIData {
+    var uiID = 0
+    let uiType = 0
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -70,17 +78,13 @@ public class AppSampleUISwitch: UIView {
     }
 }
 
-public class AppSampleUIButton: AppUIButton {
-    var testDelegate: testDelegate?
 
-    var localTouchPosition: CGPoint?
-
-    var isOnUIList: Bool?
+public class AppSampleUIButton: AppUIButton, AppSampleUIData {
+    var uiID = 0
+    let uiType = 1
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        //testDelegate?.test(button: self)
 
         let wall = UIView(frame: self.frame)
         self.addSubview(wall)
@@ -89,44 +93,20 @@ public class AppSampleUIButton: AppUIButton {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    /*
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if isOnUIList ?? false {
-            testDelegate?.test(button: self)
-            isOnUIList = false
-        }
-
-        super.touchesBegan(touches, with: event)
-        let touch = touches.first
-        let selfPos = self.frame.origin
-        let touchPos = touch?.location(in: self.superview)
-        self.localTouchPosition = CGPoint(x: touchPos!.x - selfPos.x, y: touchPos!.y - selfPos.y)
-    }
-
-    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-
-        let touch = touches.first
-        guard  let location = touch?.location(in: self.superview), let localTouchPosition = self.localTouchPosition else {
-            return
-        }
-
-        self.frame.origin = CGPoint(x: location.x - localTouchPosition.x, y: location.y - localTouchPosition.y)
-    }
-
-    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        self.localTouchPosition = nil
-    }
-
-    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-        self.localTouchPosition = nil
-    }
-    */
 }
 
-protocol testDelegate: class {
-    func test(button: AppUIButton)
+public class AppSampleUISwitch: AppUISwitch, AppSampleUIData {
+    var uiID = 0
+    var uiType = 2
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        let wall = UIView(frame: self.frame)
+        self.addSubview(wall)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
