@@ -16,6 +16,9 @@ typedef struct
 {
     std::vector<int> &numberVariable;
     std::vector<std::string> &stringVariable;
+
+    std::vector<int> &tmpNumberVariable;
+
     Runner &runner;
 } ArgData;
 

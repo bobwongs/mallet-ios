@@ -226,15 +226,16 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
 
         while (i < codeMaxSize)
         {
-            if (argData.reservedWord.count(code[i]) || code[i] == "}")
+            //TODO:判定が不正確かも
+            if (bracketStack == 0 && ((code[i] == "+" || code[i] == "-" || code[i] == "," || code[i] == ")" || code[i] == "}") || (start < i && argData.symbol.count(code[i - 1][0]) == 0 && argData.symbol.count(code[i][0]) == 0)))
+            {
                 break;
+            }
+
             if (code[i] == "(")
                 bracketStack++;
             if (code[i] == ")")
                 bracketStack--;
-
-            if ((code[i] == "+" || code[i] == "-") && bracketStack == 0)
-                break;
 
             i++;
         }
@@ -245,6 +246,8 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
 
         if (code[i] == "+" || code[i] == "-")
             operators.push_back(code[i]);
+        else
+            break;
 
         i++;
     }
@@ -254,7 +257,7 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         if (code[i] == "(")
         {
             //* Ex:(a+b)
-            TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, i + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum);
+            TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum);
 
             tmpVarData.id = 0; //TODO:
             tmpVarData.varAddress = nextTmpVarData.varAddress;
@@ -267,7 +270,7 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
             if (parts[0].second - parts[0].first == 1)
             {
                 //* Ex: 1
-                ValueData valueData = ConvertValue(code, codeMaxSize, i, argData);
+                ValueData valueData = ConvertValue(code, codeMaxSize, parts[0].first, argData);
 
                 tmpVarData.id = valueData.id;
                 tmpVarData.varAddress = valueData.value;
@@ -313,7 +316,7 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         convertedCode[convertedCodeIndex + 4] = tmpVarAddress;
         convertedCode[convertedCodeIndex + 5] = convertOperator(operators[j]);
         convertedCode[convertedCodeIndex + 6] = 8;
-        convertedCode[convertedCodeIndex + 7] = CmdID::AssignIntTmpVariable;
+        convertedCode[convertedCodeIndex + 7] = CmdID::IntTmpVariableValue;
         convertedCode[convertedCodeIndex + 8] = 3;
         convertedCode[convertedCodeIndex + 9] = tmpVarAddress;
         convertedCode[convertedCodeIndex + 10] = valueData.id;
@@ -745,6 +748,7 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
         //      convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
 
         convertedCodeIndex += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
+        convertedCodeSize += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
         /*
         for (int i = 0; i < 3; i++)
         {
@@ -771,6 +775,8 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
         convertedCode[convertedCodeIndex + 3] = uiTextVarData.id;
         convertedCode[convertedCodeIndex + 4] = 3;
         convertedCode[convertedCodeIndex + 5] = uiTextVarData.varAddress;
+
+        convertedCodeIndex += 6;
 
         i += 4 + uiNameVarData.originalCodeSize + uiTextVarData.originalCodeSize;
     }
@@ -846,8 +852,6 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
         //convertedCodeIndex += 8;
 
         i += 2 + tmpVarData.originalCodeSize;
-
-        printf("%d\n", tmpVarData.originalCodeSize);
 
         /*
         if (code[i] == "(")
@@ -1151,14 +1155,14 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
 
     int splitCodeSize = Converter::SplitCode(codeStr, splitCode, splitCodeMaxSize, symbol, doubleSymbol, reservedWord);
 
-    ConvertBlock(splitCode, splitCodeSize, 0, convertedCode, convertedCodeMaxSize, 0, argData);
-
-    std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
-
     for (int j = 0; j < splitCodeSize; j++)
     {
         printf("%s\n", splitCode[j].c_str());
     }
+
+    ConvertBlock(splitCode, splitCodeSize, 0, convertedCode, convertedCodeMaxSize, 0, argData);
+
+    std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
     for (int j = 0; j < convertedCode[1]; j++)
     {

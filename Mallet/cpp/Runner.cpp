@@ -30,6 +30,16 @@ int GetNumberValue(std::vector<int> &code, int firstIndex, ArgData argData)
         //* グローバル変数
         value = argData.runner.numberGlobalVariable[code[firstIndex + 2]];
     }
+    else if (code[firstIndex] == CmdID::IntTmpVariableValue)
+    {
+        //* 一時変数
+        value = argData.tmpNumberVariable[code[firstIndex + 2]];
+    }
+    else
+    {
+        //* 数値ではない
+        printf("%d is not number!\n", code[firstIndex]);
+    }
 
     return value;
 }
@@ -116,11 +126,24 @@ void SetStringGlobalVariable(std::vector<int> &code, int firstIndex, ArgData arg
     argData.runner.stringGlobalVariable[address] = value;
 }
 
+void SetNumberTmpVariable(std::vector<int> &code, int firstIndex, ArgData argData)
+{
+    int addressIndex = firstIndex + 2;
+    int valueIndex = firstIndex + 5;
+
+    int address = OperateNumber(code, addressIndex, argData);
+    int value = OperateNumber(code, valueIndex, argData);
+    argData.tmpNumberVariable[address] = value;
+}
+
 void Repeat(std::vector<int> &code, int firstIndex, ArgData argData)
 {
+    printf("hogehoge\n");
     int processIndex = firstIndex + 5;
     int repeatTimeIndex = firstIndex + 2;
     int repeatTime = GetNumberValue(code, repeatTimeIndex, argData);
+
+    printf("repeat:%d\n", repeatTime);
 
     for (int i = 0; i < repeatTime; i++)
     {
@@ -256,6 +279,10 @@ void Variable(std::vector<int> &code, int firstIndex, ArgData argData)
         SetStringGlobalVariable(code, firstIndex, argData);
         break;
 
+    case CmdID::AssignIntTmpVariable:
+        SetNumberTmpVariable(code, firstIndex, argData);
+        break;
+
     default:
         break;
     }
@@ -366,14 +393,17 @@ void RunBlock(std::vector<int> &code, int firstIndex, ArgData argData)
 void Runner::RunCode(int id, Runner &runner) //(std::vector<int> code, int codeSize, std::vector<std::string> stringVariableInitialValue, int stringVariableInitialValueSize)
 {
     // 変数
-    std::vector<int> numberVariable(100000);
-    std::vector<std::string> stringVariable(10000);
+    std::vector<int> numberVariable(100000, 0);
+    std::vector<std::string> stringVariable(10000, "");
+
+    std::vector<int> tmpNumberVariable(100000, 0);
 
     std::vector<int> code = runner.codes[id];
 
     ArgData argData = {
         numberVariable,
         stringVariable,
+        tmpNumberVariable,
         runner,
     };
 
