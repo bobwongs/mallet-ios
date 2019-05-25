@@ -17,7 +17,7 @@
 
 typedef struct
 {
-    std::set<char> &symbol;
+    std::set<std::string> &symbol;
     std::set<std::string> &doubleSymbol;
     std::set<std::string> &reservedWord;
 
@@ -61,7 +61,7 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
                                 ArgData argData);
 
 TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
-                          ArgData argData, int tmpVarNum);
+                          ArgData argData, int tmpVarNum, int operatorNumber);
 
 ValueData ConvertValue(std::string code[], int codeMaxSize, int codeFirstIndex,
                        ArgData argData, int tmpVarNum);

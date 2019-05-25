@@ -72,7 +72,7 @@ public:
     int stringGlobalVariableNum;
 
     int SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
-                  std::set<char> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
+                  std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
 
     std::string RefactorCode(std::string code);
 
