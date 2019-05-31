@@ -327,17 +327,29 @@ int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData)
     case CmdID::Equal:
         value = firstValue == secondValue ? 1 : 0;
         break;
+    case CmdID::Inequal:
+        value = firstValue != secondValue ? 1 : 0;
+        break;
     case CmdID::Bigger:
         value = firstValue > secondValue ? 1 : 0;
         break;
     case CmdID::Lower:
         value = firstValue < secondValue ? 1 : 0;
         break;
+    case CmdID::BiggerAndEqual:
+        value = firstValue >= secondValue ? 1 : 0;
+        break;
+    case CmdID::LowerAndEqual:
+        value = firstValue <= secondValue ? 1 : 0;
+        break;
+    case CmdID::And:
+        value = (firstValue > 0 && secondValue > 0) ? 1 : 0;
+        break;
+    case CmdID::Or:
+        value = (firstValue > 0 || secondValue > 0) ? 1 : 0;
+        break;
     case CmdID::Not:
         value = firstValue > 0 ? 0 : 1;
-        break;
-    case CmdID::Inequal:
-        value = firstValue != secondValue ? 1 : 0;
         break;
     default:
         break;

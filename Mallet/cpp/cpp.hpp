@@ -53,10 +53,14 @@ public:
     static constexpr int Div = 4003;
     static constexpr int Mod = 4004;
     static constexpr int Equal = 4005;
-    static constexpr int Bigger = 4006;
-    static constexpr int Lower = 4007;
-    static constexpr int Not = 4008;
-    static constexpr int Inequal = 4009;
+    static constexpr int Inequal = 4006;
+    static constexpr int Bigger = 4007;
+    static constexpr int Lower = 4008;
+    static constexpr int BiggerAndEqual = 4009;
+    static constexpr int LowerAndEqual = 4010;
+    static constexpr int And = 4011;
+    static constexpr int Or = 4012;
+    static constexpr int Not = 4013;
 
     //* UI
     static constexpr int SetUIText = 5000;

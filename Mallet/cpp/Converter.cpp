@@ -182,12 +182,22 @@ int convertOperator(std::string operatorString)
         convertedCode = CmdID::Mod;
     else if (operatorString == "==")
         convertedCode = CmdID::Equal;
+    else if (operatorString == "!=")
+        convertedCode = CmdID::Inequal;
     else if (operatorString == ">")
         convertedCode = CmdID::Bigger;
     else if (operatorString == "<")
         convertedCode = CmdID::Lower;
-    else if (operatorString == "!=")
-        convertedCode = CmdID::Inequal;
+    else if (operatorString == ">=")
+        convertedCode = CmdID::BiggerAndEqual;
+    else if (operatorString == "<=")
+        convertedCode = CmdID::LowerAndEqual;
+    else if (operatorString == "&&")
+        convertedCode = CmdID::And;
+    else if (operatorString == "||")
+        convertedCode = CmdID::Or;
+    else if (operatorString == "!")
+        convertedCode = CmdID::Not;
     else
         printf("\"%s\" is not an operator!\n", operatorString.c_str());
 
@@ -262,8 +272,7 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
             while (i < codeMaxSize)
             {
                 //TODO:判定が不正確
-                //TODO:
-                if (bracketStack == 0 && (operatorsPrioritiesAccum[operatorIndex].count(code[i]) > 0 || (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}") || (start < i && (argData.symbol.count(code[i - 1]) == 0 || code[i - 1] == ")") && argData.symbol.count(code[i]) == 0)))
+                if (bracketStack == 0 && (operatorsPrioritiesAccum[operatorIndex].count(code[i]) > 0 || (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}") || (start < i && ((argData.symbol.count(code[i - 1]) == 0 && argData.doubleSymbol.count(code[i - 1]) == 0) || code[i - 1] == ")") && (argData.symbol.count(code[i]) == 0 && argData.doubleSymbol.count(code[i]) == 0))))
                 {
                     break;
                 }
@@ -1172,7 +1181,7 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
 
     std::set<std::string> symbol{"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
     std::set<std::string>
-        doubleSymbol{"==", "!=", "&&", "||"};
+        doubleSymbol{"==", "!=", ">=", "<=", "&&", "||"};
     std::set<std::string> reservedWord{"print", "var", "repeat", "while", "if", "else", "SetUIText"};
 
     //* 1:数値 2:文字列 3:数値(グローバル) 4:文字列(グローバル)
