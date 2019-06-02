@@ -148,22 +148,11 @@ ValueData ConvertValue(std::string code[], int codeMaxSize, int codeFirstIndex,
         i++;
     }
 
-    /*
-    convertedCode[convertedCodeFirstIndex + 0] = type;
-    convertedCode[convertedCodeFirstIndex + 1] = codeSize;
-    convertedCode[convertedCodeFirstIndex + 2] = valueOrAddress;
-    */
-
     ValueData valueData;
     valueData.id = type;
     valueData.value = valueOrAddress;
 
     return valueData;
-
-    /*
-    int originalCodeSize = i - codeFirstIndex;
-    return originalCodeSize;
-    */
 }
 
 int convertOperator(std::string operatorString)
@@ -218,7 +207,8 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         {"<", "<=", ">", ">="},
         {"+", "-"},
         {"*", "/", "%"},
-        {"!"}};
+        {"OPERATOR_END"},
+    };
 
     std::vector<std::set<std::string>> operatorsPrioritiesAccum;
 
@@ -240,25 +230,19 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
 
     int tmpVarAddress;
 
-    //* 1番目の値取得
-    /*
-    ConvertValue(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
-    convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
+    std::vector<std::pair<int, int>> parts; //[start,end)
 
-    size = convertedCode[convertedCodeFirstIndex + 1];
-
-    */
+    std::vector<std::string> operators;
 
     for (int operatorIndex = operatorNumber; operatorIndex < operatorsPriorities.size(); operatorIndex++)
     {
+        parts.clear();
+        operators.clear();
+
         std::set<std::string> operatorsPriority = operatorsPriorities[operatorIndex];
 
         int bracketStack = 0;
         i = codeFirstIndex;
-
-        std::vector<std::pair<int, int>> parts; //[start,end)
-
-        std::vector<std::string> operators;
 
         i = codeFirstIndex;
 
@@ -308,39 +292,7 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
 
         if (parts.size() == 1)
         {
-            if (allBracket)
-            {
-                //* Ex:(a+b)
-                TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, 0);
-
-                tmpVarData.id = nextTmpVarData.id;
-                tmpVarData.varAddress = nextTmpVarData.varAddress;
-                tmpVarData.originalCodeSize = nextTmpVarData.originalCodeSize + 2;
-                tmpVarData.convertedCodeSize = nextTmpVarData.convertedCodeSize;
-                tmpVarData.tmpVarNum = tmpVarNum;
-            }
-            else
-            {
-                if (parts[0].second - parts[0].first == 1)
-                {
-                    //* Ex: 1
-                    ValueData valueData = ConvertValue(code, codeMaxSize, parts[0].first, argData);
-
-                    tmpVarData.id = valueData.id;
-                    tmpVarData.varAddress = valueData.value;
-                    tmpVarData.originalCodeSize = 1;
-                    tmpVarData.convertedCodeSize = 0;
-                    tmpVarData.tmpVarNum = tmpVarNum;
-                }
-                else
-                {
-                    //* Ex: a*b/3
-
-                    continue;
-                }
-            }
-
-            return tmpVarData;
+            continue;
         }
 
         tmpVarAddress = tmpVarNum;
@@ -348,8 +300,6 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
 
         //* 初期化
         int nextOperatorIndex = operatorIndex + 1;
-        //        if (allBracketPart[0])
-        //          nextOperatorIndex = 0;
 
         TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, nextOperatorIndex);
 
@@ -369,8 +319,6 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         for (int j = 1; j < parts.size(); j++)
         {
             int nextOperatorIndex = operatorIndex + 1;
-            //  if (allBracketPart[j])
-            //    nextOperatorIndex = 0;
 
             TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[j].first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, nextOperatorIndex);
 
@@ -393,78 +341,74 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
             convertedCodeIndex += 13;
         }
 
-        /*
-        if (code[i + 1] == ")" || code[i + 1] == "}" || (code[i + 1].size() == 1 && !argData.symbol.count(code[i + 1][0])) || (code[i + 1].size() == 2 && !argData.doubleSymbol.count(code[i + 1])) || code[i + 1].size() > 2)
+        i = parts[parts.size() - 1].second;
+
+        int originalCodeSize = i - codeFirstIndex;
+
+        tmpVarData.id = CmdID::IntTmpVariableValue;
+        tmpVarData.varAddress = tmpVarAddress;
+        tmpVarData.originalCodeSize = originalCodeSize;
+        tmpVarData.convertedCodeSize = convertedCodeIndex - convertedCodeFirstIndex;
+        tmpVarData.tmpVarNum = tmpVarNum;
+
+        return tmpVarData;
+    }
+
+    if (parts.size() < 1)
+    {
+        return tmpVarData;
+    }
+
+    if ((parts[0].second - parts[0].first == 1))
+    {
+        //* Ex: 1
+        ValueData valueData = ConvertValue(code, codeMaxSize, codeFirstIndex, argData);
+
+        tmpVarData.id = valueData.id;
+        tmpVarData.varAddress = valueData.value;
+        tmpVarData.originalCodeSize = 1;
+        tmpVarData.convertedCodeSize = 0;
+        tmpVarData.tmpVarNum = tmpVarNum;
+    }
+    else
+    {
+        if (code[parts[0].first] == "!")
         {
-            // 値が一つのみ(式ではない)
+            tmpVarAddress = tmpVarNum;
+            tmpVarNum++;
 
-            ConvertValue(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
+            TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, 0);
 
-            size += convertedCode[convertedCodeFirstIndex + 1];
-            convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
+            convertedCodeIndex += nextTmpVarData.convertedCodeSize;
 
-            i++;
+            convertedCode[convertedCodeIndex] = CmdID::AssignIntTmpVariable;
+            convertedCode[convertedCodeIndex + 1] = 10;
+            convertedCode[convertedCodeIndex + 2] = CmdID::IntValue;
+            convertedCode[convertedCodeIndex + 3] = 3;
+            convertedCode[convertedCodeIndex + 4] = tmpVarAddress;
+            convertedCode[convertedCodeIndex + 5] = convertOperator("!");
+            convertedCode[convertedCodeIndex + 6] = 5;
+            convertedCode[convertedCodeIndex + 7] = nextTmpVarData.id;
+            convertedCode[convertedCodeIndex + 8] = 3;
+            convertedCode[convertedCodeIndex + 9] = nextTmpVarData.varAddress;
 
-            //        for (int j = 0; j < value1[1]; j++)
-            //        {
-            //            convertedCode[converterCodeIndex] = value1[j];
-            //            converterCodeIndex++;
-            //        }
+            tmpVarData.id = nextTmpVarData.id;
+            tmpVarData.varAddress = tmpVarAddress;
+            tmpVarData.originalCodeSize = nextTmpVarData.originalCodeSize + 1;
+            tmpVarData.convertedCodeSize = nextTmpVarData.convertedCodeSize + 10;
+            tmpVarData.tmpVarNum = tmpVarNum;
         }
         else
         {
-            // 値が2つ(式が成立する)
+            TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, 0);
 
-            convertedCodeIndex += 2;
-
-            ConvertValue(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
-
-            size += convertedCode[convertedCodeIndex + 1];
-            convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-            i++;
-
-            operatorCode = convertOperator(code[i]);
-            size += 2;
-            i++;
-
-            i += ConvertValue(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
-
-            size += convertedCode[convertedCodeIndex + 1];
-            convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-
-            //if (code[i] == "<")
-            //{
-            //    for (int j = 0; j < std::min(value1MaxSize, value2MaxSize); j++)
-            //    {
-            //        int tmp = value1[j];
-            //        value1[j] = value2[j];
-            //        value2[j] = tmp;
-            //    }
-            //    int tmp = value1MaxSize;
-            //    value1MaxSize = value2MaxSize;
-            //    value2MaxSize = tmp;
-            //}
-
-            convertedCode[convertedCodeFirstIndex] = operatorCode;
+            tmpVarData.id = nextTmpVarData.id;
+            tmpVarData.varAddress = nextTmpVarData.varAddress;
+            tmpVarData.originalCodeSize = nextTmpVarData.originalCodeSize + 2;
+            tmpVarData.convertedCodeSize = nextTmpVarData.convertedCodeSize;
+            tmpVarData.tmpVarNum = tmpVarNum;
         }
-    */
-
-        /*
-    convertedCode[convertedCodeFirstIndex + 1] = size;
-    */
-
-        i = parts[parts.size() - 1].second;
-
-        break;
     }
-
-    int originalCodeSize = i - codeFirstIndex;
-
-    tmpVarData.id = CmdID::IntTmpVariableValue;
-    tmpVarData.varAddress = tmpVarAddress;
-    tmpVarData.originalCodeSize = originalCodeSize;
-    tmpVarData.convertedCodeSize = convertedCodeIndex - convertedCodeFirstIndex;
-    tmpVarData.tmpVarNum = tmpVarNum;
 
     return tmpVarData;
 }
