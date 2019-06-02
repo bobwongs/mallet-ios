@@ -71,4 +71,6 @@ std::string ConvertString(std::string code[], int codeMaxSize, int codeFirstInde
 
 int convertOperator(std::string operatorString);
 
+void AddCode(int convertedCode[], int convertedCodeMaxSize, int &convertedCodeIndex, int code);
+
 #endif /* Converter_hpp */
