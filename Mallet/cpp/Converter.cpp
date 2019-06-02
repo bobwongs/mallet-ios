@@ -561,46 +561,6 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
 
         i += ConvertBlock(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
 
-        /*
-        i++;
-
-        if (code[i] != "(")
-        {
-            //return -1;+3
-        }
-
-        i++;
-        */
-
-        //        i += ConvertFormula(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData).originalCodeSize;
-
-        /*
-        convertedCodeSize += convertedCode[convertedCodeIndex + 1];
-        convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-        */
-
-        /*
-        for (int j = 0; j < value[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = value[j];
-            convertedCodeIndex++;
-        }
-        */
-
-        //i++;
-
-        /*
-        int action[100000];
-        int actionSize = 100000;
-        */
-        /*
-        for (int j = 0; j < action[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = action[j];
-            convertedCodeIndex++;
-        }
-        */
-
         convertedCode[convertedCodeSizeIndex] = 2 + 3 + convertedCode[convertedCodeIndex + 1];
 
         convertedCodeSize += convertedCode[convertedCodeIndex + 1];
@@ -629,46 +589,6 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
         i += 3 + tmpVarData.originalCodeSize;
 
         i += ConvertBlock(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
-
-        /*
-        i++;
-
-        if (code[i] != "(")
-        {
-            //return -1;+3
-        }
-
-        i++;
-        */
-
-        //        i += ConvertFormula(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData).originalCodeSize;
-
-        /*
-        convertedCodeSize += convertedCode[convertedCodeIndex + 1];
-        convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-        */
-
-        /*
-        for (int j = 0; j < value[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = value[j];
-            convertedCodeIndex++;
-        }
-        */
-
-        //i++;
-
-        /*
-        int action[100000];
-        int actionSize = 100000;
-        */
-        /*
-        for (int j = 0; j < action[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = action[j];
-            convertedCodeIndex++;
-        }
-        */
 
         convertedCode[convertedCodeSizeIndex] = 2 + 3 + convertedCode[convertedCodeIndex + 1];
 
@@ -699,46 +619,6 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
 
         i += ConvertBlock(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
 
-        /*
-        i++;
-
-        if (code[i] != "(")
-        {
-            //return -1;+3
-        }
-
-        i++;
-        */
-
-        //        i += ConvertFormula(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData).originalCodeSize;
-
-        /*
-        convertedCodeSize += convertedCode[convertedCodeIndex + 1];
-        convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-        */
-
-        /*
-        for (int j = 0; j < value[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = value[j];
-            convertedCodeIndex++;
-        }
-        */
-
-        //i++;
-
-        /*
-        int action[100000];
-        int actionSize = 100000;
-        */
-        /*
-        for (int j = 0; j < action[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = action[j];
-            convertedCodeIndex++;
-        }
-        */
-
         convertedCode[convertedCodeSizeIndex] = 2 + 3 + convertedCode[convertedCodeIndex + 1];
 
         convertedCodeSize += convertedCode[convertedCodeIndex + 1];
@@ -746,36 +626,15 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
     }
     else if (token == "SetUIText")
     {
-        /*
-        int uiName[5]; // = code[firstIndex + 2];
-        int uiText[5]; // = code[firstIndex + 4];
-        */
         int uiNameIndex = codeFirstIndex + 2;
         int uiTextIndex = codeFirstIndex + 4;
 
         TmpVarData uiNameVarData = ConvertFormula(code, codeMaxSize, uiNameIndex, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, 0, 0);
 
-        //        convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
-
         TmpVarData uiTextVarData = ConvertFormula(code, codeMaxSize, uiTextIndex, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, 0, 0);
-
-        //      convertedCodeIndex += convertedCode[convertedCodeIndex + 1];
 
         convertedCodeIndex += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
         convertedCodeSize += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
-        /*
-        for (int i = 0; i < 3; i++)
-        {
-            convertedCode[convertedCodeIndex] = uiName[i];
-            convertedCodeIndex++;
-        }
-
-        for (int i = 0; i < 3; i++)
-        {
-            convertedCode[convertedCodeIndex] = uiText[i];
-            convertedCodeIndex++;
-        }
-        */
 
         convertedCodeSize += 8;
 
@@ -802,8 +661,6 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
 
         convertedCodeSize += tmpVarData.convertedCodeSize;
         convertedCodeIndex += tmpVarData.convertedCodeSize;
-
-        //convertedCodeSize += 5;
 
         switch (argData.variableType[code[i]])
         {
@@ -867,36 +724,9 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
 
         i += 2 + tmpVarData.originalCodeSize;
 
-        /*
-        if (code[i] == "(")
-            i++;
-            */
-
-        /*
-        int value[100];
-        int valueSize = 100;
-        */
-
-        // i += ConvertFormula(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData).originalCodeSize;
-
-        /*
-        for (int j = 0; j < value[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = value[j];
-            convertedCodeIndex++;
-        }
-        */
-
         convertedCodeSize += 8;
         convertedCodeIndex += 8;
-
-        /*
-        if (code[i] == ")")
-            i++;
-            */
     }
-
-    //convertedCode[convertedCodeFirstIndex + 1] = convertedCodeSize;
 
     int originalCodeSize = i - codeFirstIndex;
     convertedCodeData.originalCodeSize = originalCodeSize;
@@ -921,24 +751,12 @@ int ConvertBlock(std::string code[], int codeMaxSize, int codeFirstIndex, int co
     i++;
     while (code[i] != "}")
     {
-        /*
-        int convertedCodePart[1000];
-        int convertedCodePartMaxSize = 1000;
-        */
         ConvertedCodeData convertedCodeData = ConvertAction(code, codeMaxSize, i, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData);
 
         i += convertedCodeData.originalCodeSize;
 
         size += convertedCodeData.convertedCodeSize;
         convertedCodeIndex += convertedCodeData.convertedCodeSize;
-
-        /*
-        for (int j = 0; j < convertedCodePart[1]; j++)
-        {
-            convertedCode[convertedCodeIndex] = convertedCodePart[j];
-            convertedCodeIndex++;
-        }
-        */
     }
 
     convertedCode[convertedCodeFirstIndex + 1] = size;
@@ -1002,121 +820,6 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
 
     return json;
 }
-
-/*
-typedef struct
-{
-public:
-    std::string varName;
-    int codeSize;
-
-} ThreeAddressData;
-
-ThreeAddressData ConvertToThreeAddress(std::string code[], int codeMaxSize, int codeFirstIndex, int convertedCode[], int convertedCodeMaxSize, int convertedCodeFirstIndex,
-                                       ArgData argData, int &tmpVarNum)
-{
-    ThreeAddressData threeAddressData;
-
-    std::string varName = "";
-    int codeSize = 0;
-
-    int convertedCodeIndex = convertedCodeFirstIndex;
-    int i = codeFirstIndex;
-
-    std::vector<std::pair<int, int>> partIndex; // [start,end)
-    std::vector<std::string> operators;
-
-    int stack = 0;
-
-    while (true)
-    {
-        std::pair index = {i, i};
-
-        while ((code[i] != "+" && code[i] != "-") || stack > 0)
-        {
-            if ((stack == 0 && code[i] == ")") || argData.reservedWord.count(code[i]))
-                break;
-
-            if (code[i] == "(")
-                stack++;
-            if (code[i] == ")")
-                stack--;
-
-            i++;
-        }
-
-        partIndex.push_back(index);
-        operators.push_back(code[i]);
-
-        if ((stack == 0 && code[i] == ")") || argData.reservedWord.count(code[i]))
-            break;
-
-        i++;
-    }
-
-    i = codeFirstIndex;
-
-    if (partIndex.size() == 1)
-    {
-        if (code[i] == "(")
-        {
-            threeAddressData = ConvertToThreeAddress(code, codeMaxSize, i + 1, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum);
-            threeAddressData.codeSize += 2;
-
-            return threeAddressData;
-        }
-
-        partIndex.clear();
-        operators.clear();
-
-        while (true)
-        {
-            std::pair index = {i, i};
-
-            while ((code[i] != "*" && code[i] != "/" && code[i] != "%") || stack > 0)
-            {
-                if ((stack == 0 && code[i] == ")") || argData.reservedWord.count(code[i]))
-                    break;
-
-                if (code[i] == "(")
-                    stack++;
-                if (code[i] == ")")
-                    stack--;
-
-                i++;
-            }
-
-            partIndex.push_back(index);
-            operators.push_back(code[i]);
-
-            if ((stack == 0 && code[i] == ")") || argData.reservedWord.count(code[i]))
-                break;
-
-            i++;
-        }
-
-        std::vector<std::string> variables;
-
-        for (auto part : partIndex)
-        {
-            if (part.second - part.first == 1)
-            {
-                variables.push_back(code[part.first]);
-                continue;
-            }
-
-            ThreeAddressData varData = ConvertToThreeAddress(code, codeMaxSize, part.first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum);
-        }
-    }
-    else
-    {
-    }
-
-    threeAddressData.varName = varName;
-    threeAddressData.codeSize = codeSize;
-    return threeAddressData;
-}
-*/
 
 std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter &converter)
 {
