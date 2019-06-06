@@ -10,14 +10,16 @@ import UIKit
 
 public struct UIData: Codable {
     let uiID: Int?
+    var uiName: String?
     let uiType: Int?
-    let text: String?
-    let value: Int?
-    let x: Float?
-    let y: Float?
+    var text: String?
+    var value: Int?
+    var x: Float?
+    var y: Float?
 
-    init(uiID: Int, uiType: Int, text: String, value: Int, x: Float, y: Float) {
+    init(uiID: Int, uiName: String, uiType: Int, text: String, value: Int, x: Float, y: Float) {
         self.uiID = uiID
+        self.uiName = uiName
         self.uiType = uiType
         self.text = text
         self.value = value
@@ -32,9 +34,14 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var uiTable: UITableView!
     @IBOutlet weak var appScreenParent: UIView!
 
+    @IBOutlet weak var UINameTextField: UITextField!
+    @IBOutlet weak var UITextTextField: UITextField!
+
     var appScreen: UIView = UIView()
 
     var UIDic: Dictionary<Int, UIData> = Dictionary<Int, UIData>()
+    var UINum: Int = 0
+    var selectedUIID: Int = 0
 
     var uiScale: CGFloat = 0.7
 
@@ -43,6 +50,10 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        initUIEditor()
+    }
+
+    func initUIEditor() {
         let screenSize = editorView.bounds.size
         appScreen = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width * uiScale, height: screenSize.height * uiScale))
         appScreen.center = appScreenParent.center
@@ -54,6 +65,15 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         uiTable.delegate = self
         uiTable.dataSource = self
+
+        UINameTextField.text = ""
+        UITextTextField.text = ""
+
+        UINameTextField.addTarget(self, action: #selector(self.setUIName), for: .editingChanged)
+        UITextTextField.addTarget(self, action: #selector(self.setUIText), for: .editingChanged)
+
+        UINum = 0
+        selectedUIID = -1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,30 +99,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
 
-
-    /*
-    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-        if (indexPath.row != 1) {
-            return
-        }
-
-        let button = AppSampleUIButton()
-
-        button.tag = 1
-        button.isUserInteractionEnabled = true
-        button.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
-        let cellPoint = tableView.cellForRow(at: indexPath)?.center ?? CGPoint()
-        button.center = CGPoint(x: tableView.frame.origin.x + cellPoint.x, y: tableView.frame.origin.y + cellPoint.y)
-
-
-        let tap: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-        tap.delegate = self
-        button.addGestureRecognizer(tap)
-
-        editorView.addSubview(button)
-    }
-    */
-
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
         if sender.state == .began {
             if let senderView = sender.view {
@@ -115,14 +111,23 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                         ui.translatesAutoresizingMaskIntoConstraints = false
                         ui.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
-                        ui.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
 
                         ui.isUserInteractionEnabled = true
                         let tap: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
                         tap.delegate = self
                         ui.addGestureRecognizer(tap)
-                    }
 
+                        let uiName = "UI" + String(UINum)
+                        let uiText = "Text"
+                        let uiX = Float(senderView.frame.origin.x)
+                        let uiY = Float(senderView.frame.origin.y)
+                        let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
+                        UIDic[UINum] = uiData
+                        UINum += 1
+
+                        var appSampleUIData = senderView as! AppSampleUIData
+                        appSampleUIData.uiID = uiData.uiID ?? 0
+                    }
 
                     senderView.translatesAutoresizingMaskIntoConstraints = true
 
@@ -131,6 +136,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     editorView.addSubview(senderView)
                     senderView.center = center ?? CGPoint()
                 }
+
+                let uiID = (senderView as! AppSampleUIData).uiID
+                UINameTextField.text = UIDic[uiID]?.uiName
+                UITextTextField.text = UIDic[uiID]?.text
+
+                selectedUIID = uiID
             }
         }
 
@@ -140,26 +151,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         sender.setTranslation(CGPoint.zero, in: self.view)
     }
-
-    /*
-    func initUIList() {
-        let uiLabel = AppSampleUILabel()
-
-        let uiButton = AppSampleUIButton()
-
-        let uiSwitch = AppSampleUISwitch()
-        uiSwitch.isOn = true
-
-        uiList.append(uiLabel)
-        uiList.append(uiButton)
-        uiList.append(uiSwitch)
-
-        for i in uiList {
-            i.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
-        }
-
-    }
-    */
 
     func generateSampleUI(uiType: Int) -> UIView {
         var ui: UIView = UIView()
@@ -179,5 +170,22 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
 
         return ui
+    }
+
+    @objc func setUIName(textField: UITextField) {
+        if selectedUIID < 0 {
+            return
+        }
+
+        UIDic[selectedUIID]?.uiName = textField.text
+    }
+
+
+    @objc func setUIText(textField: UITextField) {
+        if selectedUIID < 0 {
+            return
+        }
+
+        UIDic[selectedUIID]?.text = textField.text
     }
 }
