@@ -92,57 +92,87 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         ui.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
 
         ui.isUserInteractionEnabled = true
-        let tap: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+
+        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+        pan.delegate = self
+        ui.addGestureRecognizer(pan)
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
         tap.delegate = self
         ui.addGestureRecognizer(tap)
 
         return cell
     }
 
+    @objc func tapUI(_ sender: UITapGestureRecognizer) {
+        guard let senderView = sender.view else {
+            return
+        }
+
+        let appSampleUIData = senderView as! AppSampleUIData
+
+        let uiID = appSampleUIData.uiID
+        UINameTextField.text = UIDic[uiID]?.uiName
+        UITextTextField.text = UIDic[uiID]?.text
+
+        selectedUIID = uiID
+    }
+
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
         if sender.state == .began {
-            if let senderView = sender.view {
-                if senderView.superview != editorView {
-                    if let superView = senderView.superview {
-                        let uiType = (senderView as! AppSampleUIData).uiType
-                        let ui = generateSampleUI(uiType: uiType)
-                        ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
-                        superView.addSubview(ui)
-
-                        ui.translatesAutoresizingMaskIntoConstraints = false
-                        ui.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
-
-                        ui.isUserInteractionEnabled = true
-                        let tap: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-                        tap.delegate = self
-                        ui.addGestureRecognizer(tap)
-
-                        let uiName = "UI" + String(UINum)
-                        let uiText = "Text"
-                        let uiX = Float(senderView.frame.origin.x)
-                        let uiY = Float(senderView.frame.origin.y)
-                        let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
-                        UIDic[UINum] = uiData
-                        UINum += 1
-
-                        var appSampleUIData = senderView as! AppSampleUIData
-                        appSampleUIData.uiID = uiData.uiID ?? 0
-                    }
-
-                    senderView.translatesAutoresizingMaskIntoConstraints = true
-
-                    let center = senderView.superview?.convert(senderView.center, to: editorView)
-
-                    editorView.addSubview(senderView)
-                    senderView.center = center ?? CGPoint()
-                }
-
-                let uiID = (senderView as! AppSampleUIData).uiID
-                UINameTextField.text = UIDic[uiID]?.uiName
-                UITextTextField.text = UIDic[uiID]?.text
-
-                selectedUIID = uiID
+            guard let senderView = sender.view else {
+                return
             }
+
+            guard let superView = senderView.superview else {
+                return
+            }
+
+            var appSampleUIData = senderView as! AppSampleUIData
+
+            if superView != editorView {
+                let uiType = appSampleUIData.uiType
+                let uiOnTable = generateSampleUI(uiType: uiType)
+                uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
+                superView.addSubview(uiOnTable)
+
+                uiOnTable.translatesAutoresizingMaskIntoConstraints = false
+                uiOnTable.centerXAnchor.constraint(equalTo: superView.centerXAnchor).isActive = true
+                uiOnTable.centerYAnchor.constraint(equalTo: superView.centerYAnchor).isActive = true
+
+                uiOnTable.isUserInteractionEnabled = true
+
+                let pan = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+                pan.delegate = self
+                uiOnTable.addGestureRecognizer(pan)
+
+                let tap = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
+                tap.delegate = self
+                uiOnTable.addGestureRecognizer(tap)
+
+                let uiName = "UI" + String(UINum)
+                let uiText = "Text"
+                let uiX = Float(senderView.frame.origin.x)
+                let uiY = Float(senderView.frame.origin.y)
+                let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
+                UIDic[UINum] = uiData
+
+                appSampleUIData.uiID = UINum
+                UINum += 1
+
+                senderView.translatesAutoresizingMaskIntoConstraints = true
+
+                let center = senderView.superview?.convert(senderView.center, to: editorView)
+                editorView.addSubview(senderView)
+                senderView.center = center ?? CGPoint()
+            }
+
+
+            let uiID = appSampleUIData.uiID
+            UINameTextField.text = UIDic[uiID]?.uiName
+            UITextTextField.text = UIDic[uiID]?.text
+
+            selectedUIID = uiID
         }
 
         let move = sender.translation(in: self.view)
