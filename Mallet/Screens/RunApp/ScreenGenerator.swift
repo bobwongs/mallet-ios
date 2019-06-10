@@ -10,11 +10,11 @@ import UIKit
 
 class AppButton: AppUIButton {
 
-    var uiData: UIData_
+    var uiData: UIData
 
     let onButtonClickID: Int
 
-    init(uiData: UIData_, onButtonClickID: Int) {
+    init(uiData: UIData, onButtonClickID: Int) {
         self.uiData = uiData
         self.onButtonClickID = onButtonClickID
 
@@ -47,7 +47,7 @@ class AppButton: AppUIButton {
 }
 
 class AppLabel: UILabel {
-    init(uiData: UIData_) {
+    init(uiData: UIData) {
         super.init(frame: CGRect())
 
         self.text = uiData.text
@@ -63,25 +63,53 @@ class AppLabel: UILabel {
 }
 
 class ScreenGenerator {
-    public func generateScreen(inputUIData: [[UIData_]]) -> UIStackView {
+    public func generateScreen(inputUIData: [UIData]) -> UIView {
 
+        let appView = UIView()
+
+        /*
         let stackView = UIStackView()
 
         stackView.axis = NSLayoutConstraint.Axis.vertical
         stackView.alignment = UIStackView.Alignment.center
         stackView.spacing = 20
+        */
 
-        for i in inputUIData {
+        for uiData in inputUIData {
+            var ui: UIView = UIView()
+            switch uiData.uiType {
+            case 0:
+                ui = AppButton(uiData: uiData, onButtonClickID: 2)
+                break
+            case 1:
+                ui = AppLabel(uiData: uiData)
+                break
+            case 2:
+                break
+            default:
+                break
+            }
+
+            appView.addSubview(ui)
+            ui.center = CGPoint(x: uiData.x ?? 0, y: uiData.y ?? 0)
+
+            /*
             let horizontalStackView = generateHorizontalStackView(inputUIData: i)
 
             stackView.addArrangedSubview(horizontalStackView)
 
             horizontalStackView.translatesAutoresizingMaskIntoConstraints = false
+            */
         }
 
-        return stackView
+        //return stackView
+
+        appView.backgroundColor = UIColor.gray
+
+        return appView
     }
 
+    /*
     private func generateHorizontalStackView(inputUIData: [UIData_]) -> UIStackView {
         let stackView = UIStackView()
 
@@ -115,6 +143,9 @@ class ScreenGenerator {
 
         return stackView
     }
+    */
+
+    /*
 
     private func generateButton(uiData: UIData_) -> UIButton {
         let button = UIButton()
@@ -149,5 +180,6 @@ class ScreenGenerator {
     @objc func buttonEvent(_ sender: UIButton) {
         print("button pressed!")
     }
+    */
 
 }

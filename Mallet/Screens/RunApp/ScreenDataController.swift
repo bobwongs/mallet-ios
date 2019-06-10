@@ -8,6 +8,7 @@
 
 import UIKit
 
+/*
 public struct UIData_: Codable {
     let uiID: Int?
     let text: String?
@@ -19,14 +20,53 @@ public struct UIData_: Codable {
         self.value = value
     }
 }
+*/
+
+public struct UIData: Codable {
+    let uiID: Int?
+    var uiName: String?
+    let uiType: Int?
+    var text: String?
+    var value: Int?
+    var x: CGFloat?
+    var y: CGFloat?
+
+    init(uiID: Int, uiName: String, uiType: Int, text: String, value: Int, x: CGFloat, y: CGFloat) {
+        self.uiID = uiID
+        self.uiName = uiName
+        self.uiType = uiType
+        self.text = text
+        self.value = value
+        self.x = x
+        self.y = y
+    }
+}
 
 public class ScreenDataController {
 
-    public func generateRandomUIData() -> [[UIData_]] {
-        var randomUIData = [[UIData_]]()
+    public func generateRandomUIData() -> [UIData] {
 
+        let uiNum = Int.random(in: 5...10)
+
+        var randomUIData = [UIData]()
+
+        for i in 0..<uiNum {
+            let uiID = i
+            let uiName = "UI" + String(uiID)
+            let uiType = Int.random(in: 0..<2)
+            let text = "Text"
+            let value = 0
+            let x = CGFloat(Int.random(in: 0..<100))
+            let y = CGFloat(Int.random(in: 0..<100))
+
+            let uiData = UIData(uiID: uiID, uiName: uiName, uiType: uiType, text: text, value: value, x: x, y: y)
+
+            randomUIData.append(uiData)
+        }
+
+        /*
         for i in 0..<2 {
-            randomUIData.append([UIData_]())
+            randomUIData.append([UIData]())
             for _ in 2...4 {
                 let uiID = Int.random(in: 0..<3)
                 let text = "Text"
@@ -38,34 +78,31 @@ public class ScreenDataController {
         }
 
         print(randomUIData)
+        */
 
         return randomUIData
     }
 
-    public func generateTestUIData() -> [[UIData_]] {
-        var testUIData = [[UIData_]]()
+    public func generateTestUIData() -> [UIData] {
+        var testUIData = [UIData]()
 
-        for _ in 0..<2 {
-            testUIData.append([UIData_]())
-        }
-
-        testUIData[0].append(generateButtonUIData())
-        testUIData[1].append(generateTextLabelUIData())
+        testUIData.append(generateButtonUIData())
+        testUIData.append(generateTextLabelUIData())
 
         print(testUIData)
 
         return testUIData
     }
 
-    private func generateButtonUIData() -> UIData_ {
-        return UIData_(uiID: 0, text: "Button", value: 0)
+    private func generateButtonUIData() -> UIData {
+        return UIData(uiID: 0, uiName: "Button1", uiType: 1, text: "Button", value: 0, x: 100, y: 0)
     }
 
-    private func generateTextLabelUIData() -> UIData_ {
-        return UIData_(uiID: 1, text: "Text", value: 0)
+    private func generateTextLabelUIData() -> UIData {
+        return UIData(uiID: 1, uiName: "Label1", uiType: 0, text: "Label", value: 0, x: 100, y: 100)
     }
 
-    public func saveUIData(saveData: [[UIData_]]) {
+    public func saveUIData(saveData: [UIData]) {
         do {
             let jsonData = try JSONEncoder().encode(saveData)
             let jsonStr = String(bytes: jsonData, encoding: .utf8)!
@@ -89,7 +126,7 @@ public class ScreenDataController {
         }
     }
 
-    public func loadUIData() -> [[UIData_]] {
+    public func loadUIData() -> [UIData] {
         var jsonStr = String()
 
         if let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
@@ -106,7 +143,7 @@ public class ScreenDataController {
         return stringToUIData(jsonStr: jsonStr)
     }
 
-    public func uiDataToString(uiData: [[UIData_]]) -> String {
+    public func uiDataToString(uiData: [UIData]) -> String {
         do {
             let jsonData = try JSONEncoder().encode(uiData)
             let jsonStr = String(bytes: jsonData, encoding: .utf8)!
@@ -118,10 +155,10 @@ public class ScreenDataController {
         }
     }
 
-    public func stringToUIData(jsonStr: String) -> [[UIData_]] {
+    public func stringToUIData(jsonStr: String) -> [UIData] {
         let jsonData = jsonStr.data(using: .utf8)
 
-        let loadedUIData = try! JSONDecoder().decode([[UIData_]].self, from: jsonData!)
+        let loadedUIData = try! JSONDecoder().decode([UIData].self, from: jsonData!)
 
         return loadedUIData
     }

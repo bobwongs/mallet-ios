@@ -8,26 +8,6 @@
 
 import UIKit
 
-public struct UIData: Codable {
-    let uiID: Int?
-    var uiName: String?
-    let uiType: Int?
-    var text: String?
-    var value: Int?
-    var x: Float?
-    var y: Float?
-
-    init(uiID: Int, uiName: String, uiType: Int, text: String, value: Int, x: Float, y: Float) {
-        self.uiID = uiID
-        self.uiName = uiName
-        self.uiType = uiType
-        self.text = text
-        self.value = value
-        self.x = x
-        self.y = y
-    }
-}
-
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var editorView: UIView!
@@ -152,8 +132,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 let uiName = "UI" + String(UINum)
                 let uiText = "Text"
-                let uiX = Float(senderView.frame.origin.x)
-                let uiY = Float(senderView.frame.origin.y)
+                let uiX = senderView.frame.origin.x
+                let uiY = senderView.frame.origin.y
                 let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
                 UIDic[UINum] = uiData
 

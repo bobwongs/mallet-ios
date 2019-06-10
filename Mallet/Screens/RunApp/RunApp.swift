@@ -38,8 +38,14 @@ class RunApp: UIViewController {
     }
 
     private func GenerateAppScreen() {
-        let uiData = ScreenDataController().stringToUIData(jsonStr: uiDataStr)
+        let uiData = ScreenDataController().generateTestUIData() //ScreenDataController().stringToUIData(jsonStr: uiDataStr)
+        let appView_ = ScreenGenerator().generateScreen(inputUIData: uiData)
 
+        appView.addSubview(appView_)
+        appView_.frame = appView.frame
+
+
+        /*
         let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)
 
         view.addSubview(stackView)
@@ -47,6 +53,7 @@ class RunApp: UIViewController {
         stackView.leftAnchor.constraint(equalTo: appView.leftAnchor, constant: 10).isActive = true
         stackView.rightAnchor.constraint(equalTo: appView.rightAnchor, constant: -10).isActive = true
         stackView.topAnchor.constraint(equalTo: appView.topAnchor, constant: 30).isActive = true
+        */
     }
 
     public func SetUIText(id: Int, text: String) {
