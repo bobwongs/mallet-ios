@@ -6,3 +6,5 @@ Mallet/cpp/test.cpp
 Mallet/cpp/Makefile
 
 *.out
+
+UserInterfaceState.xcuserstate
