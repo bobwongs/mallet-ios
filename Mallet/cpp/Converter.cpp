@@ -846,21 +846,25 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
 
     int splitCodeSize = Converter::SplitCode(codeStr, splitCode, splitCodeMaxSize, symbol, doubleSymbol, reservedWord);
 
+    /*
     for (int j = 0; j < splitCodeSize; j++)
     {
         printf("%s\n", splitCode[j].c_str());
     }
+    */
 
     ConvertBlock(splitCode, splitCodeSize, 0, convertedCode, convertedCodeMaxSize, 0, argData);
 
     std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
+    /*
     for (int j = 0; j < convertedCode[1]; j++)
     {
         printf("%d\n", convertedCode[j]);
     }
 
     printf("%s\n", json.c_str());
+    */
 
     return json;
 }

@@ -20,14 +20,14 @@ class AppButton: AppUIButton {
 
         super.init(frame: CGRect())
 
-        /*
         self.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         self.backgroundColor = UIColor(red: 0, green: 122 / 255, blue: 1, alpha: 1)
         self.setTitle(uiData.text, for: .normal)
         self.setTitleColor(UIColor.white, for: .normal)
         self.setTitleColor(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1), for: .highlighted)
         self.layer.cornerRadius = 7
-        */
+
+        self.sizeToFit()
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
@@ -53,6 +53,9 @@ class AppLabel: UILabel {
         self.text = uiData.text
         self.textColor = UIColor.black
 
+        self.sizeToFit()
+        self.textAlignment = NSTextAlignment.center
+
         let runApp = RunApp().topViewController() as! RunApp
         runApp.appUI[uiData.uiID!] = self
     }
@@ -63,9 +66,10 @@ class AppLabel: UILabel {
 }
 
 class ScreenGenerator {
-    public func generateScreen(inputUIData: [UIData]) -> UIView {
 
-        let appView = UIView()
+    public func generateScreen(inputUIData: [UIData], appView: UIView) {
+
+        print(inputUIData)
 
         /*
         let stackView = UIStackView()
@@ -80,9 +84,15 @@ class ScreenGenerator {
             switch uiData.uiType {
             case 0:
                 ui = AppButton(uiData: uiData, onButtonClickID: 2)
+                print("Generate Button!")
+                print(uiData)
                 break
             case 1:
                 ui = AppLabel(uiData: uiData)
+                print("Generate Label!")
+                print(uiData)
+
+                print(ui)
                 break
             case 2:
                 break
@@ -104,9 +114,6 @@ class ScreenGenerator {
 
         //return stackView
 
-        appView.backgroundColor = UIColor.gray
-
-        return appView
     }
 
     /*

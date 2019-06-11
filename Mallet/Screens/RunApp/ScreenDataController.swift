@@ -95,11 +95,11 @@ public class ScreenDataController {
     }
 
     private func generateButtonUIData() -> UIData {
-        return UIData(uiID: 0, uiName: "Button1", uiType: 1, text: "Button", value: 0, x: 100, y: 0)
+        return UIData(uiID: 0, uiName: "Button1", uiType: 0, text: "ButtonButton", value: 0, x: 200, y: 100)
     }
 
     private func generateTextLabelUIData() -> UIData {
-        return UIData(uiID: 1, uiName: "Label1", uiType: 0, text: "Label", value: 0, x: 100, y: 100)
+        return UIData(uiID: 1, uiName: "Label1", uiType: 1, text: "Label", value: 0, x: 200, y: 300)
     }
 
     public func saveUIData(saveData: [UIData]) {

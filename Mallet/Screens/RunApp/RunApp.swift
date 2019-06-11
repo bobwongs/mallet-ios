@@ -39,11 +39,7 @@ class RunApp: UIViewController {
 
     private func GenerateAppScreen() {
         let uiData = ScreenDataController().generateTestUIData() //ScreenDataController().stringToUIData(jsonStr: uiDataStr)
-        let appView_ = ScreenGenerator().generateScreen(inputUIData: uiData)
-
-        appView.addSubview(appView_)
-        appView_.frame = appView.frame
-
+        ScreenGenerator().generateScreen(inputUIData: uiData, appView: appView)
 
         /*
         let stackView = ScreenGenerator().generateScreen(inputUIData: uiData)
@@ -101,7 +97,7 @@ class RunApp: UIViewController {
         var jsons: Array<String> = Array<String>()
 
         for i in 0..<code.count {
-            print(code[i])
+            // print(code[i])
             let json = converter.convertCode(toJson: code[i], i == 0)
             jsons.append(json!)
         }
