@@ -99,16 +99,16 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
-        if sender.state == .began {
-            guard let senderView = sender.view else {
-                return
-            }
+        guard let senderView = sender.view else {
+            return
+        }
 
+        var appSampleUIData = senderView as! AppSampleUIData
+
+        if sender.state == .began {
             guard let superView = senderView.superview else {
                 return
             }
-
-            var appSampleUIData = senderView as! AppSampleUIData
 
             if superView != editorView {
                 let uiType = appSampleUIData.uiType
@@ -132,8 +132,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 let uiName = "UI" + String(UINum)
                 let uiText = "Text"
-                let uiX = senderView.frame.origin.x
-                let uiY = senderView.frame.origin.y
+                let uiX = senderView.center.x
+                let uiY = senderView.center.y
                 let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
                 UIDic[UINum] = uiData
 
@@ -153,6 +153,16 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             UITextTextField.text = UIDic[uiID]?.text
 
             selectedUIID = uiID
+        }
+
+        if sender.state == .ended {
+            let uiID = appSampleUIData.uiID
+
+            let uiX = senderView.center.x
+            let uiY = senderView.center.y
+
+            UIDic[uiID]?.x = uiX
+            UIDic[uiID]?.y = uiY
         }
 
         let move = sender.translation(in: self.view)
