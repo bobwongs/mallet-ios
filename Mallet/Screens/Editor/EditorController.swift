@@ -84,7 +84,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         }
 
         controller.code = code
-        controller.uiDataStr = uiData
+        controller.uiDataStr = ScreenDataController().uiDataToString(uiData: screenData)
 
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -83,10 +83,10 @@ class ScreenGenerator {
             var ui: UIView = UIView()
             switch uiData.uiType {
             case 0:
-                ui = AppButton(uiData: uiData, onButtonClickID: 2)
+                ui = AppLabel(uiData: uiData)
                 break
             case 1:
-                ui = AppLabel(uiData: uiData)
+                ui = AppButton(uiData: uiData, onButtonClickID: 2)
                 break
             case 2:
                 break

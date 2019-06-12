@@ -38,7 +38,7 @@ class RunApp: UIViewController {
     }
 
     private func GenerateAppScreen() {
-        let uiData = ScreenDataController().generateTestUIData() //ScreenDataController().stringToUIData(jsonStr: uiDataStr)
+        let uiData = ScreenDataController().stringToUIData(jsonStr: uiDataStr)
         ScreenGenerator().generateScreen(inputUIData: uiData, appView: appView)
 
         /*
