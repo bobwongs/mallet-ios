@@ -22,6 +22,8 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     var uiDataStr = ""
 
+    var screenData: [UIData] = [UIData]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -92,6 +94,15 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         guard  let controller = storyboard.instantiateInitialViewController() as? UIEditorController else {
             fatalError()
         }
+
+        controller.Editor = self
+
+        for i in 0..<screenData.count {
+            controller.UIDic[i] = screenData[i]
+        }
+
+        controller.UINum = screenData.count
+
 
         navigationController?.pushViewController(controller, animated: true)
     }

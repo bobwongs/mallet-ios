@@ -10,6 +10,8 @@ import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
+    var Editor: EditorController = EditorController()
+
     @IBOutlet weak var editorView: UIView!
     @IBOutlet weak var uiTable: UITableView!
     @IBOutlet weak var appScreenParent: UIView!
@@ -31,6 +33,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
 
         initUIEditor()
+
+        generateScreen()
     }
 
     func initUIEditor() {
@@ -62,8 +66,28 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         UINameTextField.addTarget(self, action: #selector(self.setUIName), for: .editingChanged)
         UITextTextField.addTarget(self, action: #selector(self.setUIText), for: .editingChanged)
 
-        UINum = 0
+        //UINum = 0
         selectedUIID = -1
+    }
+
+    func generateScreen() {
+        for uiDIc in UIDic {
+            let ui = generateSampleUI(uiType: uiDIc.value.uiType ?? 0)
+            appScreen.addSubview(ui)
+
+            ui.center.x = uiDIc.value.x! * uiScale
+            ui.center.y = uiDIc.value.y! * uiScale
+
+            ui.isUserInteractionEnabled = true
+
+            let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+            pan.delegate = self
+            ui.addGestureRecognizer(pan)
+
+            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
+            tap.delegate = self
+            ui.addGestureRecognizer(tap)
+        }
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,7 +144,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 return
             }
 
-            if superView != editorView {
+            if superView != appScreen {
                 let uiType = appSampleUIData.uiType
                 let uiOnTable = generateSampleUI(uiType: uiType)
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -152,8 +176,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 senderView.translatesAutoresizingMaskIntoConstraints = true
 
-                let center = senderView.superview?.convert(senderView.center, to: editorView)
-                editorView.addSubview(senderView)
+                let center = senderView.superview?.convert(senderView.center, to: appScreen)
+                appScreen.addSubview(senderView)
                 senderView.center = center ?? CGPoint()
             }
 
@@ -173,6 +197,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
             UIDic[uiID]?.x = uiX
             UIDic[uiID]?.y = uiY
+
+            saveScreen()
         }
 
         let move = sender.translation(in: self.view)
@@ -218,4 +244,15 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         UIDic[selectedUIID]?.text = textField.text
     }
+
+    func saveScreen() {
+        Editor.screenData.removeAll()
+
+        for i in 0..<UINum {
+            if let uiData = UIDic[i] {
+                Editor.screenData.append(uiData)
+            }
+        }
+    }
+
 }
