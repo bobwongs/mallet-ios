@@ -20,6 +20,8 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     var uiData = ""
 
+    var uiDataStr = ""
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,6 +83,15 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
         controller.code = code
         controller.uiDataStr = uiData
+
+        navigationController?.pushViewController(controller, animated: true)
+    }
+
+    @IBAction func EditUIButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "UIEditor", bundle: nil)
+        guard  let controller = storyboard.instantiateInitialViewController() as? UIEditorController else {
+            fatalError()
+        }
 
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -8,3 +8,5 @@ Mallet/cpp/Makefile
 *.out
 
 UserInterfaceState.xcuserstate
+
+.DS_Store

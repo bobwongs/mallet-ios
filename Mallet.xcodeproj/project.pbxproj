@@ -14,6 +14,7 @@
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* Editor.storyboard */; };
+		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6645D22748F780017A016 /* cpp2objcpp.mm */; };
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
 		0EC33345226E0B7F005B968A /* RunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* RunApp.swift */; };
@@ -57,6 +58,7 @@
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
+		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0EA6645D22748F780017A016 /* cpp2objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = cpp2objcpp.mm; sourceTree = "<group>"; };
 		0EA6645F22748F850017A016 /* cpp2objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpp2objcpp.h; sourceTree = "<group>"; };
 		0EA9DF55227F216A00584C0B /* UIEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEditorController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				0E3FDD7E226CB9BF00F20326 /* EditorController.swift */,
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
 				0E3FDD80226CB9F000F20326 /* Editor.storyboard */,
+				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				0E37ECC22276FB62008D1946 /* specification.md in Resources */,
 				0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */,
 				0EF478AE226B78CD007315DB /* Main.storyboard in Resources */,
+				0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */,
 				0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

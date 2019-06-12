@@ -34,14 +34,24 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func initUIEditor() {
-        let screenSize = editorView.bounds.size
+        var screenSize = UIScreen.main.bounds.size
+        if let navigationController = navigationController {
+            screenSize.height -= navigationController.navigationBar.frame.size.height
+        }
+
         appScreen = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width * uiScale, height: screenSize.height * uiScale))
         appScreen.center = appScreenParent.center
+        appScreenParent.addSubview(appScreen)
+
+        appScreen.translatesAutoresizingMaskIntoConstraints = false
+        appScreen.centerXAnchor.constraint(equalTo: appScreenParent.centerXAnchor).isActive = true
+        appScreen.centerYAnchor.constraint(equalTo: appScreenParent.centerYAnchor).isActive = true
+        appScreen.widthAnchor.constraint(equalToConstant: screenSize.width * uiScale).isActive = true
+        appScreen.heightAnchor.constraint(equalToConstant: screenSize.height * uiScale).isActive = true
+
         appScreen.backgroundColor = UIColor.white
         appScreen.layer.borderColor = UIColor.lightGray.cgColor
         appScreen.layer.borderWidth = 1
-
-        appScreenParent.addSubview(appScreen)
 
         uiTable.delegate = self
         uiTable.dataSource = self
@@ -132,8 +142,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 let uiName = "UI" + String(UINum)
                 let uiText = "Text"
-                let uiX = senderView.center.x
-                let uiY = senderView.center.y
+                let uiX = senderView.center.x / uiScale
+                let uiY = senderView.center.y / uiScale
                 let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
                 UIDic[UINum] = uiData
 
@@ -158,8 +168,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         if sender.state == .ended {
             let uiID = appSampleUIData.uiID
 
-            let uiX = senderView.center.x
-            let uiY = senderView.center.y
+            let uiX = senderView.center.x / uiScale
+            let uiY = senderView.center.y / uiScale
 
             UIDic[uiID]?.x = uiX
             UIDic[uiID]?.y = uiY

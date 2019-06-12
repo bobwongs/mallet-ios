@@ -84,15 +84,9 @@ class ScreenGenerator {
             switch uiData.uiType {
             case 0:
                 ui = AppButton(uiData: uiData, onButtonClickID: 2)
-                print("Generate Button!")
-                print(uiData)
                 break
             case 1:
                 ui = AppLabel(uiData: uiData)
-                print("Generate Label!")
-                print(uiData)
-
-                print(ui)
                 break
             case 2:
                 break
