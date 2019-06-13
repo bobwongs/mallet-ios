@@ -22,6 +22,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     var appScreen: UIView = UIView()
 
     var UIDic: Dictionary<Int, UIData> = Dictionary<Int, UIData>()
+    var UIViewDic: Dictionary<Int, UIView> = Dictionary<Int, UIView>()
     var UINum: Int = 0
     var selectedUIID: Int = 0
 
@@ -71,12 +72,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func generateScreen() {
-        for uiDIc in UIDic {
-            let ui = generateSampleUI(uiType: uiDIc.value.uiType ?? 0)
+        for uiDic in UIDic {
+            let ui = generateSampleUI(uiType: uiDic.value.uiType ?? 0)
             appScreen.addSubview(ui)
 
-            ui.center.x = uiDIc.value.x! * uiScale
-            ui.center.y = uiDIc.value.y! * uiScale
+            ui.center.x = uiDic.value.x! * uiScale
+            ui.center.y = uiDic.value.y! * uiScale
 
             ui.isUserInteractionEnabled = true
 
@@ -87,6 +88,21 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
             tap.delegate = self
             ui.addGestureRecognizer(tap)
+
+            UIViewDic[uiDic.value.uiID!] = ui
+
+            switch uiDic.value.uiType! {
+            case 0:
+                let label = ui as! UILabel
+                label.text = uiDic.value.text!
+            case 1:
+                let button = ui as! UIButton
+                button.setTitle(uiDic.value.text, for: .normal)
+            default:
+                break
+            }
+
+            ui.sizeToFit()
         }
     }
 
@@ -145,6 +161,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             }
 
             if superView != appScreen {
+                //画面にUIを追加
+
                 let uiType = appSampleUIData.uiType
                 let uiOnTable = generateSampleUI(uiType: uiType)
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -179,8 +197,22 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 let center = senderView.superview?.convert(senderView.center, to: appScreen)
                 appScreen.addSubview(senderView)
                 senderView.center = center ?? CGPoint()
-            }
 
+                UIViewDic[appSampleUIData.uiID] = senderView
+
+                switch uiType {
+                case 0:
+                    let label = senderView as! UILabel
+                    label.text = uiText
+                case 1:
+                    let button = senderView as! UIButton
+                    button.setTitle(uiText, for: .normal)
+                default:
+                    break
+                }
+
+                senderView.sizeToFit()
+            }
 
             let uiID = appSampleUIData.uiID
             UINameTextField.text = UIDic[uiID]?.uiName
@@ -234,6 +266,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         UIDic[selectedUIID]?.uiName = textField.text
+
+        saveScreen()
     }
 
 
@@ -243,6 +277,21 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         UIDic[selectedUIID]?.text = textField.text
+
+        switch UIDic[selectedUIID]?.uiType {
+        case 0:
+            let label = UIViewDic[selectedUIID] as! UILabel
+            label.text = textField.text
+        case 1:
+            let button = UIViewDic[selectedUIID] as! UIButton
+            button.setTitle(textField.text, for: .normal)
+        default:
+            break
+        }
+
+        UIViewDic[selectedUIID]?.sizeToFit()
+
+        saveScreen()
     }
 
     func saveScreen() {

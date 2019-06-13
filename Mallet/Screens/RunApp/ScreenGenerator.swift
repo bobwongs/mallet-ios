@@ -69,7 +69,7 @@ class ScreenGenerator {
 
     public func generateScreen(inputUIData: [UIData], appView: UIView) {
 
-        print(inputUIData)
+        //print(inputUIData)
 
         /*
         let stackView = UIStackView()

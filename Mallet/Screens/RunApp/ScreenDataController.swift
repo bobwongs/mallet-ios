@@ -89,7 +89,7 @@ public class ScreenDataController {
         testUIData.append(generateButtonUIData())
         testUIData.append(generateTextLabelUIData())
 
-        print(testUIData)
+        //print(testUIData)
 
         return testUIData
     }
@@ -106,7 +106,7 @@ public class ScreenDataController {
         do {
             let jsonData = try JSONEncoder().encode(saveData)
             let jsonStr = String(bytes: jsonData, encoding: .utf8)!
-            print(jsonStr)
+            //print(jsonStr)
 
             let fileName = "uiData.json"
 
