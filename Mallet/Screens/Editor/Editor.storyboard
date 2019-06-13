@@ -82,7 +82,7 @@
                                     <action selector="RunButton:" destination="kGm-ie-ZMa" id="ltX-g3-DHD"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Edit UI" id="5Zy-zF-EaC">
+                            <barButtonItem title="Edit Screen" id="5Zy-zF-EaC">
                                 <connections>
                                     <action selector="EditUIButton:" destination="kGm-ie-ZMa" id="ol7-ql-gvK"/>
                                 </connections>

@@ -24,18 +24,22 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     var screenData: [UIData] = [UIData]()
 
+    var uiName: Dictionary<String, Int> = Dictionary<String, Int>()
+
+    var uiNames: [String] = [String]()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         code[0] = "//Declare global variables here\n\n" + code[0]
         code[1] = "//Called when the app starts\n\n" + code[1]
-        code[2] = "//Called when the button is pressed\n\n" + code[2]
+        //code[2] = "//Called when the button is pressed\n\n" + code[2]
 
-        currentCodeIndex = 2
+        currentCodeIndex = 1
 
         editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         editorArea.sizeToFit()
-        editorArea.text = code[2]
+        editorArea.text = code[currentCodeIndex]
         editorArea.autocapitalizationType = UITextAutocapitalizationType.none
         editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self
@@ -48,13 +52,28 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return code.count
+        return uiNames.count + 2
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
-        cell.textLabel?.text = "code" + String(indexPath.row)
+        var cellTitle: String = ""
+
+        switch indexPath.row {
+        case 0:
+            cellTitle = "Global Variable"
+        case 1:
+            cellTitle = "Initial Method"
+        default:
+            cellTitle = uiNames[indexPath.row - 2]
+        }
+
+        if code.count > indexPath.row + 1 {
+            code.append("")
+        }
+
+        cell.textLabel?.text = cellTitle
 
         return cell
     }
@@ -110,4 +129,5 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
     func textViewDidChange(_ textView: UITextView) {
         code[currentCodeIndex] = editorArea.text
     }
+
 }

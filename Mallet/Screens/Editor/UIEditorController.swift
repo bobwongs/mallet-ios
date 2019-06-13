@@ -302,6 +302,16 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 Editor.screenData.append(uiData)
             }
         }
+
+        Editor.uiNames.removeAll()
+        Editor.uiName.removeAll()
+
+        for uiDic in UIDic {
+            Editor.uiNames.append(uiDic.value.uiName!)
+            Editor.uiName[uiDic.value.uiName!] = uiDic.key
+        }
+
+        Editor.codeList.reloadData()
     }
 
 }
