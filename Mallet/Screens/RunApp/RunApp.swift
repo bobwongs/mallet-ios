@@ -60,10 +60,12 @@ class RunApp: UIViewController {
         if typeOfUI == AppButton.self {
             let button = runApp.appUI[id] as! UIButton
             button.setTitle(text, for: .normal)
+            button.sizeToFit()
         }
         if typeOfUI == AppLabel.self {
             let label = runApp.appUI[id] as! UILabel
             label.text = text
+            label.sizeToFit()
         }
     }
 
