@@ -1,5 +1,5 @@
 # 言語仕様
-(2019/6/3現在)
+2019/6/15
 
 ## 変数宣言
 
@@ -44,10 +44,8 @@ if(a == 1) // aが1以上の時{}内の処理を実行する
 ## UI 関係
 
 ```swift
-SetUIText(0,"This is UI") //idが0のUIのテキストを"This is UI"にする
-SetUIText(0,128 + 256) //UIのテキストは数字もOK
-
-//現在はボタンのid:0,文字のid:1で固定
+SetUIText(Label,"This is Label") //Labelという名前のUIの文字を"This is UI"にする
+SetUIText(Text,128 + 256)
 ```
 
 ## 注意が必要な文法 (今後改善)
