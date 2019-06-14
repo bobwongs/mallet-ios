@@ -24,7 +24,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
     var screenData: [UIData] = [UIData]()
 
-    var uiName: Dictionary<String, Int> = Dictionary<String, Int>()
+    var uiNameDic: Dictionary<String, Int> = Dictionary<String, Int>()
 
     var uiNames: [String] = [String]()
 
@@ -104,6 +104,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
 
         controller.code = code
         controller.uiDataStr = ScreenDataController().uiDataToString(uiData: screenData)
+        controller.uiName = uiNameDic
 
         navigationController?.pushViewController(controller, animated: true)
     }

@@ -28,6 +28,8 @@ typedef struct
 
     std::unordered_map<std::string, int> &variableType;
 
+    std::unordered_map<std::string, int> &uiName;
+
     bool isDefinitionOfGlobalVariable;
 
     Converter &converter;

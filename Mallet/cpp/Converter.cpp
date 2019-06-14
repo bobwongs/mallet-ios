@@ -23,6 +23,25 @@ void AddCode(int convertedCode[], int convertedCodeMaxSize, int &convertedCodeIn
     convertedCodeIndex++;
 }
 
+std::string GetStringValue(std::string code[], int codeMaxSize, int codeFirstIndex)
+{
+    /*
+    if (code[codeFirstIndex][0] != '"' ||
+        code[codeFirstIndex][code[codeFirstIndex].size() - 1] != '"' ||
+        code[codeFirstIndex].size() < 2)
+        return "";
+
+    std::string stringValue = "";
+
+    for (int i = 1; i < code[codeFirstIndex].size() - 1; i++)
+        stringValue += code[codeFirstIndex][i];
+
+    return stringValue;
+    */
+
+    return code[codeFirstIndex];
+}
+
 ValueData ConvertValue(std::string code[], int codeMaxSize, int codeFirstIndex,
                        ArgData argData)
 {
@@ -619,26 +638,28 @@ ConvertedCodeData ConvertAction(std::string code[], int codeMaxSize, int codeFir
         int uiNameIndex = codeFirstIndex + 2;
         int uiTextIndex = codeFirstIndex + 4;
 
-        TmpVarData uiNameVarData = ConvertFormula(code, codeMaxSize, uiNameIndex, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, 0, 0);
+        //TmpVarData uiNameVarData = ConvertFormula(code, codeMaxSize, uiNameIndex, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, 0, 0);
+
+        std::string uiName = GetStringValue(code, codeMaxSize, uiNameIndex);
 
         TmpVarData uiTextVarData = ConvertFormula(code, codeMaxSize, uiTextIndex, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, 0, 0);
 
-        convertedCodeIndex += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
-        convertedCodeSize += uiNameVarData.convertedCodeSize + uiTextVarData.convertedCodeSize;
+        convertedCodeIndex += /* uiNameVarData.convertedCodeSize +*/ uiTextVarData.convertedCodeSize;
+        convertedCodeSize += /*uiNameVarData.convertedCodeSize +*/ uiTextVarData.convertedCodeSize;
 
         convertedCodeSize += 8;
 
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, CmdID::SetUIText);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 8);
 
-        AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, uiNameVarData.id);
+        AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, CmdID::IntValue);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 3);
-        AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, uiNameVarData.varAddress);
+        AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData.uiName[uiName]);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, uiTextVarData.id);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 3);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, uiTextVarData.varAddress);
 
-        i += 4 + uiNameVarData.originalCodeSize + uiTextVarData.originalCodeSize;
+        i += 4 + /*uiNameVarData.originalCodeSize*/ 1 + uiTextVarData.originalCodeSize;
     }
     else
     {
@@ -794,7 +815,7 @@ std::string CodeToJson(int convertedCode[], int codeMaxSize, std::unordered_map<
     return json;
 }
 
-std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter &converter)
+std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter)
 {
     //* ##################
     //* 変数等
@@ -828,6 +849,7 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
         stringVariableAddress,
         stringVariableNum,
         variableType,
+        uiName,
         isDefinitionOfGlobalVariable,
         converter,
     };

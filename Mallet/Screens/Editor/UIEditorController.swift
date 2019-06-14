@@ -76,6 +76,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             let ui = generateSampleUI(uiType: uiDic.value.uiType ?? 0)
             appScreen.addSubview(ui)
 
+            var appSampleUIData = ui as! AppSampleUIData
+            appSampleUIData.uiID = uiDic.value.uiID!
+
             ui.center.x = uiDic.value.x! * uiScale
             ui.center.y = uiDic.value.y! * uiScale
 
@@ -295,23 +298,19 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func saveScreen() {
+
         Editor.screenData.removeAll()
+        Editor.uiNames.removeAll()
+        Editor.uiNameDic.removeAll()
 
         for i in 0..<UINum {
             if let uiData = UIDic[i] {
                 Editor.screenData.append(uiData)
+                Editor.uiNames.append(uiData.uiName!)
+                Editor.uiNameDic[uiData.uiName!] = i
             }
-        }
-
-        Editor.uiNames.removeAll()
-        Editor.uiName.removeAll()
-
-        for uiDic in UIDic {
-            Editor.uiNames.append(uiDic.value.uiName!)
-            Editor.uiName[uiDic.value.uiName!] = uiDic.key
         }
 
         Editor.codeList.reloadData()
     }
-
 }

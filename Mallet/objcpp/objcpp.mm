@@ -29,11 +29,21 @@
     return self;
 }
 
-- (NSString *)ConvertCodeToJson:(NSString *)code :(bool)isDefinitionOfGlobalVariable
+- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)uiName :(bool)isDefinitionOfGlobalVariable
 {
     std::string codeString = [code UTF8String];
 
-    std::string json = converter->ConvertCodeToJson(codeString, isDefinitionOfGlobalVariable, *converter);
+    std::unordered_map<std::string, int> uiNameMap;
+
+    for (id key in [uiName keyEnumerator])
+    {
+        std::string name = [key UTF8String];
+        int uiID = [[uiName valueForKey:key] intValue];
+
+        uiNameMap[name] = uiID;
+    }
+
+    std::string json = converter->ConvertCodeToJson(codeString, isDefinitionOfGlobalVariable, uiNameMap, *converter);
     NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
 
     return jsonNSString;

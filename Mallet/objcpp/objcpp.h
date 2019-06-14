@@ -13,7 +13,7 @@
 
 @interface ConverterObjCpp : NSObject
 
-- (NSString *)ConvertCodeToJson:(NSString *)code :(bool)isDefinitionOfGlobalVariable;// :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
+- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)uiName :(bool)isDefinitionOfGlobalVariable;// :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
 
 @end
 

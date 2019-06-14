@@ -80,7 +80,7 @@ public:
 
     std::string RefactorCode(std::string code);
 
-    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter &converter);
+    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter);
 };
 
 class Runner
