@@ -8,20 +8,6 @@
 
 import UIKit
 
-/*
-public struct UIData_: Codable {
-    let uiID: Int?
-    let text: String?
-    let value: Int?
-
-    init(uiID: Int, text: String, value: Int) {
-        self.uiID = uiID
-        self.text = text
-        self.value = value
-    }
-}
-*/
-
 public struct UIData: Codable {
     let uiID: Int?
     var uiName: String?
@@ -63,22 +49,6 @@ public class ScreenDataController {
 
             randomUIData.append(uiData)
         }
-
-        /*
-        for i in 0..<2 {
-            randomUIData.append([UIData]())
-            for _ in 2...4 {
-                let uiID = Int.random(in: 0..<3)
-                let text = "Text"
-                let value = 0
-                let uiData = UIData_(uiID: uiID, text: text, value: value)
-
-                randomUIData[i].append(uiData)
-            }
-        }
-
-        print(randomUIData)
-        */
 
         return randomUIData
     }

@@ -31,8 +31,8 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        code[0] = "//Declare global variables here\n\n" + code[0]
-        code[1] = "//Called when the app starts\n\n" + code[1]
+        //code[0] = "//Declare global variables here\n\n" + code[0]
+        //code[1] = "//Called when the app starts\n\n" + code[1]
         //code[2] = "//Called when the button is pressed\n\n" + code[2]
 
         currentCodeIndex = 1
