@@ -26,9 +26,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     var UINum: Int = 0
     var selectedUIID: Int = 0
 
+
     var uiScale: CGFloat = 0.7
 
     let uiTypeNum = 3
+    var UINumOfEachType = [Int]()
+    let uiTypeName = ["Label", "Button", "Switch"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,6 +72,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         //UINum = 0
         selectedUIID = -1
+
+        UINumOfEachType = [Int](repeating: 0, count: uiTypeNum)
     }
 
     func generateScreen() {
@@ -106,6 +111,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             }
 
             ui.sizeToFit()
+
+            UINumOfEachType[uiDic.value.uiType!] += 1
         }
     }
 
@@ -185,7 +192,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 tap.delegate = self
                 uiOnTable.addGestureRecognizer(tap)
 
-                let uiName = "UI" + String(UINum)
+                let uiName = uiTypeName[uiType] + String(UINumOfEachType[uiType] + 1)
                 let uiText = "Text"
                 let uiX = senderView.center.x / uiScale
                 let uiY = senderView.center.y / uiScale
@@ -194,6 +201,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 appSampleUIData.uiID = UINum
                 UINum += 1
+                UINumOfEachType[uiType] += 1
 
                 senderView.translatesAutoresizingMaskIntoConstraints = true
 
