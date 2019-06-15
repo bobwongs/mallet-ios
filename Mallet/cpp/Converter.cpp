@@ -332,6 +332,8 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         int nextOperatorIndex = operatorIndex + 1;
 
         TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, nextOperatorIndex);
+        
+            convertedCodeIndex += nextTmpVarData.convertedCodeSize;
 
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, CmdID::AssignIntTmpVariable);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 8);
@@ -347,6 +349,8 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
             int nextOperatorIndex = operatorIndex + 1;
 
             TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[j].first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, nextOperatorIndex);
+
+            convertedCodeIndex += nextTmpVarData.convertedCodeSize;
 
             AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, CmdID::AssignIntTmpVariable);
             AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 13);
@@ -879,14 +883,12 @@ std::string Converter::ConvertCodeToJson(std::string codeStr, bool isDefinitionO
 
     std::string json = CodeToJson(convertedCode, convertedCodeMaxSize, stringVariableAddress);
 
-    /*
     for (int j = 0; j < convertedCode[1]; j++)
     {
         printf("%d\n", convertedCode[j]);
     }
 
     printf("%s\n", json.c_str());
-    */
 
     return json;
 }
