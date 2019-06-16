@@ -47,17 +47,17 @@ public:
     static constexpr int IntTmpVariableValue = 3202;
 
     //* Operation
-    static constexpr int Sum = 4000;
+    static constexpr int Add = 4000;
     static constexpr int Sub = 4001;
     static constexpr int Mul = 4002;
     static constexpr int Div = 4003;
     static constexpr int Mod = 4004;
     static constexpr int Equal = 4005;
-    static constexpr int Inequal = 4006;
-    static constexpr int Bigger = 4007;
-    static constexpr int Lower = 4008;
-    static constexpr int BiggerAndEqual = 4009;
-    static constexpr int LowerAndEqual = 4010;
+    static constexpr int NotEqual = 4006;
+    static constexpr int GreaterThan = 4007;
+    static constexpr int LessThan = 4008;
+    static constexpr int GreaterThanOrEqual = 4009;
+    static constexpr int LessThanOrEqual = 4010;
     static constexpr int And = 4011;
     static constexpr int Or = 4012;
     static constexpr int Not = 4013;

@@ -25,20 +25,6 @@ void AddCode(int convertedCode[], int convertedCodeMaxSize, int &convertedCodeIn
 
 std::string GetStringValue(std::string code[], int codeMaxSize, int codeFirstIndex)
 {
-    /*
-    if (code[codeFirstIndex][0] != '"' ||
-        code[codeFirstIndex][code[codeFirstIndex].size() - 1] != '"' ||
-        code[codeFirstIndex].size() < 2)
-        return "";
-
-    std::string stringValue = "";
-
-    for (int i = 1; i < code[codeFirstIndex].size() - 1; i++)
-        stringValue += code[codeFirstIndex][i];
-
-    return stringValue;
-    */
-
     return code[codeFirstIndex];
 }
 
@@ -190,7 +176,7 @@ int convertOperator(std::string operatorString)
     int convertedCode = 0;
 
     if (operatorString == "+")
-        convertedCode = CmdID::Sum;
+        convertedCode = CmdID::Add;
     else if (operatorString == "-")
         convertedCode = CmdID::Sub;
     else if (operatorString == "*")
@@ -202,15 +188,15 @@ int convertOperator(std::string operatorString)
     else if (operatorString == "==")
         convertedCode = CmdID::Equal;
     else if (operatorString == "!=")
-        convertedCode = CmdID::Inequal;
+        convertedCode = CmdID::NotEqual;
     else if (operatorString == ">")
-        convertedCode = CmdID::Bigger;
+        convertedCode = CmdID::GreaterThan;
     else if (operatorString == "<")
-        convertedCode = CmdID::Lower;
+        convertedCode = CmdID::LessThan;
     else if (operatorString == ">=")
-        convertedCode = CmdID::BiggerAndEqual;
+        convertedCode = CmdID::GreaterThanOrEqual;
     else if (operatorString == "<=")
-        convertedCode = CmdID::LowerAndEqual;
+        convertedCode = CmdID::LessThanOrEqual;
     else if (operatorString == "&&")
         convertedCode = CmdID::And;
     else if (operatorString == "||")
@@ -332,8 +318,8 @@ TmpVarData ConvertFormula(std::string code[], int codeMaxSize, int codeFirstInde
         int nextOperatorIndex = operatorIndex + 1;
 
         TmpVarData nextTmpVarData = ConvertFormula(code, codeMaxSize, parts[0].first, convertedCode, convertedCodeMaxSize, convertedCodeIndex, argData, tmpVarNum, nextOperatorIndex);
-        
-            convertedCodeIndex += nextTmpVarData.convertedCodeSize;
+
+        convertedCodeIndex += nextTmpVarData.convertedCodeSize;
 
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, CmdID::AssignIntTmpVariable);
         AddCode(convertedCode, convertedCodeMaxSize, convertedCodeIndex, 8);

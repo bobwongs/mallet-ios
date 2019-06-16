@@ -309,7 +309,7 @@ int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData)
 
     switch (code[firstIndex])
     {
-    case CmdID::Sum:
+    case CmdID::Add:
         value = firstValue + secondValue;
         break;
     case CmdID::Sub:
@@ -327,19 +327,19 @@ int OperateNumber(std::vector<int> &code, int firstIndex, ArgData argData)
     case CmdID::Equal:
         value = firstValue == secondValue ? 1 : 0;
         break;
-    case CmdID::Inequal:
+    case CmdID::NotEqual:
         value = firstValue != secondValue ? 1 : 0;
         break;
-    case CmdID::Bigger:
+    case CmdID::GreaterThan:
         value = firstValue > secondValue ? 1 : 0;
         break;
-    case CmdID::Lower:
+    case CmdID::LessThan:
         value = firstValue < secondValue ? 1 : 0;
         break;
-    case CmdID::BiggerAndEqual:
+    case CmdID::GreaterThanOrEqual:
         value = firstValue >= secondValue ? 1 : 0;
         break;
-    case CmdID::LowerAndEqual:
+    case CmdID::LessThanOrEqual:
         value = firstValue <= secondValue ? 1 : 0;
         break;
     case CmdID::And:
