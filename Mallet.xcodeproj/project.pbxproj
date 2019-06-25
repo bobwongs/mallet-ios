@@ -14,6 +14,7 @@
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* Editor.storyboard */; };
+		0E43925322C0C05F005B2A9B /* RunnerRe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E43925222C0C05F005B2A9B /* RunnerRe.cpp */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6645D22748F780017A016 /* cpp2objcpp.mm */; };
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
@@ -58,6 +59,8 @@
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
+		0E43925222C0C05F005B2A9B /* RunnerRe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RunnerRe.cpp; sourceTree = "<group>"; };
+		0E43925422C0C138005B2A9B /* RunnerRe.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RunnerRe.hpp; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0EA6645D22748F780017A016 /* cpp2objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = cpp2objcpp.mm; sourceTree = "<group>"; };
 		0EA6645F22748F850017A016 /* cpp2objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpp2objcpp.h; sourceTree = "<group>"; };
@@ -229,6 +232,8 @@
 				0EFDB0C222720FF400340875 /* Runner.cpp */,
 				0EFDB0C322720FF400340875 /* Runner.hpp */,
 				0E37ECC622772828008D1946 /* Splitter.cpp */,
+				0E43925222C0C05F005B2A9B /* RunnerRe.cpp */,
+				0E43925422C0C138005B2A9B /* RunnerRe.hpp */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -394,6 +399,7 @@
 				0E37ECC722772828008D1946 /* Splitter.cpp in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
+				0E43925322C0C05F005B2A9B /* RunnerRe.cpp in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
