@@ -23,6 +23,8 @@ public:
     static constexpr int Pop = 90001;
     static constexpr int NumberType = 90002;
     static constexpr int StringType = 90003;
+    static constexpr int BoolType = 90011;
+    static constexpr int CodeAddressType = 90012;
     static constexpr int CallCppFunc = 90004;
     static constexpr int CallMalletFunc = 90005;
     static constexpr int SetNumberVariable = 90006;
@@ -30,6 +32,8 @@ public:
 
     static constexpr int PrintNumber = 90008;
     static constexpr int PrintString = 90009;
+
+    static constexpr int Jump = 90010;
 
     //* IO
     static constexpr int Print = 10000;

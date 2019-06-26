@@ -14,9 +14,11 @@
 typedef struct
 {
     int type;
-    int address;
+    int codeAddress;
+    int varAddress;
     double numberValue;
     std::string stringValue;
+    bool boolValue;
 } stackData;
 
 stackData getTopStackData(std::vector<stackData> &stack, int &stackIndex, bool &error)
@@ -40,11 +42,12 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
 
     std::vector<double> numberVariable(10000, 0);
     std::vector<std::string> stringVariable(10000, "");
+    std::vector<bool> boolVariable(10000, false);
 
+    //* ###############
     numberVariable[0] = 128;
     numberVariable[1] = 256;
-
-    stringVariable[0] = "Hello World!";
+    //* ###############
 
     int byteCodeIndex = 0;
 
@@ -194,6 +197,14 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
                 {
                     newStackData.stringValue = stringVariable[value];
                 }
+                if (type == CmdID::BoolType)
+                {
+                    newStackData.boolValue = boolVariable[value];
+                }
+                if (type == CmdID::CodeAddressType)
+                {
+                    newStackData.codeAddress = value;
+                }
 
                 stackIndex++;
 
@@ -212,12 +223,18 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
                 break;
 
             case CmdID::SetNumberVariable:
-                numberVariable[topStackData[0].address] = topStackData[1].numberValue;
+                numberVariable[topStackData[0].varAddress] = topStackData[1].numberValue;
 
                 break;
 
             case CmdID::SetStringVariable:
-                stringVariable[topStackData[0].address] = topStackData[1].stringValue;
+                stringVariable[topStackData[0].varAddress] = topStackData[1].stringValue;
+
+                break;
+
+            case CmdID::Jump:
+                if (!topStackData[0].boolValue)
+                    byteCodeIndex = topStackData[1].codeAddress - 1;
 
                 break;
 
