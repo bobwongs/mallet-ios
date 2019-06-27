@@ -19,6 +19,7 @@ class CmdID
 {
 public:
     //* New
+    static constexpr int CodeBegin = -90000;
     static constexpr int Push = 90000;
     static constexpr int Pop = 90001;
     static constexpr int NumberType = 90002;
@@ -84,14 +85,6 @@ public:
     static constexpr int SetUIText = 50000;
 };
 
-typedef struct
-{
-    int id;
-    int type;
-    int value;
-    int argNum;
-} ByteCode;
-
 class Converter
 {
 public:
@@ -134,7 +127,7 @@ public:
     std::vector<std::vector<int>> codes;
     std::vector<std::vector<std::string>> stringVariableInitialValues;
 
-    void RunCode(std::vector<ByteCode> byteCode, Runner2 &runner);
+    void RunCode(std::vector<int> byteCode, Runner2 &runner);
 
     void InitRunner(Runner2 &runner);
 

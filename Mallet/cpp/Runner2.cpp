@@ -34,7 +34,7 @@ stackData getTopStackData(std::vector<stackData> &stack, int &stackIndex, bool &
     return stack[stackIndex + 1];
 }
 
-void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
+void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
 {
     int stackIndex = -1;
     const int stackSize = 10000;
@@ -43,6 +43,9 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
     std::vector<double> numberVariable(10000, 0);
     std::vector<std::string> stringVariable(10000, "");
     std::vector<bool> boolVariable(10000, false);
+
+    constexpr int pushCodeSize = 5;
+    constexpr int defaultCodeSize = 3;
 
     //* ###############
     numberVariable[0] = 128;
@@ -55,10 +58,15 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
 
     while (byteCodeIndex < byteCode.size())
     {
-        int id = byteCode[byteCodeIndex].id;
-        int type = byteCode[byteCodeIndex].type;
-        int value = byteCode[byteCodeIndex].value;
-        int argNum = byteCode[byteCodeIndex].argNum;
+        if (byteCode[byteCodeIndex] != CmdID::CodeBegin || byteCodeIndex + 2 >= byteCode.size())
+        {
+            error = true;
+            printf("Error : Bytecode is broken!\n");
+            break;
+        }
+
+        int cmd = byteCode[byteCodeIndex + 1];
+        int argNum = byteCode[byteCodeIndex + 2];
 
         stackData newStackData;
 
@@ -71,100 +79,8 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
         if (error)
             break;
 
-        if (id / 10000 == 4)
+        if (cmd == CmdID::Push)
         {
-            double firstValue = topStackData[0].numberValue;
-            double secondValue = id == CmdID::Not ? 0 : topStackData[1].numberValue;
-            double result = 0;
-
-            switch (id)
-            {
-            case CmdID::Add:
-                result = firstValue + secondValue;
-
-                break;
-
-            case CmdID::Sub:
-                result = firstValue - secondValue;
-
-                break;
-
-            case CmdID::Mul:
-                result = firstValue * secondValue;
-
-                break;
-
-            case CmdID::Div:
-                if (secondValue == 0)
-                    result = 0;
-                else
-                    result = firstValue / secondValue;
-
-                break;
-
-            case CmdID::Mod:
-                if ((int)secondValue == 0)
-                    result = 0;
-                else
-                    result = (int)firstValue % (int)secondValue;
-
-                break;
-
-            case CmdID::Equal:
-                result = firstValue == secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::NotEqual:
-                result = firstValue != secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::GreaterThan:
-                result = firstValue > secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::LessThan:
-                result = firstValue < secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::GreaterThanOrEqual:
-                result = firstValue >= secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::LessThanOrEqual:
-                result = firstValue <= secondValue ? 1 : 0;
-
-                break;
-
-            case CmdID::And:
-                result = (firstValue > 0) && (secondValue > 0) ? 1 : 0;
-
-                break;
-
-            case CmdID::Or:
-                result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
-
-                break;
-
-            case CmdID::Not:
-                result = (firstValue <= 0) ? 1 : 0;
-
-                break;
-
-            default:
-                printf("Error : The operator %d is undefined\n", id);
-                error = true;
-
-                break;
-            }
-
-            newStackData.type = CmdID::NumberType;
-            newStackData.numberValue = result;
-
             if (stackIndex >= stackSize)
             {
                 printf("Error : Stack overflow\n");
@@ -172,14 +88,170 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
                 break;
             }
 
+            if (byteCodeIndex + 4 >= byteCode.size())
+            {
+                error = true;
+                printf("Error : Bytecode is broken!\n");
+                break;
+            }
+
+            int type = byteCode[byteCodeIndex + 3];
+            int address = byteCode[byteCodeIndex + 4];
+
+            newStackData.type = type;
+
+            if (type == CmdID::NumberType)
+            {
+                newStackData.numberValue = numberVariable[address];
+            }
+            if (type == CmdID::StringType)
+            {
+                newStackData.stringValue = stringVariable[address];
+            }
+            if (type == CmdID::BoolType)
+            {
+                newStackData.boolValue = boolVariable[address];
+            }
+            if (type == CmdID::CodeAddressType)
+            {
+                newStackData.codeAddress = address;
+            }
+
             stackIndex++;
+
             stack[stackIndex] = newStackData;
+
+            byteCodeIndex += pushCodeSize;
         }
         else
         {
-            switch (id)
+
+            if (cmd / 10000 == 4)
             {
-            case CmdID::Push:
+                double firstValue;
+                double secondValue;
+                if (topStackData[0].type == CmdID::NumberType)
+                    firstValue = topStackData[0].numberValue;
+                if (topStackData[0].type == CmdID::BoolType)
+                    firstValue = topStackData[0].boolValue ? 1 : 0;
+
+                if (cmd == CmdID::Not)
+                {
+                    secondValue = 0;
+                }
+                else
+                {
+                    if (topStackData[1].type == CmdID::NumberType)
+                        secondValue = topStackData[1].numberValue;
+                    if (topStackData[1].type == CmdID::BoolType)
+                        secondValue = topStackData[1].boolValue ? 1 : 0;
+                }
+
+                double result = 0;
+                int resultType;
+
+                switch (cmd)
+                {
+                case CmdID::Add:
+                    result = firstValue + secondValue;
+                    resultType = CmdID::NumberType;
+
+                    break;
+
+                case CmdID::Sub:
+                    result = firstValue - secondValue;
+                    resultType = CmdID::NumberType;
+
+                    break;
+
+                case CmdID::Mul:
+                    result = firstValue * secondValue;
+                    resultType = CmdID::NumberType;
+
+                    break;
+
+                case CmdID::Div:
+                    if (secondValue == 0)
+                        result = 0;
+                    else
+                        result = firstValue / secondValue;
+                    resultType = CmdID::NumberType;
+
+                    break;
+
+                case CmdID::Mod:
+                    if ((int)secondValue == 0)
+                        result = 0;
+                    else
+                        result = (int)firstValue % (int)secondValue;
+                    resultType = CmdID::NumberType;
+
+                    break;
+
+                case CmdID::Equal:
+                    result = firstValue == secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::NotEqual:
+                    result = firstValue != secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::GreaterThan:
+                    result = firstValue > secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::LessThan:
+                    result = firstValue < secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::GreaterThanOrEqual:
+                    result = firstValue >= secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::LessThanOrEqual:
+                    result = firstValue <= secondValue ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::And:
+                    result = (firstValue > 0) && (secondValue > 0) ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::Or:
+                    result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                case CmdID::Not:
+                    result = (firstValue <= 0) ? 1 : 0;
+                    resultType = CmdID::BoolType;
+
+                    break;
+
+                default:
+                    printf("Error : The operator %d is undefined\n", cmd);
+                    error = true;
+
+                    break;
+                }
+
+                newStackData.type = resultType;
+                newStackData.numberValue = result;
+
                 if (stackIndex >= stackSize)
                 {
                     printf("Error : Stack overflow\n");
@@ -187,70 +259,54 @@ void Runner2::RunCode(std::vector<ByteCode> byteCode, Runner2 &runner)
                     break;
                 }
 
-                newStackData.type = type;
-
-                if (type == CmdID::NumberType)
-                {
-                    newStackData.numberValue = numberVariable[value];
-                }
-                if (type == CmdID::StringType)
-                {
-                    newStackData.stringValue = stringVariable[value];
-                }
-                if (type == CmdID::BoolType)
-                {
-                    newStackData.boolValue = boolVariable[value];
-                }
-                if (type == CmdID::CodeAddressType)
-                {
-                    newStackData.codeAddress = value;
-                }
-
                 stackIndex++;
-
                 stack[stackIndex] = newStackData;
-
-                break;
-
-            case CmdID::PrintNumber:
-                printf("%g\n", topStackData[0].numberValue);
-
-                break;
-
-            case CmdID::PrintString:
-                printf("%s\n", topStackData[0].stringValue.c_str());
-
-                break;
-
-            case CmdID::SetNumberVariable:
-                numberVariable[topStackData[0].varAddress] = topStackData[1].numberValue;
-
-                break;
-
-            case CmdID::SetStringVariable:
-                stringVariable[topStackData[0].varAddress] = topStackData[1].stringValue;
-
-                break;
-
-            case CmdID::Jump:
-                if (!topStackData[0].boolValue)
-                    byteCodeIndex = topStackData[1].codeAddress - 1;
-
-                break;
-
-            default:
-                printf("Error : %d is undefined\n", byteCode[byteCodeIndex].id);
-                error = true;
-                break;
             }
+            else
+            {
+                switch (cmd)
+                {
+                case CmdID::PrintNumber:
+                    printf("%g\n", topStackData[0].numberValue);
+
+                    break;
+
+                case CmdID::PrintString:
+                    printf("%s\n", topStackData[0].stringValue.c_str());
+
+                    break;
+
+                case CmdID::SetNumberVariable:
+                    numberVariable[topStackData[0].varAddress] = topStackData[1].numberValue;
+
+                    break;
+
+                case CmdID::SetStringVariable:
+                    stringVariable[topStackData[0].varAddress] = topStackData[1].stringValue;
+
+                    break;
+
+                case CmdID::Jump:
+                    if (!topStackData[0].boolValue)
+                        byteCodeIndex = topStackData[1].codeAddress;
+
+                    break;
+
+                default:
+                    printf("Error : %d is undefined\n", cmd);
+                    error = true;
+                    break;
+                }
+            }
+
+            if (cmd != CmdID::Jump)
+                byteCodeIndex += defaultCodeSize;
         }
 
         if (error)
         {
             break;
         }
-
-        byteCodeIndex++;
     }
 
     if (error)
