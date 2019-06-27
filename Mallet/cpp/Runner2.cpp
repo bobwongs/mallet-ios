@@ -34,8 +34,10 @@ stackData getTopStackData(std::vector<stackData> &stack, int &stackIndex, bool &
     return stack[stackIndex + 1];
 }
 
-void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
+void Runner2::RunCode(int funcID, Runner2 &runner)
 {
+    std::vector<int> bytecode = runner.bytecodes[funcID];
+
     int stackIndex = -1;
     const int stackSize = 10000;
     std::vector<stackData> stack(stackSize);
@@ -43,6 +45,13 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
     std::vector<double> numberVariable(10000, 0);
     std::vector<std::string> stringVariable(10000, "");
     std::vector<bool> boolVariable(10000, false);
+
+    for (int i = 0; i < runner.numberVariableInitialValues[funcID].size(); i++)
+        numberVariable[i] = runner.numberVariableInitialValues[funcID][i];
+    for (int i = 0; i < runner.stringVariableInitialValues[funcID].size(); i++)
+        stringVariable[i] = runner.stringVariableInitialValues[funcID][i];
+    for (int i = 0; i < runner.boolVariableInitialValues[funcID].size(); i++)
+        boolVariable[i] = runner.boolVariableInitialValues[funcID][i];
 
     constexpr int pushCodeSize = 5;
     constexpr int defaultCodeSize = 3;
@@ -52,21 +61,21 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
     numberVariable[1] = 256;
     //* ###############
 
-    int byteCodeIndex = 0;
+    int bytecodeIndex = 0;
 
     bool error = false;
 
-    while (byteCodeIndex < byteCode.size())
+    while (bytecodeIndex < bytecode.size())
     {
-        if (byteCode[byteCodeIndex] != CmdID::CodeBegin || byteCodeIndex + 2 >= byteCode.size())
+        if (bytecode[bytecodeIndex] != CmdID::CodeBegin || bytecodeIndex + 2 >= bytecode.size())
         {
             error = true;
-            printf("Error : Bytecode is broken!\n");
+            printf("Error : bytecode is broken!\n");
             break;
         }
 
-        int cmd = byteCode[byteCodeIndex + 1];
-        int argNum = byteCode[byteCodeIndex + 2];
+        int cmd = bytecode[bytecodeIndex + 1];
+        int argNum = bytecode[bytecodeIndex + 2];
 
         stackData newStackData;
 
@@ -88,15 +97,15 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
                 break;
             }
 
-            if (byteCodeIndex + 4 >= byteCode.size())
+            if (bytecodeIndex + 4 >= bytecode.size())
             {
                 error = true;
-                printf("Error : Bytecode is broken!\n");
+                printf("Error : bytecode is broken!\n");
                 break;
             }
 
-            int type = byteCode[byteCodeIndex + 3];
-            int address = byteCode[byteCodeIndex + 4];
+            int type = bytecode[bytecodeIndex + 3];
+            int address = bytecode[bytecodeIndex + 4];
 
             newStackData.type = type;
 
@@ -121,7 +130,7 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
 
             stack[stackIndex] = newStackData;
 
-            byteCodeIndex += pushCodeSize;
+            bytecodeIndex += pushCodeSize;
         }
         else
         {
@@ -288,7 +297,7 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
 
                 case CmdID::Jump:
                     if (!topStackData[0].boolValue)
-                        byteCodeIndex = topStackData[1].codeAddress;
+                        bytecodeIndex = topStackData[1].codeAddress;
 
                     break;
 
@@ -300,7 +309,7 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
             }
 
             if (cmd != CmdID::Jump)
-                byteCodeIndex += defaultCodeSize;
+                bytecodeIndex += defaultCodeSize;
         }
 
         if (error)
@@ -317,4 +326,11 @@ void Runner2::RunCode(std::vector<int> byteCode, Runner2 &runner)
     {
         printf("Process finished succsessfully\n");
     }
+}
+
+void Runner2::InitRunner(Runner2 &runner)
+{
+    runner.numberGlobalVariable = std::vector<double>(100000, 0);
+    runner.stringGlobalVariable = std::vector<std::string>(10000, "");
+    runner.boolGlobalVariable = std::vector<bool>(100000, false);
 }

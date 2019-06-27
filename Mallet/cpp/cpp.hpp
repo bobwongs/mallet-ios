@@ -121,13 +121,16 @@ public:
 class Runner2
 {
 public:
-    std::vector<int> numberGlobalVariable;
+    std::vector<double> numberGlobalVariable;
     std::vector<std::string> stringGlobalVariable;
+    std::vector<bool> boolGlobalVariable;
 
-    std::vector<std::vector<int>> codes;
+    std::vector<std::vector<int>> bytecodes;
+    std::vector<std::vector<double>> numberVariableInitialValues;
     std::vector<std::vector<std::string>> stringVariableInitialValues;
+    std::vector<std::vector<bool>> boolVariableInitialValues;
 
-    void RunCode(std::vector<int> byteCode, Runner2 &runner);
+    void RunCode(int funcID, Runner2 &runner);
 
     void InitRunner(Runner2 &runner);
 
