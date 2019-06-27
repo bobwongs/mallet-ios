@@ -25,7 +25,7 @@ public:
     static constexpr int NumberType = 90002;
     static constexpr int StringType = 90003;
     static constexpr int BoolType = 90011;
-    static constexpr int CodeAddressType = 90012;
+    static constexpr int AddressType = 90012;
     static constexpr int CallCppFunc = 90004;
     static constexpr int CallMalletFunc = 90005;
     static constexpr int SetNumberVariable = 90006;
@@ -35,6 +35,10 @@ public:
     static constexpr int PrintString = 90009;
 
     static constexpr int Jump = 90010;
+    static constexpr int Call = 90013;
+
+    static constexpr int Error = 90014;
+    static constexpr int VoidType = 90015;
 
     //* IO
     static constexpr int Print = 10000;
@@ -121,6 +125,15 @@ public:
 class Runner2
 {
 public:
+    typedef struct
+    {
+        int type;
+        int address;
+        double numberValue;
+        std::string stringValue;
+        bool boolValue;
+    } stackData;
+
     std::vector<double> numberGlobalVariable;
     std::vector<std::string> stringGlobalVariable;
     std::vector<bool> boolGlobalVariable;
@@ -130,7 +143,7 @@ public:
     std::vector<std::vector<std::string>> stringVariableInitialValues;
     std::vector<std::vector<bool>> boolVariableInitialValues;
 
-    void RunCode(int funcID, Runner2 &runner);
+    stackData RunCode(int funcID, std::vector<stackData> arg, Runner2 &runner);
 
     void InitRunner(Runner2 &runner);
 

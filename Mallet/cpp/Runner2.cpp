@@ -11,30 +11,20 @@
 #include <vector>
 #include <array>
 
-typedef struct
-{
-    int type;
-    int codeAddress;
-    int varAddress;
-    double numberValue;
-    std::string stringValue;
-    bool boolValue;
-} stackData;
-
-stackData getTopStackData(std::vector<stackData> &stack, int &stackIndex, bool &error)
+Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &stackIndex, bool &error)
 {
     if (stackIndex < 0)
     {
         printf("Error : There is nothing in the stack\n");
         error = true;
-        return stackData();
+        return Runner2::stackData();
     }
 
     stackIndex--;
     return stack[stackIndex + 1];
 }
 
-void Runner2::RunCode(int funcID, Runner2 &runner)
+Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runner2 &runner)
 {
     std::vector<int> bytecode = runner.bytecodes[funcID];
 
@@ -42,9 +32,20 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
     const int stackSize = 10000;
     std::vector<stackData> stack(stackSize);
 
+    stackData returnStackData;
+
     std::vector<double> numberVariable(10000, 0);
     std::vector<std::string> stringVariable(10000, "");
     std::vector<bool> boolVariable(10000, false);
+
+    constexpr int pushCodeSize = 5;
+    constexpr int defaultCodeSize = 3;
+
+    for (stackData i : arg)
+    {
+        stackIndex++;
+        stack[stackIndex] = i;
+    }
 
     for (int i = 0; i < runner.numberVariableInitialValues[funcID].size(); i++)
         numberVariable[i] = runner.numberVariableInitialValues[funcID][i];
@@ -52,9 +53,6 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
         stringVariable[i] = runner.stringVariableInitialValues[funcID][i];
     for (int i = 0; i < runner.boolVariableInitialValues[funcID].size(); i++)
         boolVariable[i] = runner.boolVariableInitialValues[funcID][i];
-
-    constexpr int pushCodeSize = 5;
-    constexpr int defaultCodeSize = 3;
 
     //* ###############
     numberVariable[0] = 128;
@@ -121,9 +119,9 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
             {
                 newStackData.boolValue = boolVariable[address];
             }
-            if (type == CmdID::CodeAddressType)
+            if (type == CmdID::AddressType)
             {
-                newStackData.codeAddress = address;
+                newStackData.address = address;
             }
 
             stackIndex++;
@@ -273,6 +271,9 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
             }
             else
             {
+                int callFuncID;
+                std::vector<stackData> callFuncArg;
+
                 switch (cmd)
                 {
                 case CmdID::PrintNumber:
@@ -286,18 +287,39 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
                     break;
 
                 case CmdID::SetNumberVariable:
-                    numberVariable[topStackData[0].varAddress] = topStackData[1].numberValue;
+                    numberVariable[topStackData[0].address] = topStackData[1].numberValue;
 
                     break;
 
                 case CmdID::SetStringVariable:
-                    stringVariable[topStackData[0].varAddress] = topStackData[1].stringValue;
+                    stringVariable[topStackData[0].address] = topStackData[1].stringValue;
 
                     break;
 
                 case CmdID::Jump:
                     if (!topStackData[0].boolValue)
-                        bytecodeIndex = topStackData[1].codeAddress;
+                        bytecodeIndex = topStackData[1].address;
+
+                    break;
+
+                case CmdID::Call:
+
+                    callFuncID = topStackData[0].address;
+
+                    for (int i = 0; i < argNum - 1; i++)
+                        callFuncArg.push_back(topStackData[i + 1]);
+
+                    newStackData = runner.RunCode(callFuncID, callFuncArg, runner);
+
+                    if (newStackData.type == CmdID::Error)
+                    {
+                        error = true;
+                    }
+                    else if (newStackData.type != CmdID::VoidType)
+                    {
+                        stackIndex++;
+                        stack[stackIndex] = newStackData;
+                    }
 
                     break;
 
@@ -318,14 +340,30 @@ void Runner2::RunCode(int funcID, Runner2 &runner)
         }
     }
 
+    if (stackIndex == -1)
+    {
+        returnStackData.type = CmdID::VoidType;
+    }
+    else if (stackIndex == 0)
+    {
+        returnStackData = stack[0];
+    }
+    else
+    {
+        error = true;
+    }
+
     if (error)
     {
+        returnStackData.type = CmdID::Error;
         printf("Process finished with some errors\n");
     }
     else
     {
         printf("Process finished succsessfully\n");
     }
+
+    return returnStackData;
 }
 
 void Runner2::InitRunner(Runner2 &runner)
@@ -333,4 +371,8 @@ void Runner2::InitRunner(Runner2 &runner)
     runner.numberGlobalVariable = std::vector<double>(100000, 0);
     runner.stringGlobalVariable = std::vector<std::string>(10000, "");
     runner.boolGlobalVariable = std::vector<bool>(100000, false);
+
+    runner.numberVariableInitialValues = std::vector<std::vector<double>>(runner.bytecodes.size());
+    runner.stringVariableInitialValues = std::vector<std::vector<std::string>>(runner.bytecodes.size());
+    runner.boolVariableInitialValues = std::vector<std::vector<bool>>(runner.bytecodes.size());
 }

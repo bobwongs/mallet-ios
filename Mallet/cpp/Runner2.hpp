@@ -11,9 +11,4 @@
 
 #include "cpp.hpp"
 
-typedef struct
-{
-    Runner2 &runner;
-} ArgData;
-
 #endif /* Runner2_h */
