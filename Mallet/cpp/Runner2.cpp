@@ -17,7 +17,10 @@ Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &
     {
         printf("Error : There is nothing in the stack\n");
         error = true;
-        return Runner2::stackData();
+
+        Runner2::stackData errorStackData;
+        errorStackData.type = CmdID::Error;
+        return errorStackData;
     }
 
     stackIndex--;
@@ -55,42 +58,61 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
         boolVariable[i] = runner.boolVariableInitialValues[funcID][i];
 
     //* ###############
-    numberVariable[0] = 128;
-    numberVariable[1] = 256;
+    /*
+    numberVariable[1] = 0;
+    numberVariable[2] = 0;
+    numberVariable[3] = 100;
+    numberVariable[4] = 1;
+    numberVariable[5] = 2048;
+    */
     //* ###############
+
+    boolVariable[1] = true;
+    boolVariable[2] = false;
 
     int bytecodeIndex = 0;
 
     bool error = false;
+
+    std::vector<stackData> topStackData(100);
+
+    stackData newStackData;
+
+    std::vector<stackData> callFuncArg;
 
     while (bytecodeIndex < bytecode.size())
     {
         if (bytecode[bytecodeIndex] != CmdID::CodeBegin || bytecodeIndex + 2 >= bytecode.size())
         {
             error = true;
-            printf("Error : bytecode is broken!\n");
+            printf("Error : bytecode is broken! #%d\n", bytecodeIndex);
             break;
         }
 
         int cmd = bytecode[bytecodeIndex + 1];
         int argNum = bytecode[bytecodeIndex + 2];
 
-        stackData newStackData;
+        // stackData newStackData;
 
-        std::vector<stackData> topStackData;
+        //std::vector<stackData> topStackData(argNum);
         for (int i = 0; i < argNum; i++)
         {
-            topStackData.push_back(getTopStackData(stack, stackIndex, error));
+            topStackData[argNum - 1 - i] = stack[stackIndex]; // getTopStackData(stack, stackIndex, error);
+            stackIndex--;
+
+            //topStackData[argNum - 1 - i] = getTopStackData(stack, stackIndex, error);
         }
 
         if (error)
+        {
             break;
+        }
 
         if (cmd == CmdID::Push)
         {
             if (stackIndex >= stackSize)
             {
-                printf("Error : Stack overflow\n");
+                printf("Error : Stack overflow #%d\n", bytecodeIndex);
                 error = true;
                 break;
             }
@@ -98,7 +120,7 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
             if (bytecodeIndex + 4 >= bytecode.size())
             {
                 error = true;
-                printf("Error : bytecode is broken!\n");
+                printf("Error : bytecode is broken! #%d\n", bytecodeIndex);
                 break;
             }
 
@@ -126,12 +148,19 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
 
             stackIndex++;
 
-            stack[stackIndex] = newStackData;
+            //            stack[stackIndex] = newStackData;
+
+            stack[stackIndex].address = newStackData.address;
+            stack[stackIndex].boolValue = newStackData.boolValue;
+            stack[stackIndex].numberValue = newStackData.numberValue;
+            stack[stackIndex].stringValue = newStackData.stringValue;
+            stack[stackIndex].type = newStackData.type;
 
             bytecodeIndex += pushCodeSize;
         }
         else
         {
+            bool jumped = false;
 
             if (cmd / 10000 == 4)
             {
@@ -250,34 +279,47 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
                     break;
 
                 default:
-                    printf("Error : The operator %d is undefined\n", cmd);
+                    printf("Error : The operator %d is undefined #%d\n", cmd, bytecodeIndex);
                     error = true;
 
                     break;
                 }
 
                 newStackData.type = resultType;
-                newStackData.numberValue = result;
+
+                if (resultType == CmdID::NumberType)
+                {
+                    newStackData.numberValue = result;
+                }
+                if (resultType == CmdID::BoolType)
+                {
+                    newStackData.boolValue = result;
+                }
 
                 if (stackIndex >= stackSize)
                 {
-                    printf("Error : Stack overflow\n");
+                    printf("Error : Stack overflow #%d\n", bytecodeIndex);
                     error = true;
                     break;
                 }
 
                 stackIndex++;
-                stack[stackIndex] = newStackData;
+                stack[stackIndex].address = newStackData.address;
+                stack[stackIndex].boolValue = newStackData.boolValue;
+                stack[stackIndex].numberValue = newStackData.numberValue;
+                stack[stackIndex].stringValue = newStackData.stringValue;
+                stack[stackIndex].type = newStackData.type;
             }
             else
             {
                 int callFuncID;
-                std::vector<stackData> callFuncArg;
+
+                //  std::vector<stackData> callFuncArg;
 
                 switch (cmd)
                 {
                 case CmdID::PrintNumber:
-                    printf("%g\n", topStackData[0].numberValue);
+                    printf("%.10g\n", topStackData[0].numberValue);
 
                     break;
 
@@ -297,8 +339,11 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
                     break;
 
                 case CmdID::Jump:
-                    if (!topStackData[0].boolValue)
+                    if (topStackData[0].boolValue)
+                    {
                         bytecodeIndex = topStackData[1].address;
+                        jumped = true;
+                    }
 
                     break;
 
@@ -324,13 +369,13 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
                     break;
 
                 default:
-                    printf("Error : %d is undefined\n", cmd);
+                    printf("Error : %d is undefined #%d\n", cmd, bytecodeIndex);
                     error = true;
                     break;
                 }
             }
 
-            if (cmd != CmdID::Jump)
+            if (!jumped)
                 bytecodeIndex += defaultCodeSize;
         }
 

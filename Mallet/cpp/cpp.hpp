@@ -22,9 +22,6 @@ public:
     static constexpr int CodeBegin = -90000;
     static constexpr int Push = 90000;
     static constexpr int Pop = 90001;
-    static constexpr int NumberType = 90002;
-    static constexpr int StringType = 90003;
-    static constexpr int BoolType = 90011;
     static constexpr int AddressType = 90012;
     static constexpr int CallCppFunc = 90004;
     static constexpr int CallMalletFunc = 90005;
@@ -38,7 +35,17 @@ public:
     static constexpr int Call = 90013;
 
     static constexpr int Error = 90014;
-    static constexpr int VoidType = 90015;
+
+    static constexpr int PushTrue = 90015;
+    static constexpr int PushFalse = 90016;
+
+    static constexpr int NumberType = 80000;
+    static constexpr int StringType = 80001;
+    static constexpr int BoolType = 80002;
+    static constexpr int NumberGlobalType = 80003;
+    static constexpr int StringGlobalType = 80004;
+    static constexpr int BoolGlobalType = 80005;
+    static constexpr int VoidType = 80006;
 
     //* IO
     static constexpr int Print = 10000;
@@ -102,8 +109,55 @@ public:
                   std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
 
     std::string RefactorCode(std::string code);
-
     std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter);
+};
+
+class Converter2
+{
+public:
+    std::unordered_map<std::string, int> numberGlobalVariableAddress;
+    std::unordered_map<std::string, int> stringGlobalVariableAddress;
+
+    int numberGlobalVariableNum;
+    int stringGlobalVariableNum;
+
+    std::unordered_map<std::string, int> numberVariableAddress;
+    int numberVariableNum;
+    std::unordered_map<std::string, int> stringVariableAddress;
+    int stringVariableNum;
+    std::unordered_map<std::string, int> boolVariableAddress;
+    int boolVariableNum;
+
+    std::unordered_map<int, double> numberVariableInitialValue;
+    std::unordered_map<int, std::string> stringVariableInitialValue;
+
+    std::unordered_map<std::string, int> variableType;
+
+    std::vector<std::string> code;
+
+    std::vector<int> bytecode;
+    int bytecodeIndex;
+    int bytecodeSize;
+    std::unordered_map<std::string, int> uiName;
+
+    std::set<std::string> symbol;
+    std::set<std::string> doubleSymbol;
+    std::set<std::string> reservedWord;
+
+    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter2 &converter);
+
+    void InitConverter();
+
+private:
+    void AddCode(int code);
+    void AddCmdCode(int code, int argNum);
+    void AddPushCode(int type, int address);
+    void AddPushTrueCode();
+    void AddPushFalseCode();
+
+    int ConvertValue(const int firstCodeIndex);
+    int ConvertFormula(const int firstCodeIndex, int operatorNumber);
+    int ConvertCodeBlock(const int firstCodeIndex);
 };
 
 class Runner
@@ -148,6 +202,12 @@ public:
     void InitRunner(Runner2 &runner);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
+};
+
+class Bytecode2String
+{
+public:
+    void ShowBytecodeString(std::vector<int> bytecode);
 };
 
 #endif /* cpp_hpp */
