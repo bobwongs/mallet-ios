@@ -158,6 +158,8 @@ private:
     void AddPushCode(int type, int address);
     void AddPushTrueCode();
     void AddPushFalseCode();
+    void AddPush0Code();
+    void AddPush1Code();
 
     int ConvertValue(const int firstCodeIndex);
     int ConvertFormula(const int firstCodeIndex, int operatorNumber);

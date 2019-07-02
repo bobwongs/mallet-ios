@@ -576,6 +576,44 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         }
         else if (funcName == "repeat")
         {
+            numberVariableNum++;
+            int tmpVarAddress = numberVariableNum;
+
+            AddPushCode(CmdID::AddressType, tmpVarAddress);
+            AddPush0Code();
+            AddCmdCode(CmdID::SetNumberVariable, 2);
+
+            int firstIndex = bytecodeIndex;
+
+            AddPushCode(CmdID::NumberType, tmpVarAddress);
+
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
+
+            AddCmdCode(CmdID::LessThan, 2);
+
+            AddCmdCode(CmdID::Not, 1);
+
+            int firstJumpIndex = bytecodeIndex;
+
+            AddPushCode(CmdID::AddressType, -1);
+
+            AddCmdCode(CmdID::Jump, 2);
+
+            codeSize += ConvertCodeBlock(codeIndex + codeSize);
+
+            AddPushCode(CmdID::AddressType, tmpVarAddress);
+            AddPushCode(CmdID::NumberType, tmpVarAddress);
+            AddPush1Code();
+            AddCmdCode(CmdID::Add, 2);
+            AddCmdCode(CmdID::SetNumberVariable, 2);
+
+            AddPushTrueCode();
+
+            AddPushCode(CmdID::AddressType, firstIndex);
+
+            AddCmdCode(CmdID::Jump, 2);
+
+            bytecode[firstJumpIndex + 4] = bytecodeIndex;
         }
         else if (variableType[code[codeIndex]] != 0)
         {
@@ -760,13 +798,23 @@ void Converter2::AddPushFalseCode()
     AddPushCode(CmdID::BoolType, 2);
 }
 
+void Converter2::AddPush0Code()
+{
+    AddPushCode(CmdID::NumberType, 1);
+}
+
+void Converter2::AddPush1Code()
+{
+    AddPushCode(CmdID::NumberType, 2);
+}
+
 void Converter2::InitConverter()
 {
     numberVariableAddress = std::unordered_map<std::string, int>();
     stringVariableAddress = std::unordered_map<std::string, int>();
     boolVariableAddress = std::unordered_map<std::string, int>();
 
-    numberVariableNum = 0;
+    numberVariableNum = 2;
     stringVariableNum = 0;
     boolVariableNum = 2;
 }

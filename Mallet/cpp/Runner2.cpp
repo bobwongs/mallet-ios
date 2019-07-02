@@ -64,6 +64,9 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
     for (int i = 0; i < runner.boolVariableInitialValues[funcID].size(); i++)
         boolVariable[i] = runner.boolVariableInitialValues[funcID][i];
 
+    numberVariable[1] = 0;
+    numberVariable[2] = 1;
+
     boolVariable[1] = true;
     boolVariable[2] = false;
 
