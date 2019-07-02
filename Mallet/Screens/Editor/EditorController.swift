@@ -64,7 +64,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         case 0:
             cellTitle = "Global Variable"
         case 1:
-            cellTitle = "Initial Method"
+            cellTitle = "Init"
         default:
             cellTitle = uiNames[indexPath.row - 2]
         }
