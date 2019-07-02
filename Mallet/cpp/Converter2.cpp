@@ -531,12 +531,32 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
             int firstJumpIndex = bytecodeIndex;
 
             AddPushCode(CmdID::AddressType, -1);
-
             AddCmdCode(CmdID::Jump, 2);
 
             codeSize += ConvertCodeBlock(codeIndex + codeSize);
 
-            bytecode[firstJumpIndex + 4] = bytecodeIndex;
+            if (code[codeIndex + codeSize] == "else")
+            {
+                AddPushTrueCode();
+
+                int secondJumpIndex = bytecodeIndex;
+
+                AddPushCode(CmdID::AddressType, -1);
+
+                AddCmdCode(CmdID::Jump, 2);
+
+                bytecode[firstJumpIndex + 4] = bytecodeIndex;
+
+                codeSize++;
+
+                codeSize += ConvertCodeBlock(codeIndex + codeSize);
+
+                bytecode[secondJumpIndex + 4] = bytecodeIndex;
+            }
+            else
+            {
+                bytecode[firstJumpIndex + 4] = bytecodeIndex;
+            }
         }
         else if (funcName == "repeat")
         {
