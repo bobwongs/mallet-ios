@@ -47,6 +47,10 @@ public:
     static constexpr int BoolGlobalType = 80005;
     static constexpr int VoidType = 80006;
 
+    static constexpr int NumberTmpType = 80007;
+    static constexpr int StringTmpType = 80008;
+    static constexpr int BoolTmpType = 80009;
+
     //* IO
     static constexpr int Print = 10000;
     static constexpr int Input = 10001;
@@ -183,9 +187,6 @@ public:
     {
         int type;
         int address;
-        double numberValue;
-        std::string stringValue;
-        bool boolValue;
     } stackData;
 
     std::vector<double> numberGlobalVariable;
