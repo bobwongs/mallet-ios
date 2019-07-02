@@ -461,9 +461,21 @@ int Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber)
 
 int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 {
-    int codeBlockSize = 2;
+    int codeBlockSize = 0;
 
-    int codeIndex = firstCodeIndex + 1;
+    int codeIndex = firstCodeIndex;
+
+    bool isIf = false;
+
+    if (code[codeIndex] == "if")
+    {
+        isIf = true;
+    }
+    else if (code[codeIndex] == "{")
+    {
+        codeIndex++;
+        codeBlockSize += 2;
+    }
 
     while (code[codeIndex] != "}")
     {
@@ -471,7 +483,11 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
         int codeSize = 0;
 
-        if (funcName == "print")
+        if (funcName == "{")
+        {
+            codeSize = 2 + ConvertCodeBlock(codeIndex);
+        }
+        else if (funcName == "print")
         {
             codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
 
@@ -613,6 +629,9 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
         codeIndex += codeSize;
         codeBlockSize += codeSize;
+
+        if (isIf)
+            break;
     }
 
     return codeBlockSize;
