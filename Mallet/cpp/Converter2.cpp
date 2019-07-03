@@ -195,11 +195,8 @@ int convertOperator(std::string operatorString)
     return operatorCode;
 }
 
-int Converter2::ConvertValue(int firstCodeIndex)
+int Converter2::ConvertValue(const int firstCodeIndex)
 {
-    int type;
-    int address;
-
     if (code[firstCodeIndex][0] == '"')
     {
         //* String
@@ -214,8 +211,10 @@ int Converter2::ConvertValue(int firstCodeIndex)
             stringVariableInitialValue[stringVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
         }
 
-        type = CmdID::StringType;
-        address = stringVariableAddress[varName];
+        int type = CmdID::StringType;
+        int address = stringVariableAddress[varName];
+
+        AddPushCode(type, address);
     }
     else if (code[firstCodeIndex][0] == '-' || code[firstCodeIndex][0] == '.' || (0 <= (code[firstCodeIndex][0] - '0') && (code[firstCodeIndex][0] - '0') <= 9))
     {
@@ -259,18 +258,26 @@ int Converter2::ConvertValue(int firstCodeIndex)
             numberVariableInitialValue[numberVariableNum] = std::stod(code[firstCodeIndex]);
         }
 
-        type = CmdID::NumberType;
-        address = numberVariableAddress[varName];
+        int type = CmdID::NumberType;
+        int address = numberVariableAddress[varName];
+
+        AddPushCode(type, address);
     }
     else if (code[firstCodeIndex] == "true" || code[firstCodeIndex] == "false")
     {
         //* Bool
 
-        //TODO:
+        if (code[firstCodeIndex] == "true")
+            AddPushTrueCode();
+        if (code[firstCodeIndex] == "false")
+            AddPushFalseCode();
     }
     else
     {
         //* Variable
+
+        int type;
+        int address;
 
         switch (variableType[code[firstCodeIndex]])
         {
@@ -318,9 +325,9 @@ int Converter2::ConvertValue(int firstCodeIndex)
             printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
             break;
         }
-    }
 
-    AddPushCode(type, address);
+        AddPushCode(type, address);
+    }
 
     return 1;
 }
@@ -731,14 +738,14 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr, bool isDefinition
     bytecodeIndex = 0;
     bytecodeSize = 0;
 
+    numberVariableInitialValue = std::unordered_map<int, double>();
+    stringVariableInitialValue = std::unordered_map<int, std::string>();
+
     numberVariableAddress = std::unordered_map<std::string, int>();
     stringVariableAddress = std::unordered_map<std::string, int>();
     boolVariableAddress = std::unordered_map<std::string, int>();
 
-    numberVariableInitialValue = std::unordered_map<int, double>();
-    stringVariableInitialValue = std::unordered_map<int, std::string>();
-
-    numberVariableNum = 0;
+    numberVariableNum = 2;
     stringVariableNum = 0;
     boolVariableNum = 2;
 
@@ -806,15 +813,4 @@ void Converter2::AddPush0Code()
 void Converter2::AddPush1Code()
 {
     AddPushCode(CmdID::NumberType, 2);
-}
-
-void Converter2::InitConverter()
-{
-    numberVariableAddress = std::unordered_map<std::string, int>();
-    stringVariableAddress = std::unordered_map<std::string, int>();
-    boolVariableAddress = std::unordered_map<std::string, int>();
-
-    numberVariableNum = 2;
-    stringVariableNum = 0;
-    boolVariableNum = 2;
 }

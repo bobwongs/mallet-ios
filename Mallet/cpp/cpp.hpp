@@ -150,8 +150,6 @@ public:
 
     std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter2 &converter);
 
-    void InitConverter();
-
 private:
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);

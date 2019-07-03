@@ -354,10 +354,19 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
                     {
                         numberVariable[topStackData[0]->address] = numberVariable[topStackData[1]->address];
                     }
-                    if (topStackData[1]->type == CmdID::NumberTmpType)
+                    else if (topStackData[1]->type == CmdID::NumberTmpType)
                     {
                         numberVariable[topStackData[0]->address] = numberStack[numberStackIndex];
                         numberStackIndex--;
+                    }
+                    else if (topStackData[1]->type == CmdID::BoolType)
+                    {
+                        numberVariable[topStackData[0]->address] = boolVariable[topStackData[1]->address];
+                    }
+                    if (topStackData[1]->type == CmdID::BoolTmpType)
+                    {
+                        numberVariable[topStackData[0]->address] = boolStack[boolStackIndex];
+                        boolStackIndex--;
                     }
 
                     break;
