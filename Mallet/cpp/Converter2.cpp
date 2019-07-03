@@ -472,14 +472,12 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
     int codeIndex = firstCodeIndex;
 
-    bool isIf = false;
+    bool isBlock = false;
 
-    if (code[codeIndex] == "if")
+    if (code[codeIndex] == "{")
     {
-        isIf = true;
-    }
-    else if (code[codeIndex] == "{")
-    {
+        isBlock = true;
+
         codeIndex++;
         codeBlockSize += 2;
     }
@@ -675,7 +673,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         codeIndex += codeSize;
         codeBlockSize += codeSize;
 
-        if (isIf)
+        if (!isBlock)
             break;
     }
 
