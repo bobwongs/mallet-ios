@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <map>
 #include <unordered_map>
 
 class CmdID
@@ -125,17 +126,8 @@ public:
     int numberGlobalVariableNum;
     int stringGlobalVariableNum;
 
-    std::unordered_map<std::string, int> numberVariableAddress;
-    int numberVariableNum;
-    std::unordered_map<std::string, int> stringVariableAddress;
-    int stringVariableNum;
-    std::unordered_map<std::string, int> boolVariableAddress;
-    int boolVariableNum;
-
     std::unordered_map<int, double> numberVariableInitialValue;
     std::unordered_map<int, std::string> stringVariableInitialValue;
-
-    std::unordered_map<std::string, int> variableType;
 
     std::vector<std::string> code;
 
@@ -144,13 +136,22 @@ public:
     int bytecodeSize;
     std::unordered_map<std::string, int> uiName;
 
-    std::set<std::string> symbol;
-    std::set<std::string> doubleSymbol;
-    std::set<std::string> reservedWord;
+    std::string ConvertCodeToJson(std::string codeStr);
 
-    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter2 &converter);
+    void ListFunction();
 
 private:
+    struct funcData
+    {
+        std::string funcName;
+        std::vector<int> argTypes;
+
+        bool operator<(const funcData &value) const
+        {
+            return std::tie(funcName, argTypes) < std::tie(value.funcName, value.argTypes);
+        }
+    };
+
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);
     void AddPushCode(int type, int address);
@@ -162,6 +163,26 @@ private:
     int ConvertValue(const int firstCodeIndex);
     int ConvertFormula(const int firstCodeIndex, int operatorNumber);
     int ConvertCodeBlock(const int firstCodeIndex);
+
+    void InitConverter();
+
+    int TypeName2ID(std::string typeName);
+
+    std::set<std::string> symbol;
+    std::set<std::string> doubleSymbol;
+    std::set<std::string> reservedWord;
+    std::set<std::string> typeName;
+    std::map<funcData, int> funcID;
+    std::vector<int> funcType;
+
+    std::unordered_map<std::string, int> numberVariableAddress;
+    int numberVariableNum;
+    std::unordered_map<std::string, int> stringVariableAddress;
+    int stringVariableNum;
+    std::unordered_map<std::string, int> boolVariableAddress;
+    int boolVariableNum;
+
+    std::unordered_map<std::string, int> variableType;
 };
 
 class Runner

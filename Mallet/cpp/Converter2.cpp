@@ -73,8 +73,6 @@ std::vector<std::string> SplitCode(std::string codeStr,
 
     codeStr = RemoveComments(codeStr);
 
-    codeStr = "{" + codeStr + "}";
-
     for (int i = 0; i < codeStr.size(); i++)
     {
         if (codeStr[i] == '\n' || codeStr[i] == '\t')
@@ -730,24 +728,13 @@ std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::st
     return json;
 }
 
-std::string Converter2::ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, Converter2 &converter)
+std::string Converter2::ConvertCodeToJson(std::string codeStr)
 {
-    bytecode = std::vector<int>(1000000);
-    bytecodeIndex = 0;
-    bytecodeSize = 0;
-
-    numberVariableInitialValue = std::unordered_map<int, double>();
-    stringVariableInitialValue = std::unordered_map<int, std::string>();
-
-    numberVariableAddress = std::unordered_map<std::string, int>();
-    stringVariableAddress = std::unordered_map<std::string, int>();
-    boolVariableAddress = std::unordered_map<std::string, int>();
-
-    numberVariableNum = 2;
-    stringVariableNum = 0;
-    boolVariableNum = 2;
+    InitConverter();
 
     code = SplitCode(codeStr, symbol, doubleSymbol, reservedWord);
+
+    ListFunction();
 
     for (auto i : code)
         printf("%s\n", i.c_str());
@@ -758,13 +745,81 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr, bool isDefinition
 
     for (int i = 0; i < bytecodeSize; i++)
     {
-        //printf("%d,\n", bytecode[i]);
         tmp.push_back(bytecode[i]);
     }
 
     bytecode = tmp;
 
     return "";
+}
+
+void Converter2::ListFunction()
+{
+    int codeIndex = 0;
+
+    int funcIndex = 0;
+
+    while (codeIndex < code.size())
+    {
+        if (typeName.count(code[codeIndex]) > 0)
+        {
+            funcData newFuncData;
+
+            int type = TypeName2ID(code[codeIndex]);
+            newFuncData.funcName = code[codeIndex + 1];
+
+            codeIndex += 3;
+
+            if (code[codeIndex] == ")")
+            {
+                codeIndex += 2;
+            }
+            else
+            {
+                while (code[codeIndex] != "{")
+                {
+                    newFuncData.argTypes.push_back(TypeName2ID(code[codeIndex]));
+                    codeIndex += 3;
+                }
+
+                codeIndex++;
+            }
+
+            int bracketStack = 1;
+            while (bracketStack > 0)
+            {
+                if (code[codeIndex] == "{")
+                    bracketStack++;
+                if (code[codeIndex] == "}")
+                    bracketStack--;
+
+                codeIndex++;
+            }
+
+            funcID[newFuncData] = funcIndex;
+            funcType.push_back(type);
+            funcIndex++;
+        }
+        else
+        {
+            printf("This code is broken #%d\n", codeIndex);
+            break;
+        }
+    }
+}
+
+int Converter2::TypeName2ID(std::string typeName)
+{
+    if (typeName == "void")
+        return CmdID::VoidType;
+    if (typeName == "number")
+        return CmdID::NumberType;
+    if (typeName == "string")
+        return CmdID::StringType;
+    if (typeName == "bool")
+        return CmdID::BoolType;
+
+    return -1;
 }
 
 void Converter2::AddCode(int code)
@@ -811,4 +866,27 @@ void Converter2::AddPush0Code()
 void Converter2::AddPush1Code()
 {
     AddPushCode(CmdID::NumberType, 2);
+}
+
+void Converter2::InitConverter()
+{
+    symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+    doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
+    reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
+    typeName = {"void", "number", "string", "bool"};
+
+    bytecode = std::vector<int>(1000000);
+    bytecodeIndex = 0;
+    bytecodeSize = 0;
+
+    numberVariableInitialValue = std::unordered_map<int, double>();
+    stringVariableInitialValue = std::unordered_map<int, std::string>();
+
+    numberVariableAddress = std::unordered_map<std::string, int>();
+    stringVariableAddress = std::unordered_map<std::string, int>();
+    boolVariableAddress = std::unordered_map<std::string, int>();
+
+    numberVariableNum = 2;
+    stringVariableNum = 0;
+    boolVariableNum = 2;
 }
