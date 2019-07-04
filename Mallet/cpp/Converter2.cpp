@@ -471,6 +471,9 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
         }
     }
 
+    //TODO:
+    returnFormulaData.type = CmdID::NumberType;
+
     return returnFormulaData;
 }
 
@@ -501,16 +504,16 @@ int Converter2::ConvertFunc(const int firstCodeIndex)
 
     if (!isFuncExists[thisFuncData])
     {
-        printf("Error : The function %s (", thisFuncData.funcName.c_str());
+        printf("Error : The function %s(", thisFuncData.funcName.c_str());
         for (int i = 0; i < thisFuncData.argTypes.size(); i++)
         {
             printf("%s", ID2TypeName(thisFuncData.argTypes[i]).c_str());
-            if (i == thisFuncData.argTypes.size() - 1)
+            if (i < thisFuncData.argTypes.size() - 1)
                 printf(",");
         }
         printf(") is not declared\n");
 
-        return -1;
+        return codeSize;
     }
 
     const int funcID = funcIDs[thisFuncData];
@@ -868,7 +871,10 @@ void Converter2::ListFunction()
             {
                 while (code[codeIndex] != "{")
                 {
-                    newFuncData.argTypes.push_back(TypeName2ID(code[codeIndex]));
+                    int type = TypeName2ID(code[codeIndex]);
+                    if (type == CmdID::BoolType)
+                        type = CmdID::NumberType;
+                    newFuncData.argTypes.push_back(type);
                     codeIndex += 3;
                 }
 
