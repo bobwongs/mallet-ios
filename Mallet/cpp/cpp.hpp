@@ -152,6 +152,12 @@ private:
         }
     };
 
+    struct formulaData
+    {
+        int codeSize;
+        int type;
+    };
+
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);
     void AddPushCode(int type, int address);
@@ -161,17 +167,20 @@ private:
     void AddPush1Code();
 
     int ConvertValue(const int firstCodeIndex);
-    int ConvertFormula(const int firstCodeIndex, int operatorNumber);
+    formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber);
     int ConvertCodeBlock(const int firstCodeIndex);
+    int ConvertFunc(const int firstCodeIndex);
 
     void InitConverter();
 
     int TypeName2ID(std::string typeName);
 
+    //TODO: Rename
     std::set<std::string> symbol;
     std::set<std::string> doubleSymbol;
     std::set<std::string> reservedWord;
     std::set<std::string> typeName;
+    std::set<std::string> funcName;
     std::map<funcData, int> funcID;
     std::vector<int> funcType;
 

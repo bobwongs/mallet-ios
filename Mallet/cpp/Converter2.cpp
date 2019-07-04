@@ -195,6 +195,8 @@ int convertOperator(std::string operatorString)
 
 int Converter2::ConvertValue(const int firstCodeIndex)
 {
+    int type = -1;
+
     if (code[firstCodeIndex][0] == '"')
     {
         //* String
@@ -209,7 +211,7 @@ int Converter2::ConvertValue(const int firstCodeIndex)
             stringVariableInitialValue[stringVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
         }
 
-        int type = CmdID::StringType;
+        type = CmdID::StringType;
         int address = stringVariableAddress[varName];
 
         AddPushCode(type, address);
@@ -256,7 +258,7 @@ int Converter2::ConvertValue(const int firstCodeIndex)
             numberVariableInitialValue[numberVariableNum] = std::stod(code[firstCodeIndex]);
         }
 
-        int type = CmdID::NumberType;
+        type = CmdID::NumberType;
         int address = numberVariableAddress[varName];
 
         AddPushCode(type, address);
@@ -264,6 +266,8 @@ int Converter2::ConvertValue(const int firstCodeIndex)
     else if (code[firstCodeIndex] == "true" || code[firstCodeIndex] == "false")
     {
         //* Bool
+
+        type = CmdID::BoolType;
 
         if (code[firstCodeIndex] == "true")
             AddPushTrueCode();
@@ -274,7 +278,6 @@ int Converter2::ConvertValue(const int firstCodeIndex)
     {
         //* Variable
 
-        int type;
         int address;
 
         switch (variableType[code[firstCodeIndex]])
@@ -327,10 +330,10 @@ int Converter2::ConvertValue(const int firstCodeIndex)
         AddPushCode(type, address);
     }
 
-    return 1;
+    return type;
 }
 
-int Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber)
+Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber)
 {
     const std::vector<std::set<std::string>> operatorsPriorities = {
         {"||"},
@@ -434,34 +437,48 @@ int Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber)
             AddCmdCode(convertOperator(operators[j - 1]), 2);
         }
 
-        //FIXME:
-        return parts[parts.size() - 1].second - parts[0].first;
+        formulaData returnFormulaData;
+
+        returnFormulaData.codeSize = parts[parts.size() - 1].second - parts[0].first;
+
+        return returnFormulaData;
     }
 
     if (parts.size() < 1)
     {
-        return 0;
+        return formulaData();
     }
+
+    formulaData returnFormulaData;
+
+    returnFormulaData.codeSize = parts[parts.size() - 1].second - parts[0].first;
 
     if ((parts[0].second - parts[0].first == 1))
     {
-        ConvertValue(firstCodeIndex);
+        returnFormulaData.type = ConvertValue(firstCodeIndex);
     }
     else
     {
         if (code[parts[0].first] == "!")
         {
-            ConvertFormula(firstCodeIndex, 0);
+            returnFormulaData.type = ConvertFormula(firstCodeIndex, 0).type;
 
             AddCmdCode(CmdID::Not, 1);
         }
         else
         {
-            ConvertFormula(firstCodeIndex + 1, 0);
+            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0).type;
         }
     }
 
-    return parts[parts.size() - 1].second - parts[0].first;
+    return returnFormulaData;
+}
+
+int Converter2::ConvertFunc(const int firstCodeIndex)
+{
+    int codeSize = 0;
+
+    return codeSize;
 }
 
 int Converter2::ConvertCodeBlock(const int firstCodeIndex)
@@ -482,25 +499,25 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
     while (code[codeIndex] != "}")
     {
-        std::string funcName = code[codeIndex];
+        std::string token = code[codeIndex];
 
         int codeSize = 0;
 
-        if (funcName == "{")
+        if (token == "{")
         {
             codeSize = 2 + ConvertCodeBlock(codeIndex);
         }
-        else if (funcName == "print")
+        else if (token == "print")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
 
             AddCmdCode(CmdID::PrintNumber, 1);
         }
-        else if (funcName == "number")
+        else if (token == "number")
         {
             std::string varName = code[codeIndex + 1];
 
-            if (variableType[varName] != 0)
+            if (variableType[varName] != 0 || funcName.count(varName) > 0)
             {
                 printf("The variable %s is already declared\n", varName.c_str());
             }
@@ -511,17 +528,17 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             codeSize = 1;
         }
-        else if (funcName == "string")
+        else if (token == "string")
         {
         }
-        else if (funcName == "bool")
+        else if (token == "bool")
         {
         }
-        else if (funcName == "while")
+        else if (token == "while")
         {
             int firstIndex = bytecodeIndex;
 
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
 
             AddCmdCode(CmdID::Not, 1);
 
@@ -541,9 +558,9 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             bytecode[firstJumpIndex + 4] = bytecodeIndex;
         }
-        else if (funcName == "if")
+        else if (token == "if")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
 
             AddCmdCode(CmdID::Not, 1);
 
@@ -577,7 +594,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
                 bytecode[firstJumpIndex + 4] = bytecodeIndex;
             }
         }
-        else if (funcName == "repeat")
+        else if (token == "repeat")
         {
             numberVariableNum++;
             int tmpVarAddress = numberVariableNum;
@@ -590,7 +607,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             AddPushCode(CmdID::NumberType, tmpVarAddress);
 
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0);
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
 
             AddCmdCode(CmdID::LessThan, 2);
 
@@ -659,13 +676,17 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             AddPushCode(CmdID::AddressType, address);
 
-            codeSize = 2 + ConvertFormula(codeIndex + 2, 0);
+            codeSize = 2 + ConvertFormula(codeIndex + 2, 0).codeSize;
 
             AddCmdCode(codeID, 2);
         }
+        else if (funcName.count(token) > 0)
+        {
+            codeSize = ConvertFunc(codeIndex);
+        }
         else
         {
-            //printf("%s is undefined\n", code[codeIndex].c_str());
+            printf("%s is undefined\n", code[codeIndex].c_str());
         }
 
         codeIndex += codeSize;
@@ -796,6 +817,7 @@ void Converter2::ListFunction()
                 codeIndex++;
             }
 
+            funcName.insert(newFuncData.funcName);
             funcID[newFuncData] = funcIndex;
             funcType.push_back(type);
             funcIndex++;
