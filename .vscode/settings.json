@@ -59,6 +59,7 @@
         "utility": "cpp",
         "vector": "cpp",
         "array": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "map": "cpp"
     }
 }

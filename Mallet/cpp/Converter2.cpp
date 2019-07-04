@@ -476,7 +476,43 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
 
 int Converter2::ConvertFunc(const int firstCodeIndex)
 {
-    int codeSize = 0;
+    funcData thisFuncData;
+    thisFuncData.funcName = code[firstCodeIndex];
+
+    int codeSize = 2; //* funcname(
+    int codeIndex = firstCodeIndex + 2;
+
+    if (code[codeIndex] == ")")
+        codeSize++;
+
+    while (code[codeIndex] != ")")
+    {
+        formulaData argData = ConvertFormula(codeIndex, 0);
+
+        thisFuncData.argTypes.push_back(argData.type);
+
+        codeIndex += argData.codeSize + 1;
+        codeSize += argData.codeSize + 1;
+    }
+
+    if (!isFuncExists[thisFuncData])
+    {
+        printf("Error : The function %s (", thisFuncData.funcName.c_str());
+        for (int i = 0; i < thisFuncData.argTypes.size(); i++)
+        {
+            printf("%s", ID2TypeName(thisFuncData.argTypes[i]).c_str());
+            if (i == thisFuncData.argTypes.size() - 1)
+                printf(",");
+        }
+        printf(") is not declared\n");
+
+        return -1;
+    }
+
+    const int funcID = funcIDs[thisFuncData];
+
+    AddPushCode(CmdID::AddressType, funcID);
+    AddCmdCode(CmdID::CallMalletFunc, 1);
 
     return codeSize;
 }
@@ -517,7 +553,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         {
             std::string varName = code[codeIndex + 1];
 
-            if (variableType[varName] != 0 || funcName.count(varName) > 0)
+            if (variableType[varName] != 0 || funcNames.count(varName) > 0)
             {
                 printf("The variable %s is already declared\n", varName.c_str());
             }
@@ -680,7 +716,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             AddCmdCode(codeID, 2);
         }
-        else if (funcName.count(token) > 0)
+        else if (funcNames.count(token) > 0)
         {
             codeSize = ConvertFunc(codeIndex);
         }
@@ -760,16 +796,43 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
     for (auto i : code)
         printf("%s\n", i.c_str());
 
-    ConvertCodeBlock(0);
-
-    std::vector<int> tmp;
-
-    for (int i = 0; i < bytecodeSize; i++)
+    for (int funcID = 0; funcID < funcStartIndexes.size(); funcID++)
     {
-        tmp.push_back(bytecode[i]);
-    }
+        InitConverter();
 
-    bytecode = tmp;
+        int funcStartIndex = funcStartIndexes[funcID];
+        std::string funcName = code[funcStartIndex + 1];
+
+        int codeIndex = funcStartIndex + 3;
+
+        if (code[codeIndex] == ")")
+        {
+            codeIndex += 1;
+        }
+        else
+        {
+            while (code[codeIndex] != "{")
+            {
+                int type = TypeName2ID(code[codeIndex]);
+                std::string name = code[codeIndex + 1];
+
+                DeclareVariable(type, name);
+
+                codeIndex += 3;
+            }
+        }
+
+        ConvertCodeBlock(codeIndex);
+
+        std::vector<int> tmp;
+
+        for (int i = 0; i < bytecodeSize; i++)
+        {
+            tmp.push_back(bytecode[i]);
+        }
+
+        bytecodes.push_back(tmp);
+    }
 
     return "";
 }
@@ -778,12 +841,14 @@ void Converter2::ListFunction()
 {
     int codeIndex = 0;
 
-    int funcIndex = 0;
+    int funcID = 0;
 
     while (codeIndex < code.size())
     {
         if (typeName.count(code[codeIndex]) > 0)
         {
+            funcStartIndexes.push_back(codeIndex);
+
             funcData newFuncData;
 
             int type = TypeName2ID(code[codeIndex]);
@@ -817,10 +882,11 @@ void Converter2::ListFunction()
                 codeIndex++;
             }
 
-            funcName.insert(newFuncData.funcName);
-            funcID[newFuncData] = funcIndex;
-            funcType.push_back(type);
-            funcIndex++;
+            funcNames.insert(newFuncData.funcName);
+            funcIDs[newFuncData] = funcID;
+            isFuncExists[newFuncData] = true;
+            funcTypes.push_back(type);
+            funcID++;
         }
         else
         {
@@ -830,7 +896,40 @@ void Converter2::ListFunction()
     }
 }
 
-int Converter2::TypeName2ID(std::string typeName)
+void Converter2::DeclareVariable(const int type, const std::string name)
+{
+    if (variableType[name] > 0)
+    {
+        printf("Error : The variable %s is already declared\n", name.c_str());
+        return;
+    }
+
+    variableType[name] = type;
+
+    switch (type)
+    {
+    case CmdID::NumberType:
+        numberVariableNum++;
+        numberVariableAddress[name] = numberVariableNum;
+        break;
+
+    case CmdID::StringType:
+        stringVariableNum++;
+        stringVariableAddress[name] = stringVariableNum;
+        break;
+
+    case CmdID::BoolType:
+        boolVariableNum++;
+        boolVariableAddress[name] = boolVariableNum;
+        break;
+
+    default:
+        printf("Error : %d is undefined\n", type);
+        break;
+    }
+}
+
+int Converter2::TypeName2ID(const std::string typeName)
 {
     if (typeName == "void")
         return CmdID::VoidType;
@@ -842,6 +941,20 @@ int Converter2::TypeName2ID(std::string typeName)
         return CmdID::BoolType;
 
     return -1;
+}
+
+std::string Converter2::ID2TypeName(const int typeID)
+{
+    if (typeID == CmdID::NumberType)
+        return "number";
+    if (typeID == CmdID::StringType)
+        return "string";
+    if (typeID == CmdID::BoolType)
+        return "bool";
+    if (typeID == CmdID::VoidType)
+        return "void";
+
+    return "Unknown Type";
 }
 
 void Converter2::AddCode(int code)
@@ -892,10 +1005,6 @@ void Converter2::AddPush1Code()
 
 void Converter2::InitConverter()
 {
-    symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
-    doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
-    reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
-    typeName = {"void", "number", "string", "bool"};
 
     bytecode = std::vector<int>(1000000);
     bytecodeIndex = 0;

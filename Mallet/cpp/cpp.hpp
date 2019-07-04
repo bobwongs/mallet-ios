@@ -131,9 +131,7 @@ public:
 
     std::vector<std::string> code;
 
-    std::vector<int> bytecode;
-    int bytecodeIndex;
-    int bytecodeSize;
+    std::vector<std::vector<int>> bytecodes;
     std::unordered_map<std::string, int> uiName;
 
     std::string ConvertCodeToJson(std::string codeStr);
@@ -158,6 +156,10 @@ private:
         int type;
     };
 
+    std::vector<int> bytecode;
+    int bytecodeIndex;
+    int bytecodeSize;
+
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);
     void AddPushCode(int type, int address);
@@ -171,18 +173,22 @@ private:
     int ConvertCodeBlock(const int firstCodeIndex);
     int ConvertFunc(const int firstCodeIndex);
 
+    void DeclareVariable(const int type, const std::string name);
+
     void InitConverter();
 
-    int TypeName2ID(std::string typeName);
+    int TypeName2ID(const std::string typeName);
+    std::string ID2TypeName(const int typeID);
 
-    //TODO: Rename
-    std::set<std::string> symbol;
-    std::set<std::string> doubleSymbol;
-    std::set<std::string> reservedWord;
-    std::set<std::string> typeName;
-    std::set<std::string> funcName;
-    std::map<funcData, int> funcID;
-    std::vector<int> funcType;
+    std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+    std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
+    std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
+    std::set<std::string> typeName = {"void", "number", "string", "bool"};
+    std::set<std::string> funcNames;
+    std::map<funcData, int> funcIDs;
+    std::map<funcData, bool> isFuncExists;
+    std::vector<int> funcTypes;
+    std::vector<int> funcStartIndexes;
 
     std::unordered_map<std::string, int> numberVariableAddress;
     int numberVariableNum;
