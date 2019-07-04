@@ -491,8 +491,12 @@ int Converter2::ConvertFunc(const int firstCodeIndex)
 
         thisFuncData.argTypes.push_back(argData.type);
 
-        codeIndex += argData.codeSize + 1;
         codeSize += argData.codeSize + 1;
+
+        codeIndex += argData.codeSize;
+
+        if (code[codeIndex] == ",")
+            codeIndex++;
     }
 
     if (!isFuncExists[thisFuncData])
