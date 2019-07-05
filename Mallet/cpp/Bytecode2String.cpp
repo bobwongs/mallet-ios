@@ -11,6 +11,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {CmdID::PrintNumber, "PrintNumber"},
         {CmdID::PrintString, "PrintString"},
         {CmdID::Jump, "Jump"},
+        {CmdID::Return, "Return"},
         {CmdID::NumberType, "Number"},
         {CmdID::StringType, "String"},
         {CmdID::BoolType, "Bool"},
