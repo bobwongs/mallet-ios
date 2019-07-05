@@ -193,7 +193,7 @@ int convertOperator(std::string operatorString)
     return operatorCode;
 }
 
-int Converter2::ConvertValue(const int firstCodeIndex)
+int Converter2::ConvertValue(const int firstCodeIndex, const bool convert)
 {
     int type = -1;
 
@@ -214,7 +214,8 @@ int Converter2::ConvertValue(const int firstCodeIndex)
         type = CmdID::StringType;
         int address = stringVariableAddress[varName];
 
-        AddPushCode(type, address);
+        if (convert)
+            AddPushCode(type, address);
     }
     else if (code[firstCodeIndex][0] == '-' || code[firstCodeIndex][0] == '.' || (0 <= (code[firstCodeIndex][0] - '0') && (code[firstCodeIndex][0] - '0') <= 9))
     {
@@ -261,7 +262,8 @@ int Converter2::ConvertValue(const int firstCodeIndex)
         type = CmdID::NumberType;
         int address = numberVariableAddress[varName];
 
-        AddPushCode(type, address);
+        if (convert)
+            AddPushCode(type, address);
     }
     else if (code[firstCodeIndex] == "true" || code[firstCodeIndex] == "false")
     {
@@ -269,9 +271,9 @@ int Converter2::ConvertValue(const int firstCodeIndex)
 
         type = CmdID::BoolType;
 
-        if (code[firstCodeIndex] == "true")
+        if (code[firstCodeIndex] == "true" && convert)
             AddPushTrueCode();
-        if (code[firstCodeIndex] == "false")
+        if (code[firstCodeIndex] == "false" && convert)
             AddPushFalseCode();
     }
     else
@@ -327,13 +329,14 @@ int Converter2::ConvertValue(const int firstCodeIndex)
             break;
         }
 
-        AddPushCode(type, address);
+        if (convert)
+            AddPushCode(type, address);
     }
 
     return type;
 }
 
-Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber)
+Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
 {
     const std::vector<std::set<std::string>> operatorsPriorities = {
         {"||"},
@@ -390,18 +393,25 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
                     break;
                 }
 
-                if (firstCodeIndex < i && bracketStack == 0)
-                    allBracket = false;
+                if (funcNames.count(code[i]) > 0)
+                {
+                    i += ConvertFunc(i, false);
+                }
+                else
+                {
+                    if (firstCodeIndex < i && bracketStack == 0)
+                        allBracket = false;
 
-                if (code[i] == "(")
-                    bracketStack++;
-                if (code[i] == ")")
-                    bracketStack--;
+                    if (code[i] == "(")
+                        bracketStack++;
+                    if (code[i] == ")")
+                        bracketStack--;
 
-                if (firstCodeIndex == i && bracketStack == 0)
-                    allBracket = false;
+                    if (firstCodeIndex == i && bracketStack == 0)
+                        allBracket = false;
 
-                i++;
+                    i++;
+                }
             }
 
             end = i;
@@ -428,13 +438,16 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
 
         const int nextOperatorIndex = operatorIndex + 1;
 
-        ConvertFormula(parts[0].first, nextOperatorIndex);
-
-        for (int j = 1; j < parts.size(); j++)
+        if (convert)
         {
-            ConvertFormula(parts[j].first, nextOperatorIndex);
+            ConvertFormula(parts[0].first, nextOperatorIndex, true);
 
-            AddCmdCode(convertOperator(operators[j - 1]), 2);
+            for (int j = 1; j < parts.size(); j++)
+            {
+                ConvertFormula(parts[j].first, nextOperatorIndex, true);
+
+                AddCmdCode(convertOperator(operators[j - 1]), 2);
+            }
         }
 
         formulaData returnFormulaData;
@@ -455,19 +468,26 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
 
     if ((parts[0].second - parts[0].first == 1))
     {
-        returnFormulaData.type = ConvertValue(firstCodeIndex);
+        returnFormulaData.type = ConvertValue(firstCodeIndex, convert);
+    }
+    else if (funcNames.count(code[parts[0].first]) > 0)
+    {
+        ConvertFunc(firstCodeIndex, convert);
+
+        //TODO: returnFormulaData.type
     }
     else
     {
         if (code[parts[0].first] == "!")
         {
-            returnFormulaData.type = ConvertFormula(firstCodeIndex, 0).type;
+            returnFormulaData.type = ConvertFormula(firstCodeIndex, 0, convert).type;
 
-            AddCmdCode(CmdID::Not, 1);
+            if (convert)
+                AddCmdCode(CmdID::Not, 1);
         }
         else
         {
-            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0).type;
+            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
         }
     }
 
@@ -477,7 +497,7 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
     return returnFormulaData;
 }
 
-int Converter2::ConvertFunc(const int firstCodeIndex)
+int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
 {
     funcData thisFuncData;
     thisFuncData.funcName = code[firstCodeIndex];
@@ -490,7 +510,8 @@ int Converter2::ConvertFunc(const int firstCodeIndex)
 
     while (code[codeIndex] != ")")
     {
-        formulaData argData = ConvertFormula(codeIndex, 0);
+        formulaData argData;
+        argData = ConvertFormula(codeIndex, 0, convert);
 
         thisFuncData.argTypes.push_back(argData.type);
 
@@ -518,8 +539,31 @@ int Converter2::ConvertFunc(const int firstCodeIndex)
 
     const int funcID = funcIDs[thisFuncData];
 
-    AddPushCode(CmdID::AddressType, funcID);
-    AddCmdCode(CmdID::CallMalletFunc, 1 + thisFuncData.argTypes.size());
+    if (convert)
+    {
+        AddPushCode(CmdID::AddressType, funcID);
+        AddCmdCode(CmdID::CallMalletFunc, 1 + thisFuncData.argTypes.size());
+
+        /*
+        switch (funcTypes[funcID])
+        {
+        case CmdID::NumberType:
+            AddPushCode(CmdID::NumberTmpType, 0);
+            break;
+
+        case CmdID::StringType:
+            AddPushCode(CmdID::StringTmpType, 0);
+            break;
+
+        case CmdID::BoolType:
+            AddPushCode(CmdID::BoolTmpType, 0);
+            break;
+
+        default:
+            break;
+        }
+        */
+    }
 
     return codeSize;
 }
@@ -553,13 +597,13 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         else if (token == "return")
         {
             //TODO: check type
-            codeSize = 1 + ConvertFormula(codeIndex + 1, 0).codeSize;
+            codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true).codeSize;
 
             AddCmdCode(CmdID::Return, 0);
         }
         else if (token == "print")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(CmdID::PrintNumber, 1);
         }
@@ -588,7 +632,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         {
             int firstIndex = bytecodeIndex;
 
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(CmdID::Not, 1);
 
@@ -610,7 +654,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         }
         else if (token == "if")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(CmdID::Not, 1);
 
@@ -657,7 +701,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             AddPushCode(CmdID::NumberType, tmpVarAddress);
 
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(CmdID::LessThan, 2);
 
@@ -726,13 +770,13 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
 
             AddPushCode(CmdID::AddressType, address);
 
-            codeSize = 2 + ConvertFormula(codeIndex + 2, 0).codeSize;
+            codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(codeID, 2);
         }
         else if (funcNames.count(token) > 0)
         {
-            codeSize = ConvertFunc(codeIndex);
+            codeSize = ConvertFunc(codeIndex, true);
         }
         else
         {

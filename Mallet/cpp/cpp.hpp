@@ -187,10 +187,13 @@ private:
     void AddPush0Code();
     void AddPush1Code();
 
-    int ConvertValue(const int firstCodeIndex);
-    formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber);
+    int ConvertValue(const int firstCodeIndex, const bool convert);
+    formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
     int ConvertCodeBlock(const int firstCodeIndex);
-    int ConvertFunc(const int firstCodeIndex);
+    int ConvertFunc(const int firstCodeIndex, const bool convert);
+
+    formulaData GetFormulaSize(const int firstCodeIndex, int operatorNumber);
+    int GetFuncSize(const int firstCodeIndex);
 
     int DeclareVariable(const int type, const std::string name);
 

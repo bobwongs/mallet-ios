@@ -530,8 +530,10 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     if (returnValue.type != CmdID::VoidType)
                     {
+                        /*
                         stackIndex++;
                         stack[stackIndex] = {returnValue.type, returnValue.address};
+                        */
 
                         switch (returnValue.type)
                         {
@@ -539,17 +541,26 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                             numberStackIndex++;
                             numberStack[numberStackIndex] = returnValue.numberValue;
 
+                            stackIndex++;
+                            stack[stackIndex] = {CmdID::NumberTmpType, returnValue.address};
+
                             break;
 
                         case CmdID::StringType:
                             stringStackIndex++;
                             stringStack[stringStackIndex] = returnValue.stringValue;
 
+                            stackIndex++;
+                            stack[stackIndex] = {CmdID::StringTmpType, returnValue.address};
+
                             break;
 
                         case CmdID::BoolType:
                             boolStackIndex++;
                             boolStack[boolStackIndex] = returnValue.boolValue;
+
+                            stackIndex++;
+                            stack[stackIndex] = {CmdID::BoolTmpType, returnValue.address};
 
                             break;
 
@@ -607,6 +618,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     {
         stackData topStackData = stack[stackIndex];
         stackIndex--;
+
+        returnStackData.type = funcType;
 
         switch (topStackData.type)
         {
