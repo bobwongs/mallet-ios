@@ -550,6 +550,13 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex)
         {
             codeSize = 2 + ConvertCodeBlock(codeIndex);
         }
+        else if (token == "return")
+        {
+            //TODO: check type
+            codeSize = 1 + ConvertFormula(codeIndex + 1, 0).codeSize;
+
+            AddCmdCode(CmdID::Return, 0);
+        }
         else if (token == "print")
         {
             codeSize = 3 + ConvertFormula(codeIndex + 2, 0).codeSize;

@@ -40,6 +40,8 @@ public:
     static constexpr int PushTrue = 90015;
     static constexpr int PushFalse = 90016;
 
+    static constexpr int Return = 90017;
+
     static constexpr int NumberType = 80000;
     static constexpr int StringType = 80001;
     static constexpr int BoolType = 80002;

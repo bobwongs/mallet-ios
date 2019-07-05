@@ -114,6 +114,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
     int bytecodeSize = bytecode.size();
 
+    bool endProcess = false;
+
     while (bytecodeIndex < bytecodeSize)
     {
         if (bytecode[bytecodeIndex] != CmdID::CodeBegin || bytecodeIndex + 2 >= bytecodeSize)
@@ -562,6 +564,10 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
+                case CmdID::Return:
+                    endProcess = true;
+                    break;
+
                 default:
                     printf("Error : %d is undefined #%d\n", cmd, bytecodeIndex);
                     error = true;
@@ -573,10 +579,11 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                 bytecodeIndex += defaultCodeSize;
         }
 
-        if (error)
-        {
+        if (endProcess)
             break;
-        }
+
+        if (error)
+            break;
     }
 
     if (funcType == CmdID::VoidType)
