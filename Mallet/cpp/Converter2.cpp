@@ -1038,6 +1038,8 @@ void Converter2::InitConverter()
     numberVariableInitialValue.push_back(std::unordered_map<int, double>());
     stringVariableInitialValue.push_back(std::unordered_map<int, std::string>());
 
+    variableType = std::unordered_map<std::string, int>();
+
     numberVariableAddress = std::unordered_map<std::string, int>();
     stringVariableAddress = std::unordered_map<std::string, int>();
     boolVariableAddress = std::unordered_map<std::string, int>();
