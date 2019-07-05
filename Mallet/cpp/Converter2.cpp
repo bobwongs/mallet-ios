@@ -208,7 +208,7 @@ int Converter2::ConvertValue(const int firstCodeIndex)
             stringVariableNum++;
             stringVariableAddress[varName] = stringVariableNum;
 
-            stringVariableInitialValue[stringVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
+            stringVariableInitialValue[stringVariableInitialValue.size() - 1][stringVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
         }
 
         type = CmdID::StringType;
@@ -255,7 +255,7 @@ int Converter2::ConvertValue(const int firstCodeIndex)
             numberVariableNum++;
             numberVariableAddress[varName] = numberVariableNum;
 
-            numberVariableInitialValue[numberVariableNum] = std::stod(code[firstCodeIndex]);
+            numberVariableInitialValue[numberVariableInitialValue.size() - 1][numberVariableNum] = std::stod(code[firstCodeIndex]);
         }
 
         type = CmdID::NumberType;
@@ -519,7 +519,7 @@ int Converter2::ConvertFunc(const int firstCodeIndex)
     const int funcID = funcIDs[thisFuncData];
 
     AddPushCode(CmdID::AddressType, funcID);
-    AddCmdCode(CmdID::CallMalletFunc, 1);
+    AddCmdCode(CmdID::CallMalletFunc, 1 + thisFuncData.argTypes.size());
 
     return codeSize;
 }
@@ -794,7 +794,7 @@ std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::st
 
 std::string Converter2::ConvertCodeToJson(std::string codeStr)
 {
-    InitConverter();
+    //InitConverter();
 
     code = SplitCode(codeStr, symbol, doubleSymbol, reservedWord);
 
@@ -823,7 +823,7 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
                 int type = TypeName2ID(code[codeIndex]);
                 std::string name = code[codeIndex + 1];
 
-                DeclareVariable(type, name);
+                argAddresses[funcID].push_back(DeclareVariable(type, name));
 
                 codeIndex += 3;
             }
@@ -906,37 +906,45 @@ void Converter2::ListFunction()
     }
 }
 
-void Converter2::DeclareVariable(const int type, const std::string name)
+int Converter2::DeclareVariable(const int type, const std::string name)
 {
     if (variableType[name] > 0)
     {
         printf("Error : The variable %s is already declared\n", name.c_str());
-        return;
+        return -1;
     }
 
     variableType[name] = type;
+
+    int address;
 
     switch (type)
     {
     case CmdID::NumberType:
         numberVariableNum++;
         numberVariableAddress[name] = numberVariableNum;
+        address = numberVariableNum;
         break;
 
     case CmdID::StringType:
         stringVariableNum++;
         stringVariableAddress[name] = stringVariableNum;
+        address = stringVariableNum;
         break;
 
     case CmdID::BoolType:
         boolVariableNum++;
         boolVariableAddress[name] = boolVariableNum;
+        address = boolVariableNum;
         break;
 
     default:
         printf("Error : %d is undefined\n", type);
+        address = -1;
         break;
     }
+
+    return address;
 }
 
 int Converter2::TypeName2ID(const std::string typeName)
@@ -1020,12 +1028,14 @@ void Converter2::InitConverter()
     bytecodeIndex = 0;
     bytecodeSize = 0;
 
-    numberVariableInitialValue = std::unordered_map<int, double>();
-    stringVariableInitialValue = std::unordered_map<int, std::string>();
+    numberVariableInitialValue.push_back(std::unordered_map<int, double>());
+    stringVariableInitialValue.push_back(std::unordered_map<int, std::string>());
 
     numberVariableAddress = std::unordered_map<std::string, int>();
     stringVariableAddress = std::unordered_map<std::string, int>();
     boolVariableAddress = std::unordered_map<std::string, int>();
+
+    argAddresses.push_back(std::vector<int>());
 
     numberVariableNum = 2;
     stringVariableNum = 0;

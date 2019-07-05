@@ -27,15 +27,17 @@ Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &
     return stack[stackIndex + 1];
 }
 
-Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runner2 &runner)
+Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcStackData> args)
 {
-    std::vector<int> bytecode = runner.bytecodes[funcID];
+    std::vector<int> bytecode = bytecodes[funcID];
+
+    int funcType = funcTypes[funcID];
 
     int stackIndex = -1;
     const int stackSize = 10000;
     std::vector<stackData> stack(stackSize);
 
-    stackData returnStackData;
+    funcStackData returnStackData;
 
     std::vector<double> numberVariable(10000, 0);
     std::vector<std::string> stringVariable(10000, "");
@@ -48,27 +50,54 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
     int stringStackIndex = -1;
     int boolStackIndex = -1;
 
-    constexpr int pushCodeSize = 5;
-    constexpr int defaultCodeSize = 3;
-
-    for (stackData i : arg)
-    {
-        stackIndex++;
-        stack[stackIndex] = i;
-    }
-
-    for (int i = 0; i < runner.numberVariableInitialValues[funcID].size(); i++)
-        numberVariable[i] = runner.numberVariableInitialValues[funcID][i];
-    for (int i = 0; i < runner.stringVariableInitialValues[funcID].size(); i++)
-        stringVariable[i] = runner.stringVariableInitialValues[funcID][i];
-    for (int i = 0; i < runner.boolVariableInitialValues[funcID].size(); i++)
-        boolVariable[i] = runner.boolVariableInitialValues[funcID][i];
+    for (int i = 0; i < numberVariableInitialValues[funcID].size(); i++)
+        numberVariable[i] = numberVariableInitialValues[funcID][i];
+    for (int i = 0; i < stringVariableInitialValues[funcID].size(); i++)
+        stringVariable[i] = stringVariableInitialValues[funcID][i];
+    for (int i = 0; i < boolVariableInitialValues[funcID].size(); i++)
+        boolVariable[i] = boolVariableInitialValues[funcID][i];
 
     numberVariable[1] = 0;
     numberVariable[2] = 1;
 
     boolVariable[1] = true;
     boolVariable[2] = false;
+
+    constexpr int pushCodeSize = 5;
+    constexpr int defaultCodeSize = 3;
+
+    int argIndex = 0;
+
+    for (funcStackData arg : args)
+    {
+        switch (arg.type)
+        {
+        case CmdID::NumberType:
+            numberVariable[argAddresses[funcID][argIndex]] = arg.numberValue;
+
+            break;
+
+        case CmdID::StringType:
+            stringVariable[argAddresses[funcID][argIndex]] = arg.stringValue;
+
+            break;
+
+        case CmdID::BoolType:
+            boolVariable[argAddresses[funcID][argIndex]] = arg.boolValue;
+
+            break;
+
+        case CmdID::AddressType:
+            //TODO:
+            break;
+
+        default:
+
+            break;
+        }
+
+        argIndex++;
+    }
 
     int bytecodeIndex = 0;
 
@@ -78,7 +107,10 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
 
     stackData newStackData;
 
-    std::vector<stackData> callFuncArg;
+    std::vector<funcStackData> callFuncArg;
+
+    funcStackData newArg;
+    funcStackData returnValue;
 
     int bytecodeSize = bytecode.size();
 
@@ -405,6 +437,7 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
 
                     break;
 
+                    /*
                 case CmdID::Call:
 
                     callFuncID = topStackData[0]->address;
@@ -425,6 +458,109 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
                     }
 
                     break;
+                    */
+
+                case CmdID::CallMalletFunc:
+
+                    callFuncID = topStackData[argNum - 1]->address;
+
+                    callFuncArg = std::vector<funcStackData>(argNum - 1);
+
+                    for (int i = 0; i < argNum - 1; i++)
+                    {
+                        switch (topStackData[i]->type)
+                        {
+                        case CmdID::NumberType:
+                            newArg.type = CmdID::NumberType;
+                            newArg.numberValue = numberVariable[topStackData[i]->address];
+
+                            break;
+
+                        case CmdID::NumberTmpType:
+                            newArg.type = CmdID::NumberType;
+                            newArg.numberValue = numberStack[numberStackIndex];
+                            numberStackIndex--;
+
+                            break;
+
+                        case CmdID::StringType:
+                            newArg.type = CmdID::StringType;
+                            newArg.stringValue = stringVariable[topStackData[i]->address];
+
+                            break;
+
+                        case CmdID::StringTmpType:
+                            newArg.type = CmdID::StringType;
+                            newArg.stringValue = stringStack[stringStackIndex];
+                            stringStackIndex--;
+
+                            break;
+
+                        case CmdID::BoolType:
+                            newArg.type = CmdID::BoolType;
+                            newArg.boolValue = boolVariable[topStackData[i]->address];
+
+                            break;
+
+                        case CmdID::BoolTmpType:
+                            newArg.type = CmdID::BoolType;
+                            newArg.boolValue = boolStack[boolStackIndex];
+                            boolStackIndex--;
+
+                            break;
+
+                        case CmdID::AddressType:
+                            newArg.type = CmdID::AddressType;
+                            newArg.address = topStackData[i]->address;
+
+                            break;
+
+                        default:
+                            printf("Error : Unknown type\n");
+                            error = true;
+                            break;
+                        }
+
+                        callFuncArg[i] = newArg;
+                    }
+
+                    returnValue = RunCode(callFuncID, callFuncArg);
+
+                    if (returnValue.type != CmdID::VoidType)
+                    {
+                        stackIndex++;
+                        stack[stackIndex] = {returnValue.type, returnValue.address};
+
+                        switch (returnValue.type)
+                        {
+                        case CmdID::NumberType:
+                            numberStackIndex++;
+                            numberStack[numberStackIndex] = returnValue.numberValue;
+
+                            break;
+
+                        case CmdID::StringType:
+                            stringStackIndex++;
+                            stringStack[stringStackIndex] = returnValue.stringValue;
+
+                            break;
+
+                        case CmdID::BoolType:
+                            boolStackIndex++;
+                            boolStack[boolStackIndex] = returnValue.boolValue;
+
+                            break;
+
+                        default:
+                            break;
+                        }
+
+                        break;
+                    }
+
+                case CmdID::CallCppFunc:
+
+                    break;
 
                 default:
                     printf("Error : %d is undefined #%d\n", cmd, bytecodeIndex);
@@ -443,17 +579,122 @@ Runner2::stackData Runner2::RunCode(int funcID, std::vector<stackData> arg, Runn
         }
     }
 
-    if (stackIndex == -1)
+    if (funcType == CmdID::VoidType)
     {
         returnStackData.type = CmdID::VoidType;
+
+        return returnStackData;
     }
-    else if (stackIndex == 0)
+
+    if (stackIndex < 0)
     {
-        returnStackData = stack[0];
+        printf("Error : There is nothing in the stack\n");
+
+        error = true;
+
+        returnStackData.type = CmdID::Error;
+
+        return returnStackData;
     }
     else
     {
-        error = true;
+        stackData topStackData = stack[stackIndex];
+        stackIndex--;
+
+        switch (topStackData.type)
+        {
+        case CmdID::NumberType:
+            if (funcType != CmdID::NumberType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.numberValue = numberVariable[topStackData.address];
+
+            break;
+
+        case CmdID::NumberTmpType:
+            if (funcType != CmdID::NumberType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.numberValue = numberStack[numberStackIndex];
+            numberStackIndex--;
+
+            break;
+
+        case CmdID::StringType:
+            if (funcType != CmdID::StringType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.stringValue = stringVariable[topStackData.address];
+
+            break;
+
+        case CmdID::StringTmpType:
+            if (funcType != CmdID::StringType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.stringValue = stringStack[stringStackIndex];
+            stringStackIndex--;
+
+            break;
+
+        case CmdID::BoolType:
+            if (funcType != CmdID::BoolType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.boolValue = boolVariable[topStackData.address];
+
+            break;
+
+        case CmdID::BoolTmpType:
+            if (funcType != CmdID::BoolType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.boolValue = boolStack[boolStackIndex];
+            boolStackIndex--;
+
+            break;
+
+        case CmdID::AddressType:
+            if (funcType != CmdID::AddressType)
+            {
+                printf("Error : Return type is wrong\n");
+                error = true;
+                break;
+            }
+
+            returnStackData.address = topStackData.address;
+
+            break;
+
+        default:
+            printf("Error : Unknown type\n");
+            error = true;
+            break;
+        }
     }
 
     if (error)

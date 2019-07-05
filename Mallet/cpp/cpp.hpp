@@ -33,7 +33,7 @@ public:
     static constexpr int PrintString = 90009;
 
     static constexpr int Jump = 90010;
-    static constexpr int Call = 90013;
+    //static constexpr int Call = 90013;
 
     static constexpr int Error = 90014;
 
@@ -53,16 +53,21 @@ public:
     static constexpr int BoolTmpType = 80009;
 
     //* IO
+    /*
     static constexpr int Print = 10000;
     static constexpr int Input = 10001;
+    */
 
     //* Control
+    /*
     static constexpr int Do = 20000;
     static constexpr int If = 20001;
     static constexpr int Repeat = 20002;
     static constexpr int While = 20003;
+    */
 
     //* Variable
+    /*
     static constexpr int DeclareIntVariable = 30000;
     static constexpr int AssignIntVariable = 30001;
     static constexpr int IntVariableValue = 30002;
@@ -80,6 +85,7 @@ public:
 
     static constexpr int AssignIntTmpVariable = 32001;
     static constexpr int IntTmpVariableValue = 32002;
+    */
 
     //* Operation
     static constexpr int Add = 40000;
@@ -98,7 +104,7 @@ public:
     static constexpr int Not = 40013;
 
     //* UI
-    static constexpr int SetUIText = 50000;
+    //static constexpr int SetUIText = 50000;
 };
 
 class Converter
@@ -126,13 +132,24 @@ public:
     int numberGlobalVariableNum;
     int stringGlobalVariableNum;
 
-    std::unordered_map<int, double> numberVariableInitialValue;
-    std::unordered_map<int, std::string> stringVariableInitialValue;
+    std::unordered_map<std::string, int> numberVariableAddress;
+    int numberVariableNum;
+    std::unordered_map<std::string, int> stringVariableAddress;
+    int stringVariableNum;
+    std::unordered_map<std::string, int> boolVariableAddress;
+    int boolVariableNum;
+
+    std::vector<std::unordered_map<int, double>> numberVariableInitialValue;
+    std::vector<std::unordered_map<int, std::string>> stringVariableInitialValue;
+
+    std::vector<std::vector<int>> argAddresses;
 
     std::vector<std::string> code;
 
     std::vector<std::vector<int>> bytecodes;
     std::unordered_map<std::string, int> uiName;
+
+    std::vector<int> funcTypes;
 
     std::string ConvertCodeToJson(std::string codeStr);
 
@@ -173,7 +190,7 @@ private:
     int ConvertCodeBlock(const int firstCodeIndex);
     int ConvertFunc(const int firstCodeIndex);
 
-    void DeclareVariable(const int type, const std::string name);
+    int DeclareVariable(const int type, const std::string name);
 
     void InitConverter();
 
@@ -187,15 +204,7 @@ private:
     std::set<std::string> funcNames;
     std::map<funcData, int> funcIDs;
     std::map<funcData, bool> isFuncExists;
-    std::vector<int> funcTypes;
     std::vector<int> funcStartIndexes;
-
-    std::unordered_map<std::string, int> numberVariableAddress;
-    int numberVariableNum;
-    std::unordered_map<std::string, int> stringVariableAddress;
-    int stringVariableNum;
-    std::unordered_map<std::string, int> boolVariableAddress;
-    int boolVariableNum;
 
     std::unordered_map<std::string, int> variableType;
 };
@@ -225,7 +234,17 @@ public:
         int address;
     } stackData;
 
-    std::vector<double> numberGlobalVariable;
+    typedef struct
+    {
+        int type;
+        double numberValue;
+        std::string stringValue;
+        bool boolValue;
+        int address;
+    } funcStackData;
+
+    std::vector<double>
+        numberGlobalVariable;
     std::vector<std::string> stringGlobalVariable;
     std::vector<bool> boolGlobalVariable;
 
@@ -234,7 +253,11 @@ public:
     std::vector<std::vector<std::string>> stringVariableInitialValues;
     std::vector<std::vector<bool>> boolVariableInitialValues;
 
-    stackData RunCode(int funcID, std::vector<stackData> arg, Runner2 &runner);
+    std::vector<std::vector<int>> argAddresses;
+
+    std::vector<int> funcTypes;
+
+    funcStackData RunCode(int funcID, std::vector<funcStackData> args);
 
     void InitRunner(Runner2 &runner);
 
