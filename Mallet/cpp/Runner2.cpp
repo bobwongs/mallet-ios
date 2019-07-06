@@ -724,7 +724,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     }
     else
     {
-        printf("Process finished succsessfully\n");
+        //printf("Process finished succsessfully\n");
     }
 
     return returnStackData;
