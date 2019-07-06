@@ -453,6 +453,7 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
         formulaData returnFormulaData;
 
         returnFormulaData.codeSize = parts[parts.size() - 1].second - parts[0].first;
+        returnFormulaData.type = CmdID::NumberType;
 
         return returnFormulaData;
     }
@@ -890,6 +891,10 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
         }
 
         bytecodes.push_back(tmp);
+
+        numberVariableNums.push_back(numberVariableNum);
+        stringVariableNums.push_back(stringVariableNum);
+        boolVariableNums.push_back(boolVariableNum);
     }
 
     return "";

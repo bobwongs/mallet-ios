@@ -135,10 +135,15 @@ public:
     int stringGlobalVariableNum;
 
     std::unordered_map<std::string, int> numberVariableAddress;
+    std::vector<int> numberVariableNums;
     int numberVariableNum;
+
     std::unordered_map<std::string, int> stringVariableAddress;
+    std::vector<int> stringVariableNums;
     int stringVariableNum;
+
     std::unordered_map<std::string, int> boolVariableAddress;
+    std::vector<int> boolVariableNums;
     int boolVariableNum;
 
     std::vector<std::unordered_map<int, double>> numberVariableInitialValue;
