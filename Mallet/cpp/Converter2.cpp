@@ -643,8 +643,13 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
             argIndex++;
         }
 
+        int backIndex = bytecodeIndex + 4;
+        AddPushCode(CmdID::IntType, -1);
+
         AddPushCode(CmdID::IntType, funcID);
         AddCmdCode(CmdID::CallMalletFunc, 1);
+
+        bytecode[backIndex] = bytecodeIndex;
     }
 
     return codeSize;
