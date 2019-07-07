@@ -617,9 +617,6 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
 
     if (convert)
     {
-        AddPushCode(CmdID::IntType, funcID);
-        AddCmdCode(CmdID::CallMalletFunc, 1);
-
         codeIndex = firstCodeIndex + 2;
 
         if (code[codeIndex] == ")")
@@ -645,6 +642,9 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
 
             argIndex++;
         }
+
+        AddPushCode(CmdID::IntType, funcID);
+        AddCmdCode(CmdID::CallMalletFunc, 1);
     }
 
     return codeSize;
