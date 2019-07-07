@@ -29,8 +29,6 @@ Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &
 
 Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcStackData> args)
 {
-    std::vector<int> bytecode = bytecodes[funcID];
-
     int funcType = funcTypes[funcID];
 
     int stackIndex = -1;
@@ -50,12 +48,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     int stringStackIndex = -1;
     int boolStackIndex = -1;
 
-    for (int i = 0; i < numberVariableInitialValues[funcID].size(); i++)
-        numberVariable[i] = numberVariableInitialValues[funcID][i];
-    for (int i = 0; i < stringVariableInitialValues[funcID].size(); i++)
-        stringVariable[i] = stringVariableInitialValues[funcID][i];
-    for (int i = 0; i < boolVariableInitialValues[funcID].size(); i++)
-        boolVariable[i] = boolVariableInitialValues[funcID][i];
+    for (int i = 0; i < numberVariableInitialValues.size(); i++)
+        numberVariable[i] = numberVariableInitialValues[i];
+    for (int i = 0; i < stringVariableInitialValues.size(); i++)
+        stringVariable[i] = stringVariableInitialValues[i];
+    for (int i = 0; i < boolVariableInitialValues.size(); i++)
+        boolVariable[i] = boolVariableInitialValues[i];
 
     numberVariable[1] = 0;
     numberVariable[2] = 1;
@@ -87,7 +85,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::AddressType:
+        case CmdID::IntType:
             //TODO:
             break;
 
@@ -99,7 +97,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
         argIndex++;
     }
 
-    int bytecodeIndex = 0;
+    int bytecodeIndex = funcStartIndexes[funcID];
+    int bytecodeSize = bytecode.size();
 
     bool error = false;
 
@@ -111,8 +110,6 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
     funcStackData newArg;
     funcStackData returnValue;
-
-    int bytecodeSize = bytecode.size();
 
     bool endProcess = false;
 
@@ -511,8 +508,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                             break;
 
-                        case CmdID::AddressType:
-                            newArg.type = CmdID::AddressType;
+                        case CmdID::IntType:
+                            newArg.type = CmdID::IntType;
                             newArg.address = topStackData[i]->address;
 
                             break;
@@ -576,6 +573,10 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                     break;
 
                 case CmdID::Return:
+                    endProcess = true;
+                    break;
+
+                case CmdID::EndOfFunc:
                     endProcess = true;
                     break;
 
@@ -698,8 +699,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::AddressType:
-            if (funcType != CmdID::AddressType)
+        case CmdID::IntType:
+            if (funcType != CmdID::IntType)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -736,7 +737,7 @@ void Runner2::InitRunner(Runner2 &runner)
     runner.stringGlobalVariable = std::vector<std::string>(10000, "");
     runner.boolGlobalVariable = std::vector<bool>(100000, false);
 
-    runner.numberVariableInitialValues = std::vector<std::vector<double>>(runner.bytecodes.size());
-    runner.stringVariableInitialValues = std::vector<std::vector<std::string>>(runner.bytecodes.size());
-    runner.boolVariableInitialValues = std::vector<std::vector<bool>>(runner.bytecodes.size());
+    runner.numberVariableInitialValues = std::vector<double>();
+    runner.stringVariableInitialValues = std::vector<std::string>();
+    runner.boolVariableInitialValues = std::vector<bool>();
 }

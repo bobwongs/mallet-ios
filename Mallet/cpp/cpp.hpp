@@ -23,7 +23,7 @@ public:
     static constexpr int CodeBegin = -90000;
     static constexpr int Push = 90000;
     static constexpr int Pop = 90001;
-    static constexpr int AddressType = 90012;
+    static constexpr int IntType = 90012;
     static constexpr int CallCppFunc = 90004;
     static constexpr int CallMalletFunc = 90005;
     static constexpr int SetNumberVariable = 90006;
@@ -41,6 +41,8 @@ public:
     static constexpr int PushFalse = 90016;
 
     static constexpr int Return = 90017;
+
+    static constexpr int EndOfFunc = 90018;
 
     static constexpr int NumberType = 80000;
     static constexpr int StringType = 80001;
@@ -130,9 +132,11 @@ class Converter2
 public:
     std::unordered_map<std::string, int> numberGlobalVariableAddress;
     std::unordered_map<std::string, int> stringGlobalVariableAddress;
+    std::unordered_map<std::string, int> boolGlobalVariableAddress;
 
     int numberGlobalVariableNum;
     int stringGlobalVariableNum;
+    int boolGlobalVariableNum;
 
     std::unordered_map<std::string, int> numberVariableAddress;
     std::vector<int> numberVariableNums;
@@ -146,10 +150,11 @@ public:
     std::vector<int> boolVariableNums;
     int boolVariableNum;
 
-    std::vector<std::unordered_map<int, double>> numberVariableInitialValue;
-    std::vector<std::unordered_map<int, std::string>> stringVariableInitialValue;
+    std::unordered_map<int, double> numberVariableInitialValue;
+    std::unordered_map<int, std::string> stringVariableInitialValue;
 
     std::vector<std::vector<int>> argAddresses;
+    std::vector<int> funcStartIndexes;
 
     std::vector<std::string> code;
 
@@ -161,6 +166,10 @@ public:
     std::string ConvertCodeToJson(std::string codeStr);
 
     void ListFunction();
+
+    std::vector<int> bytecode;
+    int bytecodeIndex;
+    int bytecodeSize;
 
 private:
     struct funcData
@@ -180,10 +189,6 @@ private:
         int type;
     };
 
-    std::vector<int> bytecode;
-    int bytecodeIndex;
-    int bytecodeSize;
-
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);
     void AddPushCode(int type, int address);
@@ -197,15 +202,19 @@ private:
     int ConvertCodeBlock(const int firstCodeIndex);
     int ConvertFunc(const int firstCodeIndex, const bool convert);
 
+    void DeclareConstant(const int firstCodeIndex);
+
     formulaData GetFormulaSize(const int firstCodeIndex, int operatorNumber);
     int GetFuncSize(const int firstCodeIndex);
 
-    int DeclareVariable(const int type, const std::string name);
+    int DeclareVariable(const int type, const std::string name, const bool isGlobal);
 
     void InitConverter();
+    void ClearLocalVariable();
 
     int TypeName2ID(const std::string typeName);
     std::string ID2TypeName(const int typeID);
+    int LocalType2GlobalType(const int typeID);
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
     std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
@@ -214,9 +223,10 @@ private:
     std::set<std::string> funcNames;
     std::map<funcData, int> funcIDs;
     std::map<funcData, bool> isFuncExists;
-    std::vector<int> funcStartIndexes;
+    std::vector<std::vector<int>> funcArgAddresses;
 
     std::unordered_map<std::string, int> variableType;
+    std::unordered_map<std::string, int> globalVariableType;
 };
 
 class Runner
@@ -258,11 +268,12 @@ public:
     std::vector<std::string> stringGlobalVariable;
     std::vector<bool> boolGlobalVariable;
 
-    std::vector<std::vector<int>> bytecodes;
-    std::vector<std::vector<double>> numberVariableInitialValues;
-    std::vector<std::vector<std::string>> stringVariableInitialValues;
-    std::vector<std::vector<bool>> boolVariableInitialValues;
+    std::vector<int> bytecode;
+    std::vector<double> numberVariableInitialValues;
+    std::vector<std::string> stringVariableInitialValues;
+    std::vector<bool> boolVariableInitialValues;
 
+    std::vector<int> funcStartIndexes;
     std::vector<std::vector<int>> argAddresses;
 
     std::vector<int> funcTypes;
