@@ -56,6 +56,12 @@ public:
     static constexpr int StringTmpType = 80008;
     static constexpr int BoolTmpType = 80009;
 
+    static constexpr int NumberAddressType = 80010;
+    static constexpr int StringAddressType = 80011;
+    static constexpr int BoolAddressType = 80012;
+
+    static constexpr int StartFuncType = 80013;
+
     //* IO
     /*
     static constexpr int Print = 10000;
@@ -130,6 +136,10 @@ public:
 class Converter2
 {
 public:
+    std::vector<int> numberMemorySize;
+    std::vector<int> stringMemorySize;
+    std::vector<int> boolMemorySize;
+
     std::unordered_map<std::string, int> numberGlobalVariableAddress;
     std::unordered_map<std::string, int> stringGlobalVariableAddress;
     std::unordered_map<std::string, int> boolGlobalVariableAddress;
@@ -155,6 +165,7 @@ public:
 
     std::vector<std::vector<int>> argAddresses;
     std::vector<int> funcStartIndexes;
+    std::vector<int> funcBytecodeStartIndexes;
 
     std::vector<std::string> code;
 
@@ -191,7 +202,7 @@ private:
 
     void AddCode(int code);
     void AddCmdCode(int code, int argNum);
-    void AddPushCode(int type, int address);
+    void AddPushCode(int type, int address, bool absolute);
     void AddPushTrueCode();
     void AddPushFalseCode();
     void AddPush0Code();
@@ -199,7 +210,7 @@ private:
 
     int ConvertValue(const int firstCodeIndex, const bool convert);
     formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
-    int ConvertCodeBlock(const int firstCodeIndex);
+    int ConvertCodeBlock(const int firstCodeIndex, const int funcID);
     int ConvertFunc(const int firstCodeIndex, const bool convert);
 
     void DeclareConstant(const int firstCodeIndex);
@@ -215,6 +226,7 @@ private:
     int TypeName2ID(const std::string typeName);
     std::string ID2TypeName(const int typeID);
     int LocalType2GlobalType(const int typeID);
+    int Type2AddressType(const int typeID);
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
     std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
@@ -224,9 +236,12 @@ private:
     std::map<funcData, int> funcIDs;
     std::map<funcData, bool> isFuncExists;
     std::vector<std::vector<int>> funcArgAddresses;
+    std::vector<std::vector<int>> funcArgTypes;
+    std::vector<std::vector<std::string>> funcArgOriginalVariableNames;
 
     std::unordered_map<std::string, int> variableType;
     std::unordered_map<std::string, int> globalVariableType;
+    std::unordered_map<std::string, bool> isGlobalVariable;
 };
 
 class Runner
@@ -263,10 +278,17 @@ public:
         int address;
     } funcStackData;
 
-    std::vector<double>
-        numberGlobalVariable;
+    std::vector<int> numberMemorySize;
+    std::vector<int> stringMemorySize;
+    std::vector<int> boolMemorySize;
+
+    std::vector<double> numberGlobalVariable;
     std::vector<std::string> stringGlobalVariable;
     std::vector<bool> boolGlobalVariable;
+
+    int numberGlobalVariableNum;
+    int stringGlobalVariableNum;
+    int boolGlobalVariableNum;
 
     std::vector<int> bytecode;
     std::vector<double> numberVariableInitialValues;

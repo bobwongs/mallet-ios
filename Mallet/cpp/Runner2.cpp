@@ -32,14 +32,18 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     int funcType = funcTypes[funcID];
 
     int stackIndex = -1;
-    const int stackSize = 10000;
+    constexpr int stackSize = 1000000;
     std::vector<stackData> stack(stackSize);
 
     funcStackData returnStackData;
 
-    std::vector<double> numberVariable(10000, 0);
-    std::vector<std::string> stringVariable(10000, "");
-    std::vector<bool> boolVariable(10000, false);
+    std::vector<double> numberVariable(10000000, 0);
+    std::vector<std::string> stringVariable(100000, "");
+    std::vector<bool> boolVariable(10000000, false);
+
+    int reservedNumberMemorySize = numberGlobalVariableNum;
+    int reservedStringMemorySize = stringGlobalVariableNum;
+    int reservedBoolMemorySize = boolGlobalVariableNum;
 
     std::vector<double> numberStack(10000, 0);
     std::vector<std::string> stringStack(10000, "");
@@ -61,10 +65,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     boolVariable[1] = true;
     boolVariable[2] = false;
 
-    constexpr int pushCodeSize = 5;
+    constexpr int pushCodeSize = 6;
     constexpr int defaultCodeSize = 3;
 
     int argIndex = 0;
+
+    int currentFuncID = funcID;
 
     for (funcStackData arg : args)
     {
@@ -145,7 +151,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                 break;
             }
 
-            if (bytecodeIndex + 4 >= bytecodeSize)
+            if (bytecodeIndex + pushCodeSize - 1 >= bytecodeSize)
             {
                 error = true;
                 printf("Error : bytecode is broken! #%d\n", bytecodeIndex);
@@ -154,6 +160,42 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             int type = bytecode[bytecodeIndex + 3];
             int address = bytecode[bytecodeIndex + 4];
+            bool absolute = bytecode[bytecodeIndex + 5] > 0;
+
+            if (!absolute && type != CmdID::IntType)
+            {
+                //TODO:
+                //address+= ;
+
+                switch (type)
+                {
+                case CmdID::NumberType:
+                    address += reservedNumberMemorySize;
+                    break;
+                case CmdID::NumberAddressType:
+                    address += reservedNumberMemorySize;
+                    break;
+
+                case CmdID::StringType:
+                    address += reservedStringMemorySize;
+                    break;
+                case CmdID::StringAddressType:
+                    address += reservedStringMemorySize;
+                    break;
+
+                case CmdID::BoolType:
+                    address += reservedBoolMemorySize;
+                    break;
+                case CmdID::BoolAddressType:
+                    address += reservedBoolMemorySize;
+                    break;
+
+                default:
+                    printf("Error : Unknown type #%d\n", bytecodeIndex);
+                    error = true;
+                    break;
+                }
+            }
 
             stackIndex++;
 
@@ -461,10 +503,28 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                 case CmdID::CallMalletFunc:
 
+                    reservedNumberMemorySize += numberMemorySize[currentFuncID];
+                    reservedStringMemorySize += stringMemorySize[currentFuncID];
+                    reservedBoolMemorySize += boolMemorySize[currentFuncID];
+
                     callFuncID = topStackData[argNum - 1]->address;
 
-                    callFuncArg = std::vector<funcStackData>(argNum - 1);
+                    /*
+                    stackIndex++;
+                    stack[stackIndex] = {CmdID::IntType, bytecodeIndex + defaultCodeSize};
+                    */
 
+                    stackIndex++;
+                    stack[stackIndex] = {CmdID::StartFuncType, currentFuncID};
+
+                    bytecodeIndex = funcStartIndexes[callFuncID];
+                    jumped = true;
+
+                    currentFuncID = callFuncID;
+
+                    //callFuncArg = std::vector<funcStackData>(argNum - 1);
+
+                    /*
                     for (int i = 0; i < argNum - 1; i++)
                     {
                         switch (topStackData[i]->type)
@@ -527,10 +587,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     if (returnValue.type != CmdID::VoidType)
                     {
-                        /*
-                        stackIndex++;
-                        stack[stackIndex] = {returnValue.type, returnValue.address};
-                        */
+                        //stackIndex++;
+                        //stack[stackIndex] = {returnValue.type, returnValue.address};
 
                         switch (returnValue.type)
                         {
@@ -567,13 +625,54 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                         break;
                     }
+                    */
+
+                    break;
 
                 case CmdID::CallCppFunc:
 
                     break;
 
                 case CmdID::Return:
-                    endProcess = true;
+                    newStackData = {stack[stackIndex].type, stack[stackIndex].address};
+
+                    if (newStackData.type == CmdID::NumberType)
+                    {
+                        newStackData.type = CmdID::NumberTmpType;
+
+                        numberStackIndex++;
+                        numberStack[numberStackIndex] = numberVariable[newStackData.address];
+                    }
+                    if (newStackData.type == CmdID::StringType)
+                    {
+                        newStackData.type = CmdID::StringTmpType;
+
+                        stringStackIndex++;
+                        stringStack[stringStackIndex] = stringVariable[newStackData.address];
+                    }
+                    if (newStackData.type == CmdID::BoolType)
+                    {
+                        newStackData.type = CmdID::BoolTmpType;
+
+                        boolStackIndex++;
+                        boolStack[boolStackIndex] = boolVariable[newStackData.address + reservedBoolMemorySize];
+                    }
+
+                    while (stackIndex >= 0 && stack[stackIndex].type != CmdID::StartFuncType)
+                        stackIndex--;
+
+                    currentFuncID = stack[stackIndex].address;
+
+                    stackIndex--;
+                    bytecodeIndex = stack[stackIndex].address;
+                    jumped = true;
+
+                    reservedNumberMemorySize -= numberMemorySize[currentFuncID];
+                    reservedStringMemorySize -= stringMemorySize[currentFuncID];
+                    reservedBoolMemorySize -= boolMemorySize[currentFuncID];
+
+                    stack[stackIndex] = newStackData;
+
                     break;
 
                 case CmdID::EndOfFunc:

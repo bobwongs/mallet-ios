@@ -22,8 +22,11 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {CmdID::StringTmpType, "StringTmp"},
         {CmdID::BoolTmpType, "BoolTmp"},
         {CmdID::VoidType, "Void"},
-        {CmdID::IntType, "Address"},
-        {CmdID::EndOfFunc, "EndOfFunc"},
+        {CmdID::IntType, "Int"},
+        {CmdID::NumberAddressType, "NumberAddress"},
+        {CmdID::StringAddressType, "StringAddress"},
+        {CmdID::BoolAddressType, "BoolAddress"},
+        {CmdID::EndOfFunc, "\x1b[45m  EndOfFunc  \x1b[49m"},
         {CmdID::Add, "+"},
         {CmdID::Sub, "-"},
         {CmdID::Mul, "*"},
@@ -40,6 +43,9 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {CmdID::Not, "!"},
     };
 
+    constexpr int pushCodeSize = 6;
+    constexpr int defaultCodeSize = 3;
+
     std::string bytecodeString = "";
 
     int i = 0;
@@ -51,27 +57,31 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
             return;
         }
 
-        bytecodeString += "#" + std::to_string(i) + ": ";
+        bytecodeString += "\x1b[32m#" + std::to_string(i) + ":\x1b[39m ";
 
         if (bytecode[i + 1] == CmdID::Push)
         {
-            bytecodeString += id2str[bytecode[i + 1]] + " ";
-            bytecodeString += id2str[bytecode[i + 3]] + " ";
+            bytecodeString += "\x1b[33m" + id2str[bytecode[i + 1]] + "\x1b[39m ";
+            bytecodeString += "\x1b[35m" + id2str[bytecode[i + 3]] + "\x1b[39m ";
             bytecodeString += std::to_string(bytecode[i + 4]) + " ";
-            i += 5;
+
+            if (bytecode[i + 5] > 0 && (bytecode[i + 3] != CmdID::IntType))
+                bytecodeString += "\x1b[36mAbsolute\x1b[39m";
+
+            i += pushCodeSize;
         }
         else
         {
             if (id2str[bytecode[i + 1]] == "")
             {
-                bytecodeString += "Unknown Code";
+                bytecodeString += "\x1b[33mUnknown Code\x1b[39m";
             }
             else
             {
-                bytecodeString += id2str[bytecode[i + 1]];
+                bytecodeString += "\x1b[33m" + id2str[bytecode[i + 1]] + "\x1b[39m";
             }
 
-            i += 3;
+            i += defaultCodeSize;
         }
 
         bytecodeString += "\n";
