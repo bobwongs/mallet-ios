@@ -36,7 +36,7 @@ enum
     END_OF_FUNC,
 
     // Type
-    NUMBER_TYPE,
+            NUMBER_TYPE,
     STRING_TYPE,
     BOOL_TYPE,
     NUMBER_GLOBAL_TYPE,
@@ -52,7 +52,7 @@ enum
     STRING_FUNC_TYPE,
 
     // Operator
-    ADD = 1024,
+            ADD = 1024,
     SUB,
     MUL,
     DIV,
@@ -68,24 +68,7 @@ enum
     NOT,
 };
 
-class Converter
-{
-public:
-    std::unordered_map<std::string, int> numberGlobalVariableAddress;
-    std::unordered_map<std::string, int> stringGlobalVariableAddress;
-
-    int numberGlobalVariableNum;
-    int stringGlobalVariableNum;
-
-    int SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
-                  std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
-
-    std::string RefactorCode(std::string code);
-
-    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter);
-};
-
-class Converter2
+class Convert
 {
 public:
     std::vector<int> numberMemorySize;
@@ -215,23 +198,7 @@ private:
     std::unordered_map<std::string, bool> isGlobalVariable;
 };
 
-class Runner
-{
-public:
-    std::vector<int> numberGlobalVariable;
-    std::vector<std::string> stringGlobalVariable;
-
-    std::vector<std::vector<int>> codes;
-    std::vector<std::vector<std::string>> stringVariableInitialValues;
-
-    void RunCode(int id, Runner &runner);
-
-    void InitRunner(Runner &runner);
-
-    //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
-};
-
-class Runner2
+class Run
 {
 public:
     typedef struct
@@ -275,7 +242,7 @@ public:
 
     funcStackData CallCppFunc(int funcID, std::vector<funcStackData> args);
 
-    void InitRunner(Runner2 &runner);
+    void InitRunner(Run &runner);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
 };

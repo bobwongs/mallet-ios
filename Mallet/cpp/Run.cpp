@@ -1,24 +1,24 @@
 //
-//  Runner2.cpp
+//  Run.cpp
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/06/24.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-#include "Runner2.hpp"
+#include "Run.hpp"
 #include <stdio.h>
 #include <vector>
 #include <array>
 
-Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &stackIndex, bool &error)
+Run::stackData getTopStackData(std::vector<Run::stackData> &stack, int &stackIndex, bool &error)
 {
     if (stackIndex < 0)
     {
         printf("Error : There is nothing in the stack\n");
         error = true;
 
-        Runner2::stackData errorStackData;
+        Run::stackData errorStackData;
         errorStackData.type = ERROR;
         return errorStackData;
     }
@@ -27,7 +27,7 @@ Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &
     return stack[stackIndex + 1];
 }
 
-Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcStackData> args)
+Run::funcStackData Run::RunCode(int funcID, std::vector<Run::funcStackData> args)
 {
     int funcType = funcTypes[funcID];
 
@@ -935,7 +935,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     return returnStackData;
 }
 
-void Runner2::InitRunner(Runner2 &runner)
+void Run::InitRunner(Run &runner)
 {
     runner.numberGlobalVariable = std::vector<double>(100000, 0);
     runner.stringGlobalVariable = std::vector<std::string>(10000, "");

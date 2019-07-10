@@ -1,5 +1,5 @@
 //
-//  Converter2.cpp
+//  Convert.cpp
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/06/28.
@@ -193,7 +193,7 @@ int convertOperator(std::string operatorString)
     return operatorCode;
 }
 
-void Converter2::DeclareConstant(const int firstCodeIndex)
+void Convert::DeclareConstant(const int firstCodeIndex)
 {
     if (code[firstCodeIndex][0] == '"')
     {
@@ -268,7 +268,7 @@ void Converter2::DeclareConstant(const int firstCodeIndex)
     }
 }
 
-int Converter2::ConvertValue(const int firstCodeIndex, const bool convert)
+int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 {
     int type = -1;
 
@@ -416,7 +416,7 @@ int Converter2::ConvertValue(const int firstCodeIndex, const bool convert)
     return type;
 }
 
-Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
+Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
 {
     const std::vector<std::set<std::string>> operatorsPriorities = {
         {"||"},
@@ -578,7 +578,7 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
     return returnFormulaData;
 }
 
-int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
+int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 {
     funcData thisFuncData;
     thisFuncData.funcName = code[firstCodeIndex];
@@ -677,7 +677,7 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
     return codeSize;
 }
 
-int Converter2::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
+int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 {
     int codeBlockSize = 0;
 
@@ -963,7 +963,7 @@ std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::st
     return json;
 }
 
-std::string Converter2::ConvertCodeToJson(std::string codeStr)
+std::string Convert::ConvertCodeToJson(std::string codeStr)
 {
     InitConverter();
 
@@ -1040,7 +1040,7 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
     return "";
 }
 
-void Converter2::ListFunction()
+void Convert::ListFunction()
 {
     int codeIndex = 0;
 
@@ -1139,7 +1139,7 @@ void Converter2::ListFunction()
     }
 }
 
-int Converter2::DeclareVariable(const int type, const std::string name, const bool isGlobal)
+int Convert::DeclareVariable(const int type, const std::string name, const bool isGlobal)
 {
     if (variableType[name] > 0)
     {
@@ -1213,7 +1213,7 @@ int Converter2::DeclareVariable(const int type, const std::string name, const bo
     return address;
 }
 
-int Converter2::TypeName2ID(const std::string typeName)
+int Convert::TypeName2ID(const std::string typeName)
 {
     if (typeName == "void")
         return VOID_TYPE;
@@ -1227,7 +1227,7 @@ int Converter2::TypeName2ID(const std::string typeName)
     return -1;
 }
 
-std::string Converter2::ID2TypeName(const int typeID)
+std::string Convert::ID2TypeName(const int typeID)
 {
     if (typeID == NUMBER_TYPE)
         return "number";
@@ -1241,7 +1241,7 @@ std::string Converter2::ID2TypeName(const int typeID)
     return "Unknown Type";
 }
 
-int Converter2::LocalType2GlobalType(const int typeID)
+int Convert::LocalType2GlobalType(const int typeID)
 {
     if (typeID == NUMBER_TYPE)
         return NUMBER_GLOBAL_TYPE;
@@ -1253,7 +1253,7 @@ int Converter2::LocalType2GlobalType(const int typeID)
     return typeID;
 }
 
-int Converter2::Type2AddressType(const int typeID)
+int Convert::Type2AddressType(const int typeID)
 {
     if (typeID == NUMBER_TYPE)
         return NUMBER_ADDRESS_TYPE;
@@ -1265,7 +1265,7 @@ int Converter2::Type2AddressType(const int typeID)
     return typeID;
 }
 
-void Converter2::AddCode(int code)
+void Convert::AddCode(int code)
 {
     if (bytecodeIndex >= bytecode.size())
         return;
@@ -1275,14 +1275,14 @@ void Converter2::AddCode(int code)
     bytecodeSize++;
 }
 
-void Converter2::AddCmdCode(int code, int argNum)
+void Convert::AddCmdCode(int code, int argNum)
 {
     AddCode(CODE_BEGIN);
     AddCode(code);
     AddCode(argNum);
 }
 
-void Converter2::AddPushCode(int type, int address, bool absolute)
+void Convert::AddPushCode(int type, int address, bool absolute)
 {
     AddCode(CODE_BEGIN);
     AddCode(PUSH);
@@ -1292,27 +1292,27 @@ void Converter2::AddPushCode(int type, int address, bool absolute)
     AddCode(absolute ? 1 : 0);
 }
 
-void Converter2::AddPushTrueCode()
+void Convert::AddPushTrueCode()
 {
     AddPushCode(BOOL_TYPE, 1, true);
 }
 
-void Converter2::AddPushFalseCode()
+void Convert::AddPushFalseCode()
 {
     AddPushCode(BOOL_TYPE, 2, true);
 }
 
-void Converter2::AddPush0Code()
+void Convert::AddPush0Code()
 {
     AddPushCode(NUMBER_TYPE, 1, true);
 }
 
-void Converter2::AddPush1Code()
+void Convert::AddPush1Code()
 {
     AddPushCode(NUMBER_TYPE, 2, true);
 }
 
-void Converter2::InitConverter()
+void Convert::InitConverter()
 {
 
     bytecode = std::vector<int>(1000000);
@@ -1337,7 +1337,7 @@ void Converter2::InitConverter()
     boolGlobalVariableNum = 2;
 }
 
-void Converter2::ClearLocalVariable()
+void Convert::ClearLocalVariable()
 {
     variableType = globalVariableType;
     numberVariableAddress = numberGlobalVariableAddress;

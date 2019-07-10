@@ -13,7 +13,7 @@ CppFunc::CppFunc()
     cppFuncData = {{"testFunc", funcIDs::TEST_FUNC, NUMBER_TYPE, {NUMBER_TYPE}}};
 }
 
-void Converter2::ListCppFunction()
+void Convert::ListCppFunction()
 {
     CppFunc cppFunc;
 
@@ -36,7 +36,7 @@ double testFunc(double a)
     return a * 2;
 }
 
-Runner2::funcStackData Runner2::CallCppFunc(int funcID, std::vector<funcStackData> args)
+Run::funcStackData Run::CallCppFunc(int funcID, std::vector<funcStackData> args)
 {
     funcStackData returnStackData;
 
