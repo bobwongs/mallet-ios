@@ -19,7 +19,7 @@ Runner2::stackData getTopStackData(std::vector<Runner2::stackData> &stack, int &
         error = true;
 
         Runner2::stackData errorStackData;
-        errorStackData.type = CmdID::Error;
+        errorStackData.type = ERROR;
         return errorStackData;
     }
 
@@ -76,22 +76,22 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     {
         switch (arg.type)
         {
-        case CmdID::NumberType:
+        case NUMBER_TYPE:
             numberVariable[argAddresses[funcID][argIndex]] = arg.numberValue;
 
             break;
 
-        case CmdID::StringType:
+        case STRING_TYPE:
             stringVariable[argAddresses[funcID][argIndex]] = arg.stringValue;
 
             break;
 
-        case CmdID::BoolType:
+        case BOOL_TYPE:
             boolVariable[argAddresses[funcID][argIndex]] = arg.boolValue;
 
             break;
 
-        case CmdID::IntType:
+        case INT_TYPE:
             //TODO:
             break;
 
@@ -120,13 +120,13 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
     bool endProcess = false;
 
     stackIndex++;
-    stack[stackIndex] = {CmdID::IntType, bytecodeSize};
+    stack[stackIndex] = {INT_TYPE, bytecodeSize};
     stackIndex++;
-    stack[stackIndex] = {CmdID::StartFuncType, -1};
+    stack[stackIndex] = {STRING_FUNC_TYPE, -1};
 
     while (bytecodeIndex < bytecodeSize)
     {
-        if (bytecode[bytecodeIndex] != CmdID::CodeBegin || bytecodeIndex + 2 >= bytecodeSize)
+        if (bytecode[bytecodeIndex] != CODE_BEGIN || bytecodeIndex + 2 >= bytecodeSize)
         {
             error = true;
             printf("Error : bytecode is broken! #%d\n", bytecodeIndex);
@@ -147,7 +147,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
             break;
         }
 
-        if (cmd == CmdID::Push)
+        if (cmd == PUSH)
         {
             if (stackIndex >= stackSize)
             {
@@ -167,31 +167,31 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
             int address = bytecode[bytecodeIndex + 4];
             bool absolute = bytecode[bytecodeIndex + 5] > 0;
 
-            if (!absolute && type != CmdID::IntType)
+            if (!absolute && type != INT_TYPE)
             {
                 //TODO:
                 //address+= ;
 
                 switch (type)
                 {
-                case CmdID::NumberType:
+                case NUMBER_TYPE:
                     address += reservedNumberMemorySize;
                     break;
-                case CmdID::NumberAddressType:
+                case NUMBER_ADDRESS_TYPE:
                     address += reservedNumberMemorySize;
                     break;
 
-                case CmdID::StringType:
+                case STRING_TYPE:
                     address += reservedStringMemorySize;
                     break;
-                case CmdID::StringAddressType:
+                case STRING_ADDRESS_TYPE:
                     address += reservedStringMemorySize;
                     break;
 
-                case CmdID::BoolType:
+                case BOOL_TYPE:
                     address += reservedBoolMemorySize;
                     break;
-                case CmdID::BoolAddressType:
+                case BOOL_ADDRESS_TYPE:
                     address += reservedBoolMemorySize;
                     break;
 
@@ -213,7 +213,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
         {
             bool jumped = false;
 
-            if (cmd / 10000 == 4)
+            if (cmd >= 1024)
             {
                 double firstValue;
                 double secondValue;
@@ -221,26 +221,26 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                 int type = topStackData[0]->type;
                 int address = topStackData[0]->address;
 
-                if (type == CmdID::NumberType)
+                if (type == NUMBER_TYPE)
                 {
                     firstValue = numberVariable[address];
                 }
-                else if (type == CmdID::BoolType)
+                else if (type == BOOL_TYPE)
                 {
                     firstValue = boolVariable[address] ? 1 : 0;
                 }
-                else if (type == CmdID::NumberTmpType)
+                else if (type == NUMBER_TMP_TYPE)
                 {
                     firstValue = numberStack[numberStackIndex];
                     numberStackIndex--;
                 }
-                else if (type == CmdID::BoolTmpType)
+                else if (type == BOOL_TMP_TYPE)
                 {
                     firstValue = boolStack[boolStackIndex];
                     boolStackIndex--;
                 }
 
-                if (cmd == CmdID::Not)
+                if (cmd == NOT)
                 {
                     secondValue = 0;
                 }
@@ -249,20 +249,20 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                     int type = topStackData[1]->type;
                     int address = topStackData[1]->address;
 
-                    if (type == CmdID::NumberType)
+                    if (type == NUMBER_TYPE)
                     {
                         secondValue = numberVariable[address];
                     }
-                    else if (type == CmdID::BoolType)
+                    else if (type == BOOL_TYPE)
                     {
                         secondValue = boolVariable[address] ? 1 : 0;
                     }
-                    else if (type == CmdID::NumberTmpType)
+                    else if (type == NUMBER_TMP_TYPE)
                     {
                         secondValue = numberStack[numberStackIndex];
                         numberStackIndex--;
                     }
-                    else if (type == CmdID::BoolTmpType)
+                    else if (type == BOOL_TMP_TYPE)
                     {
                         secondValue = boolStack[boolStackIndex];
                         boolStackIndex--;
@@ -274,93 +274,93 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                 switch (cmd)
                 {
-                case CmdID::Add:
+                case ADD:
                     result = firstValue + secondValue;
-                    resultType = CmdID::NumberTmpType;
+                    resultType = NUMBER_TMP_TYPE;
 
                     break;
 
-                case CmdID::Sub:
+                case SUB:
                     result = firstValue - secondValue;
-                    resultType = CmdID::NumberTmpType;
+                    resultType = NUMBER_TMP_TYPE;
 
                     break;
 
-                case CmdID::Mul:
+                case MUL:
                     result = firstValue * secondValue;
-                    resultType = CmdID::NumberTmpType;
+                    resultType = NUMBER_TMP_TYPE;
 
                     break;
 
-                case CmdID::Div:
+                case DIV:
                     if (secondValue == 0)
                         result = 0;
                     else
                         result = firstValue / secondValue;
-                    resultType = CmdID::NumberTmpType;
+                    resultType = NUMBER_TMP_TYPE;
 
                     break;
 
-                case CmdID::Mod:
+                case MOD:
                     if ((int)secondValue == 0)
                         result = 0;
                     else
                         result = (int)firstValue % (int)secondValue;
-                    resultType = CmdID::NumberTmpType;
+                    resultType = NUMBER_TMP_TYPE;
 
                     break;
 
-                case CmdID::Equal:
+                case EQUAL:
                     result = firstValue == secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::NotEqual:
+                case NOT_EQUAL:
                     result = firstValue != secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::GreaterThan:
+                case GREATER_THAN:
                     result = firstValue > secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::LessThan:
+                case LESS_THAN:
                     result = firstValue < secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::GreaterThanOrEqual:
+                case GREATER_THAN_OR_EQUAL:
                     result = firstValue >= secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::LessThanOrEqual:
+                case LESS_THAN_OR_EQUAL:
                     result = firstValue <= secondValue ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::And:
+                case AND:
                     result = (firstValue > 0) && (secondValue > 0) ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::Or:
+                case OR:
                     result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
-                case CmdID::Not:
+                case NOT:
                     result = (firstValue <= 0) ? 1 : 0;
-                    resultType = CmdID::BoolTmpType;
+                    resultType = BOOL_TMP_TYPE;
 
                     break;
 
@@ -373,12 +373,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                 newStackData.type = resultType;
 
-                if (resultType == CmdID::NumberTmpType)
+                if (resultType == NUMBER_TMP_TYPE)
                 {
                     numberStackIndex++;
                     numberStack[numberStackIndex] = result;
                 }
-                if (resultType == CmdID::BoolTmpType)
+                if (resultType == BOOL_TMP_TYPE)
                 {
                     boolStackIndex++;
                     boolStack[boolStackIndex] = result;
@@ -401,12 +401,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                 switch (cmd)
                 {
-                case CmdID::PrintNumber:
-                    if (topStackData[0]->type == CmdID::NumberType)
+                case PRINT_NUMBER:
+                    if (topStackData[0]->type == NUMBER_TYPE)
                     {
                         printf("%.10g\n", numberVariable[topStackData[0]->address]);
                     }
-                    if (topStackData[0]->type == CmdID::NumberTmpType)
+                    if (topStackData[0]->type == NUMBER_TMP_TYPE)
                     {
                         printf("%.10g\n", numberStack[numberStackIndex]);
                         numberStackIndex--;
@@ -414,12 +414,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::PrintString:
-                    if (topStackData[0]->type == CmdID::StringType)
+                case PRINT_STRING:
+                    if (topStackData[0]->type == STRING_TYPE)
                     {
                         printf("%s\n", stringVariable[topStackData[0]->address].c_str());
                     }
-                    if (topStackData[0]->type == CmdID::StringTmpType)
+                    if (topStackData[0]->type == STRING_TMP_TYPE)
                     {
                         printf("%s\n", stringStack[stringStackIndex].c_str());
                         stringStackIndex--;
@@ -427,21 +427,21 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::SetNumberVariable:
-                    if (topStackData[1]->type == CmdID::NumberType)
+                case SET_NUMBER_VARIABLE:
+                    if (topStackData[1]->type == NUMBER_TYPE)
                     {
                         numberVariable[topStackData[0]->address] = numberVariable[topStackData[1]->address];
                     }
-                    else if (topStackData[1]->type == CmdID::NumberTmpType)
+                    else if (topStackData[1]->type == NUMBER_TMP_TYPE)
                     {
                         numberVariable[topStackData[0]->address] = numberStack[numberStackIndex];
                         numberStackIndex--;
                     }
-                    else if (topStackData[1]->type == CmdID::BoolType)
+                    else if (topStackData[1]->type == BOOL_TYPE)
                     {
                         numberVariable[topStackData[0]->address] = boolVariable[topStackData[1]->address];
                     }
-                    if (topStackData[1]->type == CmdID::BoolTmpType)
+                    if (topStackData[1]->type == BOOL_TMP_TYPE)
                     {
                         numberVariable[topStackData[0]->address] = boolStack[boolStackIndex];
                         boolStackIndex--;
@@ -449,12 +449,12 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::SetStringVariable:
-                    if (topStackData[0]->type == CmdID::StringType)
+                case SET_STRING_VARIABLE:
+                    if (topStackData[0]->type == STRING_TYPE)
                     {
                         stringVariable[topStackData[0]->address] = stringVariable[topStackData[1]->address];
                     }
-                    if (topStackData[0]->type == CmdID::StringTmpType)
+                    if (topStackData[0]->type == STRING_TMP_TYPE)
                     {
                         stringVariable[topStackData[0]->address] = stringStack[stringStackIndex];
                         stringStackIndex--;
@@ -462,8 +462,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::Jump:
-                    if (topStackData[0]->type == CmdID::BoolType)
+                case JUMP:
+                    if (topStackData[0]->type == BOOL_TYPE)
                     {
                         if (boolVariable[topStackData[0]->address])
                         {
@@ -471,7 +471,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                             jumped = true;
                         }
                     }
-                    else if (topStackData[0]->type == CmdID::BoolTmpType)
+                    else if (topStackData[0]->type == BOOL_TMP_TYPE)
                     {
                         if (boolStack[boolStackIndex])
                         {
@@ -484,7 +484,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                     break;
 
                     /*
-                case CmdID::Call:
+                case Call:
 
                     callFuncID = topStackData[0]->address;
 
@@ -493,11 +493,11 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     newStackData = runner.RunCode(callFuncID, callFuncArg, runner);
 
-                    if (newStackData.type == CmdID::Error)
+                    if (newStackData.type == Error)
                     {
                         error = true;
                     }
-                    else if (newStackData.type != CmdID::VoidType)
+                    else if (newStackData.type != VoidType)
                     {
                         stackIndex++;
                         stack[stackIndex] = newStackData;
@@ -506,7 +506,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                     break;
                     */
 
-                case CmdID::CallMalletFunc:
+                case CALL_MALLET_FUNC:
 
                     reservedNumberMemorySize += numberMemorySize[currentFuncID];
                     reservedStringMemorySize += stringMemorySize[currentFuncID];
@@ -516,11 +516,11 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     /*
                     stackIndex++;
-                    stack[stackIndex] = {CmdID::IntType, bytecodeIndex + defaultCodeSize};
+                    stack[stackIndex] = {IntType, bytecodeIndex + defaultCodeSize};
                     */
 
                     stackIndex++;
-                    stack[stackIndex] = {CmdID::StartFuncType, currentFuncID};
+                    stack[stackIndex] = {STRING_FUNC_TYPE, currentFuncID};
 
                     bytecodeIndex = funcStartIndexes[callFuncID];
                     jumped = true;
@@ -534,47 +534,47 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
                     {
                         switch (topStackData[i]->type)
                         {
-                        case CmdID::NumberType:
-                            newArg.type = CmdID::NumberType;
+                        case NumberType:
+                            newArg.type = NumberType;
                             newArg.numberValue = numberVariable[topStackData[i]->address];
 
                             break;
 
-                        case CmdID::NumberTmpType:
-                            newArg.type = CmdID::NumberType;
+                        case NumberTmpType:
+                            newArg.type = NumberType;
                             newArg.numberValue = numberStack[numberStackIndex];
                             numberStackIndex--;
 
                             break;
 
-                        case CmdID::StringType:
-                            newArg.type = CmdID::StringType;
+                        case StringType:
+                            newArg.type = StringType;
                             newArg.stringValue = stringVariable[topStackData[i]->address];
 
                             break;
 
-                        case CmdID::StringTmpType:
-                            newArg.type = CmdID::StringType;
+                        case StringTmpType:
+                            newArg.type = StringType;
                             newArg.stringValue = stringStack[stringStackIndex];
                             stringStackIndex--;
 
                             break;
 
-                        case CmdID::BoolType:
-                            newArg.type = CmdID::BoolType;
+                        case BoolType:
+                            newArg.type = BoolType;
                             newArg.boolValue = boolVariable[topStackData[i]->address];
 
                             break;
 
-                        case CmdID::BoolTmpType:
-                            newArg.type = CmdID::BoolType;
+                        case BoolTmpType:
+                            newArg.type = BoolType;
                             newArg.boolValue = boolStack[boolStackIndex];
                             boolStackIndex--;
 
                             break;
 
-                        case CmdID::IntType:
-                            newArg.type = CmdID::IntType;
+                        case IntType:
+                            newArg.type = IntType;
                             newArg.address = topStackData[i]->address;
 
                             break;
@@ -590,37 +590,37 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     returnValue = RunCode(callFuncID, callFuncArg);
 
-                    if (returnValue.type != CmdID::VoidType)
+                    if (returnValue.type != VoidType)
                     {
                         //stackIndex++;
                         //stack[stackIndex] = {returnValue.type, returnValue.address};
 
                         switch (returnValue.type)
                         {
-                        case CmdID::NumberType:
+                        case NumberType:
                             numberStackIndex++;
                             numberStack[numberStackIndex] = returnValue.numberValue;
 
                             stackIndex++;
-                            stack[stackIndex] = {CmdID::NumberTmpType, returnValue.address};
+                            stack[stackIndex] = {NumberTmpType, returnValue.address};
 
                             break;
 
-                        case CmdID::StringType:
+                        case StringType:
                             stringStackIndex++;
                             stringStack[stringStackIndex] = returnValue.stringValue;
 
                             stackIndex++;
-                            stack[stackIndex] = {CmdID::StringTmpType, returnValue.address};
+                            stack[stackIndex] = {StringTmpType, returnValue.address};
 
                             break;
 
-                        case CmdID::BoolType:
+                        case BoolType:
                             boolStackIndex++;
                             boolStack[boolStackIndex] = returnValue.boolValue;
 
                             stackIndex++;
-                            stack[stackIndex] = {CmdID::BoolTmpType, returnValue.address};
+                            stack[stackIndex] = {BoolTmpType, returnValue.address};
 
                             break;
 
@@ -634,36 +634,36 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::CallCppFunc:
+                case CALL_CPP_FUNC:
 
                     break;
 
-                case CmdID::Return:
+                case RETURN:
                     newStackData = {stack[stackIndex].type, stack[stackIndex].address};
 
-                    if (newStackData.type == CmdID::NumberType)
+                    if (newStackData.type == NUMBER_TYPE)
                     {
-                        newStackData.type = CmdID::NumberTmpType;
+                        newStackData.type = NUMBER_TMP_TYPE;
 
                         numberStackIndex++;
                         numberStack[numberStackIndex] = numberVariable[newStackData.address];
                     }
-                    if (newStackData.type == CmdID::StringType)
+                    if (newStackData.type == STRING_TYPE)
                     {
-                        newStackData.type = CmdID::StringTmpType;
+                        newStackData.type = STRING_TMP_TYPE;
 
                         stringStackIndex++;
                         stringStack[stringStackIndex] = stringVariable[newStackData.address];
                     }
-                    if (newStackData.type == CmdID::BoolType)
+                    if (newStackData.type == BOOL_TYPE)
                     {
-                        newStackData.type = CmdID::BoolTmpType;
+                        newStackData.type = BOOL_TMP_TYPE;
 
                         boolStackIndex++;
                         boolStack[boolStackIndex] = boolVariable[newStackData.address + reservedBoolMemorySize];
                     }
 
-                    while (stackIndex >= 0 && stack[stackIndex].type != CmdID::StartFuncType)
+                    while (stackIndex >= 0 && stack[stackIndex].type != STRING_FUNC_TYPE)
                         stackIndex--;
 
                     currentFuncID = stack[stackIndex].address;
@@ -680,7 +680,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                     break;
 
-                case CmdID::EndOfFunc:
+                case END_OF_FUNC:
                     endProcess = true;
                     break;
 
@@ -702,9 +702,9 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
             break;
     }
 
-    if (funcType == CmdID::VoidType)
+    if (funcType == VOID_TYPE)
     {
-        returnStackData.type = CmdID::VoidType;
+        returnStackData.type = VOID_TYPE;
 
         return returnStackData;
     }
@@ -715,7 +715,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
         error = true;
 
-        returnStackData.type = CmdID::Error;
+        returnStackData.type = ERROR;
 
         return returnStackData;
     }
@@ -728,8 +728,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
         switch (topStackData.type)
         {
-        case CmdID::NumberType:
-            if (funcType != CmdID::NumberType)
+        case NUMBER_TYPE:
+            if (funcType != NUMBER_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -740,8 +740,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::NumberTmpType:
-            if (funcType != CmdID::NumberType)
+        case NUMBER_TMP_TYPE:
+            if (funcType != NUMBER_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -753,8 +753,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::StringType:
-            if (funcType != CmdID::StringType)
+        case STRING_TYPE:
+            if (funcType != STRING_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -765,8 +765,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::StringTmpType:
-            if (funcType != CmdID::StringType)
+        case STRING_TMP_TYPE:
+            if (funcType != STRING_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -778,8 +778,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::BoolType:
-            if (funcType != CmdID::BoolType)
+        case BOOL_TYPE:
+            if (funcType != BOOL_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -790,8 +790,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::BoolTmpType:
-            if (funcType != CmdID::BoolType)
+        case BOOL_TMP_TYPE:
+            if (funcType != BOOL_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -803,8 +803,8 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
             break;
 
-        case CmdID::IntType:
-            if (funcType != CmdID::IntType)
+        case INT_TYPE:
+            if (funcType != INT_TYPE)
             {
                 printf("Error : Return type is wrong\n");
                 error = true;
@@ -824,7 +824,7 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
     if (error)
     {
-        returnStackData.type = CmdID::Error;
+        returnStackData.type = ERROR;
         printf("Process finished with some errors\n");
     }
     else

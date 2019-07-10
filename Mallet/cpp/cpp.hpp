@@ -16,105 +16,56 @@
 #include <map>
 #include <unordered_map>
 
-class CmdID
+enum
 {
-public:
-    //* New
-    static constexpr int CodeBegin = -90000;
-    static constexpr int Push = 90000;
-    static constexpr int Pop = 90001;
-    static constexpr int IntType = 90012;
-    static constexpr int CallCppFunc = 90004;
-    static constexpr int CallMalletFunc = 90005;
-    static constexpr int SetNumberVariable = 90006;
-    static constexpr int SetStringVariable = 90007;
+    CODE_BEGIN = -1000000007,
+    PUSH = 0,
+    POP,
+    INT_TYPE,
+    CALL_CPP_FUNC,
+    CALL_MALLET_FUNC,
+    SET_NUMBER_VARIABLE,
+    SET_STRING_VARIABLE,
+    PRINT_NUMBER,
+    PRINT_STRING,
+    JUMP,
+    ERROR,
+    PUSH_TRUE,
+    PUSH_FALSE,
+    RETURN,
+    END_OF_FUNC,
 
-    static constexpr int PrintNumber = 90008;
-    static constexpr int PrintString = 90009;
+    // Type
+    NUMBER_TYPE,
+    STRING_TYPE,
+    BOOL_TYPE,
+    NUMBER_GLOBAL_TYPE,
+    STRING_GLOBAL_TYPE,
+    BOOL_GLOBAL_TYPE,
+    VOID_TYPE,
+    NUMBER_TMP_TYPE,
+    STRING_TMP_TYPE,
+    BOOL_TMP_TYPE,
+    NUMBER_ADDRESS_TYPE,
+    STRING_ADDRESS_TYPE,
+    BOOL_ADDRESS_TYPE,
+    STRING_FUNC_TYPE,
 
-    static constexpr int Jump = 90010;
-    //static constexpr int Call = 90013;
-
-    static constexpr int Error = 90014;
-
-    static constexpr int PushTrue = 90015;
-    static constexpr int PushFalse = 90016;
-
-    static constexpr int Return = 90017;
-
-    static constexpr int EndOfFunc = 90018;
-
-    static constexpr int NumberType = 80000;
-    static constexpr int StringType = 80001;
-    static constexpr int BoolType = 80002;
-    static constexpr int NumberGlobalType = 80003;
-    static constexpr int StringGlobalType = 80004;
-    static constexpr int BoolGlobalType = 80005;
-    static constexpr int VoidType = 80006;
-
-    static constexpr int NumberTmpType = 80007;
-    static constexpr int StringTmpType = 80008;
-    static constexpr int BoolTmpType = 80009;
-
-    static constexpr int NumberAddressType = 80010;
-    static constexpr int StringAddressType = 80011;
-    static constexpr int BoolAddressType = 80012;
-
-    static constexpr int StartFuncType = 80013;
-
-    //* IO
-    /*
-    static constexpr int Print = 10000;
-    static constexpr int Input = 10001;
-    */
-
-    //* Control
-    /*
-    static constexpr int Do = 20000;
-    static constexpr int If = 20001;
-    static constexpr int Repeat = 20002;
-    static constexpr int While = 20003;
-    */
-
-    //* Variable
-    /*
-    static constexpr int DeclareIntVariable = 30000;
-    static constexpr int AssignIntVariable = 30001;
-    static constexpr int IntVariableValue = 30002;
-    static constexpr int IntValue = 30003;
-    static constexpr int StringVariableValue = 30004;
-    static constexpr int DeclareStringVariable = 30006;
-    static constexpr int AssignStringVariable = 30007;
-
-    static constexpr int DeclareIntGlobalVariable = 31000;
-    static constexpr int AssignIntGlobalVariable = 31001;
-    static constexpr int IntGlobalVariableValue = 31002;
-    static constexpr int StringGlobalVariableValue = 31004;
-    static constexpr int DeclareStringGlobalVariable = 31006;
-    static constexpr int AssignStringGlobalVariable = 31007;
-
-    static constexpr int AssignIntTmpVariable = 32001;
-    static constexpr int IntTmpVariableValue = 32002;
-    */
-
-    //* Operation
-    static constexpr int Add = 40000;
-    static constexpr int Sub = 40001;
-    static constexpr int Mul = 40002;
-    static constexpr int Div = 40003;
-    static constexpr int Mod = 40004;
-    static constexpr int Equal = 40005;
-    static constexpr int NotEqual = 40006;
-    static constexpr int GreaterThan = 40007;
-    static constexpr int LessThan = 40008;
-    static constexpr int GreaterThanOrEqual = 40009;
-    static constexpr int LessThanOrEqual = 40010;
-    static constexpr int And = 40011;
-    static constexpr int Or = 40012;
-    static constexpr int Not = 40013;
-
-    //* UI
-    //static constexpr int SetUIText = 50000;
+    // Operator
+    ADD = 1024,
+    SUB,
+    MUL,
+    DIV,
+    MOD,
+    EQUAL,
+    NOT_EQUAL,
+    GREATER_THAN,
+    LESS_THAN,
+    GREATER_THAN_OR_EQUAL,
+    LESS_THAN_OR_EQUAL,
+    AND,
+    OR,
+    NOT,
 };
 
 class Converter
@@ -130,6 +81,7 @@ public:
                   std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
 
     std::string RefactorCode(std::string code);
+
     std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter);
 };
 
@@ -201,31 +153,45 @@ private:
     };
 
     void AddCode(int code);
+
     void AddCmdCode(int code, int argNum);
+
     void AddPushCode(int type, int address, bool absolute);
+
     void AddPushTrueCode();
+
     void AddPushFalseCode();
+
     void AddPush0Code();
+
     void AddPush1Code();
 
     int ConvertValue(const int firstCodeIndex, const bool convert);
+
     formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
+
     int ConvertCodeBlock(const int firstCodeIndex, const int funcID);
+
     int ConvertFunc(const int firstCodeIndex, const bool convert);
 
     void DeclareConstant(const int firstCodeIndex);
 
     formulaData GetFormulaSize(const int firstCodeIndex, int operatorNumber);
+
     int GetFuncSize(const int firstCodeIndex);
 
     int DeclareVariable(const int type, const std::string name, const bool isGlobal);
 
     void InitConverter();
+
     void ClearLocalVariable();
 
     int TypeName2ID(const std::string typeName);
+
     std::string ID2TypeName(const int typeID);
+
     int LocalType2GlobalType(const int typeID);
+
     int Type2AddressType(const int typeID);
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};

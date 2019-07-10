@@ -3,44 +3,44 @@
 void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
 {
     std::unordered_map<int, std::string> id2str = {
-        {CmdID::Push, "Push"},
-        {CmdID::CallCppFunc, "CallCppFunc"},
-        {CmdID::CallMalletFunc, "CallMalletFunc"},
-        {CmdID::SetNumberVariable, "SetNumberVariable"},
-        {CmdID::SetStringVariable, "SetStringVariable"},
-        {CmdID::PrintNumber, "PrintNumber"},
-        {CmdID::PrintString, "PrintString"},
-        {CmdID::Jump, "Jump"},
-        {CmdID::Return, "Return"},
-        {CmdID::NumberType, "Number"},
-        {CmdID::StringType, "String"},
-        {CmdID::BoolType, "Bool"},
-        {CmdID::NumberGlobalType, "NumberGlobal"},
-        {CmdID::StringGlobalType, "StringGlobal"},
-        {CmdID::BoolGlobalType, "BoolGlobal"},
-        {CmdID::NumberTmpType, "NumberTmp"},
-        {CmdID::StringTmpType, "StringTmp"},
-        {CmdID::BoolTmpType, "BoolTmp"},
-        {CmdID::VoidType, "Void"},
-        {CmdID::IntType, "Int"},
-        {CmdID::NumberAddressType, "NumberAddress"},
-        {CmdID::StringAddressType, "StringAddress"},
-        {CmdID::BoolAddressType, "BoolAddress"},
-        {CmdID::EndOfFunc, "\x1b[45m  EndOfFunc  \x1b[49m"},
-        {CmdID::Add, "+"},
-        {CmdID::Sub, "-"},
-        {CmdID::Mul, "*"},
-        {CmdID::Div, "/"},
-        {CmdID::Mod, "%"},
-        {CmdID::Equal, "=="},
-        {CmdID::NotEqual, "!="},
-        {CmdID::GreaterThan, ">"},
-        {CmdID::LessThan, "<"},
-        {CmdID::GreaterThanOrEqual, ">="},
-        {CmdID::LessThanOrEqual, "<="},
-        {CmdID::And, "&&"},
-        {CmdID::Or, "||"},
-        {CmdID::Not, "!"},
+        {PUSH, "Push"},
+        {CALL_CPP_FUNC, "CallCppFunc"},
+        {CALL_MALLET_FUNC, "CallMalletFunc"},
+        {SET_NUMBER_VARIABLE, "SetNumberVariable"},
+        {SET_STRING_VARIABLE, "SetStringVariable"},
+        {PRINT_NUMBER, "PrintNumber"},
+        {PRINT_STRING, "PrintString"},
+        {JUMP, "Jump"},
+        {RETURN, "Return"},
+        {NUMBER_TYPE, "Number"},
+        {STRING_TYPE, "String"},
+        {BOOL_TYPE, "Bool"},
+        {NUMBER_GLOBAL_TYPE, "NumberGlobal"},
+        {STRING_GLOBAL_TYPE, "StringGlobal"},
+        {BOOL_GLOBAL_TYPE, "BoolGlobal"},
+        {NUMBER_TMP_TYPE, "NumberTmp"},
+        {STRING_TMP_TYPE, "StringTmp"},
+        {BOOL_TMP_TYPE, "BoolTmp"},
+        {VOID_TYPE, "Void"},
+        {INT_TYPE, "Int"},
+        {NUMBER_ADDRESS_TYPE, "NumberAddress"},
+        {STRING_ADDRESS_TYPE, "StringAddress"},
+        {BOOL_ADDRESS_TYPE, "BoolAddress"},
+        {END_OF_FUNC, "\x1b[45m  EndOfFunc  \x1b[49m"},
+        {ADD, "+"},
+        {SUB, "-"},
+        {MUL, "*"},
+        {DIV, "/"},
+        {MOD, "%"},
+        {EQUAL, "=="},
+        {NOT_EQUAL, "!="},
+        {GREATER_THAN, ">"},
+        {LESS_THAN, "<"},
+        {GREATER_THAN_OR_EQUAL, ">="},
+        {LESS_THAN_OR_EQUAL, "<="},
+        {AND, "&&"},
+        {OR, "||"},
+        {NOT, "!"},
     };
 
     constexpr int pushCodeSize = 6;
@@ -51,7 +51,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
     int i = 0;
     while (i < bytecode.size())
     {
-        if (bytecode[i] != CmdID::CodeBegin)
+        if (bytecode[i] != CODE_BEGIN)
         {
             printf("This bytecode is broken!\n");
             return;
@@ -59,13 +59,13 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
 
         bytecodeString += "\x1b[32m#" + std::to_string(i) + ":\x1b[39m ";
 
-        if (bytecode[i + 1] == CmdID::Push)
+        if (bytecode[i + 1] == PUSH)
         {
             bytecodeString += "\x1b[33m" + id2str[bytecode[i + 1]] + "\x1b[39m ";
             bytecodeString += "\x1b[35m" + id2str[bytecode[i + 3]] + "\x1b[39m ";
             bytecodeString += std::to_string(bytecode[i + 4]) + " ";
 
-            if (bytecode[i + 5] > 0 && (bytecode[i + 3] != CmdID::IntType))
+            if (bytecode[i + 5] > 0 && (bytecode[i + 3] != INT_TYPE))
                 bytecodeString += "\x1b[36mAbsolute\x1b[39m";
 
             i += pushCodeSize;
