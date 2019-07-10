@@ -163,7 +163,7 @@ public:
     std::unordered_map<int, double> numberVariableInitialValue;
     std::unordered_map<int, std::string> stringVariableInitialValue;
 
-    std::vector<std::vector<int>> argAddresses;
+    std::vector<std::vector<int>> funcArgAddresses;
     std::vector<int> funcStartIndexes;
     std::vector<int> funcBytecodeStartIndexes;
 
@@ -235,7 +235,6 @@ private:
     std::set<std::string> funcNames;
     std::map<funcData, int> funcIDs;
     std::map<funcData, bool> isFuncExists;
-    std::vector<std::vector<int>> funcArgAddresses;
     std::vector<std::vector<int>> funcArgTypes;
     std::vector<std::vector<std::string>> funcArgOriginalVariableNames;
 

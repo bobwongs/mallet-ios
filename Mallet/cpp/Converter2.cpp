@@ -964,8 +964,6 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
 
     for (int funcID = 0; funcID < funcStartIndexes.size(); funcID++)
     {
-        argAddresses.push_back(std::vector<int>());
-
         ClearLocalVariable();
 
         funcBytecodeStartIndexes.push_back(bytecodeIndex);
@@ -996,6 +994,8 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
         }
 
         ConvertCodeBlock(codeIndex, funcID);
+
+        AddCmdCode(CmdID::Return, 0);
 
         AddCmdCode(CmdID::EndOfFunc, 0);
 

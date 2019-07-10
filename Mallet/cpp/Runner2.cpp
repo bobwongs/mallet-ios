@@ -119,6 +119,11 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
     bool endProcess = false;
 
+    stackIndex++;
+    stack[stackIndex] = {CmdID::IntType, bytecodeSize};
+    stackIndex++;
+    stack[stackIndex] = {CmdID::StartFuncType, -1};
+
     while (bytecodeIndex < bytecodeSize)
     {
         if (bytecode[bytecodeIndex] != CmdID::CodeBegin || bytecodeIndex + 2 >= bytecodeSize)
