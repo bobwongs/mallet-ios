@@ -636,6 +636,106 @@ Runner2::funcStackData Runner2::RunCode(int funcID, std::vector<Runner2::funcSta
 
                 case CALL_CPP_FUNC:
 
+                    callFuncID = topStackData[argNum - 1]->address;
+
+                    callFuncArg = std::vector<funcStackData>(argNum - 1);
+
+                    for (int i = 0; i < argNum - 1; i++)
+                    {
+                        switch (topStackData[i]->type)
+                        {
+                        case NUMBER_TYPE:
+                            newArg.type = NUMBER_TYPE;
+                            newArg.numberValue = numberVariable[topStackData[i]->address];
+
+                            break;
+
+                        case NUMBER_TMP_TYPE:
+                            newArg.type = NUMBER_TYPE;
+                            newArg.numberValue = numberStack[numberStackIndex];
+                            numberStackIndex--;
+
+                            break;
+
+                        case STRING_TYPE:
+                            newArg.type = STRING_TYPE;
+                            newArg.stringValue = stringVariable[topStackData[i]->address];
+
+                            break;
+
+                        case STRING_TMP_TYPE:
+                            newArg.type = STRING_TYPE;
+                            newArg.stringValue = stringStack[stringStackIndex];
+                            stringStackIndex--;
+
+                            break;
+
+                        case BOOL_TYPE:
+                            newArg.type = BOOL_TYPE;
+                            newArg.boolValue = boolVariable[topStackData[i]->address];
+
+                            break;
+
+                        case BOOL_TMP_TYPE:
+                            newArg.type = BOOL_TYPE;
+                            newArg.boolValue = boolStack[boolStackIndex];
+                            boolStackIndex--;
+
+                            break;
+
+                        case INT_TYPE:
+                            newArg.type = INT_TYPE;
+                            newArg.address = topStackData[i]->address;
+
+                            break;
+
+                        default:
+                            printf("Error : Unknown type\n");
+                            error = true;
+                            break;
+                        }
+
+                        callFuncArg[i] = newArg;
+                    }
+
+                    returnValue = CallCppFunc(callFuncID, callFuncArg);
+
+                    if (returnValue.type != VOID_TYPE)
+                    {
+                        switch (returnValue.type)
+                        {
+                        case NUMBER_TYPE:
+                            numberStackIndex++;
+                            numberStack[numberStackIndex] = returnValue.numberValue;
+
+                            stackIndex++;
+                            stack[stackIndex] = {NUMBER_TMP_TYPE, returnValue.address};
+
+                            break;
+
+                        case STRING_TYPE:
+                            stringStackIndex++;
+                            stringStack[stringStackIndex] = returnValue.stringValue;
+
+                            stackIndex++;
+                            stack[stackIndex] = {STRING_TMP_TYPE, returnValue.address};
+
+                            break;
+
+                        case BOOL_TYPE:
+                            boolStackIndex++;
+                            boolStack[boolStackIndex] = returnValue.boolValue;
+
+                            stackIndex++;
+                            stack[stackIndex] = {BOOL_TMP_TYPE, returnValue.address};
+
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
+
                     break;
 
                 case RETURN:

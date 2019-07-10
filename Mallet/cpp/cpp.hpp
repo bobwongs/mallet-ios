@@ -128,8 +128,6 @@ public:
 
     std::string ConvertCodeToJson(std::string codeStr);
 
-    void ListFunction();
-
     std::vector<int> bytecode;
     int bytecodeIndex;
     int bytecodeSize;
@@ -182,6 +180,10 @@ private:
 
     int DeclareVariable(const int type, const std::string name, const bool isGlobal);
 
+    void ListFunction();
+
+    void ListCppFunction();
+
     void InitConverter();
 
     void ClearLocalVariable();
@@ -203,6 +205,10 @@ private:
     std::map<funcData, bool> isFuncExists;
     std::vector<std::vector<int>> funcArgTypes;
     std::vector<std::vector<std::string>> funcArgOriginalVariableNames;
+
+    std::set<std::string> cppFuncNames;
+    std::map<funcData, int> cppFuncIDs;
+    std::map<funcData, bool> isCppFuncExists;
 
     std::unordered_map<std::string, int> variableType;
     std::unordered_map<std::string, int> globalVariableType;
@@ -267,6 +273,8 @@ public:
 
     funcStackData RunCode(int funcID, std::vector<funcStackData> args);
 
+    funcStackData CallCppFunc(int funcID, std::vector<funcStackData> args);
+
     void InitRunner(Runner2 &runner);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
@@ -276,6 +284,31 @@ class Bytecode2String
 {
 public:
     void ShowBytecodeString(std::vector<int> bytecode);
+};
+
+class CppFunc
+{
+    typedef struct
+    {
+        std::string funcName;
+
+        int funcID;
+
+        int funcType;
+
+        std::vector<int> argTypes;
+
+    } funcData;
+
+    struct funcIDs
+    {
+        static constexpr int TEST_FUNC = 0;
+    };
+
+public:
+    std::vector<funcData> cppFuncData;
+
+    CppFunc();
 };
 
 #endif /* cpp_hpp */

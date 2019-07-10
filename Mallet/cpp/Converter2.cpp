@@ -473,7 +473,7 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
                     break;
                 }
 
-                if (funcNames.count(code[i]) > 0)
+                if (funcNames.count(code[i]) > 0 || cppFuncNames.count(code[i]) > 0)
                 {
                     i += ConvertFunc(i, false);
                 }
@@ -551,7 +551,7 @@ Converter2::formulaData Converter2::ConvertFormula(const int firstCodeIndex, int
     {
         returnFormulaData.type = ConvertValue(firstCodeIndex, convert);
     }
-    else if (funcNames.count(code[parts[0].first]) > 0)
+    else if (funcNames.count(code[parts[0].first]) > 0 || cppFuncNames.count(code[parts[0].first]) > 0)
     {
         ConvertFunc(firstCodeIndex, convert);
 
@@ -604,7 +604,7 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
             codeIndex++;
     }
 
-    if (!isFuncExists[thisFuncData])
+    if (!isFuncExists[thisFuncData] && !isCppFuncExists[thisFuncData])
     {
         printf("Error : The function %s(", thisFuncData.funcName.c_str());
         for (int i = 0; i < thisFuncData.argTypes.size(); i++)
@@ -618,7 +618,12 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
         return codeSize;
     }
 
-    const int funcID = funcIDs[thisFuncData];
+    bool isCppFunc = isCppFuncExists[thisFuncData];
+    int funcID;
+    if (isCppFunc)
+        funcID = cppFuncIDs[thisFuncData];
+    else
+        funcID = funcIDs[thisFuncData];
 
     if (convert)
     {
@@ -635,12 +640,14 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
             formulaData argData;
             argData = ConvertFormula(codeIndex, 0, false);
 
-            AddPushCode(Type2AddressType(argData.type), funcArgAddresses[funcID][argIndex], true);
+            if (!isCppFunc)
+                AddPushCode(Type2AddressType(argData.type), funcArgAddresses[funcID][argIndex], true);
 
             ConvertFormula(codeIndex, 0, true);
 
             //TODO: Type
-            AddCmdCode(SET_NUMBER_VARIABLE, 2);
+            if (!isCppFunc)
+                AddCmdCode(SET_NUMBER_VARIABLE, 2);
 
             codeSize += argData.codeSize + 1;
 
@@ -653,12 +660,18 @@ int Converter2::ConvertFunc(const int firstCodeIndex, const bool convert)
         }
 
         int backIndex = bytecodeIndex + 4;
-        AddPushCode(INT_TYPE, -1, true);
+        if (!isCppFunc)
+            AddPushCode(INT_TYPE, -1, true);
 
         AddPushCode(INT_TYPE, funcID, true);
-        AddCmdCode(CALL_MALLET_FUNC, 1);
 
-        bytecode[backIndex] = bytecodeIndex;
+        if (isCppFunc)
+            AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argTypes.size());
+        else
+            AddCmdCode(CALL_MALLET_FUNC, 1);
+
+        if (!isCppFunc)
+            bytecode[backIndex] = bytecodeIndex;
     }
 
     return codeSize;
@@ -881,7 +894,7 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             AddCmdCode(codeID, 2);
         }
-        else if (funcNames.count(token) > 0)
+        else if (funcNames.count(token) > 0 || cppFuncNames.count(token) > 0)
         {
             codeSize = ConvertFunc(codeIndex, true);
         }
@@ -957,6 +970,7 @@ std::string Converter2::ConvertCodeToJson(std::string codeStr)
     code = SplitCode(codeStr, symbol, doubleSymbol, reservedWord);
 
     ListFunction();
+    ListCppFunction();
 
     for (int codeIndex = 0; codeIndex < code.size(); codeIndex++)
     {
@@ -1102,6 +1116,13 @@ void Converter2::ListFunction()
                 */
 
                 codeIndex++;
+            }
+
+            if (isFuncExists[newFuncData] || isCppFuncExists[newFuncData])
+            {
+                //TODO: show detail
+                printf("The function %s is already declared\n", newFuncData.funcName.c_str());
+                break;
             }
 
             funcNames.insert(newFuncData.funcName);
