@@ -6,14 +6,9 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-#ifndef Runner2_h
-#define Runner2_h
+#ifndef Run_h
+#define Run_h
 
 #include "cpp.hpp"
 
-typedef struct
-{
-    Runner2 &runner;
-} ArgData;
-
-#endif /* Runner2_h */
+#endif /* Run_h */

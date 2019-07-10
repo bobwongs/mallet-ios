@@ -13,132 +13,269 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <map>
 #include <unordered_map>
 
-class CmdID
+enum
 {
-public:
-    //* New
-    static constexpr int Push = 90000;
-    static constexpr int Pop = 90001;
-    static constexpr int NumberType = 90002;
-    static constexpr int StringType = 90003;
-    static constexpr int BoolType = 90011;
-    static constexpr int CodeAddressType = 90012;
-    static constexpr int CallCppFunc = 90004;
-    static constexpr int CallMalletFunc = 90005;
-    static constexpr int SetNumberVariable = 90006;
-    static constexpr int SetStringVariable = 90007;
+    CODE_BEGIN = -1000000007,
+    PUSH = 0,
+    POP,
+    INT_TYPE,
+    CALL_CPP_FUNC,
+    CALL_MALLET_FUNC,
+    SET_NUMBER_VARIABLE,
+    SET_STRING_VARIABLE,
+    PRINT_NUMBER,
+    PRINT_STRING,
+    JUMP,
+    ERROR,
+    PUSH_TRUE,
+    PUSH_FALSE,
+    RETURN,
+    END_OF_FUNC,
 
-    static constexpr int PrintNumber = 90008;
-    static constexpr int PrintString = 90009;
+    // Type
+            NUMBER_TYPE,
+    STRING_TYPE,
+    BOOL_TYPE,
+    NUMBER_GLOBAL_TYPE,
+    STRING_GLOBAL_TYPE,
+    BOOL_GLOBAL_TYPE,
+    VOID_TYPE,
+    NUMBER_TMP_TYPE,
+    STRING_TMP_TYPE,
+    BOOL_TMP_TYPE,
+    NUMBER_ADDRESS_TYPE,
+    STRING_ADDRESS_TYPE,
+    BOOL_ADDRESS_TYPE,
+    STRING_FUNC_TYPE,
 
-    static constexpr int Jump = 90010;
-
-    //* IO
-    static constexpr int Print = 10000;
-    static constexpr int Input = 10001;
-
-    //* Control
-    static constexpr int Do = 20000;
-    static constexpr int If = 20001;
-    static constexpr int Repeat = 20002;
-    static constexpr int While = 20003;
-
-    //* Variable
-    static constexpr int DeclareIntVariable = 30000;
-    static constexpr int AssignIntVariable = 30001;
-    static constexpr int IntVariableValue = 30002;
-    static constexpr int IntValue = 30003;
-    static constexpr int StringVariableValue = 30004;
-    static constexpr int DeclareStringVariable = 30006;
-    static constexpr int AssignStringVariable = 30007;
-
-    static constexpr int DeclareIntGlobalVariable = 31000;
-    static constexpr int AssignIntGlobalVariable = 31001;
-    static constexpr int IntGlobalVariableValue = 31002;
-    static constexpr int StringGlobalVariableValue = 31004;
-    static constexpr int DeclareStringGlobalVariable = 31006;
-    static constexpr int AssignStringGlobalVariable = 31007;
-
-    static constexpr int AssignIntTmpVariable = 32001;
-    static constexpr int IntTmpVariableValue = 32002;
-
-    //* Operation
-    static constexpr int Add = 40000;
-    static constexpr int Sub = 40001;
-    static constexpr int Mul = 40002;
-    static constexpr int Div = 40003;
-    static constexpr int Mod = 40004;
-    static constexpr int Equal = 40005;
-    static constexpr int NotEqual = 40006;
-    static constexpr int GreaterThan = 40007;
-    static constexpr int LessThan = 40008;
-    static constexpr int GreaterThanOrEqual = 40009;
-    static constexpr int LessThanOrEqual = 40010;
-    static constexpr int And = 40011;
-    static constexpr int Or = 40012;
-    static constexpr int Not = 40013;
-
-    //* UI
-    static constexpr int SetUIText = 50000;
+    // Operator
+            ADD = 1024,
+    SUB,
+    MUL,
+    DIV,
+    MOD,
+    EQUAL,
+    NOT_EQUAL,
+    GREATER_THAN,
+    LESS_THAN,
+    GREATER_THAN_OR_EQUAL,
+    LESS_THAN_OR_EQUAL,
+    AND,
+    OR,
+    NOT,
 };
 
-typedef struct
-{
-    int id;
-    int type;
-    int value;
-    int argNum;
-} ByteCode;
-
-class Converter
+class Convert
 {
 public:
+    std::vector<int> numberMemorySize;
+    std::vector<int> stringMemorySize;
+    std::vector<int> boolMemorySize;
+
     std::unordered_map<std::string, int> numberGlobalVariableAddress;
     std::unordered_map<std::string, int> stringGlobalVariableAddress;
+    std::unordered_map<std::string, int> boolGlobalVariableAddress;
 
     int numberGlobalVariableNum;
     int stringGlobalVariableNum;
+    int boolGlobalVariableNum;
 
-    int SplitCode(std::string originalCodeStr, std::string code[], int codeMaxSize,
-                  std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord);
+    std::unordered_map<std::string, int> numberVariableAddress;
+    std::vector<int> numberVariableNums;
+    int numberVariableNum;
 
-    std::string RefactorCode(std::string code);
+    std::unordered_map<std::string, int> stringVariableAddress;
+    std::vector<int> stringVariableNums;
+    int stringVariableNum;
 
-    std::string ConvertCodeToJson(std::string codeStr, bool isDefinitionOfGlobalVariable, std::unordered_map<std::string, int> uiName, Converter &converter);
+    std::unordered_map<std::string, int> boolVariableAddress;
+    std::vector<int> boolVariableNums;
+    int boolVariableNum;
+
+    std::unordered_map<int, double> numberVariableInitialValue;
+    std::unordered_map<int, std::string> stringVariableInitialValue;
+
+    std::vector<std::vector<int>> funcArgAddresses;
+    std::vector<int> funcStartIndexes;
+    std::vector<int> funcBytecodeStartIndexes;
+
+    std::vector<std::string> code;
+
+    std::vector<std::vector<int>> bytecodes;
+    std::unordered_map<std::string, int> uiName;
+
+    std::vector<int> funcTypes;
+
+    std::string ConvertCodeToJson(std::string codeStr);
+
+    std::vector<int> bytecode;
+    int bytecodeIndex;
+    int bytecodeSize;
+
+private:
+    struct funcData
+    {
+        std::string funcName;
+        std::vector<int> argTypes;
+
+        bool operator<(const funcData &value) const
+        {
+            return std::tie(funcName, argTypes) < std::tie(value.funcName, value.argTypes);
+        }
+    };
+
+    struct formulaData
+    {
+        int codeSize;
+        int type;
+    };
+
+    void AddCode(int code);
+
+    void AddCmdCode(int code, int argNum);
+
+    void AddPushCode(int type, int address, bool absolute);
+
+    void AddPushTrueCode();
+
+    void AddPushFalseCode();
+
+    void AddPush0Code();
+
+    void AddPush1Code();
+
+    int ConvertValue(const int firstCodeIndex, const bool convert);
+
+    formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
+
+    int ConvertCodeBlock(const int firstCodeIndex, const int funcID);
+
+    int ConvertFunc(const int firstCodeIndex, const bool convert);
+
+    void DeclareConstant(const int firstCodeIndex);
+
+    formulaData GetFormulaSize(const int firstCodeIndex, int operatorNumber);
+
+    int GetFuncSize(const int firstCodeIndex);
+
+    int DeclareVariable(const int type, const std::string name, const bool isGlobal);
+
+    void ListFunction();
+
+    void ListCppFunction();
+
+    void InitConverter();
+
+    void ClearLocalVariable();
+
+    int TypeName2ID(const std::string typeName);
+
+    std::string ID2TypeName(const int typeID);
+
+    int LocalType2GlobalType(const int typeID);
+
+    int Type2AddressType(const int typeID);
+
+    std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+    std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
+    std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
+    std::set<std::string> typeName = {"void", "number", "string", "bool"};
+    std::set<std::string> funcNames;
+    std::map<funcData, int> funcIDs;
+    std::map<funcData, bool> isFuncExists;
+    std::vector<std::vector<int>> funcArgTypes;
+    std::vector<std::vector<std::string>> funcArgOriginalVariableNames;
+
+    std::set<std::string> cppFuncNames;
+    std::map<funcData, int> cppFuncIDs;
+    std::map<funcData, bool> isCppFuncExists;
+
+    std::unordered_map<std::string, int> variableType;
+    std::unordered_map<std::string, int> globalVariableType;
+    std::unordered_map<std::string, bool> isGlobalVariable;
 };
 
-class Runner
+class Run
 {
 public:
-    std::vector<int> numberGlobalVariable;
+    typedef struct
+    {
+        int type;
+        int address;
+    } stackData;
+
+    typedef struct
+    {
+        int type;
+        double numberValue;
+        std::string stringValue;
+        bool boolValue;
+        int address;
+    } funcStackData;
+
+    std::vector<int> numberMemorySize;
+    std::vector<int> stringMemorySize;
+    std::vector<int> boolMemorySize;
+
+    std::vector<double> numberGlobalVariable;
     std::vector<std::string> stringGlobalVariable;
+    std::vector<bool> boolGlobalVariable;
 
-    std::vector<std::vector<int>> codes;
-    std::vector<std::vector<std::string>> stringVariableInitialValues;
+    int numberGlobalVariableNum;
+    int stringGlobalVariableNum;
+    int boolGlobalVariableNum;
 
-    void RunCode(int id, Runner &runner);
+    std::vector<int> bytecode;
+    std::vector<double> numberVariableInitialValues;
+    std::vector<std::string> stringVariableInitialValues;
+    std::vector<bool> boolVariableInitialValues;
 
-    void InitRunner(Runner &runner);
+    std::vector<int> funcStartIndexes;
+    std::vector<std::vector<int>> argAddresses;
+
+    std::vector<int> funcTypes;
+
+    funcStackData RunCode(int funcID, std::vector<funcStackData> args);
+
+    funcStackData CallCppFunc(int funcID, std::vector<funcStackData> args);
+
+    void InitRunner(Run &runner);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
 };
 
-class Runner2
+class Bytecode2String
 {
 public:
-    std::vector<int> numberGlobalVariable;
-    std::vector<std::string> stringGlobalVariable;
+    void ShowBytecodeString(std::vector<int> bytecode);
+};
 
-    std::vector<std::vector<int>> codes;
-    std::vector<std::vector<std::string>> stringVariableInitialValues;
+class CppFunc
+{
+    typedef struct
+    {
+        std::string funcName;
 
-    void RunCode(std::vector<ByteCode> byteCode, Runner2 &runner);
+        int funcID;
 
-    void InitRunner(Runner2 &runner);
+        int funcType;
 
-    //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
+        std::vector<int> argTypes;
+
+    } funcData;
+
+    struct funcIDs
+    {
+        static constexpr int TEST_FUNC = 0;
+    };
+
+public:
+    std::vector<funcData> cppFuncData;
+
+    CppFunc();
 };
 
 #endif /* cpp_hpp */

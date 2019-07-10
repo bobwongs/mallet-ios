@@ -53,14 +53,14 @@
 
 @implementation RunnerObjCpp
 {
-    Runner *runner;
+    Run *runner;
 }
 
 - (id)init
 {
     if (self == [super init])
     {
-        runner = new Runner();
+        runner = new Run();
         [self InitRunner];
     }
 
