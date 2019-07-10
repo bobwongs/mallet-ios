@@ -791,20 +791,24 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         else if (token == "repeat")
         {
             numberVariableNum++;
-            int tmpVarAddress = numberVariableNum;
+            int countVarAddress = numberVariableNum;
 
-            AddPushCode(CmdID::NumberAddressType, tmpVarAddress, false);
+            numberVariableNum++;
+            int repeatTimeVarAddress = numberVariableNum;
+
+            AddPushCode(CmdID::NumberAddressType, repeatTimeVarAddress, false);
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+            AddCmdCode(CmdID::SetNumberVariable, 2);
+
+            AddPushCode(CmdID::NumberAddressType, countVarAddress, false);
             AddPush0Code();
             AddCmdCode(CmdID::SetNumberVariable, 2);
 
             int firstIndex = bytecodeIndex;
 
-            AddPushCode(CmdID::NumberType, tmpVarAddress, false);
-
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
-
+            AddPushCode(CmdID::NumberType, countVarAddress, false);
+            AddPushCode(CmdID::NumberType, repeatTimeVarAddress, false);
             AddCmdCode(CmdID::LessThan, 2);
-
             AddCmdCode(CmdID::Not, 1);
 
             int firstJumpIndex = bytecodeIndex;
@@ -815,8 +819,8 @@ int Converter2::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             codeSize += ConvertCodeBlock(codeIndex + codeSize, funcID);
 
-            AddPushCode(CmdID::NumberAddressType, tmpVarAddress, false);
-            AddPushCode(CmdID::NumberType, tmpVarAddress, false);
+            AddPushCode(CmdID::NumberAddressType, countVarAddress, false);
+            AddPushCode(CmdID::NumberType, countVarAddress, false);
             AddPush1Code();
             AddCmdCode(CmdID::Add, 2);
             AddCmdCode(CmdID::SetNumberVariable, 2);
