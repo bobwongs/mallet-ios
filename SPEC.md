@@ -1,64 +1,65 @@
 # 言語仕様
-2019/6/15
+
+2019/7/12
 
 ## 変数宣言
 
-```swift
-var a : Int //整数型の変数を宣言
-a = 1 //代入
+```c
+number a = 0 //数値型の変数を宣言
+a = 3.14 //代入
 a = (a + 2) * 3 // 演算子には +,-,*,/,%,==,!=,>,<,<=,>=,! を使用可能
-
-var b : String //文字列型の変数を宣言
-b = "Hello!" //ダブルクォーテーションで囲む
+a = -3 * -5 //負の数は未対応
 ```
 
 ## 繰り返し
 
-```swift
+```c
 repeat(10) //{}内の処理を10回繰り返す
 {
     a = a + 1
 }
 
-a = 0
-check = a < 10
-while(check) //checkがtrue(1以上)の間繰り返す
+number a = 0
+while(a < 10)
 {
     a = a + 1
-    check = a < 10
 }
+
+repeat(5) print(128) //処理が1行の場合は{}を省略可
 
 ```
 
 ## 条件分岐
 
-```swift
-var a : Int
-a = 1 //右辺がtrueの時は1 falseの時は0
-if(a == 1) // aが1以上の時{}内の処理を実行する
+```c
+number a = 0
+if(a == 1)
 {
-    a = 10
+    print(128)
+}
+else
+{
+    print(256)
 }
 ```
 
-## UI操作
+## 関数
 
-```swift
-SetUIText(Label,"This is Label") //Labelという名前のUIの文字を"This is UI"にする
-SetUIText(Text,128 + 256)
-```
+```c
+//void型,number型に対応
 
-## 注意が必要な文法 (今後改善)
+void main()
+{
+    print(fib(35))
 
-```swift
-var a : Int = 1 //宣言と代入を同時に行うことはできない
+    //void型はreturn省略可
+}
 
-var b : String
-b = "Hello " + "World" //文字列の演算は未サポート
+number fib(number n)
+{
+    if(n==1 || n==2)
+        return 1
 
-while(a < 10){} //while文の()内に数式を入れた場合正常に動作しない
-
-if(a == 1){}
-else{} //else文は未サポート
-
+    return fib(n-1) + fib(n-2)
+}
 ```
