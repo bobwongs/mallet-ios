@@ -8,7 +8,7 @@
 
 #include "cpp.hpp"
 
-std::string RemoveComments(std::string codeStr)
+std::string Convert::RemoveComments(std::string codeStr)
 {
     std::string returnCode = "";
 
@@ -66,8 +66,7 @@ std::string RemoveComments(std::string codeStr)
     return returnCode;
 }
 
-std::vector<std::string> SplitCode(std::string codeStr,
-                                   std::set<std::string> &symbol, std::set<std::string> &doubleSymbol, std::set<std::string> &reservedWord)
+std::vector<std::string> Convert::SplitCode(std::string codeStr)
 {
     std::vector<std::string> splitCode;
 
@@ -967,7 +966,7 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
 {
     InitConverter();
 
-    code = SplitCode(codeStr, symbol, doubleSymbol, reservedWord);
+    code = SplitCode(codeStr);
 
     ListFunction();
     ListCppFunction();

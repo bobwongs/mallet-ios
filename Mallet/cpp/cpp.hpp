@@ -36,7 +36,7 @@ enum
     END_OF_FUNC,
 
     // Type
-            NUMBER_TYPE,
+    NUMBER_TYPE,
     STRING_TYPE,
     BOOL_TYPE,
     NUMBER_GLOBAL_TYPE,
@@ -52,7 +52,7 @@ enum
     STRING_FUNC_TYPE,
 
     // Operator
-            ADD = 1024,
+    ADD = 1024,
     SUB,
     MUL,
     DIV,
@@ -146,6 +146,10 @@ private:
     void AddPush0Code();
 
     void AddPush1Code();
+
+    std::string RemoveComments(std::string codeStr);
+
+    std::vector<std::string> SplitCode(std::string codeStr);
 
     int ConvertValue(const int firstCodeIndex, const bool convert);
 
