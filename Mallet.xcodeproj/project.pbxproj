@@ -12,7 +12,7 @@
 		0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */; };
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
-		0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* Editor.storyboard */; };
+		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0E971B6122D60E1900C45B53 /* CppFuncManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */; };
 		0E971B6322D646F000C45B53 /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* Convert.cpp */; };
@@ -56,7 +56,7 @@
 		0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
-		0E3FDD80226CB9F000F20326 /* Editor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Editor.storyboard; sourceTree = "<group>"; };
+		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CppFuncManager.cpp; sourceTree = "<group>"; };
 		0E971B6222D646F000C45B53 /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
@@ -148,7 +148,7 @@
 			children = (
 				0E3FDD7E226CB9BF00F20326 /* EditorController.swift */,
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
-				0E3FDD80226CB9F000F20326 /* Editor.storyboard */,
+				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
 				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
 			);
 			path = Editor;
@@ -355,7 +355,7 @@
 				0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */,
 				0EF478AE226B78CD007315DB /* Main.storyboard in Resources */,
 				0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */,
-				0E3FDD81226CB9F000F20326 /* Editor.storyboard in Resources */,
+				0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

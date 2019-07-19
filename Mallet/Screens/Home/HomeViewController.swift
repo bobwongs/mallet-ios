@@ -34,7 +34,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appInfo = dataSource.appInfo[(indexPath as NSIndexPath).row]
 
-        let storyboard = UIStoryboard(name: "Editor", bundle: nil)
+        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
         guard let controller = storyboard.instantiateInitialViewController() as? EditorController else {
             fatalError()
         }
