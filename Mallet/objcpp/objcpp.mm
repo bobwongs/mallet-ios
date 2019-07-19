@@ -16,14 +16,14 @@
 
 @implementation ConverterObjCpp
 {
-    Converter *converter;
+    Convert *converter;
 }
 
 - (id)init
 {
     if (self == [super init])
     {
-        converter = new Converter();
+        converter = new Convert();
     }
 
     return self;
@@ -43,7 +43,7 @@
         uiNameMap[name] = uiID;
     }
 
-    std::string json = converter->ConvertCodeToJson(codeString, isDefinitionOfGlobalVariable, uiNameMap, *converter);
+    std::string json = converter->ConvertCodeToJson(codeString);
     NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
 
     return jsonNSString;
@@ -101,13 +101,15 @@
 
     }
 
+    /*
     runner->codes = codes;
     runner->stringVariableInitialValues = stringVariableInitialValues;
+    */
 }
 
 - (void)RunCode:(int)index
 {
-    runner->RunCode(index, *runner);
+    //runner->RunCode(index, *runner);
 }
 
 - (void)InitRunner
