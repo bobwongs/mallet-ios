@@ -104,19 +104,7 @@
                     <view key="view" contentMode="scaleToFill" id="ZUz-ta-hnr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="//TODO:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nly-tN-6lc">
-                                <rect key="frame" x="156" y="351.66666666666669" width="63" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="nly-tN-6lc" firstAttribute="centerX" secondItem="ZUz-ta-hnr" secondAttribute="centerX" id="6mp-3Q-3st"/>
-                            <constraint firstItem="nly-tN-6lc" firstAttribute="centerY" secondItem="ZUz-ta-hnr" secondAttribute="centerY" id="lBU-Hr-U1v"/>
-                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJS-Mh-NcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
