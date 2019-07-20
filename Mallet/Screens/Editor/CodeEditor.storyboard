@@ -53,7 +53,7 @@
                         <viewLayoutGuide key="safeArea" id="4Nd-Y1-dgR"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="IvC-uY-bgk">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Eb2-37-0Ta">
+                        <barButtonItem key="rightBarButtonItem" title="Mode" id="Eb2-37-0Ta">
                             <connections>
                                 <action selector="switchModeButton:" destination="kGm-ie-ZMa" id="oPY-0B-BBl"/>
                             </connections>
