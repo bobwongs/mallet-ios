@@ -11,7 +11,7 @@
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */; };
 		0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7B226CA90200F20326 /* DataSource.swift */; };
-		0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* EditorController.swift */; };
+		0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0E971B6122D60E1900C45B53 /* CppFuncManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */; };
@@ -22,6 +22,9 @@
 		0EC33347226E0B92005B968A /* RunApp.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* RunApp.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
 		0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3334A226E1226005B968A /* ScreenDataController.swift */; };
+		0EC9E81C22E3575600A9D6D9 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81B22E3575600A9D6D9 /* AppData.swift */; };
+		0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */; };
+		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EE5638422C3981A00F3F88C /* Run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* Run.cpp */; };
 		0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478A8226B78CD007315DB /* AppDelegate.swift */; };
 		0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478AA226B78CD007315DB /* HomeViewController.swift */; };
@@ -55,7 +58,7 @@
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
-		0E3FDD7E226CB9BF00F20326 /* EditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorController.swift; sourceTree = "<group>"; };
+		0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCodeEditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CppFuncManager.cpp; sourceTree = "<group>"; };
@@ -68,6 +71,9 @@
 		0EC33346226E0B92005B968A /* RunApp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RunApp.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
 		0EC3334A226E1226005B968A /* ScreenDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDataController.swift; sourceTree = "<group>"; };
+		0EC9E81B22E3575600A9D6D9 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorController.swift; sourceTree = "<group>"; };
+		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* Run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* Run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Run.cpp; sourceTree = "<group>"; };
 		0EF478A5226B78CD007315DB /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,8 +152,11 @@
 		0E3FDD7D226CB99700F20326 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
-				0E3FDD7E226CB9BF00F20326 /* EditorController.swift */,
+				0EC9E81B22E3575600A9D6D9 /* AppData.swift */,
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
+				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
+				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
+				0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */,
 				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
 				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
 			);
@@ -383,11 +392,14 @@
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */,
 				0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */,
+				0EC9E81C22E3575600A9D6D9 /* AppData.swift in Sources */,
 				0EE5638422C3981A00F3F88C /* Run.cpp in Sources */,
 				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
+				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
-				0E3FDD7F226CB9BF00F20326 /* EditorController.swift in Sources */,
+				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */,
+				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* RunApp.swift in Sources */,
 				0E971B6322D646F000C45B53 /* Convert.cpp in Sources */,
 				0E971B6122D60E1900C45B53 /* CppFuncManager.cpp in Sources */,

@@ -10,7 +10,7 @@ import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
-    var Editor: EditorController = EditorController()
+    //var Editor: EditorController = EditorController()
 
     @IBOutlet weak var editorView: UIView!
     @IBOutlet weak var uiTable: UITableView!
@@ -137,11 +137,29 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         pan.delegate = self
         ui.addGestureRecognizer(pan)
 
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapUI(_:)))
+        doubleTap.delegate = self
+        doubleTap.numberOfTapsRequired = 2
+        ui.addGestureRecognizer(doubleTap)
+
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
         tap.delegate = self
+        tap.numberOfTapsRequired = 1
+        tap.require(toFail: doubleTap)
         ui.addGestureRecognizer(tap)
 
         return cell
+    }
+
+    @objc func doubleTapUI(_ sender: UILongPressGestureRecognizer) {
+        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
+
+        guard let controller = storyboard.instantiateInitialViewController() as? CodeEditorController else {
+            fatalError()
+        }
+
+        navigationController?.pushViewController(controller, animated: true)
+        //navigationController?.present(controller, animated: true, completion: nil)
     }
 
     @objc func tapUI(_ sender: UITapGestureRecognizer) {
@@ -188,8 +206,15 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 pan.delegate = self
                 uiOnTable.addGestureRecognizer(pan)
 
-                let tap = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
+                let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapUI(_:)))
+                doubleTap.delegate = self
+                doubleTap.numberOfTapsRequired = 2
+                uiOnTable.addGestureRecognizer(doubleTap)
+
+                let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
                 tap.delegate = self
+                tap.numberOfTapsRequired = 1
+                tap.require(toFail: doubleTap)
                 uiOnTable.addGestureRecognizer(tap)
 
                 let uiName = uiTypeName[uiType] + String(UINumOfEachType[uiType] + 1)
@@ -307,6 +332,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func saveScreen() {
 
+        /*
         Editor.screenData.removeAll()
         Editor.uiNames.removeAll()
         Editor.uiNameDic.removeAll()
@@ -320,5 +346,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         Editor.codeList.reloadData()
+        */
     }
 }

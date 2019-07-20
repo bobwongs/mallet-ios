@@ -8,11 +8,10 @@
 
 import UIKit
 
-class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegate, UITableViewDataSource {
-
+class TextCodeEditorController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var editorArea: UITextView!
 
-    @IBOutlet weak var codeList: UITableView!
+    //@IBOutlet weak var codeList: UITableView!
 
     var code: [String] = [String]()
 
@@ -35,6 +34,8 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         //code[1] = "//Called when the app starts\n\n" + code[1]
         //code[2] = "//Called when the button is pressed\n\n" + code[2]
 
+
+        /*
         currentCodeIndex = 1
 
         editorArea.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -44,13 +45,17 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         editorArea.spellCheckingType = UITextSpellCheckingType.no
         editorArea.delegate = self
 
-        codeList.layer.cornerRadius = 15
-        codeList.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        */
+
+        //codeList.layer.cornerRadius = 15
+        //codeList.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         //codeList.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
 
     }
 
+
+    /*
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return uiNames.count + 2
     }
@@ -85,6 +90,8 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    */
+
 
     /*
     // MARK: - Navigation
@@ -115,7 +122,7 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
             fatalError()
         }
 
-        controller.Editor = self
+        //controller.Editor = self
 
         for i in 0..<screenData.count {
             controller.UIDic[i] = screenData[i]
@@ -130,5 +137,6 @@ class EditorController: UIViewController, UITextViewDelegate, UITableViewDelegat
     func textViewDidChange(_ textView: UITextView) {
         code[currentCodeIndex] = editorArea.text
     }
+
 
 }

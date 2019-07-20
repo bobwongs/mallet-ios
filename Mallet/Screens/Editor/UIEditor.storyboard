@@ -13,7 +13,6 @@
         <!--Navigation Controller-->
         <scene sceneID="cHW-Pd-hYe">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Eq4-F9-Tda" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="NnO-v6-fVb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M3M-NQ-a2v">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -23,10 +22,11 @@
                         <segue destination="AIj-Sb-75T" kind="relationship" relationship="rootViewController" id="56h-ot-e6w"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Eq4-F9-Tda" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-880" y="129"/>
         </scene>
-        <!--UI Editor-->
+        <!--Editor-->
         <scene sceneID="Nbf-D2-Ppe">
             <objects>
                 <viewController id="AIj-Sb-75T" customClass="UIEditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
@@ -133,7 +133,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MeI-G7-vY6"/>
                     </view>
-                    <navigationItem key="navigationItem" title="UI Editor" id="Tes-Qs-ZTT"/>
+                    <navigationItem key="navigationItem" title="Editor" id="Tes-Qs-ZTT"/>
                     <connections>
                         <outlet property="UINameTextField" destination="eE2-oW-xWq" id="WDY-Aj-zLs"/>
                         <outlet property="UITextTextField" destination="wZl-QC-Q7Q" id="YCA-Mq-Gnm"/>
