@@ -152,6 +152,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @objc func doubleTapUI(_ sender: UILongPressGestureRecognizer) {
+
+        if let senderSuperView = sender.view?.superview {
+            if senderSuperView != appScreen {
+                return
+            }
+        }
+
         let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
 
         guard let controller = storyboard.instantiateInitialViewController() as? CodeEditorController else {
