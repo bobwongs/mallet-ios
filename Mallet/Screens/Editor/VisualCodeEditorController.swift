@@ -28,26 +28,21 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
 
         codeStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 50).isActive = true
+        codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
 
         for i in 0..<10 {
 
-            let blockData: [BlockData]!
-
-            if i % 2 == 0 {
-                blockData = [BlockData(type: 0, value: "set"),
-                    BlockData(type: 1, value: "128"),
-                    BlockData(type: 0, value: "to"),
-                    BlockData(type: 1, value: "256"),]
-            } else {
-                blockData = [BlockData(type: 0, value: "print"),
-                    BlockData(type: 1, value: "1024"),]
-            }
+            let blockData =
+                    BlockData(
+                            contents: [BlockContentData(type: 0, value: "print"),
+                                       BlockContentData(type: 1, value: "1024"), ],
+                            indent: i % 2
+                    )
 
             let block = Block(blockData: blockData, index: i)
 
-            block.backgroundColor = UIColor.purple
+            block.translatesAutoresizingMaskIntoConstraints = false
 
             codeStackView.addArrangedSubview(block)
 
@@ -129,7 +124,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         codeStackView.insertArrangedSubview(blankView, at: index)
 
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        blankView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
 
     func moveBlock(from: Int, to: Int) {
@@ -138,7 +133,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
 
         self.view.addSubview(toBlankView)
 
-        let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 50)
+        let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
         let toViewHeight = NSLayoutConstraint(item: toBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 0)
 
         fromBlankView.removeConstraints(fromBlankView.constraints)
@@ -156,7 +151,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         self.view.layoutIfNeeded()
 
         fromViewHeight.constant = 0
-        toViewHeight.constant = 50
+        toViewHeight.constant = 44
 
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()

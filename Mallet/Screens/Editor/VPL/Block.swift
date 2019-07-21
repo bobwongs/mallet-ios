@@ -8,47 +8,83 @@
 
 import UIKit
 
-public struct BlockData {
+public struct BlockContentData {
     let type: Int
     let value: String
 }
 
+public struct BlockData {
+    let contents: [BlockContentData]
+    let indent: Int
+}
+
 public class Block: UIView {
 
-    var index: Int
+    public var index: Int
 
-    init(blockData: [BlockData], index: Int) {
+    private var indent = 0
+
+    private var indentViewWidthConstraint: NSLayoutConstraint
+
+    private let indentWidth: CGFloat = 30
+
+    init(blockData: BlockData, index: Int) {
 
         self.index = index
 
+        let indentView = UIView()
+        indentView.translatesAutoresizingMaskIntoConstraints = false
+        indentViewWidthConstraint = NSLayoutConstraint(item: indentView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: indentWidth * CGFloat(blockData.indent))
+        indentView.addConstraint(indentViewWidthConstraint)
+
         super.init(frame: CGRect())
-
-
-        self.layer.cornerRadius = 10
-
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let stackView = UIStackView(frame: CGRect())
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.spacing = 10
 
         self.addSubview(stackView)
-
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
-        stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10).isActive = true
-        stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        stackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        stackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
+        stackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 
-        stackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        let blockView = UIView()
+        blockView.layer.cornerRadius = 10
+        blockView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        blockView.layer.shadowColor = UIColor.black.cgColor
+        blockView.layer.shadowOpacity = 0.5
+        blockView.layer.shadowRadius = 3
 
+        let blockStackView = UIStackView(frame: CGRect())
+        blockStackView.axis = .horizontal
+        blockStackView.distribution = .fill
+        blockStackView.spacing = 5
+
+        stackView.addArrangedSubview(indentView)
+        stackView.addArrangedSubview(blockView)
+
+        blockView.translatesAutoresizingMaskIntoConstraints = false
+
+        blockView.addSubview(blockStackView)
+        let paddingV: CGFloat = 7
+        let paddingH: CGFloat = 7
+
+        blockStackView.translatesAutoresizingMaskIntoConstraints = false
+        blockStackView.topAnchor.constraint(equalTo: blockView.topAnchor, constant: paddingV).isActive = true
+        blockStackView.bottomAnchor.constraint(equalTo: blockView.bottomAnchor, constant: -paddingV).isActive = true
+        blockStackView.leadingAnchor.constraint(equalTo: blockView.leadingAnchor, constant: paddingH).isActive = true
+        blockStackView.trailingAnchor.constraint(equalTo: blockView.trailingAnchor, constant: -paddingH).isActive = true
+
+        blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         var width: CGFloat = 0
 
-        self.backgroundColor = UIColor.purple
+        blockView.backgroundColor = UIColor.gray
 
-        for i in blockData {
+        for i in blockData.contents {
 
             switch i.type {
             case 0:
@@ -61,7 +97,7 @@ public class Block: UIView {
 
                 width += text.frame.width + 10
 
-                stackView.addArrangedSubview(text)
+                blockStackView.addArrangedSubview(text)
 
             case 1:
                 let textField = UITextField()
@@ -76,7 +112,7 @@ public class Block: UIView {
 
                 width += textField.frame.width + 10
 
-                stackView.addArrangedSubview(textField)
+                blockStackView.addArrangedSubview(textField)
 
             default:
                 break
@@ -90,5 +126,9 @@ public class Block: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    public func changeIndent(by: Int) {
+
     }
 }
