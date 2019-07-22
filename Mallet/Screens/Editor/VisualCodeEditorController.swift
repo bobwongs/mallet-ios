@@ -10,11 +10,19 @@ import UIKit
 
 class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate {
 
-    let codeStackView = UIStackView()
+    private enum MovingBlockState {
+        case notMoving
+        case horizontal
+        case vertical
+    }
 
-    var blockPos = [CGFloat]()
+    private var movingBlockState: MovingBlockState = .notMoving
 
-    var blocks = [UIView]()
+    private let codeStackView = UIStackView()
+
+    private var blockPos = [CGFloat]()
+
+    private var blocks = [UIView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,35 +39,80 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
 
-        for i in 0..<10 {
+        let blockData = [
+            BlockData(
+                    contents: [BlockContentData(type: 0, value: "set"),
+                               BlockContentData(type: 1, value: "var"),
+                               BlockContentData(type: 0, value: "to"),
+                               BlockContentData(type: 1, value: "0"), ],
+                    indent: 0
+            ),
+            BlockData(
+                    contents: [BlockContentData(type: 0, value: "repeat"),
+                               BlockContentData(type: 1, value: "1024"), ],
+                    indent: 0
+            ),
+            BlockData(
+                    contents: [BlockContentData(type: 0, value: "set"),
+                               BlockContentData(type: 1, value: "var"),
+                               BlockContentData(type: 0, value: "to"),
+                               BlockContentData(type: 1, value: "var+1"), ],
+                    indent: 1
+            ),
+            BlockData(
+                    contents: [BlockContentData(type: 0, value: "print"),
+                               BlockContentData(type: 1, value: "var"), ],
+                    indent: 0
+            ),
+            BlockData(
+                    contents: [BlockContentData(type: 0, value: "print"),
+                               BlockContentData(type: 1, value: "var*2"), ],
+                    indent: 0
+            ),
+        ]
 
-            let blockData =
-                    BlockData(
-                            contents: [BlockContentData(type: 0, value: "print"),
-                                       BlockContentData(type: 1, value: "1024"), ],
-                            indent: i % 2
-                    )
+        for i in 0..<blockData.count {
 
-            let block = Block(blockData: blockData, index: i)
+            /*
+            let stackViewInCodeStackView = UIStackView()
+
+            stackViewInCodeStackView.axis = .horizontal
+            stackViewInCodeStackView.translatesAutoresizingMaskIntoConstraints = false
+            */
+
+            let block = Block(blockData: blockData[i], index: i)
 
             block.translatesAutoresizingMaskIntoConstraints = false
 
-            codeStackView.addArrangedSubview(block)
-
-            let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+            let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragBlock(_:)))
             pan.delegate = self
             block.addGestureRecognizer(pan)
 
+            /*
             let center = block.superview?.convert(block.center, to: self.view)
 
             blockPos.append(center?.y ?? 0)
 
             blocks.append(block)
+            */
 
+            /*
+            let blankView = UIView()
+            let indentConstraint = NSLayoutConstraint(item: blankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 30 * CGFloat(blockData[i].indent))
+            block.indentConstraint = indentConstraint
+            blankView.addConstraint(indentConstraint)
+
+            stackViewInCodeStackView.addArrangedSubview(blankView)
+            stackViewInCodeStackView.addArrangedSubview(block)
+
+            codeStackView.addArrangedSubview(stackViewInCodeStackView)
+            */
+
+            codeStackView.addArrangedSubview(block)
         }
     }
 
-    @objc func dragUI(_ sender: UIPanGestureRecognizer) {
+    @objc private func dragBlock(_ sender: UIPanGestureRecognizer) {
 
         guard let senderView = sender.view else {
             return
@@ -67,58 +120,97 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
 
         let blockIndex = (senderView as! Block).index
 
+        let move = sender.translation(in: self.view)
+        sender.setTranslation(CGPoint.zero, in: self.view)
+
         if sender.state == .began {
 
-            let center = senderView.superview?.convert(senderView.center, to: self.view)
+            if abs(move.x) > 1 && abs(move.y) < 1 {
+                movingBlockState = .horizontal
 
-            codeStackView.removeArrangedSubview(senderView)
-            self.view.addSubview(senderView)
-            self.view.bringSubviewToFront(senderView)
+                let direction: Int!
+                if move.x > 0 {
+                    direction = 1
+                } else {
+                    direction = -1
+                }
 
-            senderView.translatesAutoresizingMaskIntoConstraints = true
+//                changeBlockIndent(blockIndex: blockIndex, direction: direction)
 
-            senderView.center = center ?? CGPoint()
+                (senderView as! Block).changeBlockIndent(direction: direction)
 
-            floatBlock(index: blockIndex)
+            } else {
+                movingBlockState = .vertical
+
+                let center = senderView.superview?.convert(senderView.center, to: self.view)
+
+                codeStackView.removeArrangedSubview(senderView)
+                self.view.addSubview(senderView)
+                self.view.bringSubviewToFront(senderView)
+
+                senderView.translatesAutoresizingMaskIntoConstraints = true
+
+                senderView.center = center ?? CGPoint()
+
+                floatBlock(index: blockIndex)
+            }
+
 
             return
         }
 
         if sender.state == .ended {
-            dropBlock(index: blockIndex, block: senderView)
+
+            if movingBlockState == .vertical {
+                dropBlock(index: blockIndex, block: senderView)
+            } else {
+                /*
+                dropBlock(index: blockIndex, block: senderView)
+                */
+            }
+
+            movingBlockState = .notMoving
 
             return
-
         }
 
-        let move = sender.translation(in: self.view)
-        sender.view?.center.y += move.y
+        if movingBlockState == .vertical {
 
-        sender.setTranslation(CGPoint.zero, in: self.view)
+            sender.view?.center.y += move.y
 
-        let centerY = senderView.superview?.convert(senderView.center, to: codeStackView).y ?? 0
 
-        var nearestIndex = -1
-        var minDiff: CGFloat = 10000000
-        for i in 0..<codeStackView.arrangedSubviews.count {
+            let centerY = senderView.superview?.convert(senderView.center, to: codeStackView).y ?? 0
 
-            let diff = abs(centerY - codeStackView.arrangedSubviews[i].center.y)
+            var nearestIndex = -1
+            var minDiff: CGFloat = 10000000
+            for i in 0..<codeStackView.arrangedSubviews.count {
 
-            if diff < minDiff {
-                nearestIndex = i
+                let diff = abs(centerY - codeStackView.arrangedSubviews[i].center.y)
 
-                minDiff = diff
+                if diff < minDiff {
+                    nearestIndex = i
+
+                    minDiff = diff
+                }
             }
-        }
 
-        if nearestIndex != blockIndex {
-            (senderView as! Block).index = nearestIndex
+            if nearestIndex != blockIndex {
+                (senderView as! Block).index = nearestIndex
 
-            moveBlock(from: blockIndex, to: nearestIndex)
+                moveBlock(from: blockIndex, to: nearestIndex)
+            }
+        } else {
+
+            /*
+            senderView.center.x += move.x
+
+            sender.setTranslation(CGPoint.zero, in: self.view)
+            */
+
         }
     }
 
-    func floatBlock(index: Int) {
+    private func floatBlock(index: Int) {
         let blankView = UIView()
 
         codeStackView.insertArrangedSubview(blankView, at: index)
@@ -127,7 +219,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
 
-    func moveBlock(from: Int, to: Int) {
+    private func moveBlock(from: Int, to: Int) {
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
@@ -162,7 +254,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         (codeStackView.arrangedSubviews[from] as! Block).index = from
     }
 
-    func dropBlock(index: Int, block: UIView) {
+    private func dropBlock(index: Int, block: UIView) {
         let center = self.view.convert(block.center, to: codeStackView)
 
         block.center = center
@@ -176,5 +268,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
         })
+    }
+
+    private func changeBlockIndent(blockIndex: Int, direction: Int) {
+        print(direction)
     }
 }

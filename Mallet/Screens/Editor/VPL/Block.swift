@@ -18,71 +18,104 @@ public struct BlockData {
     let indent: Int
 }
 
-public class Block: UIView {
+public class Block: UIStackView {
 
     public var index: Int
 
-    private var indent = 0
+    private var indentConstraint = NSLayoutConstraint()
 
-    private var indentViewWidthConstraint: NSLayoutConstraint
+    private var indent: Int
 
-    private let indentWidth: CGFloat = 30
+    init(blockData: BlockData, index: Int) {
+
+        self.indent = blockData.indent
+        self.index = index
+
+        super.init(frame: CGRect())
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        let blankView = UIView()
+        blankView.translatesAutoresizingMaskIntoConstraints = false
+
+        self.addArrangedSubview(blankView)
+
+        let indentConstraint = NSLayoutConstraint(item: blankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 50 * CGFloat(indent))
+        self.indentConstraint = indentConstraint
+        self.addConstraint(indentConstraint)
+
+        self.addArrangedSubview(BlockWithoutIndent(blockData: blockData, index: index))
+    }
+
+    /*
+required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+}
+*/
+
+
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+
+    public func changeBlockIndent(direction: Int) {
+
+        self.layoutIfNeeded()
+
+        indent += direction
+
+        indentConstraint.constant = 50 * CGFloat(indent)
+
+        UIView.animate(withDuration: 0.1, animations: {
+            self.layoutIfNeeded()
+        })
+    }
+}
+
+public class BlockWithoutIndent: UIView {
+
+    public var indentConstraint = NSLayoutConstraint()
+
+    public var index: Int
+
+    private var indent: Int
 
     init(blockData: BlockData, index: Int) {
 
         self.index = index
-
-        let indentView = UIView()
-        indentView.translatesAutoresizingMaskIntoConstraints = false
-        indentViewWidthConstraint = NSLayoutConstraint(item: indentView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: indentWidth * CGFloat(blockData.indent))
-        indentView.addConstraint(indentViewWidthConstraint)
+        self.indent = blockData.indent
 
         super.init(frame: CGRect())
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fill
-
-        self.addSubview(stackView)
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        stackView.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        stackView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-
-        let blockView = UIView()
-        blockView.layer.cornerRadius = 10
-        blockView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        blockView.layer.shadowColor = UIColor.black.cgColor
-        blockView.layer.shadowOpacity = 0.5
-        blockView.layer.shadowRadius = 3
+        self.layer.cornerRadius = 10
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.5
+        self.layer.shadowRadius = 3
+        self.backgroundColor = UIColor.gray
 
         let blockStackView = UIStackView(frame: CGRect())
         blockStackView.axis = .horizontal
         blockStackView.distribution = .fill
         blockStackView.spacing = 5
 
-        stackView.addArrangedSubview(indentView)
-        stackView.addArrangedSubview(blockView)
+        self.addSubview(blockStackView)
 
-        blockView.translatesAutoresizingMaskIntoConstraints = false
-
-        blockView.addSubview(blockStackView)
         let paddingV: CGFloat = 7
         let paddingH: CGFloat = 7
 
         blockStackView.translatesAutoresizingMaskIntoConstraints = false
-        blockStackView.topAnchor.constraint(equalTo: blockView.topAnchor, constant: paddingV).isActive = true
-        blockStackView.bottomAnchor.constraint(equalTo: blockView.bottomAnchor, constant: -paddingV).isActive = true
-        blockStackView.leadingAnchor.constraint(equalTo: blockView.leadingAnchor, constant: paddingH).isActive = true
-        blockStackView.trailingAnchor.constraint(equalTo: blockView.trailingAnchor, constant: -paddingH).isActive = true
+        blockStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: paddingV).isActive = true
+        blockStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -paddingV).isActive = true
+        blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH).isActive = true
+        blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH).isActive = true
 
         blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         var width: CGFloat = 0
 
-        blockView.backgroundColor = UIColor.gray
 
         for i in blockData.contents {
 
@@ -126,9 +159,5 @@ public class Block: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    public func changeIndent(by: Int) {
-
     }
 }
