@@ -125,7 +125,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
 
         if sender.state == .began {
 
-            if abs(move.x) > 1 && abs(move.y) < 1 {
+            if abs(move.x) > 0.3 && abs(move.y) < 1 {
                 movingBlockState = .horizontal
 
                 let direction: Int!
