@@ -61,6 +61,10 @@ required init?(coder aDecoder: NSCoder) {
 
     public func changeBlockIndent(direction: Int) {
 
+        if indent + direction < 0 {
+            return
+        }
+
         self.layoutIfNeeded()
 
         indent += direction
