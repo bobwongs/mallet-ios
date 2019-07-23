@@ -567,3 +567,8 @@ void Run::InitRunner(Run &runner)
 
     runner.variableInitialValues = std::vector<var>(100000);
 }
+
+Run::Run()
+{
+    cppFuncManager = CppFuncManager();
+}

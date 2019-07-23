@@ -81,6 +81,29 @@ enum
 
 typedef std::variant<ControlCode, int, double, bool, std::string> var;
 
+class CppFuncManager
+{
+    typedef struct
+    {
+        var (*func)(std::vector<var> &args);
+
+        std::string funcName;
+
+        int argNum;
+
+    } funcData;
+
+public:
+    std::unordered_map<std::string, int> cppFuncID;
+
+    std::vector<funcData> cppFunc;
+
+    CppFuncManager();
+
+private:
+    void addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, int argNum);
+};
+
 class Convert
 {
 public:
@@ -179,7 +202,7 @@ private:
 
     void AddPushCode(int address, bool absolute);
 
-    void AddPushAddressCode(int address,bool absolute);
+    void AddPushAddressCode(int address, bool absolute);
 
     void AddPushTrueCode();
 
@@ -283,42 +306,22 @@ public:
 
     var RunCode(int funcID, std::vector<var> args);
 
-    var CallCppFunc(int funcID, std::vector<var> args);
+    var CallCppFunc(int funcID, std::vector<var> &args);
 
     void InitRunner(Run &runner);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
+
+    Run();
+
+private:
+    CppFuncManager cppFuncManager;
 };
 
 class Bytecode2String
 {
 public:
     void ShowBytecodeString(std::vector<int> bytecode);
-};
-
-class CppFunc
-{
-    typedef struct
-    {
-        std::string funcName;
-
-        int funcID;
-
-        int funcType;
-
-        int argNum;
-
-    } funcData;
-
-    struct funcIDs
-    {
-        static constexpr int TEST_FUNC = 0;
-    };
-
-public:
-    std::vector<funcData> cppFuncData;
-
-    CppFunc();
 };
 
 #endif /* cpp_hpp */
