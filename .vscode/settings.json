@@ -61,6 +61,11 @@
         "array": "cpp",
         "iomanip": "cpp",
         "map": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "bit": "cpp",
+        "deque": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "stack": "cpp"
     }
 }

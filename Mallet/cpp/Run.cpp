@@ -9,6 +9,8 @@
 #include "Run.hpp"
 #include <stdio.h>
 #include <vector>
+#include <iomanip>
+#include <sstream>
 
 ControlCode getControlCode(var &variable)
 {
@@ -133,7 +135,40 @@ std::string getStringValue(var &variable)
 
     if (std::holds_alternative<bool>(variable))
     {
-        return std::get<bool>(variable) ? "true" : "false";
+        return std::get<bool>(variable) ? "1" : "0";
+    }
+
+    if (std::holds_alternative<std::string>(variable))
+    {
+        return std::get<std::string>(variable);
+    }
+
+    return "";
+}
+
+std::string getOutValue(var &variable)
+{
+    if (std::holds_alternative<ControlCode>(variable))
+    {
+        return "";
+    }
+
+    if (std::holds_alternative<int>(variable))
+    {
+        return std::to_string(std::get<int>(variable));
+    }
+
+    if (std::holds_alternative<double>(variable))
+    {
+        std::ostringstream strstream;
+        strstream << std::noshowpoint << std::get<double>(variable);
+
+        return strstream.str();
+    }
+
+    if (std::holds_alternative<bool>(variable))
+    {
+        return std::get<bool>(variable) ? "1" : "0";
     }
 
     if (std::holds_alternative<std::string>(variable))
@@ -394,8 +429,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 switch (cmd)
                 {
                 case PRINT_NUMBER:
-                    printf("%.10g\n", getNumberValue(*topStackData[0]));
+                    //printf("%.10g\n", getNumberValue(*topStackData[0]));
                     //printf("%s\n", getStringValue(*topStackData[0]).c_str());
+                    printf("%s\n", getOutValue(*topStackData[0]).c_str());
 
                     break;
 
