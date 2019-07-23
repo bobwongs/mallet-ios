@@ -12,20 +12,29 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <array>
 #include <map>
 #include <unordered_map>
+#include <variant>
+
+enum class ControlCode
+{
+    NONE,
+    CODE_BEGIN,
+    END_OF_FUNC,
+};
 
 enum
 {
     CODE_BEGIN = -1000000007,
     PUSH = 0,
+    PUSH_ADDRESS,
     POP,
     INT_TYPE,
     CALL_CPP_FUNC,
     CALL_MALLET_FUNC,
     SET_NUMBER_VARIABLE,
     SET_STRING_VARIABLE,
+    SET_VARIABLE,
     PRINT_NUMBER,
     PRINT_STRING,
     JUMP,
@@ -36,9 +45,11 @@ enum
     END_OF_FUNC,
 
     // Type
-    NUMBER_TYPE,
+    VARIABLE,
+    GLOBAL_VARIABLE,
     STRING_TYPE,
     BOOL_TYPE,
+    NUMBER_TYPE,
     NUMBER_GLOBAL_TYPE,
     STRING_GLOBAL_TYPE,
     BOOL_GLOBAL_TYPE,
@@ -68,21 +79,39 @@ enum
     NOT,
 };
 
+typedef std::variant<ControlCode, int, double, bool, std::string> var;
+
 class Convert
 {
 public:
+    /*
     std::vector<int> numberMemorySize;
     std::vector<int> stringMemorySize;
     std::vector<int> boolMemorySize;
+    */
 
+    //! +++
+    std::vector<int> memorySize;
+
+    /*
     std::unordered_map<std::string, int> numberGlobalVariableAddress;
     std::unordered_map<std::string, int> stringGlobalVariableAddress;
     std::unordered_map<std::string, int> boolGlobalVariableAddress;
+    */
 
+    //! +++
+    std::unordered_map<std::string, int> globalVariableAddress;
+
+    /*
     int numberGlobalVariableNum;
     int stringGlobalVariableNum;
     int boolGlobalVariableNum;
+    */
 
+    //! +++
+    int globalVariableNum;
+
+    /*
     std::unordered_map<std::string, int> numberVariableAddress;
     std::vector<int> numberVariableNums;
     int numberVariableNum;
@@ -94,9 +123,20 @@ public:
     std::unordered_map<std::string, int> boolVariableAddress;
     std::vector<int> boolVariableNums;
     int boolVariableNum;
+    */
 
+    //! +++
+    std::unordered_map<std::string, int> variableAddresses;
+    std::vector<int> variableNums;
+    int variableNum;
+
+    /*
     std::unordered_map<int, double> numberVariableInitialValue;
     std::unordered_map<int, std::string> stringVariableInitialValue;
+    */
+
+    //! +++
+    std::unordered_map<int, var> variableInitialValues;
 
     std::vector<std::vector<int>> funcArgAddresses;
     std::vector<int> funcStartIndexes;
@@ -119,11 +159,11 @@ private:
     struct funcData
     {
         std::string funcName;
-        std::vector<int> argTypes;
+        int argNum;
 
         bool operator<(const funcData &value) const
         {
-            return std::tie(funcName, argTypes) < std::tie(value.funcName, value.argTypes);
+            return std::tie(funcName, argNum) < std::tie(value.funcName, value.argNum);
         }
     };
 
@@ -137,7 +177,9 @@ private:
 
     void AddCmdCode(int code, int argNum);
 
-    void AddPushCode(int type, int address, bool absolute);
+    void AddPushCode(int address, bool absolute);
+
+    void AddPushAddressCode(int address,bool absolute);
 
     void AddPushTrueCode();
 
@@ -165,7 +207,7 @@ private:
 
     int GetFuncSize(const int firstCodeIndex);
 
-    int DeclareVariable(const int type, const std::string name, const bool isGlobal);
+    int DeclareVariable(const std::string name, const bool isGlobal);
 
     void ListFunction();
 
@@ -182,6 +224,8 @@ private:
     int LocalType2GlobalType(const int typeID);
 
     int Type2AddressType(const int typeID);
+
+    std::string Code2Str();
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
     std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
@@ -205,10 +249,11 @@ private:
 class Run
 {
 public:
+    /*
     typedef struct
     {
         int type;
-        int address;
+        var value;
     } stackData;
 
     typedef struct
@@ -219,32 +264,26 @@ public:
         bool boolValue;
         int address;
     } funcStackData;
+    */
 
-    std::vector<int> numberMemorySize;
-    std::vector<int> stringMemorySize;
-    std::vector<int> boolMemorySize;
+    std::vector<int> memorySize;
 
-    std::vector<double> numberGlobalVariable;
-    std::vector<std::string> stringGlobalVariable;
-    std::vector<bool> boolGlobalVariable;
+    std::vector<var> globalVariable;
 
-    int numberGlobalVariableNum;
-    int stringGlobalVariableNum;
-    int boolGlobalVariableNum;
+    int globalVariableNum;
 
     std::vector<int> bytecode;
-    std::vector<double> numberVariableInitialValues;
-    std::vector<std::string> stringVariableInitialValues;
-    std::vector<bool> boolVariableInitialValues;
+
+    std::vector<var> variableInitialValues;
 
     std::vector<int> funcStartIndexes;
     std::vector<std::vector<int>> argAddresses;
 
     std::vector<int> funcTypes;
 
-    funcStackData RunCode(int funcID, std::vector<funcStackData> args);
+    var RunCode(int funcID, std::vector<var> args);
 
-    funcStackData CallCppFunc(int funcID, std::vector<funcStackData> args);
+    var CallCppFunc(int funcID, std::vector<var> args);
 
     void InitRunner(Run &runner);
 
@@ -267,7 +306,7 @@ class CppFunc
 
         int funcType;
 
-        std::vector<int> argTypes;
+        int argNum;
 
     } funcData;
 

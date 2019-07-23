@@ -4,10 +4,12 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
 {
     std::unordered_map<int, std::string> id2str = {
         {PUSH, "Push"},
+        {PUSH_ADDRESS, "PushAddress"},
         {CALL_CPP_FUNC, "CallCppFunc"},
         {CALL_MALLET_FUNC, "CallMalletFunc"},
         {SET_NUMBER_VARIABLE, "SetNumberVariable"},
         {SET_STRING_VARIABLE, "SetStringVariable"},
+        {SET_VARIABLE, "SetVariable"},
         {PRINT_NUMBER, "PrintNumber"},
         {PRINT_STRING, "PrintString"},
         {JUMP, "Jump"},
@@ -43,7 +45,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {NOT, "!"},
     };
 
-    constexpr int pushCodeSize = 6;
+    constexpr int pushCodeSize = 5;
     constexpr int defaultCodeSize = 3;
 
     std::string bytecodeString = "";
@@ -59,13 +61,13 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
 
         bytecodeString += "\x1b[32m#" + std::to_string(i) + ":\x1b[39m ";
 
-        if (bytecode[i + 1] == PUSH)
+        if (bytecode[i + 1] == PUSH || bytecode[i + 1] == PUSH_ADDRESS)
         {
             bytecodeString += "\x1b[33m" + id2str[bytecode[i + 1]] + "\x1b[39m ";
-            bytecodeString += "\x1b[35m" + id2str[bytecode[i + 3]] + "\x1b[39m ";
-            bytecodeString += std::to_string(bytecode[i + 4]) + " ";
+            //bytecodeString += "\x1b[35m" + id2str[bytecode[i + 3]] + "\x1b[39m ";
+            bytecodeString += std::to_string(bytecode[i + 3]) + " ";
 
-            if (bytecode[i + 5] > 0 && (bytecode[i + 3] != INT_TYPE))
+            if (bytecode[i + 4] > 0)
                 bytecodeString += "\x1b[36mAbsolute\x1b[39m";
 
             i += pushCodeSize;

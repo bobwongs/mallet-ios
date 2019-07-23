@@ -3,6 +3,7 @@
 .idea/tasks.xml
 
 Mallet/cpp/test.cpp
+Mallet/cpp/test.mal
 Mallet/cpp/Makefile
 
 *.out

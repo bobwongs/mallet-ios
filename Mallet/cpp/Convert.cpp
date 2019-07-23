@@ -200,16 +200,22 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
         std::string varName = "@" + code[firstCodeIndex];
 
-        if (stringGlobalVariableAddress[varName] == 0)
+        if (variableAddresses[varName] == 0)
         {
+            globalVariableNum++;
+            globalVariableAddress[varName] = globalVariableNum;
+
+            /*
             stringGlobalVariableNum++;
             stringGlobalVariableAddress[varName] = stringGlobalVariableNum;
+            */
 
             globalVariableType[varName] = STRING_TYPE;
 
             isGlobalVariable[varName] = true;
 
-            stringVariableInitialValue[stringGlobalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
+            //   stringVariableInitialValue[stringGlobalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 1);
+            variableInitialValues[globalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 2);
         }
 
         code[firstCodeIndex] = varName;
@@ -251,16 +257,22 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
         std::string varName = "@" + code[firstCodeIndex];
 
-        if (numberGlobalVariableAddress[varName] == 0)
+        if (globalVariableAddress[varName] == 0)
         {
+            /*
             numberGlobalVariableNum++;
             numberGlobalVariableAddress[varName] = numberGlobalVariableNum;
+            */
+
+            globalVariableNum++;
+            globalVariableAddress[varName] = globalVariableNum;
 
             globalVariableType[varName] = NUMBER_TYPE;
 
             isGlobalVariable[varName] = true;
 
-            numberVariableInitialValue[numberGlobalVariableNum] = std::stod(code[firstCodeIndex]);
+            // numberVariableInitialValue[numberGlobalVariableNum] = std::stod(code[firstCodeIndex]);
+            variableInitialValues[globalVariableNum] = std::stod(code[firstCodeIndex]);
         }
 
         code[firstCodeIndex] = varName;
@@ -348,7 +360,7 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
     {
         //* Bool
 
-        type = BOOL_TYPE;
+        //type = BOOL_TYPE;
 
         if (code[firstCodeIndex] == "true" && convert)
             AddPushTrueCode();
@@ -361,6 +373,19 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         int address;
 
+        if (isGlobalVariable[code[firstCodeIndex]])
+        {
+            address = globalVariableAddress[code[firstCodeIndex]];
+        }
+        else
+        {
+            if (variableAddresses[code[firstCodeIndex]] == 0)
+                printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+            else
+                address = variableAddresses[code[firstCodeIndex]];
+        }
+
+        /*
         switch (variableType[code[firstCodeIndex]])
         {
         case NUMBER_TYPE:
@@ -407,11 +432,13 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
             printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
             break;
         }
+        */
 
         if (convert)
-            AddPushCode(type, address, isGlobalVariable[code[firstCodeIndex]]);
+            AddPushCode(address, isGlobalVariable[code[firstCodeIndex]]);
     }
 
+    //! Delete
     return type;
 }
 
@@ -588,12 +615,14 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
     if (code[codeIndex] == ")")
         codeSize++;
 
+    int argNum = 0;
+
     while (code[codeIndex] != ")")
     {
+        argNum++;
+
         formulaData argData;
         argData = ConvertFormula(codeIndex, 0, false);
-
-        thisFuncData.argTypes.push_back(argData.type);
 
         codeSize += argData.codeSize + 1;
 
@@ -603,16 +632,11 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             codeIndex++;
     }
 
+    thisFuncData.argNum = argNum;
+
     if (!isFuncExists[thisFuncData] && !isCppFuncExists[thisFuncData])
     {
-        printf("Error : The function %s(", thisFuncData.funcName.c_str());
-        for (int i = 0; i < thisFuncData.argTypes.size(); i++)
-        {
-            printf("%s", ID2TypeName(thisFuncData.argTypes[i]).c_str());
-            if (i < thisFuncData.argTypes.size() - 1)
-                printf(",");
-        }
-        printf(") is not declared\n");
+        printf("Error : The function %s is not declared\n", thisFuncData.funcName.c_str());
 
         return codeSize;
     }
@@ -640,13 +664,13 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             argData = ConvertFormula(codeIndex, 0, false);
 
             if (!isCppFunc)
-                AddPushCode(Type2AddressType(argData.type), funcArgAddresses[funcID][argIndex], true);
+                AddPushAddressCode(funcArgAddresses[funcID][argIndex], true);
 
             ConvertFormula(codeIndex, 0, true);
 
             //TODO: Type
             if (!isCppFunc)
-                AddCmdCode(SET_NUMBER_VARIABLE, 2);
+                AddCmdCode(SET_VARIABLE, 2);
 
             codeSize += argData.codeSize + 1;
 
@@ -658,14 +682,14 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             argIndex++;
         }
 
-        int backIndex = bytecodeIndex + 4;
+        int backIndex = bytecodeIndex + 3;
         if (!isCppFunc)
-            AddPushCode(INT_TYPE, -1, true);
+            AddPushAddressCode(-1, true);
 
-        AddPushCode(INT_TYPE, funcID, true);
+        AddPushAddressCode(funcID, true);
 
         if (isCppFunc)
-            AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argTypes.size());
+            AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argNum);
         else
             AddCmdCode(CALL_MALLET_FUNC, 1);
 
@@ -706,10 +730,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         {
             //TODO: check type
 
-            if (funcTypes[funcID] == VOID_TYPE)
-                codeSize = 1;
-            else
-                codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true).codeSize;
+            codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true).codeSize;
 
             AddCmdCode(RETURN, 0);
         }
@@ -719,6 +740,22 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             AddCmdCode(PRINT_NUMBER, 1);
         }
+        else if (token == "var")
+        {
+            std::string varName = code[codeIndex + 1];
+
+            if (variableType[varName] != 0 || funcNames.count(varName) > 0)
+            {
+                //! printf("The variable %s is already declared\n", varName.c_str());
+            }
+
+            variableType[varName] = VARIABLE;
+            variableNum++;
+            variableAddresses[varName] = variableNum;
+
+            codeSize = 1;
+        }
+        /*
         else if (token == "number")
         {
             std::string varName = code[codeIndex + 1];
@@ -740,6 +777,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         else if (token == "bool")
         {
         }
+        */
         else if (token == "while")
         {
             int firstIndex = bytecodeIndex;
@@ -750,7 +788,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             int firstJumpIndex = bytecodeIndex;
 
-            AddPushCode(INT_TYPE, -1, true);
+            AddPushAddressCode(-1, true);
 
             AddCmdCode(JUMP, 2);
 
@@ -758,11 +796,11 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             AddPushTrueCode();
 
-            AddPushCode(INT_TYPE, firstIndex, true);
+            AddPushAddressCode(firstIndex, true);
 
             AddCmdCode(JUMP, 2);
 
-            bytecode[firstJumpIndex + 4] = bytecodeIndex;
+            bytecode[firstJumpIndex + 3] = bytecodeIndex;
         }
         else if (token == "if")
         {
@@ -772,7 +810,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             int firstJumpIndex = bytecodeIndex;
 
-            AddPushCode(INT_TYPE, -1, true);
+            AddPushAddressCode(-1, true);
             AddCmdCode(JUMP, 2);
 
             codeSize += ConvertCodeBlock(codeIndex + codeSize, funcID);
@@ -783,75 +821,75 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
                 int secondJumpIndex = bytecodeIndex;
 
-                AddPushCode(INT_TYPE, -1, true);
+                AddPushAddressCode(-1, true);
 
                 AddCmdCode(JUMP, 2);
 
-                bytecode[firstJumpIndex + 4] = bytecodeIndex;
+                bytecode[firstJumpIndex + 3] = bytecodeIndex;
 
                 codeSize++;
 
                 codeSize += ConvertCodeBlock(codeIndex + codeSize, funcID);
 
-                bytecode[secondJumpIndex + 4] = bytecodeIndex;
+                bytecode[secondJumpIndex + 3] = bytecodeIndex;
             }
             else
             {
-                bytecode[firstJumpIndex + 4] = bytecodeIndex;
+                bytecode[firstJumpIndex + 3] = bytecodeIndex;
             }
         }
         else if (token == "repeat")
         {
-            numberVariableNum++;
-            int countVarAddress = numberVariableNum;
+            variableNum++;
+            int countVarAddress = variableNum;
 
-            numberVariableNum++;
-            int repeatTimeVarAddress = numberVariableNum;
+            variableNum++;
+            int repeatTimeVarAddress = variableNum;
 
-            AddPushCode(NUMBER_ADDRESS_TYPE, repeatTimeVarAddress, false);
+            AddPushAddressCode(repeatTimeVarAddress, false);
             codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
-            AddCmdCode(SET_NUMBER_VARIABLE, 2);
+            AddCmdCode(SET_VARIABLE, 2);
 
-            AddPushCode(NUMBER_ADDRESS_TYPE, countVarAddress, false);
+            AddPushAddressCode(countVarAddress, false);
             AddPush0Code();
-            AddCmdCode(SET_NUMBER_VARIABLE, 2);
+            AddCmdCode(SET_VARIABLE, 2);
 
             int firstIndex = bytecodeIndex;
 
-            AddPushCode(NUMBER_TYPE, countVarAddress, false);
-            AddPushCode(NUMBER_TYPE, repeatTimeVarAddress, false);
+            AddPushCode(countVarAddress, false);
+            AddPushCode(repeatTimeVarAddress, false);
             AddCmdCode(LESS_THAN, 2);
             AddCmdCode(NOT, 1);
 
             int firstJumpIndex = bytecodeIndex;
 
-            AddPushCode(INT_TYPE, -1, true);
+            AddPushAddressCode(-1, true);
 
             AddCmdCode(JUMP, 2);
 
             codeSize += ConvertCodeBlock(codeIndex + codeSize, funcID);
 
-            AddPushCode(NUMBER_ADDRESS_TYPE, countVarAddress, false);
-            AddPushCode(NUMBER_TYPE, countVarAddress, false);
+            AddPushAddressCode(countVarAddress, false);
+            AddPushCode(countVarAddress, false);
             AddPush1Code();
             AddCmdCode(ADD, 2);
-            AddCmdCode(SET_NUMBER_VARIABLE, 2);
+            AddCmdCode(SET_VARIABLE, 2);
 
             AddPushTrueCode();
 
-            AddPushCode(INT_TYPE, firstIndex, true);
+            AddPushAddressCode(firstIndex, true);
 
             AddCmdCode(JUMP, 2);
 
-            bytecode[firstJumpIndex + 4] = bytecodeIndex;
+            bytecode[firstJumpIndex + 3] = bytecodeIndex;
         }
         else if (variableType[code[codeIndex]] != 0)
         {
             int addressType = -1;
             int type = variableType[code[codeIndex]];
-            int address;
-            int codeID;
+            int address = variableAddresses[code[codeIndex]];
 
+            /*
             switch (type)
             {
             case NUMBER_TYPE:
@@ -863,7 +901,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
             case NUMBER_GLOBAL_TYPE:
                 //TODO:
                 break;
-
+p
             case STRING_TYPE:
                 addressType = STRING_ADDRESS_TYPE;
                 address = stringVariableAddress[code[codeIndex]];
@@ -886,12 +924,13 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 //TODO:
                 break;
             }
+            */
 
-            AddPushCode(addressType, address, isGlobalVariable[code[codeIndex]]);
+            AddPushAddressCode(address, isGlobalVariable[code[codeIndex]]);
 
             codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
-            AddCmdCode(codeID, 2);
+            AddCmdCode(SET_VARIABLE, 2);
         }
         else if (funcNames.count(token) > 0 || cppFuncNames.count(token) > 0)
         {
@@ -899,7 +938,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else
         {
-            // printf("%s is undefined #%d\n", code[codeIndex].c_str(), codeIndex);
+            printf("%s is undefined #%d\n", code[codeIndex].c_str(), codeIndex);
         }
 
         codeIndex += codeSize;
@@ -962,6 +1001,19 @@ std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::st
     return json;
 }
 
+std::string Convert::Code2Str()
+{
+    std::string str = "";
+
+    str += "# Code\n";
+    for (int code : bytecode)
+    {
+        str += std::to_string(code) + "\n";
+    }
+
+    return str;
+}
+
 std::string Convert::ConvertCodeToJson(std::string codeStr)
 {
     InitConverter();
@@ -976,9 +1028,6 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
         DeclareConstant(codeIndex);
     }
 
-    for (auto i : code)
-        printf("%s\n", i.c_str());
-
     for (int funcID = 0; funcID < funcStartIndexes.size(); funcID++)
     {
         ClearLocalVariable();
@@ -988,11 +1037,11 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
         for (int argIndex = 0; argIndex < funcArgAddresses[funcID].size(); argIndex++)
         {
             int type = funcArgTypes[funcID][argIndex];
-            AddPushCode(Type2AddressType(type), DeclareVariable(type, funcArgOriginalVariableNames[funcID][argIndex], false), false);
-            AddPushCode(type, funcArgAddresses[funcID][argIndex], true);
+            AddPushAddressCode(DeclareVariable(funcArgOriginalVariableNames[funcID][argIndex], false), false);
+            AddPushCode(funcArgAddresses[funcID][argIndex], true);
 
             //TODO:
-            AddCmdCode(SET_NUMBER_VARIABLE, 2);
+            AddCmdCode(SET_VARIABLE, 2);
         }
 
         int funcStartIndex = funcStartIndexes[funcID];
@@ -1007,7 +1056,7 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
         else
         {
             while (code[codeIndex] != "{")
-                codeIndex += 3;
+                codeIndex += 2;
         }
 
         ConvertCodeBlock(codeIndex, funcID);
@@ -1016,9 +1065,13 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
 
         AddCmdCode(END_OF_FUNC, 0);
 
+        memorySize.push_back(variableNum);
+
+        /*
         numberMemorySize.push_back(numberVariableNum);
         stringMemorySize.push_back(stringVariableNum);
         boolMemorySize.push_back(boolVariableNum);
+        */
 
         /*
         std::vector<int> tmp;
@@ -1036,7 +1089,7 @@ std::string Convert::ConvertCodeToJson(std::string codeStr)
 
     bytecode.resize(bytecodeSize);
 
-    return "";
+    return Code2Str();
 }
 
 void Convert::ListFunction()
@@ -1051,19 +1104,19 @@ void Convert::ListFunction()
 
     while (codeIndex < code.size())
     {
-        if (typeName.count(code[codeIndex]) > 0)
+        if (code[codeIndex] == "func")
         {
             newVarName.clear();
 
             funcArgAddresses.push_back(std::vector<int>());
-            funcArgTypes.push_back(std::vector<int>());
+            //funcArgTypes.push_back(std::vector<int>());
             funcArgOriginalVariableNames.push_back(std::vector<std::string>());
 
             funcStartIndexes.push_back(codeIndex);
 
             funcData newFuncData;
 
-            int type = TypeName2ID(code[codeIndex]);
+            //int type = TypeName2ID(code[codeIndex]);
             newFuncData.funcName = code[codeIndex + 1];
 
             codeIndex += 3;
@@ -1074,15 +1127,16 @@ void Convert::ListFunction()
             }
             else
             {
+                int argNum = 0;
+
                 while (code[codeIndex] != "{")
                 {
-                    int type = TypeName2ID(code[codeIndex]);
+                    argNum++;
 
-                    std::string name = code[codeIndex + 1];
+                    std::string name = code[codeIndex];
                     std::string newName = "#" + std::to_string(funcID) + "_" + name;
 
-                    funcArgAddresses[funcID].push_back(DeclareVariable(type, newName, true));
-                    funcArgTypes[funcID].push_back(type);
+                    funcArgAddresses[funcID].push_back(DeclareVariable(newName, true));
                     funcArgOriginalVariableNames[funcID].push_back(name);
 
                     isGlobalVariable[newName] = true;
@@ -1090,13 +1144,10 @@ void Convert::ListFunction()
                     code[codeIndex + 1] = newName;
                     newVarName[name] = newName;
 
-                    if (type == BOOL_TYPE)
-                        type = NUMBER_TYPE;
-
-                    newFuncData.argTypes.push_back(type);
-
-                    codeIndex += 3;
+                    codeIndex += 2;
                 }
+
+                newFuncData.argNum = argNum;
 
                 codeIndex++;
             }
@@ -1127,7 +1178,6 @@ void Convert::ListFunction()
             funcNames.insert(newFuncData.funcName);
             funcIDs[newFuncData] = funcID;
             isFuncExists[newFuncData] = true;
-            funcTypes.push_back(type);
             funcID++;
         }
         else
@@ -1138,7 +1188,7 @@ void Convert::ListFunction()
     }
 }
 
-int Convert::DeclareVariable(const int type, const std::string name, const bool isGlobal)
+int Convert::DeclareVariable(const std::string name, const bool isGlobal)
 {
     if (variableType[name] > 0)
     {
@@ -1147,69 +1197,25 @@ int Convert::DeclareVariable(const int type, const std::string name, const bool 
     }
 
     if (isGlobal)
-        globalVariableType[name] = type;
-    else
-        variableType[name] = type;
-
-    int address;
-
-    switch (type)
     {
-    case NUMBER_TYPE:
-        if (isGlobal)
-        {
-            numberGlobalVariableNum++;
-            numberGlobalVariableAddress[name] = numberGlobalVariableNum;
-            address = numberGlobalVariableNum;
-        }
-        else
-        {
-            numberVariableNum++;
-            numberVariableAddress[name] = numberVariableNum;
-            address = numberVariableNum;
-        }
+        globalVariableType[name] = GLOBAL_VARIABLE;
 
-        break;
+        globalVariableNum++;
+        globalVariableAddress[name] = globalVariableNum;
 
-    case STRING_TYPE:
-        if (isGlobal)
-        {
-            stringGlobalVariableNum++;
-            stringGlobalVariableAddress[name] = stringGlobalVariableNum;
-            address = stringGlobalVariableNum;
-        }
-        else
-        {
-            stringVariableNum++;
-            stringVariableAddress[name] = stringVariableNum;
-            address = stringVariableNum;
-        }
+        return globalVariableNum;
+    }
+    else
+    {
+        variableType[name] = VARIABLE;
 
-        break;
+        variableNum++;
+        variableAddresses[name] = variableNum;
 
-    case BOOL_TYPE:
-        if (isGlobal)
-        {
-            numberGlobalVariableNum++;
-            numberGlobalVariableAddress[name] = numberGlobalVariableNum;
-            address = numberGlobalVariableNum;
-        }
-        else
-        {
-            boolVariableNum++;
-            boolVariableAddress[name] = boolVariableNum;
-            address = boolVariableNum;
-        }
-
-        break;
-
-    default:
-        printf("Error : %d is undefined\n", type);
-        address = -1;
-        break;
+        return variableNum;
     }
 
-    return address;
+    return -1;
 }
 
 int Convert::TypeName2ID(const std::string typeName)
@@ -1281,34 +1287,42 @@ void Convert::AddCmdCode(int code, int argNum)
     AddCode(argNum);
 }
 
-void Convert::AddPushCode(int type, int address, bool absolute)
+void Convert::AddPushCode(int address, bool absolute)
 {
     AddCode(CODE_BEGIN);
     AddCode(PUSH);
     AddCode(0);
-    AddCode(type);
+    AddCode(address);
+    AddCode(absolute ? 1 : 0);
+}
+
+void Convert::AddPushAddressCode(int address, bool absolute)
+{
+    AddCode(CODE_BEGIN);
+    AddCode(PUSH_ADDRESS);
+    AddCode(0);
     AddCode(address);
     AddCode(absolute ? 1 : 0);
 }
 
 void Convert::AddPushTrueCode()
 {
-    AddPushCode(BOOL_TYPE, 1, true);
+    AddPushCode(1, true);
 }
 
 void Convert::AddPushFalseCode()
 {
-    AddPushCode(BOOL_TYPE, 2, true);
+    AddPushCode(2, true);
 }
 
 void Convert::AddPush0Code()
 {
-    AddPushCode(NUMBER_TYPE, 1, true);
+    AddPushCode(3, true);
 }
 
 void Convert::AddPush1Code()
 {
-    AddPushCode(NUMBER_TYPE, 2, true);
+    AddPushCode(4, true);
 }
 
 void Convert::InitConverter()
@@ -1321,29 +1335,54 @@ void Convert::InitConverter()
     //numberVariableInitialValue.push_back(std::unordered_map<int, double>());
     //stringVariableInitialValue.push_back(std::unordered_map<int, std::string>());
 
+    /*
     numberVariableInitialValue = std::unordered_map<int, double>();
     stringVariableInitialValue = std::unordered_map<int, std::string>();
+    */
+
+    variableInitialValues = std::unordered_map<int, var>();
+
+    //variableInitialValues = std::unordered_map<int, var>();
 
     variableType.clear();
     globalVariableType.clear();
 
+    /*
     numberGlobalVariableAddress.clear();
     stringGlobalVariableAddress.clear();
     boolGlobalVariableAddress.clear();
+    */
 
+    variableAddresses.clear();
+
+    //  globalVariableAddress.clear();
+
+    /*
     numberGlobalVariableNum = 2;
     stringGlobalVariableNum = 0;
     boolGlobalVariableNum = 2;
+    */
+
+    //0,1,true,false
+    globalVariableNum = 4;
 }
 
 void Convert::ClearLocalVariable()
 {
     variableType = globalVariableType;
+    /*
     numberVariableAddress = numberGlobalVariableAddress;
     stringVariableAddress = stringGlobalVariableAddress;
     boolVariableAddress = boolGlobalVariableAddress;
+    */
 
+    variableAddresses = globalVariableAddress;
+
+    /*
     numberVariableNum = 0;
     stringVariableNum = 0;
     boolVariableNum = 0;
+    */
+
+    variableNum = 0;
 }
