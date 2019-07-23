@@ -898,14 +898,12 @@ void Convert::ListFunction()
             newVarName.clear();
 
             funcArgAddresses.push_back(std::vector<int>());
-            //funcArgTypes.push_back(std::vector<int>());
             funcArgOriginalVariableNames.push_back(std::vector<std::string>());
 
             funcStartIndexes.push_back(codeIndex);
 
             funcData newFuncData;
 
-            //int type = TypeName2ID(code[codeIndex]);
             newFuncData.funcName = code[codeIndex + 1];
 
             codeIndex += 3;
@@ -1116,8 +1114,6 @@ void Convert::InitConverter()
     bytecodeIndex = 0;
 
     variableInitialValues = std::unordered_map<int, var>();
-
-    //variableInitialValues = std::unordered_map<int, var>();
 
     variableType.clear();
     globalVariableType.clear();
