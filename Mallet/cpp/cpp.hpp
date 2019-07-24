@@ -308,7 +308,7 @@ public:
 
     var CallCppFunc(int funcID, std::vector<var> &args);
 
-    void InitRunner(Run &runner);
+    void InitRunner(std::string codeDataStr);
 
     //void InitRunner(std::vector<std::vector<int>> codes, std::vector<std::vector<std::string>> stringVariableInitialValues);
 

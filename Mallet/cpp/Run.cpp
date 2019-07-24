@@ -65,7 +65,7 @@ double getNumberValue(var &variable)
 
     if (std::holds_alternative<int>(variable))
     {
-        return 0;
+        return (double)std::get<int>(variable);
     }
 
     if (std::holds_alternative<double>(variable))
@@ -102,7 +102,7 @@ bool getBoolValue(var &variable)
 
     if (std::holds_alternative<int>(variable))
     {
-        return 0;
+        return std::get<int>(variable) > 0;
     }
 
     if (std::holds_alternative<double>(variable))
@@ -327,18 +327,18 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 double firstValue = getNumberValue(*topStackData[0]);
                 double secondValue;
 
-                std::string firstValueStr = getStringValue(*topStackData[0]);
-                std::string secondValueStr;
+                //                std::string firstValueStr = getStringValue(*topStackData[0]);
+                //                std::string secondValueStr;
 
                 if (cmd == NOT)
                 {
                     secondValue = 0;
-                    secondValueStr = "";
+                    //  secondValueStr = "";
                 }
                 else
                 {
                     secondValue = getNumberValue(*topStackData[1]);
-                    secondValueStr = getStringValue(*topStackData[1]);
+                    //secondValueStr = getStringValue(*topStackData[1]);
                 }
 
                 var result;
@@ -346,12 +346,14 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 switch (cmd)
                 {
                 case ADD:
+                    /*
                     if (std::holds_alternative<std::string>(*topStackData[0]) ||
                         std::holds_alternative<std::string>(*topStackData[1]))
                     {
                         result = firstValueStr + secondValueStr;
                     }
                     else
+                    */
                     {
                         result = firstValue + secondValue;
                     }
@@ -421,7 +423,6 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                 case OR:
                     result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
-
                     break;
 
                 case NOT:
@@ -585,11 +586,155 @@ var Run::RunCode(int funcID, std::vector<var> args)
     return returnStackData;
 }
 
-void Run::InitRunner(Run &runner)
+void Run::InitRunner(std::string codeDataStr)
 {
-    runner.globalVariable = std::vector<var>(100000);
+    globalVariable = std::vector<var>(100000);
 
-    runner.variableInitialValues = std::vector<var>(100000);
+    variableInitialValues = std::vector<var>(100000);
+
+    bytecode.clear();
+    funcStartIndexes.clear();
+    argAddresses.clear();
+    memorySize.clear();
+    globalVariableNum = 0;
+
+    std::vector<std::string> codeData;
+    int index = 0;
+    while (index < codeDataStr.size())
+    {
+        std::string str = "";
+        while (index < codeDataStr.size() && codeDataStr[index] != '\n')
+        {
+            str += codeDataStr[index];
+            index++;
+        }
+
+        if (str != "")
+            codeData.push_back(str);
+
+        index++;
+    }
+
+    if (codeData[0] != "#START" || codeData[codeData.size() - 1] != "#END")
+    {
+        printf("failed\n");
+        return;
+    }
+
+    index = 1;
+    while (codeData[index] != "#END")
+    {
+        std::string type = codeData[index];
+        std::string endLabel = type + "_END";
+
+        index++;
+
+        if (type == "#CODE")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                bytecode.push_back((int)strtol(codeData[index].c_str(), NULL, 10));
+                index++;
+            }
+
+            index++;
+        }
+        else if (type == "#INITIAL_VALUE")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                int varIndex = (int)strtol(codeData[index].c_str(), NULL, 10);
+                std::string varType = codeData[index + 1];
+                var value;
+
+                if (varType == "CONTROL_CODE")
+                {
+                    value = (ControlCode)strtol(codeData[index + 2].c_str(), NULL, 10);
+                }
+                else if (varType == "INT")
+                {
+                    value = (int)strtol(codeData[index + 2].c_str(), NULL, 10);
+                }
+                else if (varType == "NUMBER")
+                {
+                    value = strtod(codeData[index + 2].c_str(), NULL);
+                }
+                else if (varType == "BOOL")
+                {
+                    value = codeData[index + 2] == "1";
+                }
+                else if (varType == "STRING")
+                {
+                    value = codeData[index + 2];
+                }
+                else
+                {
+                    printf("failed\n");
+                    bytecode.clear();
+                    return;
+                }
+
+                variableInitialValues[varIndex] = value;
+
+                index += 3;
+            }
+
+            index++;
+        }
+        else if (type == "#FUNC_START_INDEXES")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                funcStartIndexes.push_back((int)strtol(codeData[index].c_str(), NULL, 10));
+                index++;
+            }
+
+            index++;
+        }
+        else if (type == "#ARG_ADDRESSES")
+        {
+            int funcID = 0;
+            while (codeData[index] != endLabel)
+            {
+                argAddresses.push_back(std::vector<int>());
+                int argNum = (int)strtol(codeData[index].c_str(), NULL, 10);
+
+                index++;
+
+                for (int i = 0; i < argNum; i++)
+                {
+                    argAddresses[funcID].push_back((int)strtol(codeData[index].c_str(), NULL, 10));
+                    index++;
+                }
+
+                funcID++;
+            }
+
+            index++;
+        }
+        else if (type == "#MEMORY_SIZE")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                memorySize.push_back((int)strtol(codeData[index].c_str(), NULL, 10));
+                index++;
+            }
+
+            index++;
+        }
+        else if (type == "#GLOBAL_VARIABLE_NUM")
+        {
+            globalVariableNum = (int)strtol(codeData[index].c_str(), NULL, 10);
+            index += 2;
+        }
+        else
+        {
+            puts(codeData[index].c_str());
+            printf("failed\n");
+            bytecode.clear();
+            return;
+        }
+    }
 }
 
 Run::Run()

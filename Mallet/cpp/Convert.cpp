@@ -7,6 +7,9 @@
 //
 
 #include "cpp.hpp"
+#include <variant>
+#include <iomanip>
+#include <sstream>
 
 std::string Convert::RemoveComments(std::string codeStr)
 {
@@ -809,15 +812,100 @@ std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::st
     return json;
 }
 
-std::string Convert::Code2Str()
+std::string getInitialValueStr(var value)
 {
     std::string str = "";
 
-    str += "# Code\n";
+    if (std::holds_alternative<ControlCode>(value))
+    {
+        str += "CONTROL_CODE\n";
+        str += std::to_string((int)std::get<ControlCode>(value));
+    }
+
+    if (std::holds_alternative<int>(value))
+    {
+        str += "INT\n";
+        str += std::to_string(std::get<int>(value));
+    }
+
+    if (std::holds_alternative<double>(value))
+    {
+        //TODO: acc
+        std::ostringstream strstream;
+        strstream << std::fixed << std::setprecision(10) << std::get<double>(value);
+        str += "NUMBER\n";
+        str += strstream.str();
+    }
+
+    if (std::holds_alternative<bool>(value))
+    {
+        str += "BOOL\n";
+        str += std::to_string(std::get<bool>(value));
+    }
+
+    if (std::holds_alternative<std::string>(value))
+    {
+        str += "STRING\n";
+        str += "\"" + std::get<std::string>(value) + "\"";
+    }
+
+    str += "\n";
+
+    return str;
+}
+
+std::string Convert::Code2Str()
+{
+    std::string str = "#START\n\n";
+
+    str += "#CODE\n";
     for (int code : bytecode)
     {
         str += std::to_string(code) + "\n";
     }
+    str += "#CODE_END\n";
+
+    str += "\n#INITIAL_VALUE\n";
+    for (auto value : variableInitialValues)
+    {
+        str += std::to_string(value.first) + "\n";
+        str += getInitialValueStr(value.second);
+    }
+    str += "#INITIAL_VALUE_END\n";
+
+    str += "\n#FUNC_START_INDEXES\n";
+    for (int index : funcBytecodeStartIndexes)
+    {
+        str += std::to_string(index) + "\n";
+    }
+    str += "#FUNC_START_INDEXES_END\n";
+
+    str += "\n#ARG_ADDRESSES\n";
+    for (int funcID = 0; funcID < funcArgAddresses.size(); funcID++)
+    {
+        str += std::to_string(funcArgAddresses[funcID].size()) + "\n";
+
+        for (int address : funcArgAddresses[funcID])
+        {
+            str += std::to_string(address) + "\n";
+        }
+
+        str += "\n";
+    }
+    str += "#ARG_ADDRESSES_END\n";
+
+    str += "\n#MEMORY_SIZE\n";
+    for (int size : memorySize)
+    {
+        str += std::to_string(size) + "\n";
+    }
+    str += "#MEMORY_SIZE_END\n";
+
+    str += "\n#GLOBAL_VARIABLE_NUM\n";
+    str += std::to_string(globalVariableNum) + "\n";
+    str += "#GLOBAL_VARIABLE_NUM_END\n";
+
+    str += "\n#END\n";
 
     return str;
 }
