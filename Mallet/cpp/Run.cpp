@@ -80,7 +80,14 @@ double getNumberValue(var &variable)
 
     if (std::holds_alternative<std::string>(variable))
     {
-        return std::stod(std::get<std::string>(variable));
+        try
+        {
+            return std::stod(std::get<std::string>(variable));
+        }
+        catch (std::exception &e)
+        {
+            return 0;
+        }
     }
 
     return 0;
@@ -161,7 +168,7 @@ std::string getOutValue(var &variable)
     if (std::holds_alternative<double>(variable))
     {
         std::ostringstream strstream;
-        strstream << std::noshowpoint << std::get<double>(variable);
+        strstream << std::noshowpoint << std::setprecision(20) << std::get<double>(variable);
 
         return strstream.str();
     }
@@ -320,17 +327,34 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 double firstValue = getNumberValue(*topStackData[0]);
                 double secondValue;
 
-                if (cmd == NOT)
-                    secondValue = 0;
-                else
-                    secondValue = getNumberValue(*topStackData[1]);
+                std::string firstValueStr = getStringValue(*topStackData[0]);
+                std::string secondValueStr;
 
-                double result = 0;
+                if (cmd == NOT)
+                {
+                    secondValue = 0;
+                    secondValueStr = "";
+                }
+                else
+                {
+                    secondValue = getNumberValue(*topStackData[1]);
+                    secondValueStr = getStringValue(*topStackData[1]);
+                }
+
+                var result;
 
                 switch (cmd)
                 {
                 case ADD:
-                    result = firstValue + secondValue;
+                    if (std::holds_alternative<std::string>(*topStackData[0]) ||
+                        std::holds_alternative<std::string>(*topStackData[1]))
+                    {
+                        result = firstValueStr + secondValueStr;
+                    }
+                    else
+                    {
+                        result = firstValue + secondValue;
+                    }
 
                     break;
 
