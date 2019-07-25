@@ -80,14 +80,7 @@ double getNumberValue(var &variable)
 
     if (std::holds_alternative<std::string>(variable))
     {
-        try
-        {
-            return std::stod(std::get<std::string>(variable));
-        }
-        catch (std::exception &e)
-        {
-            return 0;
-        }
+        return strtod(std::get<std::string>(variable).c_str(), NULL);
     }
 
     return 0;
