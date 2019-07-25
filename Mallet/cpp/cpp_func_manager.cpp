@@ -1,12 +1,12 @@
 //
-//  CppFuncManager.cpp
+//  cpp_func_manager.cpp
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/07/10.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-#include "cpp.hpp"
+#include "cpp_func_manager.hpp"
 
 var testFunc(std::vector<var> &args)
 {
@@ -52,27 +52,4 @@ void CppFuncManager::addCppFunc(var (*func)(std::vector<var> &args), std::string
 {
     cppFunc.push_back({func, funcName, argNum});
     cppFuncID[funcName] = argNum;
-}
-
-void Convert::ListCppFunction()
-{
-    CppFuncManager cppFuncManager;
-
-    for (int funcID = 0; funcID < cppFuncManager.cppFunc.size(); funcID++)
-    {
-        cppFuncNames.insert(cppFuncManager.cppFunc[funcID].funcName);
-
-        funcData newFuncData;
-
-        newFuncData.funcName = cppFuncManager.cppFunc[funcID].funcName;
-        newFuncData.argNum = cppFuncManager.cppFunc[funcID].argNum;
-
-        cppFuncIDs[newFuncData] = funcID;
-        isCppFuncExists[newFuncData] = true;
-    }
-}
-
-var Run::CallCppFunc(int funcID, std::vector<var> &args)
-{
-    return (cppFuncManager.cppFunc[funcID].func)(args);
 }

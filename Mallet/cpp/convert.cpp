@@ -1,12 +1,12 @@
 //
-//  Convert.cpp
+//  convert.cpp
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/06/28.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-#include "cpp.hpp"
+#include "convert.hpp"
 #include <variant>
 #include <iomanip>
 #include <sstream>
@@ -1055,6 +1055,24 @@ void Convert::ListFunction()
             printf("This code is broken #%d\n", codeIndex);
             break;
         }
+    }
+}
+
+void Convert::ListCppFunction()
+{
+    CppFuncManager cppFuncManager;
+
+    for (int funcID = 0; funcID < cppFuncManager.cppFunc.size(); funcID++)
+    {
+        cppFuncNames.insert(cppFuncManager.cppFunc[funcID].funcName);
+
+        funcData newFuncData;
+
+        newFuncData.funcName = cppFuncManager.cppFunc[funcID].funcName;
+        newFuncData.argNum = cppFuncManager.cppFunc[funcID].argNum;
+
+        cppFuncIDs[newFuncData] = funcID;
+        isCppFuncExists[newFuncData] = true;
     }
 }
 

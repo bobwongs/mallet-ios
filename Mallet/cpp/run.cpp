@@ -1,12 +1,12 @@
 //
-//  Run.cpp
+//  run.cpp
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/06/24.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-#include "Run.hpp"
+#include "run.hpp"
 #include <stdio.h>
 #include <vector>
 #include <iomanip>
@@ -584,6 +584,11 @@ var Run::RunCode(int funcID, std::vector<var> args)
     }
 
     return returnStackData;
+}
+
+var Run::CallCppFunc(int funcID, std::vector<var> &args)
+{
+    return (cppFuncManager.cppFunc[funcID].func)(args);
 }
 
 void Run::InitRunner(std::string codeDataStr)
