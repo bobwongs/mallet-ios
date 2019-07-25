@@ -14,8 +14,8 @@
 		0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
-		0E971B6122D60E1900C45B53 /* CppFuncManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */; };
-		0E971B6322D646F000C45B53 /* Convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* Convert.cpp */; };
+		0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */; };
+		0E971B6322D646F000C45B53 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* convert.cpp */; };
 		0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EA6645D22748F780017A016 /* cpp2objcpp.mm */; };
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
 		0EC33345226E0B7F005B968A /* RunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* RunApp.swift */; };
@@ -26,7 +26,7 @@
 		0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */; };
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* Block.swift */; };
-		0EE5638422C3981A00F3F88C /* Run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* Run.cpp */; };
+		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478A8226B78CD007315DB /* AppDelegate.swift */; };
 		0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478AA226B78CD007315DB /* HomeViewController.swift */; };
 		0EF478AE226B78CD007315DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF478AC226B78CD007315DB /* Main.storyboard */; };
@@ -57,17 +57,19 @@
 /* Begin PBXFileReference section */
 		0E07A15422B47FA100A848C2 /* SPEC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SPEC.md; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
+		0E1AAB3022E984EE0002BC0A /* common.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = common.hpp; path = "../../../../../../../System/Volumes/Data/Users/katsu/Projects/Mobile/Mallet-iOS/Mallet/cpp/common.hpp"; sourceTree = "<group>"; };
 		0E3FDD79226CA87C00F20326 /* HomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewCell.swift; sourceTree = "<group>"; };
 		0E3FDD7B226CA90200F20326 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCodeEditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
-		0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CppFuncManager.cpp; sourceTree = "<group>"; };
-		0E971B6222D646F000C45B53 /* Convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convert.cpp; sourceTree = "<group>"; };
-		0E971B6422D646F600C45B53 /* Convert.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Convert.hpp; sourceTree = "<group>"; };
+		0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_func_manager.cpp; sourceTree = "<group>"; };
+		0E971B6222D646F000C45B53 /* convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = convert.cpp; sourceTree = "<group>"; };
+		0E971B6422D646F600C45B53 /* convert.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = convert.hpp; sourceTree = "<group>"; };
 		0EA6645D22748F780017A016 /* cpp2objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = cpp2objcpp.mm; sourceTree = "<group>"; };
 		0EA6645F22748F850017A016 /* cpp2objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cpp2objcpp.h; sourceTree = "<group>"; };
 		0EA9DF55227F216A00584C0B /* UIEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEditorController.swift; sourceTree = "<group>"; };
+		0EBF713422E9633900F58601 /* cpp_func_manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = cpp_func_manager.hpp; path = "../../../../../../../System/Volumes/Data/Users/katsu/Projects/Mobile/Mallet-iOS/Mallet/cpp/cpp_func_manager.hpp"; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* RunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunApp.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* RunApp.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RunApp.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -76,8 +78,8 @@
 		0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82322E37AF700A9D6D9 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		0EE5638222C3981100F3F88C /* Run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Run.hpp; sourceTree = "<group>"; };
-		0EE5638322C3981A00F3F88C /* Run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Run.cpp; sourceTree = "<group>"; };
+		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
+		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
 		0EF478A5226B78CD007315DB /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF478A8226B78CD007315DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0EF478AA226B78CD007315DB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
@@ -244,11 +246,13 @@
 			children = (
 				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
 				0EF478DD226B7AEB007315DB /* cpp.hpp */,
-				0E971B6222D646F000C45B53 /* Convert.cpp */,
-				0E971B6422D646F600C45B53 /* Convert.hpp */,
-				0EE5638322C3981A00F3F88C /* Run.cpp */,
-				0EE5638222C3981100F3F88C /* Run.hpp */,
-				0E971B6022D60E1900C45B53 /* CppFuncManager.cpp */,
+				0E971B6222D646F000C45B53 /* convert.cpp */,
+				0E971B6422D646F600C45B53 /* convert.hpp */,
+				0EE5638322C3981A00F3F88C /* run.cpp */,
+				0EE5638222C3981100F3F88C /* run.hpp */,
+				0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */,
+				0EBF713422E9633900F58601 /* cpp_func_manager.hpp */,
+				0E1AAB3022E984EE0002BC0A /* common.hpp */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -405,7 +409,7 @@
 				0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */,
 				0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */,
 				0EC9E81C22E3575600A9D6D9 /* AppData.swift in Sources */,
-				0EE5638422C3981A00F3F88C /* Run.cpp in Sources */,
+				0EE5638422C3981A00F3F88C /* run.cpp in Sources */,
 				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
@@ -413,8 +417,8 @@
 				0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* RunApp.swift in Sources */,
-				0E971B6322D646F000C45B53 /* Convert.cpp in Sources */,
-				0E971B6122D60E1900C45B53 /* CppFuncManager.cpp in Sources */,
+				0E971B6322D646F000C45B53 /* convert.cpp in Sources */,
+				0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
