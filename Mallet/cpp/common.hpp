@@ -9,10 +9,13 @@
 #ifndef common_h
 #define common_h
 
+#include <stdio.h>
 #include <map>
-#include <unordered_map>
+#include <iomanip>
 #include <set>
+#include <sstream>
 #include <string>
+#include <unordered_map>
 #include <variant>
 #include <vector>
 

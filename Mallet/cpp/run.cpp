@@ -7,10 +7,6 @@
 //
 
 #include "run.hpp"
-#include <stdio.h>
-#include <vector>
-#include <iomanip>
-#include <sstream>
 
 ControlCode getControlCode(var &variable)
 {
