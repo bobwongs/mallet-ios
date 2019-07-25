@@ -22,14 +22,20 @@ public class Block: UIStackView {
 
     public var index: Int
 
-    private var indentConstraint = NSLayoutConstraint()
+    public var blockDataIndex: Int
 
-    private var indent: Int
+    public var isOnTable: Bool
 
-    init(blockData: BlockData, index: Int) {
+    var indentConstraint = NSLayoutConstraint()
+
+    var indent: Int
+
+    init(blockData: BlockData, index: Int, blockDataIndex: Int, isOnTable: Bool) {
 
         self.indent = blockData.indent
         self.index = index
+        self.blockDataIndex = blockDataIndex
+        self.isOnTable = isOnTable
 
         super.init(frame: CGRect())
 
@@ -83,7 +89,7 @@ public class BlockWithoutIndent: UIView {
 
     public var index: Int
 
-    private var indent: Int
+    var indent: Int
 
     init(blockData: BlockData, index: Int) {
 

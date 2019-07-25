@@ -8,24 +8,44 @@
 
 import UIKit
 
-class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate {
+class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
 
-    private enum MovingBlockState {
+    enum MovingBlockState {
         case notMoving
         case horizontal
         case vertical
     }
 
-    private var movingBlockState: MovingBlockState = .notMoving
+    @IBOutlet weak var blockTableView: UITableView!
 
-    private let codeStackView = UIStackView()
+    var movingBlockState: MovingBlockState = .notMoving
 
-    private var blockPos = [CGFloat]()
+    let codeStackView = UIStackView()
 
-    private var blocks = [UIView]()
+    var blockPos = [CGFloat]()
+
+    var blocks = [UIView]()
+
+    var blockData = [
+        BlockData(
+                contents: [BlockContentData(type: 0, value: "set"),
+                           BlockContentData(type: 1, value: "var"),
+                           BlockContentData(type: 0, value: "to"),
+                           BlockContentData(type: 1, value: "0"), ],
+                indent: 0
+        ),
+        BlockData(
+                contents: [BlockContentData(type: 0, value: "print"),
+                           BlockContentData(type: 1, value: "var"), ],
+                indent: 0
+        ),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        blockTableView.delegate = self
+        blockTableView.dataSource = self
 
         codeStackView.axis = .vertical
         codeStackView.distribution = .fill
@@ -39,6 +59,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
 
+        /*
         let blockData = [
             BlockData(
                     contents: [BlockContentData(type: 0, value: "set"),
@@ -70,8 +91,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
                     indent: 0
             ),
         ]
+        */
 
-        for i in 0..<blockData.count {
+        for i in 0..<5 {
 
             /*
             let stackViewInCodeStackView = UIStackView()
@@ -80,7 +102,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
             stackViewInCodeStackView.translatesAutoresizingMaskIntoConstraints = false
             */
 
-            let block = Block(blockData: blockData[i], index: i)
+            let block = Block(blockData: blockData[i % (blockData.count)], index: i, blockDataIndex: i % (blockData.count), isOnTable: false)
 
             block.translatesAutoresizingMaskIntoConstraints = false
 
@@ -112,20 +134,53 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         }
     }
 
-    @objc private func dragBlock(_ sender: UIPanGestureRecognizer) {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return blockData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+        cell.selectionStyle = UITableViewCell.SelectionStyle.none
+
+        let block = Block(blockData: blockData[indexPath.row], index: 0, blockDataIndex: indexPath.row, isOnTable: true)
+        cell.addSubview(block)
+
+        setBlockOnTable(block: block, cell: cell)
+
+        return cell
+    }
+
+    func setBlockOnTable(block: UIView, cell: UIView) {
+
+        block.translatesAutoresizingMaskIntoConstraints = false
+        block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: 30).isActive = true
+        block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10).isActive = true
+        block.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -10).isActive = true
+
+        block.isUserInteractionEnabled = true
+
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(dragBlock(_:)))
+        pan.delegate = self
+        block.addGestureRecognizer(pan)
+    }
+
+    @objc func dragBlock(_ sender: UIPanGestureRecognizer) {
 
         guard let senderView = sender.view else {
             return
         }
 
-        let blockIndex = (senderView as! Block).index
+        let blockView = senderView as! Block
+
+        let blockIndex = blockView.index
+        let isOnTable = blockView.isOnTable
 
         let move = sender.translation(in: self.view)
         sender.setTranslation(CGPoint.zero, in: self.view)
 
         if sender.state == .began {
 
-            if abs(move.x) > 0.3 && abs(move.y) < 1 {
+            if abs(move.x) > 0.3 && abs(move.y) < 1 && !isOnTable {
                 movingBlockState = .horizontal
 
                 let direction: Int!
@@ -135,16 +190,27 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
                     direction = -1
                 }
 
-//                changeBlockIndent(blockIndex: blockIndex, direction: direction)
-
-                (senderView as! Block).changeBlockIndent(direction: direction)
+                blockView.changeBlockIndent(direction: direction)
 
             } else {
+                if (isOnTable) {
+                    guard let cell = senderView.superview else {
+                        fatalError()
+                    }
+
+                    let blockDataIndex = blockView.blockDataIndex
+
+                    let newBlockOnTable = Block(blockData: blockData[blockDataIndex], index: 0, blockDataIndex: blockDataIndex, isOnTable: true)
+
+                    cell.addSubview(newBlockOnTable)
+
+                    setBlockOnTable(block: newBlockOnTable, cell: cell)
+                }
+
                 movingBlockState = .vertical
 
                 let center = senderView.superview?.convert(senderView.center, to: self.view)
 
-                codeStackView.removeArrangedSubview(senderView)
                 self.view.addSubview(senderView)
                 self.view.bringSubviewToFront(senderView)
 
@@ -152,9 +218,15 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
 
                 senderView.center = center ?? CGPoint()
 
-                floatBlock(index: blockIndex)
-            }
+                if (isOnTable) {
+                    blockView.index = codeStackView.arrangedSubviews.count
+                    blockView.isOnTable = false
+                    addBlock()
 
+                } else {
+                    floatBlock(index: blockIndex)
+                }
+            }
 
             return
         }
@@ -210,7 +282,15 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         }
     }
 
-    private func floatBlock(index: Int) {
+    func addBlock() {
+        let blankView = UIView()
+        codeStackView.addArrangedSubview(blankView)
+
+        blankView.translatesAutoresizingMaskIntoConstraints = false
+        blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+    }
+
+    func floatBlock(index: Int) {
         let blankView = UIView()
 
         codeStackView.insertArrangedSubview(blankView, at: index)
@@ -219,7 +299,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
 
-    private func moveBlock(from: Int, to: Int) {
+    func moveBlock(from: Int, to: Int) {
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
@@ -254,7 +334,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         (codeStackView.arrangedSubviews[from] as! Block).index = from
     }
 
-    private func dropBlock(index: Int, block: UIView) {
+    func dropBlock(index: Int, block: UIView) {
         let center = self.view.convert(block.center, to: codeStackView)
 
         block.center = center
@@ -268,9 +348,5 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate 
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
         })
-    }
-
-    private func changeBlockIndent(blockIndex: Int, direction: Int) {
-        print(direction)
     }
 }
