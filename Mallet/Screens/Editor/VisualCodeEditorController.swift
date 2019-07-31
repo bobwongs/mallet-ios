@@ -18,6 +18,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @IBOutlet weak var blockTableView: UITableView!
 
+    let blockDefaultIndentSize: CGFloat = 20
+
     var movingBlockState: MovingBlockState = .notMoving
 
     let codeStackView = UIStackView()
@@ -57,7 +59,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeStackView.translatesAutoresizingMaskIntoConstraints = false
 
         codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
-        codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: blockDefaultIndentSize).isActive = true
 
         /*
         let blockData = [
@@ -153,7 +155,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     func setBlockOnTable(block: UIView, cell: UIView) {
 
         block.translatesAutoresizingMaskIntoConstraints = false
-        block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: 30).isActive = true
+        block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: blockDefaultIndentSize).isActive = true
         block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10).isActive = true
         block.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -10).isActive = true
 
