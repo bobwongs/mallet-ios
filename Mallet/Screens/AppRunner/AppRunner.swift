@@ -1,5 +1,5 @@
 //
-//  RunApp.swift
+//  AppRunner.swift
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/04/22.
@@ -9,7 +9,7 @@
 import UIKit
 
 @objcMembers
-class RunApp: UIViewController {
+class AppRunner: UIViewController {
 
     @IBOutlet weak var appView: UIView!
 
@@ -44,7 +44,7 @@ class RunApp: UIViewController {
     }
 
     public func SetUIText(id: Int, text: String) {
-        let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! AppRunner
 
         let typeOfUI = type(of: runApp.appUI[id]!)
 
@@ -61,25 +61,25 @@ class RunApp: UIViewController {
     }
 
     public func SetNumberGlobalVariable(address: Int, value: Int) {
-        let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! AppRunner
 
         runApp.numberGlobalVariable[address] = value
     }
 
     public func GetNumberGlobalVariable(address: Int) -> Int {
-        let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! AppRunner
 
         return runApp.numberGlobalVariable[address]
     }
 
     public func SetStringGlobalVariable(address: Int, value: String) {
-        let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! AppRunner
 
         runApp.stringGlobalVariable[address] = value
     }
 
     public func GetStringGlobalVariable(address: Int) -> String {
-        let runApp = topViewController() as! RunApp
+        let runApp = topViewController() as! AppRunner
 
         return runApp.stringGlobalVariable[address]
     }

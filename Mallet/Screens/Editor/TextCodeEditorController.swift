@@ -105,7 +105,7 @@ class TextCodeEditorController: UIViewController, UITextViewDelegate {
 
     @IBAction func RunButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "RunApp", bundle: nil)
-        guard let controller = storyboard.instantiateInitialViewController() as? RunApp else {
+        guard let controller = storyboard.instantiateInitialViewController() as? AppRunner else {
             fatalError()
         }
 

@@ -114,7 +114,7 @@
 
 - (void)InitRunner
 {
-    runner->InitRunner(*runner);
+    //runner->InitRunner(*runner);
 }
 
 @end

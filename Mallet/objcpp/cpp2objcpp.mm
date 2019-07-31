@@ -21,7 +21,7 @@
 {
     NSString *textStr = [NSString stringWithCString:text encoding:NSUTF8StringEncoding];
 
-    [[RunApp alloc] SetUITextWithId:uiID text:textStr];
+    [[AppRunner alloc] SetUITextWithId:uiID text:textStr];
 }
 
 @end

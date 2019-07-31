@@ -31,7 +31,7 @@ class AppButton: AppUIButton {
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
-        let runApp = RunApp().topViewController() as! RunApp
+        let runApp = AppRunner().topViewController() as! AppRunner
         runApp.appUI[uiData.uiID!] = self
     }
 
@@ -40,7 +40,7 @@ class AppButton: AppUIButton {
     }
 
     @objc func onButtonClick(_ sender: UIButton) {
-        let runApp = RunApp().topViewController() as! RunApp
+        let runApp = AppRunner().topViewController() as! AppRunner
         runApp.RunCode(id: onButtonClickID)
     }
 
@@ -56,7 +56,7 @@ class AppLabel: UILabel {
         self.sizeToFit()
         self.textAlignment = NSTextAlignment.center
 
-        let runApp = RunApp().topViewController() as! RunApp
+        let runApp = AppRunner().topViewController() as! AppRunner
         runApp.appUI[uiData.uiID!] = self
     }
 
