@@ -15,6 +15,8 @@
 
 - (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)uiName :(bool)isDefinitionOfGlobalVariable;// :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
 
+- (NSString *)ConvertCode:(NSString *)codeStr;
+
 @end
 
 @interface RunnerObjCpp : NSObject
@@ -23,7 +25,7 @@
 
 - (void)RunCode:(int)index;
 
-- (void)InitRunner;
+- (void)InitRunner:(NSString *)codeDataStr;
 @end
 
 #endif /* objcpp_h */

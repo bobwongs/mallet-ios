@@ -15,7 +15,7 @@
 class Convert
 {
 public:
-    std::string ConvertCodeToJson(std::string codeStr);
+    std::string ConvertCode(std::string codeStr);
 
 private:
     struct funcData

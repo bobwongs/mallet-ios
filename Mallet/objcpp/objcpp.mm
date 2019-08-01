@@ -29,6 +29,15 @@
     return self;
 }
 
+- (NSString *)ConvertCode:(NSString *)codeStr
+{
+    std::string codeStrString = [codeStr UTF8String];
+
+    std::string convertedCode = converter->ConvertCode(codeStrString);
+
+    return [NSString stringWithUTF8String:convertedCode.c_str()];
+}
+
 - (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)uiName :(bool)isDefinitionOfGlobalVariable
 {
     std::string codeString = [code UTF8String];
@@ -43,7 +52,7 @@
         uiNameMap[name] = uiID;
     }
 
-    std::string json = converter->ConvertCodeToJson(codeString);
+    std::string json = converter->ConvertCode(codeString);
     NSString *jsonNSString = [NSString stringWithUTF8String:json.c_str()];
 
     return jsonNSString;
@@ -61,7 +70,7 @@
     if (self == [super init])
     {
         runner = new Run();
-        [self InitRunner];
+        //[self InitRunner];
     }
 
     return self;
@@ -112,9 +121,9 @@
     //runner->RunCode(index, *runner);
 }
 
-- (void)InitRunner
+- (void)InitRunner:(NSString *)codeDataStr
 {
-    //runner->InitRunner(*runner);
+    //runner->InitRunner(codeDataStr);
 }
 
 @end

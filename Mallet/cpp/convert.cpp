@@ -759,56 +759,6 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
     return codeBlockSize;
 }
 
-std::string CodeToJson(std::vector<int> operatorCode, std::unordered_map<std::string, int> &stringVariableAddress)
-{
-    std::string json = "{";
-
-    std::string strings[1000];
-    int stringMaxNum = 1000;
-    int maxIndex = 0;
-
-    json += "\"string\":";
-    json += "[";
-
-    for (auto i : stringVariableAddress)
-    {
-        if (i.second >= stringMaxNum)
-            continue;
-
-        if (i.first[0] != '"')
-            continue;
-
-        strings[i.second] = i.first;
-
-        maxIndex = std::max(i.second, maxIndex);
-    }
-
-    for (int i = 0; i <= maxIndex; i++)
-    {
-        if (strings[i] == "")
-            strings[i] = "\"\"";
-
-        json += strings[i] + (i < maxIndex ? "," : "");
-    }
-
-    json += "]";
-    json += ",";
-
-    json += "\"codeStr\":";
-    json += "[";
-
-    for (int i = 0; i < operatorCode[1]; i++)
-    {
-        json += std::to_string(operatorCode[i]) + (i < operatorCode[1] - 1 ? "," : "");
-    }
-
-    json += "]";
-
-    json += "}";
-
-    return json;
-}
-
 std::string getInitialValueStr(var value)
 {
     std::string str = "";
@@ -907,7 +857,7 @@ std::string Convert::Code2Str()
     return str;
 }
 
-std::string Convert::ConvertCodeToJson(std::string codeStr)
+std::string Convert::ConvertCode(std::string codeStr)
 {
     InitConverter();
 
