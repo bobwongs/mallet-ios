@@ -10,8 +10,6 @@ import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
 
-    //var Editor: EditorController = EditorController()
-
     @IBOutlet weak var editorView: UIView!
     @IBOutlet weak var uiTable: UITableView!
     @IBOutlet weak var appScreenParent: UIView!
@@ -19,19 +17,23 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var UINameTextField: UITextField!
     @IBOutlet weak var UITextTextField: UITextField!
 
+    var appData: AppData!
+
     var appScreen: UIView = UIView()
 
-    var UIDic: Dictionary<Int, UIData> = Dictionary<Int, UIData>()
-    var UIViewDic: Dictionary<Int, UIView> = Dictionary<Int, UIView>()
-    var UINum: Int = 0
-    var selectedUIID: Int = 0
+    var uiData: [UIData]?
 
+    var UIDictionary = Dictionary<Int, UIView>()
+    var UINum = 0
+    var selectedUIID = 0
 
     var uiScale: CGFloat = 0.7
 
-    let uiTypeNum = 3
-    var UINumOfEachType = [Int]()
-    let uiTypeName = ["Label", "Button", "Switch"]
+    let uiTypeNum = UIType.allCases.count
+    var UINumOfEachType = Dictionary<UIType, Int>()
+    let uiTypeName = [UIType.Label: "Label",
+                      UIType.Button: "Button",
+                      UIType.Switch: "Switch"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,16 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func initUIEditor() {
+        setupView()
+
+        selectedUIID = -1
+
+        for type in UIType.allCases {
+            UINumOfEachType[type] = 0
+        }
+    }
+
+    func setupView() {
         var screenSize = UIScreen.main.bounds.size
         if let navigationController = navigationController {
             screenSize.height -= navigationController.navigationBar.frame.size.height
@@ -67,52 +79,31 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         UINameTextField.text = ""
         UITextTextField.text = ""
 
-        UINameTextField.addTarget(self, action: #selector(self.setUIName), for: .editingChanged)
-        UITextTextField.addTarget(self, action: #selector(self.setUIText), for: .editingChanged)
-
-        //UINum = 0
-        selectedUIID = -1
-
-        UINumOfEachType = [Int](repeating: 0, count: uiTypeNum)
+        UINameTextField.addTarget(self, action: #selector(self.setUINameToValueOfTextField), for: .editingChanged)
+        UITextTextField.addTarget(self, action: #selector(self.setUITextToValueOfTextField), for: .editingChanged)
     }
 
     func generateScreen() {
-        for uiDic in UIDic {
-            let ui = generateSampleUI(uiType: uiDic.value.uiType ?? 0)
-            appScreen.addSubview(ui)
+        if let uiData = self.uiData {
+            for uiData in uiData {
 
-            var appSampleUIData = ui as! AppSampleUIData
-            appSampleUIData.uiID = uiDic.value.uiID!
+                let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
+                appScreen.addSubview(ui)
 
-            ui.center.x = uiDic.value.x! * uiScale
-            ui.center.y = uiDic.value.y! * uiScale
+                var appSampleUIData = ui as! EditorUIData
+                appSampleUIData.uiID = uiData.uiID
 
-            ui.isUserInteractionEnabled = true
+                ui.center.x = uiData.x * uiScale
+                ui.center.y = uiData.y * uiScale
 
-            let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-            pan.delegate = self
-            ui.addGestureRecognizer(pan)
+                ui.isUserInteractionEnabled = true
 
-            let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
-            tap.delegate = self
-            ui.addGestureRecognizer(tap)
+                addGesture(ui: ui)
 
-            UIViewDic[uiDic.value.uiID!] = ui
+                setUIText(uiType: uiData.uiType, ui: ui, text: uiData.text)
 
-            switch uiDic.value.uiType! {
-            case 0:
-                let label = ui as! UILabel
-                label.text = uiDic.value.text!
-            case 1:
-                let button = ui as! UIButton
-                button.setTitle(uiDic.value.text, for: .normal)
-            default:
-                break
+                UINumOfEachType[uiData.uiType]! += 1
             }
-
-            ui.sizeToFit()
-
-            UINumOfEachType[uiDic.value.uiType!] += 1
         }
     }
 
@@ -124,7 +115,19 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
-        let ui = generateSampleUI(uiType: indexPath.row)
+        let uiType: UIType!
+        switch indexPath.row {
+        case 0:
+            uiType = .Label
+        case 1:
+            uiType = .Button
+        case 2:
+            uiType = .Switch
+        default:
+            uiType = .Label
+        }
+
+        let ui = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
         cell.addSubview(ui)
 
         ui.translatesAutoresizingMaskIntoConstraints = false
@@ -133,26 +136,29 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         ui.isUserInteractionEnabled = true
 
-        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-        pan.delegate = self
-        ui.addGestureRecognizer(pan)
-
-        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapUI(_:)))
-        doubleTap.delegate = self
-        doubleTap.numberOfTapsRequired = 2
-        ui.addGestureRecognizer(doubleTap)
-
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
-        tap.delegate = self
-        tap.numberOfTapsRequired = 1
-        tap.require(toFail: doubleTap)
-        ui.addGestureRecognizer(tap)
+        addGesture(ui: ui)
 
         return cell
     }
 
-    @objc func doubleTapUI(_ sender: UILongPressGestureRecognizer) {
+    func addGesture(ui: UIView) {
+        let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
+        pan.delegate = self
+        ui.addGestureRecognizer(pan)
 
+        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(moveToCode(_:)))
+        doubleTap.delegate = self
+        doubleTap.numberOfTapsRequired = 2
+        ui.addGestureRecognizer(doubleTap)
+
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectUI(_:)))
+        tap.delegate = self
+        tap.numberOfTapsRequired = 1
+        tap.require(toFail: doubleTap)
+        ui.addGestureRecognizer(tap)
+    }
+
+    @objc func moveToCode(_ sender: UILongPressGestureRecognizer) {
         if let senderSuperView = sender.view?.superview {
             if senderSuperView != appScreen {
                 return
@@ -166,40 +172,38 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
 
         navigationController?.pushViewController(controller, animated: true)
-        //navigationController?.present(controller, animated: true, completion: nil)
     }
 
-    @objc func tapUI(_ sender: UITapGestureRecognizer) {
+    @objc func selectUI(_ sender: UITapGestureRecognizer) {
         guard let senderView = sender.view else {
             return
         }
 
-        let appSampleUIData = senderView as! AppSampleUIData
+        let uiData = senderView as! EditorUIData
 
-        let uiID = appSampleUIData.uiID
-        UINameTextField.text = UIDic[uiID]?.uiName
-        UITextTextField.text = UIDic[uiID]?.text
+        UINameTextField.text = uiData.uiName
+        UITextTextField.text = getUIText(uiType: uiData.uiType, ui: senderView)
 
-        selectedUIID = uiID
+        selectedUIID = uiData.uiID
     }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
-        guard let senderView = sender.view else {
+        guard let ui = sender.view else {
             return
         }
 
-        var appSampleUIData = senderView as! AppSampleUIData
+        var uiData = ui as! EditorUIData
 
         if sender.state == .began {
-            guard let superView = senderView.superview else {
+            guard let superView = ui.superview else {
                 return
             }
 
             if superView != appScreen {
                 //画面にUIを追加
 
-                let uiType = appSampleUIData.uiType
-                let uiOnTable = generateSampleUI(uiType: uiType)
+                let uiType = uiData.uiType
+                let uiOnTable = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
                 superView.addSubview(uiOnTable)
 
@@ -209,71 +213,29 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 uiOnTable.isUserInteractionEnabled = true
 
-                let pan = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-                pan.delegate = self
-                uiOnTable.addGestureRecognizer(pan)
+                addGesture(ui: uiOnTable)
 
-                let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapUI(_:)))
-                doubleTap.delegate = self
-                doubleTap.numberOfTapsRequired = 2
-                uiOnTable.addGestureRecognizer(doubleTap)
-
-                let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapUI(_:)))
-                tap.delegate = self
-                tap.numberOfTapsRequired = 1
-                tap.require(toFail: doubleTap)
-                uiOnTable.addGestureRecognizer(tap)
-
-                let uiName = uiTypeName[uiType] + String(UINumOfEachType[uiType] + 1)
-                let uiText = "Text"
-                let uiX = senderView.center.x / uiScale
-                let uiY = senderView.center.y / uiScale
-                let uiData = UIData(uiID: UINum, uiName: uiName, uiType: uiType, text: uiText, value: 0, x: uiX, y: uiY)
-                UIDic[UINum] = uiData
-
-                appSampleUIData.uiID = UINum
+                uiData.uiID = UINum
                 UINum += 1
-                UINumOfEachType[uiType] += 1
+                UINumOfEachType[uiType]! += 1
 
-                senderView.translatesAutoresizingMaskIntoConstraints = true
+                ui.translatesAutoresizingMaskIntoConstraints = true
 
-                let center = senderView.superview?.convert(senderView.center, to: appScreen)
-                appScreen.addSubview(senderView)
-                senderView.center = center ?? CGPoint()
+                let center = ui.superview?.convert(ui.center, to: appScreen)
+                appScreen.addSubview(ui)
+                ui.center = center ?? CGPoint()
 
-                UIViewDic[appSampleUIData.uiID] = senderView
+                let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
+                uiData.uiName = uiName
 
-                switch uiType {
-                case 0:
-                    let label = senderView as! UILabel
-                    label.text = uiText
-                case 1:
-                    let button = senderView as! UIButton
-                    button.setTitle(uiText, for: .normal)
-                default:
-                    break
-                }
-
-                senderView.sizeToFit()
+                UIDictionary[UINum] = ui
             }
 
-            let uiID = appSampleUIData.uiID
-            UINameTextField.text = UIDic[uiID]?.uiName
-            UITextTextField.text = UIDic[uiID]?.text
 
-            selectedUIID = uiID
-        }
+            UINameTextField.text = (ui as! EditorUIData).uiName
+            UITextTextField.text = getUIText(uiType: uiData.uiType, ui: ui)
 
-        if sender.state == .ended {
-            let uiID = appSampleUIData.uiID
-
-            let uiX = senderView.center.x / uiScale
-            let uiY = senderView.center.y / uiScale
-
-            UIDic[uiID]?.x = uiX
-            UIDic[uiID]?.y = uiY
-
-            saveScreen()
+            selectedUIID = uiData.uiID
         }
 
         let move = sender.translation(in: self.view)
@@ -283,19 +245,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         sender.setTranslation(CGPoint.zero, in: self.view)
     }
 
-    func generateSampleUI(uiType: Int) -> UIView {
-        var ui: UIView = UIView()
+    func generateEditorUI(uiType: UIType, uiID: Int, uiName: String) -> UIView {
+        var ui: UIView!
 
         switch uiType {
-        case 0:
-            ui = AppSampleUILabel()
-        case 1:
-            ui = AppSampleUIButton()
-        case 2:
-            ui = AppSampleUISwitch()
-            (ui as! AppSampleUISwitch).isOn = true
-        default:
-            break
+        case .Label:
+            ui = EditorUILabel(uiID: uiID, uiName: uiName)
+        case .Button:
+            ui = EditorUIButton(uiID: uiID, uiName: uiName)
+        case .Switch:
+            ui = EditorUISwitch(uiID: uiID, uiName: uiName)
+            (ui as! EditorUISwitch).isOn = true
         }
 
         ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -303,56 +263,56 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         return ui
     }
 
-    @objc func setUIName(textField: UITextField) {
+    @objc func setUINameToValueOfTextField(textField: UITextField) {
         if selectedUIID < 0 {
             return
         }
 
-        UIDic[selectedUIID]?.uiName = textField.text
-
-        saveScreen()
+        var uiData = (UIDictionary[selectedUIID] as! EditorUIData)
+        uiData.uiName = textField.text ?? ""
     }
 
 
-    @objc func setUIText(textField: UITextField) {
+    @objc func setUITextToValueOfTextField(textField: UITextField) {
         if selectedUIID < 0 {
             return
         }
 
-        UIDic[selectedUIID]?.text = textField.text
+        let uiData = UIDictionary[selectedUIID] as! EditorUIData
 
-        switch UIDic[selectedUIID]?.uiType {
-        case 0:
-            let label = UIViewDic[selectedUIID] as! UILabel
-            label.text = textField.text
-        case 1:
-            let button = UIViewDic[selectedUIID] as! UIButton
-            button.setTitle(textField.text, for: .normal)
+        setUIText(uiType: uiData.uiType, ui: UIDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
+
+        UIDictionary[selectedUIID]!.sizeToFit()
+    }
+
+    func setUIText(uiType: UIType, ui: UIView, text: String) {
+        switch uiType {
+        case .Label:
+            let label = ui as! UILabel
+            label.text = text
+
+        case .Button:
+            let button = ui as! UIButton
+            button.setTitle(text, for: .normal)
+
         default:
             break
         }
-
-        UIViewDic[selectedUIID]?.sizeToFit()
-
-        saveScreen()
     }
 
-    func saveScreen() {
+    func getUIText(uiType: UIType, ui: UIView) -> String {
+        switch uiType {
+        case .Label:
+            let label = ui as! UILabel
+            return label.text ?? ""
 
-        /*
-        Editor.screenData.removeAll()
-        Editor.uiNames.removeAll()
-        Editor.uiNameDic.removeAll()
+        case .Button:
+            let button = ui as! UIButton
+            return button.titleLabel?.text ?? ""
 
-        for i in 0..<UINum {
-            if let uiData = UIDic[i] {
-                Editor.screenData.append(uiData)
-                Editor.uiNames.append(uiData.uiName!)
-                Editor.uiNameDic[uiData.uiName!] = i
-            }
+        default:
+            return ""
         }
-
-        Editor.codeList.reloadData()
-        */
     }
+
 }

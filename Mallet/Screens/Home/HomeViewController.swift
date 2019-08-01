@@ -42,6 +42,10 @@ class ViewController: UITableViewController {
         //controller.code = appInfo.code
         //controller.uiData = appInfo.ui
 
+        let appData = AppData()
+
+        controller.appData = appData
+
         navigationController?.pushViewController(controller, animated: true)
 
         tableView.deselectRow(at: indexPath, animated: true)

@@ -8,6 +8,12 @@
 
 import UIKit
 
+public enum UIType: Int, Codable, CaseIterable {
+    case Label
+    case Button
+    case Switch
+}
+
 public class AppUILabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -57,17 +63,22 @@ public class AppUISwitch: UISwitch {
     }
 }
 
-protocol AppSampleUIData {
+protocol EditorUIData {
+    var uiType: UIType { get }
     var uiID: Int { set get }
-    var uiType: Int { get }
+    var uiName: String { set get }
 }
 
-public class AppSampleUILabel: AppUILabel, AppSampleUIData {
-    var uiID = 0
-    let uiType = 0
+public class EditorUILabel: AppUILabel, EditorUIData {
+    let uiType = UIType.Label
+    var uiID: Int
+    var uiName: String
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiID: Int, uiName: String) {
+        self.uiID = uiID
+        self.uiName = uiName
+
+        super.init(frame: CGRect())
 
         let wall = UIView(frame: self.frame)
         self.addSubview(wall)
@@ -78,13 +89,16 @@ public class AppSampleUILabel: AppUILabel, AppSampleUIData {
     }
 }
 
+public class EditorUIButton: AppUIButton, EditorUIData {
+    let uiType = UIType.Button
+    var uiID: Int
+    var uiName: String
 
-public class AppSampleUIButton: AppUIButton, AppSampleUIData {
-    var uiID = 0
-    let uiType = 1
+    init(uiID: Int, uiName: String) {
+        self.uiID = uiID
+        self.uiName = uiName
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: CGRect())
 
         let wall = UIView(frame: self.frame)
         self.addSubview(wall)
@@ -95,12 +109,16 @@ public class AppSampleUIButton: AppUIButton, AppSampleUIData {
     }
 }
 
-public class AppSampleUISwitch: AppUISwitch, AppSampleUIData {
-    var uiID = 0
-    var uiType = 2
+public class EditorUISwitch: AppUISwitch, EditorUIData {
+    let uiType = UIType.Switch
+    var uiID: Int
+    var uiName: String
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiID: Int, uiName: String) {
+        self.uiID = uiID
+        self.uiName = uiName
+
+        super.init(frame: CGRect())
 
         let wall = UIView(frame: self.frame)
         self.addSubview(wall)

@@ -8,16 +8,16 @@
 
 import UIKit
 
-public struct UIData: Codable {
-    let uiID: Int?
-    var uiName: String?
-    let uiType: Int?
-    var text: String?
-    var value: Int?
-    var x: CGFloat?
-    var y: CGFloat?
+public class UIData: Codable {
+    let uiID: Int
+    var uiName: String
+    let uiType: UIType
+    var text: String
+    var value: Int
+    var x: CGFloat
+    var y: CGFloat
 
-    init(uiID: Int, uiName: String, uiType: Int, text: String, value: Int, x: CGFloat, y: CGFloat) {
+    init(uiID: Int, uiName: String, uiType: UIType, text: String, value: Int, x: CGFloat, y: CGFloat) {
         self.uiID = uiID
         self.uiName = uiName
         self.uiType = uiType
@@ -30,6 +30,7 @@ public struct UIData: Codable {
 
 public class ScreenDataController {
 
+    /*
     public func generateRandomUIData() -> [UIData] {
 
         let uiNum = Int.random(in: 5...10)
@@ -52,6 +53,7 @@ public class ScreenDataController {
 
         return randomUIData
     }
+    */
 
     public func generateTestUIData() -> [UIData] {
         var testUIData = [UIData]()
@@ -65,11 +67,11 @@ public class ScreenDataController {
     }
 
     private func generateButtonUIData() -> UIData {
-        return UIData(uiID: 0, uiName: "Button1", uiType: 0, text: "ButtonButton", value: 0, x: 200, y: 100)
+        return UIData(uiID: 0, uiName: "Button1", uiType: .Button, text: "ButtonButton", value: 0, x: 200, y: 100)
     }
 
     private func generateTextLabelUIData() -> UIData {
-        return UIData(uiID: 1, uiName: "Label1", uiType: 1, text: "Label", value: 0, x: 200, y: 300)
+        return UIData(uiID: 1, uiName: "Label1", uiType: .Label, text: "Label", value: 0, x: 200, y: 300)
     }
 
     public func saveUIData(saveData: [UIData]) {

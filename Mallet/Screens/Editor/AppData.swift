@@ -10,4 +10,9 @@ import Foundation
 
 public class AppData {
 
+    var codeList: [String]
+
+    init() {
+        codeList = [String]()
+    }
 }

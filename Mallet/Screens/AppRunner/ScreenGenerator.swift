@@ -32,7 +32,7 @@ class AppButton: AppUIButton {
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
         let runApp = AppRunner().topViewController() as! AppRunner
-        runApp.appUI[uiData.uiID!] = self
+        runApp.appUI[uiData.uiID] = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,7 +57,7 @@ class AppLabel: UILabel {
         self.textAlignment = NSTextAlignment.center
 
         let runApp = AppRunner().topViewController() as! AppRunner
-        runApp.appUI[uiData.uiID!] = self
+        runApp.appUI[uiData.uiID] = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,20 +72,18 @@ class ScreenGenerator {
         for uiData in inputUIData {
             var ui: UIView = UIView()
             switch uiData.uiType {
-            case 0:
+            case .Label:
                 ui = AppLabel(uiData: uiData)
                 break
-            case 1:
-                ui = AppButton(uiData: uiData, onButtonClickID: uiData.uiID! + 2)
+            case .Button:
+                ui = AppButton(uiData: uiData, onButtonClickID: uiData.uiID + 2)
                 break
-            case 2:
-                break
-            default:
+            case .Switch:
                 break
             }
 
             appView.addSubview(ui)
-            ui.center = CGPoint(x: uiData.x ?? 0, y: uiData.y ?? 0)
+            ui.center = CGPoint(x: uiData.x, y: uiData.y)
         }
     }
 }
