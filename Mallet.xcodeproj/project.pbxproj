@@ -23,7 +23,6 @@
 		0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* AppRunner.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
 		0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3334A226E1226005B968A /* ScreenDataController.swift */; };
-		0EC9E81C22E3575600A9D6D9 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81B22E3575600A9D6D9 /* AppData.swift */; };
 		0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */; };
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* Block.swift */; };
@@ -36,6 +35,7 @@
 		0EF478BE226B78CE007315DB /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478BD226B78CE007315DB /* MalletTests.swift */; };
 		0EF478C9226B78CE007315DB /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478C8226B78CE007315DB /* MalletUITests.swift */; };
 		0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478D9226B7ABE007315DB /* objcpp.mm */; };
+		611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACBE81FD0A5217407B85C /* AppData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,7 +76,6 @@
 		0EC33346226E0B92005B968A /* AppRunner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppRunner.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
 		0EC3334A226E1226005B968A /* ScreenDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDataController.swift; sourceTree = "<group>"; };
-		0EC9E81B22E3575600A9D6D9 /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82322E37AF700A9D6D9 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
@@ -99,6 +98,7 @@
 		0EF478D9226B7ABE007315DB /* objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0EF478DB226B7AD8007315DB /* objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
 		0EF478DD226B7AEB007315DB /* cpp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp.hpp; sourceTree = "<group>"; };
+		611ACBE81FD0A5217407B85C /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				0EC9E82222E37AE600A9D6D9 /* VPL */,
-				0EC9E81B22E3575600A9D6D9 /* AppData.swift */,
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
 				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
 				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
@@ -178,6 +177,7 @@
 				0EC33346226E0B92005B968A /* AppRunner.storyboard */,
 				0EC33348226E1174005B968A /* ScreenGenerator.swift */,
 				0EC3334A226E1226005B968A /* ScreenDataController.swift */,
+				611ACBE81FD0A5217407B85C /* AppData.swift */,
 			);
 			path = AppRunner;
 			sourceTree = "<group>";
@@ -411,7 +411,6 @@
 				0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */,
 				0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */,
 				0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */,
-				0EC9E81C22E3575600A9D6D9 /* AppData.swift in Sources */,
 				0EE5638422C3981A00F3F88C /* run.cpp in Sources */,
 				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
@@ -427,6 +426,7 @@
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
+				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
