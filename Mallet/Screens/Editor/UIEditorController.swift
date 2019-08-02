@@ -23,8 +23,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     var uiData: [UIData]?
 
-    var UIDictionary = Dictionary<Int, UIView>()
-    var UINum = 0
+    var uiDictionary = Dictionary<Int, UIView>()
+    var uiNum = 0
     var selectedUIID = 0
 
     var uiScale: CGFloat = 0.7
@@ -239,8 +239,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 addGesture(ui: uiOnTable)
 
-                uiData.uiID = UINum
-                UINum += 1
+                uiData.uiID = uiNum
+                uiNum += 1
                 UINumOfEachType[uiType]! += 1
 
                 ui.translatesAutoresizingMaskIntoConstraints = true
@@ -252,7 +252,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
                 uiData.uiName = uiName
 
-                UIDictionary[UINum] = ui
+                uiDictionary[uiNum] = ui
             }
 
 
@@ -292,7 +292,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
 
-        var uiData = (UIDictionary[selectedUIID] as! EditorUIData)
+        var uiData = (uiDictionary[selectedUIID] as! EditorUIData)
         uiData.uiName = textField.text ?? ""
     }
 
@@ -302,11 +302,11 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
 
-        let uiData = UIDictionary[selectedUIID] as! EditorUIData
+        let uiData = uiDictionary[selectedUIID] as! EditorUIData
 
-        setUIText(uiType: uiData.uiType, ui: UIDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
+        setUIText(uiType: uiData.uiType, ui: uiDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
 
-        UIDictionary[selectedUIID]!.sizeToFit()
+        uiDictionary[selectedUIID]!.sizeToFit()
     }
 
     func setUIText(uiType: UIType, ui: UIView, text: String) {
@@ -339,4 +339,101 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
+    func getUIValue(uiType: UIType, ui: UIView) -> Int {
+        //TODO:
+        return 0
+    }
+
+    func getUIScript(uiType: UIType, ui: UIView) -> String {
+
+        var script = ""
+
+        switch uiType {
+        case .Label:
+            break
+
+        case .Button:
+            guard  let button = ui as? EditorUIButton else {
+                fatalError()
+            }
+
+            script += button.tap
+
+        case .Switch:
+            break
+
+        }
+
+        return script
+    }
+
+    @IBAction func runButton(_ sender: Any) {
+        var uiDataTable = [UIData]()
+
+        var code = ""
+
+        var funcID = 0
+
+        uiDictionary.sorted(by: { $0.key < $1.key })
+
+        for ui in uiDictionary {
+            guard let editorUIData = ui.value as? EditorUIData else {
+                fatalError()
+            }
+
+            let uiText = getUIText(uiType: editorUIData.uiType, ui: ui.value)
+
+            let uiValue = getUIValue(uiType: editorUIData.uiType, ui: ui.value)
+
+            var funcIDs = [Int]()
+
+            switch editorUIData.uiType {
+            case .Label:
+                break
+            case .Button:
+                funcIDs.append(funcID)
+                funcID += 1
+
+            case .Switch:
+                break
+            }
+
+            let uiData = UIData(
+                    uiID: editorUIData.uiID,
+                    uiName: editorUIData.uiName,
+                    uiType: editorUIData.uiType,
+                    text: uiText,
+                    value: uiValue,
+                    x: ui.value.center.x / uiScale,
+                    y: ui.value.center.y / uiScale,
+                    funcID: funcIDs
+            )
+
+            uiDataTable.append(uiData)
+            code += getUIScript(uiType: editorUIData.uiType, ui: ui.value)
+        }
+
+        let codeData = ConverterObjCpp().convertCode(code) ?? ""
+
+        let appData = AppData(uiData: uiDataTable, code: codeData)
+
+        do {
+            let jsonData = try  JSONEncoder().encode(appData)
+
+            let jsonStr = String(bytes: jsonData, encoding: .utf8)
+
+            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
+
+            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+                fatalError()
+            }
+
+            appRunner.appData = jsonStr
+
+            navigationController?.pushViewController(appRunner, animated: true)
+        } catch let error {
+            print(error)
+        }
+
+    }
 }

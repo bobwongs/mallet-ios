@@ -133,7 +133,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MeI-G7-vY6"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Editor" id="Tes-Qs-ZTT"/>
+                    <navigationItem key="navigationItem" title="Editor" id="Tes-Qs-ZTT">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="uu5-Gh-qyl">
+                            <connections>
+                                <action selector="runButton:" destination="AIj-Sb-75T" id="6Nn-8q-fEo"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="UINameTextField" destination="eE2-oW-xWq" id="WDY-Aj-zLs"/>
                         <outlet property="UITextTextField" destination="wZl-QC-Q7Q" id="YCA-Mq-Gnm"/>

@@ -192,7 +192,7 @@ var getTopStackData(std::vector<var> &stack, int &stackIndex, bool &error)
 
 var Run::RunCode(int funcID, std::vector<var> args)
 {
-    int funcType = funcTypes[funcID];
+    //int funcType = funcTypes[funcID];
 
     int stackIndex = -1;
     constexpr int stackSize = 1000000;

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/*
 class ButtonUIData: UIData {
     public var tap: String!
 
@@ -45,3 +46,4 @@ class SwitchUIData: UIData {
         fatalError("init(from:) has not been implemented")
     }
 }
+*/

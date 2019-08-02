@@ -13,33 +13,29 @@ class AppRunner: UIViewController {
 
     @IBOutlet weak var appView: UIView!
 
-    public var codeStr = ""
-    public var uiDataStr = ""
-    public var uiName = Dictionary<String, Int>()
+    public var appData: String?
 
-    public var code: [String] = [String]()
+    public var codeStr: String?
+    public var uiData: [UIData]?
+
+    public var uiName = Dictionary<String, Int>()
 
     public var appUI: Dictionary<Int, UIView> = Dictionary()
 
-    public var numberGlobalVariableAddress: Dictionary<String, Int> = Dictionary();
-    public var stringGlobalVariableAddress: Dictionary<String, Int> = Dictionary();
-
-    public var numberGlobalVariable: [Int] = [Int](repeating: 0, count: 100000)
-    public var stringGlobalVariable: [String] = [String](repeating: "", count: 1000)
-
-    private let converter = ConverterObjCpp()
     private let runner = RunnerObjCpp()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        GenerateAppScreen()
-
         InitRunner()
     }
 
     private func GenerateAppScreen() {
-        let uiData = ScreenDataController().stringToUIData(jsonStr: uiDataStr)
+
+        guard let uiData = uiData else {
+            fatalError()
+        }
+
         ScreenGenerator().generateScreen(inputUIData: uiData, appView: appView)
     }
 
@@ -60,44 +56,32 @@ class AppRunner: UIViewController {
         }
     }
 
-    public func SetNumberGlobalVariable(address: Int, value: Int) {
-        let runApp = topViewController() as! AppRunner
-
-        runApp.numberGlobalVariable[address] = value
-    }
-
-    public func GetNumberGlobalVariable(address: Int) -> Int {
-        let runApp = topViewController() as! AppRunner
-
-        return runApp.numberGlobalVariable[address]
-    }
-
-    public func SetStringGlobalVariable(address: Int, value: String) {
-        let runApp = topViewController() as! AppRunner
-
-        runApp.stringGlobalVariable[address] = value
-    }
-
-    public func GetStringGlobalVariable(address: Int) -> String {
-        let runApp = topViewController() as! AppRunner
-
-        return runApp.stringGlobalVariable[address]
-    }
-
     private func InitRunner() {
-        // コード -> Jsonの塊 -> 展開 -> InitialScript実行
-
-        var jsons: Array<String> = Array<String>()
-
-        for i in 0..<code.count {
-            // print(code[i])
-            let json = converter.convertCode(toJson: code[i], uiName, i == 0)
-            jsons.append(json!)
+        guard let appData = appData else {
+            print("appData is nil")
+            fatalError()
         }
 
-        runner.extractCodes(jsons)
+        guard let jsonData = appData.data(using: .utf8) else {
+            fatalError()
+        }
 
-        runner.runCode(1)
+        do {
+            let decodedAppData = try JSONDecoder().decode(AppData.self, from: jsonData)
+
+            uiData = decodedAppData.uiData
+            codeStr = decodedAppData.code
+        } catch let error {
+            print(error)
+        }
+
+        guard  let codeStr = codeStr else {
+            fatalError()
+        }
+
+        runner.initRunner(codeStr)
+
+        GenerateAppScreen()
     }
 
     public func RunCode(id: Int) {
@@ -118,14 +102,4 @@ class AppRunner: UIViewController {
         }
         return controller
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }

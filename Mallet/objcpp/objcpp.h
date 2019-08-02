@@ -13,15 +13,11 @@
 
 @interface ConverterObjCpp : NSObject
 
-- (NSString *)ConvertCodeToJson:(NSString *)code :(NSDictionary *)uiName :(bool)isDefinitionOfGlobalVariable;// :(NSDictionary *)numberGlobalVariableAddress :(NSDictionary *)stringGlobalVariableAddress
-
 - (NSString *)ConvertCode:(NSString *)codeStr;
 
 @end
 
 @interface RunnerObjCpp : NSObject
-
-- (void)ExtractCodes:(NSArray<NSString *> *)codeJsons;
 
 - (void)RunCode:(int)index;
 

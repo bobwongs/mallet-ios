@@ -42,9 +42,9 @@ class ViewController: UITableViewController {
         //controller.code = appInfo.code
         //controller.uiData = appInfo.ui
 
-        let appData = AppData()
+        //let appData = AppData()
 
-        controller.appData = appData
+        //controller.appData = appData
 
         navigationController?.pushViewController(controller, animated: true)
 

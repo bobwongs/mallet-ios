@@ -76,7 +76,7 @@ class ScreenGenerator {
                 ui = AppLabel(uiData: uiData)
                 break
             case .Button:
-                ui = AppButton(uiData: uiData, onButtonClickID: uiData.uiID + 2)
+                ui = AppButton(uiData: uiData, onButtonClickID: uiData.funcID[0])
                 break
             case .Switch:
                 break
