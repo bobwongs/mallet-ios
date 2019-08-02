@@ -171,10 +171,14 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError()
         }
 
-        guard  let uiData = sender.view as? EditorUIData else {
+        guard let uiData = sender.view as? EditorUIData else {
             print("This is not UI")
             fatalError()
         }
+
+        codeEditorController.ui = sender.view
+
+        codeEditorController.uiData = uiData
 
         switch uiData.uiType {
         case .Label:

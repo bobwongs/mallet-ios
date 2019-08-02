@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CodeEditorController: UIViewController {
+class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     enum EditorMode {
         case Text
@@ -21,25 +21,14 @@ class CodeEditorController: UIViewController {
     var textCodeEditorController: TextCodeEditorController!
     var visualCodeEditorController: VisualCodeEditorController!
 
-    var uiType: UIType?
-    var uiData: UIData?
+    var ui: UIView!
+
+    var uiType: UIType!
+    var uiData: EditorUIData!
 
     var editorMode = EditorMode.Text
 
     var codeStr = ""
-
-    /*
-    init(uiType: UIType, uiData: UIData) {
-        self.uiType = uiType
-        self.uiData = uiData
-
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    */
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,11 +47,32 @@ class CodeEditorController: UIViewController {
         }
     }
 
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is UIEditorController {
+            switch uiType! {
+            case .Button:
+                guard  let button = ui as? EditorUIButton else {
+                    print("This is not a button")
+                    fatalError()
+                }
+
+                button.tap = codeStr
+
+            default:
+                break
+            }
+        }
+    }
+
     func initEditorView() {
         self.navigationItem.title = "Code"
+
+        navigationController?.delegate = self
     }
 
     func initEditor() {
+        uiType = uiData.uiType
+
         switchEditorModeTo(mode: .Text)
     }
 

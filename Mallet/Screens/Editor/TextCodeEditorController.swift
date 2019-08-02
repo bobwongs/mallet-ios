@@ -9,10 +9,13 @@
 import UIKit
 
 class TextCodeEditorController: UIViewController, UITextViewDelegate {
+
     @IBOutlet weak var editorArea: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        editorArea.delegate = self
     }
 
 
