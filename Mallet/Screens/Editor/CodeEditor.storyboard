@@ -93,6 +93,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KwJ-XY-OdM"/>
                     </view>
+                    <connections>
+                        <outlet property="editorArea" destination="PQO-40-cUl" id="daO-3H-cYq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bte-M8-NoI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

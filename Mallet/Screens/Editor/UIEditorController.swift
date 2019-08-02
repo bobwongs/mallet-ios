@@ -167,11 +167,31 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
 
-        guard let controller = storyboard.instantiateInitialViewController() as? CodeEditorController else {
+        guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
             fatalError()
         }
 
-        navigationController?.pushViewController(controller, animated: true)
+        guard  let uiData = sender.view as? EditorUIData else {
+            print("This is not UI")
+            fatalError()
+        }
+
+        switch uiData.uiType {
+        case .Label:
+            codeEditorController.codeStr = ""
+        case .Button:
+            guard  let button = sender.view as? EditorUIButton else {
+                print("This is not a button")
+                fatalError()
+            }
+
+            //TODO:
+            codeEditorController.codeStr = button.tap
+        case .Switch:
+            codeEditorController.codeStr = ""
+        }
+
+        navigationController?.pushViewController(codeEditorController, animated: true)
     }
 
     @objc func selectUI(_ sender: UITapGestureRecognizer) {

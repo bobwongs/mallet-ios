@@ -94,6 +94,8 @@ public class EditorUIButton: AppUIButton, EditorUIData {
     var uiID: Int
     var uiName: String
 
+    var tap = ""
+
     init(uiID: Int, uiName: String) {
         self.uiID = uiID
         self.uiName = uiName

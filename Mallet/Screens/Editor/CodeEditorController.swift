@@ -18,10 +18,15 @@ class CodeEditorController: UIViewController {
     @IBOutlet weak var TextCodeEditorView: UIView!
     @IBOutlet weak var VisualCodeEditorView: UIView!
 
+    var textCodeEditorController: TextCodeEditorController!
+    var visualCodeEditorController: VisualCodeEditorController!
+
     var uiType: UIType?
     var uiData: UIData?
 
     var editorMode = EditorMode.Text
+
+    var codeStr = ""
 
     /*
     init(uiType: UIType, uiData: UIData) {
@@ -39,27 +44,50 @@ class CodeEditorController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "Code"
-
+        initEditorView()
         initEditor()
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let textCodeEditorController = segue.destination as? TextCodeEditorController {
+            self.textCodeEditorController = textCodeEditorController
+        }
+
+        if let visualCodeEditorController = segue.destination as? VisualCodeEditorController {
+            self.visualCodeEditorController = visualCodeEditorController
+        }
+    }
+
+    func initEditorView() {
+        self.navigationItem.title = "Code"
+    }
+
     func initEditor() {
-        hideVisualCodeEditorView()
-        showTextCodeEditorView()
+        switchEditorModeTo(mode: .Text)
     }
 
     func switchEditorMode() {
-        if editorMode == EditorMode.Text {
+        if editorMode == .Text {
+            switchEditorModeTo(mode: .Visual)
+        } else {
+            switchEditorModeTo(mode: .Text)
+        }
+    }
+
+    func switchEditorModeTo(mode: EditorMode) {
+        if mode == .Visual {
             editorMode = EditorMode.Visual
 
             hideTextCodeEditorView()
             showVisualCodeEditorView()
+
         } else {
             editorMode = EditorMode.Text
 
             hideVisualCodeEditorView()
             showTextCodeEditorView()
+
+            textCodeEditorController.editorArea.text = codeStr
         }
     }
 
