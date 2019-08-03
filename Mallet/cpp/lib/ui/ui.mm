@@ -18,7 +18,5 @@ var setUIText(std::vector<var> &args)
 
     [[AppRunner alloc] SetUITextWithId:getIntValue(args[0]) text:text];
 
-    printf("@@%d\n",getIntValue(args[0]));
-
     return 0;
 }

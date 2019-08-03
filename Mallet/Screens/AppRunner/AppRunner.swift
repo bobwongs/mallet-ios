@@ -42,8 +42,6 @@ class AppRunner: UIViewController {
     public func SetUIText(id: Int, text: String) {
         let appRunner = topViewController() as! AppRunner
 
-        print(id)
-
         let typeOfUI = type(of: appRunner.appUI[id]!)
 
         if typeOfUI == AppButton.self {
