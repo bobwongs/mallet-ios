@@ -11,6 +11,7 @@
 #define run_h
 
 #include "common.hpp"
+#include "cast.hpp"
 #include "cpp_func_manager.hpp"
 
 class Run

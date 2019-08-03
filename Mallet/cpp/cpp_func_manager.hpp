@@ -10,6 +10,7 @@
 #define cpp_func_manager_h
 
 #include "common.hpp"
+#include "cast.hpp"
 
 class CppFuncManager
 {
