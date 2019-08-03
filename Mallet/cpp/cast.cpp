@@ -36,17 +36,17 @@ int getIntValue(var &variable)
 
     if (std::holds_alternative<double>(variable))
     {
-        return 0;
+        return (int)std::get<double>(variable);
     }
 
     if (std::holds_alternative<bool>(variable))
     {
-        return 0;
+        return std::get<bool>(variable) ? 1 : 0;
     }
 
     if (std::holds_alternative<std::string>(variable))
     {
-        return 0;
+        return (int)strtol(std::get<std::string>(variable).c_str(), NULL, 10);
     }
 
     return 0;
