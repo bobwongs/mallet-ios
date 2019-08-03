@@ -14,7 +14,7 @@
 		0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
 		0E4288A922F590E2005CF2BF /* cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288A722F590E2005CF2BF /* cast.cpp */; };
-		0E4288AF22F59ABD005CF2BF /* lib in Resources */ = {isa = PBXBuildFile; fileRef = 0E4288AE22F59ABD005CF2BF /* lib */; };
+		0E4288B622F59D28005CF2BF /* ui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288B522F59D28005CF2BF /* ui.cpp */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */; };
 		0E971B6322D646F000C45B53 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* convert.cpp */; };
@@ -66,7 +66,8 @@
 		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
 		0E4288A722F590E2005CF2BF /* cast.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cast.cpp; sourceTree = "<group>"; };
 		0E4288A822F590E2005CF2BF /* cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cast.hpp; sourceTree = "<group>"; };
-		0E4288AE22F59ABD005CF2BF /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; path = lib; sourceTree = "<group>"; };
+		0E4288B422F59D28005CF2BF /* ui.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ui.hpp; sourceTree = "<group>"; };
+		0E4288B522F59D28005CF2BF /* ui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ui.cpp; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_func_manager.cpp; sourceTree = "<group>"; };
 		0E971B6222D646F000C45B53 /* convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = convert.cpp; sourceTree = "<group>"; };
@@ -175,6 +176,23 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
+		0E4288B022F59CEA005CF2BF /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				0E4288B722F59D36005CF2BF /* ui */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		0E4288B722F59D36005CF2BF /* ui */ = {
+			isa = PBXGroup;
+			children = (
+				0E4288B522F59D28005CF2BF /* ui.cpp */,
+				0E4288B422F59D28005CF2BF /* ui.hpp */,
+			);
+			path = ui;
+			sourceTree = "<group>";
+		};
 		0EC33343226E0B3C005B968A /* AppRunner */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,7 +270,7 @@
 		0EF478D6226B7A88007315DB /* cpp */ = {
 			isa = PBXGroup;
 			children = (
-				0E4288AE22F59ABD005CF2BF /* lib */,
+				0E4288B022F59CEA005CF2BF /* lib */,
 				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
 				0EF478DD226B7AEB007315DB /* cpp.hpp */,
 				0E9F3DA522F191250013659C /* cpp_func_manager.hpp */,
@@ -386,7 +404,6 @@
 			files = (
 				0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */,
 				0E07A15522B47FA200A848C2 /* SPEC.md in Resources */,
-				0E4288AF22F59ABD005CF2BF /* lib in Resources */,
 				0EF478B3226B78CE007315DB /* LaunchScreen.storyboard in Resources */,
 				0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */,
 				0EF478AE226B78CD007315DB /* Main.storyboard in Resources */,
@@ -437,6 +454,7 @@
 				0EA6645E22748F780017A016 /* cpp2objcpp.mm in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
+				0E4288B622F59D28005CF2BF /* ui.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
