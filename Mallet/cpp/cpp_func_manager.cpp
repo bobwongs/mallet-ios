@@ -8,7 +8,7 @@
 
 #include "cpp_func_manager.hpp"
 
-#include "./lib/ui.hpp"
+#include "./lib/ui/ui.hpp"
 
 CppFuncManager::CppFuncManager()
 {

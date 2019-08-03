@@ -9,7 +9,8 @@
 #ifndef ui_hpp
 #define ui_hpp
 
-#include "../common.hpp"
+#include "../../common.hpp"
+#include "../../cast.hpp"
 
 var setUIText(std::vector<var> &args);
 

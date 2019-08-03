@@ -40,17 +40,19 @@ class AppRunner: UIViewController {
     }
 
     public func SetUIText(id: Int, text: String) {
-        let runApp = topViewController() as! AppRunner
+        let appRunner = topViewController() as! AppRunner
 
-        let typeOfUI = type(of: runApp.appUI[id]!)
+        print(id)
+
+        let typeOfUI = type(of: appRunner.appUI[id]!)
 
         if typeOfUI == AppButton.self {
-            let button = runApp.appUI[id] as! UIButton
+            let button = appRunner.appUI[id] as! UIButton
             button.setTitle(text, for: .normal)
             button.sizeToFit()
         }
         if typeOfUI == AppLabel.self {
-            let label = runApp.appUI[id] as! UILabel
+            let label = appRunner.appUI[id] as! UILabel
             label.text = text
             label.sizeToFit()
         }
