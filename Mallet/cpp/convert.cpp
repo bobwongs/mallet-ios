@@ -290,20 +290,33 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         int address;
 
-        if (isGlobalVariable[code[firstCodeIndex]])
+        if (isSharedVariable[code[firstCodeIndex]])
         {
-            address = globalVariableAddress[code[firstCodeIndex]];
+            address = sharedVariableAddress[code[firstCodeIndex]];
+
+            if (convert)
+                AddPushGlobalCode(address);
         }
         else
         {
-            if (variableAddresses[code[firstCodeIndex]] == 0)
-                printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+            if (isGlobalVariable[code[firstCodeIndex]])
+            {
+                if (globalVariableAddress[code[firstCodeIndex]] == 0)
+                    printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+                else
+                    address = globalVariableAddress[code[firstCodeIndex]];
+            }
             else
-                address = variableAddresses[code[firstCodeIndex]];
-        }
+            {
+                if (variableAddresses[code[firstCodeIndex]] == 0)
+                    printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+                else
+                    address = variableAddresses[code[firstCodeIndex]];
+            }
 
-        if (convert)
-            AddPushCode(address, isGlobalVariable[code[firstCodeIndex]]);
+            if (convert)
+                AddPushCode(address, isGlobalVariable[code[firstCodeIndex]]);
+        }
     }
 
     //! Delete
@@ -730,15 +743,23 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else if (variableType[code[codeIndex]] != 0)
         {
-            int addressType = -1;
-            int type = variableType[code[codeIndex]];
             int address = variableAddresses[code[codeIndex]];
 
-            AddPushAddressCode(address, isGlobalVariable[code[codeIndex]]);
+            AddPushAddressCode(address, false);
 
             codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
 
             AddCmdCode(SET_VARIABLE, 2);
+        }
+        else if (isSharedVariable[code[codeIndex]])
+        {
+            int address = sharedVariableAddress[code[codeIndex]];
+
+            AddPushAddressCode(address, true);
+
+            codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+
+            AddCmdCode(SET_GLOBAL_VARIABLE, 2);
         }
         else if (funcNames.count(token) > 0 || cppFuncNames.count(token) > 0)
         {
@@ -863,19 +884,35 @@ std::string Convert::ConvertCode(std::string codeStr)
 
     code = SplitCode(codeStr);
 
-    ListFunction();
-    ListCppFunction();
-
     for (int codeIndex = 0; codeIndex < code.size(); codeIndex++)
     {
         DeclareConstant(codeIndex);
     }
 
+    ListCppFunction();
+    ListFunction();
+
+    //int initFuncID = funcIDs[{"init", 0}];
+
     for (int funcID = 0; funcID < funcStartIndexes.size(); funcID++)
     {
         ClearLocalVariable();
 
-        funcBytecodeStartIndexes.push_back(bytecodeIndex);
+        if (funcID == 0)
+            funcBytecodeStartIndexes.push_back(0);
+        else
+            funcBytecodeStartIndexes.push_back(bytecodeIndex);
+
+        /*
+       if (funcID == initFuncID)
+        {
+            for (int i = 0; i < globalVariableDeclarationByteCode.size(); i++)
+            {
+                bytecode[bytecodeIndex] = globalVariableDeclarationByteCode[i];
+                bytecodeIndex++;
+            }
+        }
+        */
 
         for (int argIndex = 0; argIndex < funcArgAddresses[funcID].size(); argIndex++)
         {
@@ -997,6 +1034,30 @@ void Convert::ListFunction()
             isFuncExists[newFuncData] = true;
             funcID++;
         }
+        else if (code[codeIndex] == "var")
+        {
+            std::string varName = code[codeIndex + 1];
+
+            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            {
+                printf("The variable %s is already declared\n", varName.c_str());
+            }
+
+            sharedVariableNum++;
+            sharedVariableAddress[varName] = sharedVariableNum;
+
+            isSharedVariable[varName] = true;
+
+            int address = sharedVariableNum;
+
+            codeIndex += 3;
+
+            AddPushAddressCode(sharedVariableAddress[varName], true);
+
+            codeIndex += ConvertFormula(codeIndex, 0, true).codeSize;
+
+            AddCmdCode(SET_GLOBAL_VARIABLE, 2);
+        }
         else
         {
             printf("This code is broken #%d\n", codeIndex);
@@ -1031,26 +1092,24 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
         return -1;
     }
 
-    if (isGlobal)
-    {
-        globalVariableType[name] = GLOBAL_VARIABLE;
+    variableType[name] = VARIABLE;
 
-        globalVariableNum++;
-        globalVariableAddress[name] = globalVariableNum;
+    variableNum++;
+    variableAddresses[name] = variableNum;
 
-        return globalVariableNum;
-    }
-    else
-    {
-        variableType[name] = VARIABLE;
+    isGlobalVariable[name] = isGlobal;
 
-        variableNum++;
-        variableAddresses[name] = variableNum;
-
-        return variableNum;
-    }
+    return variableNum;
 
     return -1;
+}
+
+bool Convert::checkVariableOrFuncName(const std::string name)
+{
+    return variableType[name] == 0 ||
+           globalVariableType[name] == 0 ||
+           funcNames.count(name) == 0 ||
+           cppFuncNames.count(name) == 0;
 }
 
 int Convert::TypeName2ID(const std::string typeName)
@@ -1131,6 +1190,15 @@ void Convert::AddPushCode(int address, bool absolute)
     AddCode(absolute ? 1 : 0);
 }
 
+void Convert::AddPushGlobalCode(int address)
+{
+    AddCode(CODE_BEGIN);
+    AddCode(PUSH_GLOBAL_VARIABLE);
+    AddCode(0);
+    AddCode(address);
+    AddCode(1);
+}
+
 void Convert::AddPushAddressCode(int address, bool absolute)
 {
     AddCode(CODE_BEGIN);
@@ -1172,6 +1240,10 @@ void Convert::InitConverter()
     globalVariableType.clear();
 
     variableAddresses.clear();
+
+    sharedVariableNum = 0;
+    sharedVariableAddress = std::unordered_map<std::string, int>();
+    isSharedVariable = std::unordered_map<std::string, bool>();
 
     globalVariableNum = 4;
 }

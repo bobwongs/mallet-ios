@@ -105,7 +105,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
             break;
         }
 
-        if (cmd == PUSH || cmd == PUSH_ADDRESS)
+        if (cmd == PUSH || cmd == PUSH_ADDRESS || cmd == PUSH_GLOBAL_VARIABLE)
         {
             if (stackIndex >= stackSize)
             {
@@ -133,8 +133,10 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
             if (cmd == PUSH)
                 stack[stackIndex] = variable[address];
-            else
+            else if (cmd == PUSH_ADDRESS)
                 stack[stackIndex] = address;
+            else if (cmd == PUSH_GLOBAL_VARIABLE)
+                stack[stackIndex] = globalVariable[address];
 
             bytecodeIndex += pushCodeSize;
         }
@@ -289,6 +291,11 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                 case SET_VARIABLE:
                     variable[getIntValue(*topStackData[0])] = *topStackData[1];
+
+                    break;
+
+                case SET_GLOBAL_VARIABLE:
+                    globalVariable[getIntValue(*topStackData[0])] = *topStackData[1];
 
                     break;
 

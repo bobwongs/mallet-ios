@@ -5,11 +5,11 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
     std::unordered_map<int, std::string> id2str = {
         {PUSH, "Push"},
         {PUSH_ADDRESS, "PushAddress"},
+        {PUSH_GLOBAL_VARIABLE, "PushGlobalVariable"},
         {CALL_CPP_FUNC, "CallCppFunc"},
         {CALL_MALLET_FUNC, "CallMalletFunc"},
-        {SET_NUMBER_VARIABLE, "SetNumberVariable"},
-        {SET_STRING_VARIABLE, "SetStringVariable"},
         {SET_VARIABLE, "SetVariable"},
+        {SET_GLOBAL_VARIABLE, "SetGlobalVariable"},
         {PRINT_NUMBER, "PrintNumber"},
         {PRINT_STRING, "PrintString"},
         {JUMP, "Jump"},
@@ -20,11 +20,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {NUMBER_GLOBAL_TYPE, "NumberGlobal"},
         {STRING_GLOBAL_TYPE, "StringGlobal"},
         {BOOL_GLOBAL_TYPE, "BoolGlobal"},
-        {NUMBER_TMP_TYPE, "NumberTmp"},
-        {STRING_TMP_TYPE, "StringTmp"},
-        {BOOL_TMP_TYPE, "BoolTmp"},
         {VOID_TYPE, "Void"},
-        {INT_TYPE, "Int"},
         {NUMBER_ADDRESS_TYPE, "NumberAddress"},
         {STRING_ADDRESS_TYPE, "StringAddress"},
         {BOOL_ADDRESS_TYPE, "BoolAddress"},
@@ -61,7 +57,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
 
         bytecodeString += "\x1b[32m#" + std::to_string(i) + ":\x1b[39m ";
 
-        if (bytecode[i + 1] == PUSH || bytecode[i + 1] == PUSH_ADDRESS)
+        if (bytecode[i + 1] == PUSH || bytecode[i + 1] == PUSH_ADDRESS || bytecode[i + 1] == PUSH_GLOBAL_VARIABLE)
         {
             bytecodeString += "\x1b[33m" + id2str[bytecode[i + 1]] + "\x1b[39m ";
             //bytecodeString += "\x1b[35m" + id2str[bytecode[i + 3]] + "\x1b[39m ";

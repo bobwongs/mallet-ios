@@ -17,6 +17,8 @@ class Convert
 public:
     std::string ConvertCode(std::string codeStr);
 
+    std::vector<int> bytecode;
+
 private:
     struct funcData
     {
@@ -40,6 +42,8 @@ private:
     void AddCmdCode(int code, int argNum);
 
     void AddPushCode(int address, bool absolute);
+
+    void AddPushGlobalCode(int address);
 
     void AddPushAddressCode(int address, bool absolute);
 
@@ -87,6 +91,8 @@ private:
 
     int Type2AddressType(const int typeID);
 
+    bool checkVariableOrFuncName(const std::string name);
+
     std::string Code2Str();
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
@@ -125,14 +131,16 @@ private:
 
     std::vector<std::string> code;
 
-    std::vector<std::vector<int>> bytecodes;
-    std::unordered_map<std::string, int> uiName;
-
     std::vector<int> funcTypes;
 
-    std::vector<int> bytecode;
     int bytecodeIndex;
     int bytecodeSize;
+
+    std::vector<int> globalVariableDeclarationByteCode;
+
+    int sharedVariableNum;
+    std::unordered_map<std::string, int> sharedVariableAddress;
+    std::unordered_map<std::string, bool> isSharedVariable;
 };
 
 #endif /* convert_hpp */
