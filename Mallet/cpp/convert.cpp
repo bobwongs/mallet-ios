@@ -91,7 +91,6 @@ std::vector<std::string> Convert::SplitCode(std::string codeStr)
 
         if (codeStr[i] == '"')
         {
-            codeStr += '"';
             i++;
 
             std::string str = "\"";
@@ -814,7 +813,7 @@ std::string getInitialValueStr(var value)
     if (std::holds_alternative<std::string>(value))
     {
         str += "STRING\n";
-        str += "\"" + std::get<std::string>(value) + "\"";
+        str += std::get<std::string>(value);
     }
 
     str += "\n";
@@ -883,6 +882,11 @@ std::string Convert::ConvertCode(std::string codeStr)
     InitConverter();
 
     code = SplitCode(codeStr);
+
+    /*
+    for (int i = 0; i < code.size(); i++)
+        printf("#%d: %s\n", i, code[i].c_str());
+    */
 
     for (int codeIndex = 0; codeIndex < code.size(); codeIndex++)
     {
@@ -1061,6 +1065,7 @@ void Convert::ListFunction()
         else
         {
             printf("This code is broken #%d\n", codeIndex);
+            puts(code[codeIndex].c_str());
             break;
         }
     }
