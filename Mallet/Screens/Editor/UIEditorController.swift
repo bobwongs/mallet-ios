@@ -410,12 +410,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
             switch editorUIData.uiType {
             case .Label:
-                break
+                funcID += 1
             case .Button:
                 funcIDs.append(funcID)
                 funcID += 1
-
             case .Switch:
+                funcID += 1
                 break
             }
 
@@ -432,7 +432,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
             uiDataTable.append(uiData)
             code += """
-                    func AA@\(editorUIData.uiID) ()
+                    func @\(editorUIData.uiID)_ ()
                     {
                     \(getUIScript(uiType: editorUIData.uiType, ui: ui.value))
                     }
