@@ -569,6 +569,8 @@ void Run::InitRunner(std::string codeDataStr)
             return;
         }
     }
+
+    RunCode(0, std::vector<var>(0));
 }
 
 Run::Run()

@@ -9,15 +9,12 @@
 import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+    @IBOutlet var editorView: UIView!
+    @IBOutlet var uiTable: UITableView!
+    @IBOutlet var appScreenParent: UIView!
 
-    @IBOutlet weak var editorView: UIView!
-    @IBOutlet weak var uiTable: UITableView!
-    @IBOutlet weak var appScreenParent: UIView!
-
-    @IBOutlet weak var UINameTextField: UITextField!
-    @IBOutlet weak var UITextTextField: UITextField!
-
-    var appData: AppData!
+    @IBOutlet var UINameTextField: UITextField!
+    @IBOutlet var UITextTextField: UITextField!
 
     var appScreen: UIView = UIView()
 
@@ -34,6 +31,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     let uiTypeName = [UIType.Label: "Label",
                       UIType.Button: "Button",
                       UIType.Switch: "Switch"]
+
+    var initialCode = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,14 +78,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         UINameTextField.text = ""
         UITextTextField.text = ""
 
-        UINameTextField.addTarget(self, action: #selector(self.setUINameToValueOfTextField), for: .editingChanged)
-        UITextTextField.addTarget(self, action: #selector(self.setUITextToValueOfTextField), for: .editingChanged)
+        UINameTextField.addTarget(self, action: #selector(setUINameToValueOfTextField), for: .editingChanged)
+        UITextTextField.addTarget(self, action: #selector(setUITextToValueOfTextField), for: .editingChanged)
     }
 
     func generateScreen() {
         if let uiData = self.uiData {
             for uiData in uiData {
-
                 let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
                 appScreen.addSubview(ui)
 
@@ -107,11 +105,11 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return uiTypeNum
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
@@ -184,12 +182,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         case .Label:
             codeEditorController.codeStr = ""
         case .Button:
-            guard  let button = sender.view as? EditorUIButton else {
+            guard let button = sender.view as? EditorUIButton else {
                 print("This is not a button")
                 fatalError()
             }
 
-            //TODO:
+            // TODO:
             codeEditorController.codeStr = button.tap
         case .Switch:
             codeEditorController.codeStr = ""
@@ -224,7 +222,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             }
 
             if superView != appScreen {
-                //画面にUIを追加
+                // 画面にUIを追加
 
                 let uiType = uiData.uiType
                 let uiOnTable = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
@@ -255,18 +253,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 uiDictionary[uiNum] = ui
             }
 
-
             UINameTextField.text = (ui as! EditorUIData).uiName
             UITextTextField.text = getUIText(uiType: uiData.uiType, ui: ui)
 
             selectedUIID = uiData.uiID
         }
 
-        let move = sender.translation(in: self.view)
+        let move = sender.translation(in: view)
         sender.view?.center.x += move.x
         sender.view?.center.y += move.y
 
-        sender.setTranslation(CGPoint.zero, in: self.view)
+        sender.setTranslation(CGPoint.zero, in: view)
     }
 
     func generateEditorUI(uiType: UIType, uiID: Int, uiName: String) -> UIView {
@@ -296,8 +293,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         uiData.uiName = textField.text ?? ""
     }
 
-
-    @objc func setUITextToValueOfTextField(textField: UITextField) {
+    @objc func setUITextToValueOfTextField(textField _: UITextField) {
         if selectedUIID < 0 {
             return
         }
@@ -339,13 +335,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    func getUIValue(uiType: UIType, ui: UIView) -> Int {
-        //TODO:
+    func getUIValue(uiType _: UIType, ui _: UIView) -> Int {
+        // TODO:
         return 0
     }
 
     func getUIScript(uiType: UIType, ui: UIView) -> String {
-
         var script = ""
 
         switch uiType {
@@ -353,7 +348,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             break
 
         case .Button:
-            guard  let button = ui as? EditorUIButton else {
+            guard let button = ui as? EditorUIButton else {
                 fatalError()
             }
 
@@ -361,22 +356,48 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         case .Switch:
             break
-
         }
 
         return script
     }
 
-    @IBAction func runButton(_ sender: Any) {
-        var uiDataTable = [UIData]()
+    func getUINameDeclarationCode() -> String {
+        var code = """
 
-        var code = ""
-
-        var funcID = 0
-
-        uiDictionary.sorted(by: { $0.key < $1.key })
+                   """
 
         for ui in uiDictionary {
+            guard let editorUIData = ui.value as? EditorUIData else {
+                fatalError()
+            }
+
+            code += """
+                    var \(editorUIData.uiName) = \(editorUIData.uiID)
+
+                    """
+        }
+
+        return code
+    }
+
+    @IBAction func runButton(_: Any) {
+        var uiDataTable = [UIData]()
+
+        var funcID = 1
+
+        var code = """
+                   \(getUINameDeclarationCode())
+                   func init()
+                   {
+                   \(initialCode)
+                   }
+
+                   """
+
+
+        let sortedUIDictionary = uiDictionary.sorted(by: { $0.key < $1.key })
+
+        for ui in sortedUIDictionary {
             guard let editorUIData = ui.value as? EditorUIData else {
                 fatalError()
             }
@@ -410,15 +431,23 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             )
 
             uiDataTable.append(uiData)
-            code += getUIScript(uiType: editorUIData.uiType, ui: ui.value)
+            code += """
+                    func AA@\(editorUIData.uiID) ()
+                    {
+                    \(getUIScript(uiType: editorUIData.uiType, ui: ui.value))
+                    }
+
+                    """
         }
+
+        print(code)
 
         let codeData = ConverterObjCpp().convertCode(code) ?? ""
 
         let appData = AppData(uiData: uiDataTable, code: codeData)
 
         do {
-            let jsonData = try  JSONEncoder().encode(appData)
+            let jsonData = try JSONEncoder().encode(appData)
 
             let jsonStr = String(bytes: jsonData, encoding: .utf8)
 
@@ -434,6 +463,5 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         } catch let error {
             print(error)
         }
-
     }
 }

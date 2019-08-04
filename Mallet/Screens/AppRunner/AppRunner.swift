@@ -79,9 +79,9 @@ class AppRunner: UIViewController {
             fatalError()
         }
 
-        runner.initRunner(codeStr)
-
         GenerateAppScreen()
+
+        runner.initRunner(codeStr)
     }
 
     public func RunCode(id: Int) {
