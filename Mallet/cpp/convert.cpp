@@ -823,7 +823,7 @@ std::string getInitialValueStr(var value)
 
 std::string Convert::Code2Str()
 {
-    std::string str = "#START\n\n";
+    std::string str = "#START\n";
 
     str += "#CODE\n";
     for (int code : bytecode)
@@ -832,7 +832,7 @@ std::string Convert::Code2Str()
     }
     str += "#CODE_END\n";
 
-    str += "\n#INITIAL_VALUE\n";
+    str += "#INITIAL_VALUE\n";
     for (auto value : variableInitialValues)
     {
         str += std::to_string(value.first) + "\n";
@@ -840,14 +840,14 @@ std::string Convert::Code2Str()
     }
     str += "#INITIAL_VALUE_END\n";
 
-    str += "\n#FUNC_START_INDEXES\n";
+    str += "#FUNC_START_INDEXES\n";
     for (int index : funcBytecodeStartIndexes)
     {
         str += std::to_string(index) + "\n";
     }
     str += "#FUNC_START_INDEXES_END\n";
 
-    str += "\n#ARG_ADDRESSES\n";
+    str += "#ARG_ADDRESSES\n";
     for (int funcID = 0; funcID < funcArgAddresses.size(); funcID++)
     {
         str += std::to_string(funcArgAddresses[funcID].size()) + "\n";
@@ -856,23 +856,21 @@ std::string Convert::Code2Str()
         {
             str += std::to_string(address) + "\n";
         }
-
-        str += "\n";
     }
     str += "#ARG_ADDRESSES_END\n";
 
-    str += "\n#MEMORY_SIZE\n";
+    str += "#MEMORY_SIZE\n";
     for (int size : memorySize)
     {
         str += std::to_string(size) + "\n";
     }
     str += "#MEMORY_SIZE_END\n";
 
-    str += "\n#GLOBAL_VARIABLE_NUM\n";
+    str += "#GLOBAL_VARIABLE_NUM\n";
     str += std::to_string(globalVariableNum) + "\n";
     str += "#GLOBAL_VARIABLE_NUM_END\n";
 
-    str += "\n#END\n";
+    str += "#END\n";
 
     return str;
 }

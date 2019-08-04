@@ -443,8 +443,7 @@ void Run::InitRunner(std::string codeDataStr)
             index++;
         }
 
-        if (str != "")
-            codeData.push_back(str);
+        codeData.push_back(str);
 
         index++;
     }
@@ -504,6 +503,7 @@ void Run::InitRunner(std::string codeDataStr)
                 else
                 {
                     printf("failed\n");
+                    puts(varType.c_str());
                     bytecode.clear();
                     return;
                 }
