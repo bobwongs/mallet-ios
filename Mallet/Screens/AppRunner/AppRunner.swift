@@ -10,8 +10,7 @@ import UIKit
 
 @objcMembers
 class AppRunner: UIViewController, UINavigationControllerDelegate {
-
-    @IBOutlet weak var appView: UIView!
+    @IBOutlet var appView: UIView!
 
     public var appData: String?
 
@@ -33,7 +32,6 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
     }
 
     private func GenerateAppScreen() {
-
         guard let uiData = uiData else {
             fatalError()
         }
@@ -42,21 +40,23 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
     }
 
     public func SetUIText(id: Int, text: String) {
-        guard let appRunner = topViewController() as? AppRunner else {
-            return
-        }
+        DispatchQueue.main.async {
+            guard let appRunner = self.topViewController() as? AppRunner else {
+                return
+            }
 
-        let typeOfUI = type(of: appRunner.appUI[id]!)
+            let typeOfUI = type(of: appRunner.appUI[id]!)
 
-        if typeOfUI == AppButton.self {
-            let button = appRunner.appUI[id] as! UIButton
-            button.setTitle(text, for: .normal)
-            button.sizeToFit()
-        }
-        if typeOfUI == AppLabel.self {
-            let label = appRunner.appUI[id] as! UILabel
-            label.text = text
-            label.sizeToFit()
+            if typeOfUI == AppButton.self {
+                let button = appRunner.appUI[id] as! UIButton
+                button.setTitle(text, for: .normal)
+                button.sizeToFit()
+            }
+            if typeOfUI == AppLabel.self {
+                let label = appRunner.appUI[id] as! UILabel
+                label.text = text
+                label.sizeToFit()
+            }
         }
     }
 
@@ -79,7 +79,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
             print(error)
         }
 
-        guard  let codeStr = codeStr else {
+        guard let codeStr = codeStr else {
             fatalError()
         }
 
@@ -88,9 +88,15 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         runner.initRunner(codeStr)
     }
 
-    public func RunCode(id: Int) {
+    func CallFunc(id: Int) {
         runner.runCode(Int32(id))
     }
+
+    /*
+     public func RunCode(id: Int) {
+     runner.runCode(Int32(id))
+     }
+     */
 
     func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
@@ -107,7 +113,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         return controller
     }
 
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+    func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
         if viewController is UIEditorController {
             runner.terminateRunner()
         }

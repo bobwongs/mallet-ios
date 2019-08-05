@@ -31,8 +31,8 @@ class AppButton: AppUIButton {
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
-        let runApp = AppRunner().topViewController() as! AppRunner
-        runApp.appUI[uiData.uiID] = self
+        let appRunner = AppRunner().topViewController() as! AppRunner
+        appRunner.appUI[uiData.uiID] = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -40,8 +40,12 @@ class AppButton: AppUIButton {
     }
 
     @objc func onButtonClick(_ sender: UIButton) {
-        let runApp = AppRunner().topViewController() as! AppRunner
-        runApp.RunCode(id: onButtonClickID)
+        let appRunner = AppRunner().topViewController() as! AppRunner
+
+        DispatchQueue.global(qos: .default).async() {
+            appRunner.CallFunc(id: self.onButtonClickID)
+        }
+
     }
 
 }
