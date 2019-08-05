@@ -60,7 +60,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
     }
 
     int bytecodeIndex = funcStartIndexes[funcID];
-    int bytecodeSize = bytecode.size();
+    int bytecodeSize = (int)bytecode.size();
 
     bool error = false;
 
