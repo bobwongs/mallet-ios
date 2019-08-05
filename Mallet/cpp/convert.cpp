@@ -351,8 +351,6 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
 
     std::vector<std::string> operators;
 
-    int codeSize = 0;
-
     for (int operatorIndex = operatorNumber; operatorIndex < operatorsPriorities.size(); operatorIndex++)
     {
         parts.clear();
@@ -918,7 +916,6 @@ std::string Convert::ConvertCode(std::string codeStr)
 
         for (int argIndex = 0; argIndex < funcArgAddresses[funcID].size(); argIndex++)
         {
-            int type = funcArgTypes[funcID][argIndex];
             AddPushAddressCode(DeclareVariable(funcArgOriginalVariableNames[funcID][argIndex], false), false);
             AddPushCode(funcArgAddresses[funcID][argIndex], true);
 
@@ -1049,8 +1046,6 @@ void Convert::ListFunction()
             sharedVariableAddress[varName] = sharedVariableNum;
 
             isSharedVariable[varName] = true;
-
-            int address = sharedVariableNum;
 
             codeIndex += 3;
 
