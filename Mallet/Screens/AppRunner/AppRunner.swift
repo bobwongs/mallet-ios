@@ -9,7 +9,7 @@
 import UIKit
 
 @objcMembers
-class AppRunner: UIViewController {
+class AppRunner: UIViewController, UINavigationControllerDelegate {
 
     @IBOutlet weak var appView: UIView!
 
@@ -27,6 +27,8 @@ class AppRunner: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.delegate = self
+
         InitRunner()
     }
 
@@ -40,7 +42,9 @@ class AppRunner: UIViewController {
     }
 
     public func SetUIText(id: Int, text: String) {
-        let appRunner = topViewController() as! AppRunner
+        guard let appRunner = topViewController() as? AppRunner else {
+            return
+        }
 
         let typeOfUI = type(of: appRunner.appUI[id]!)
 
@@ -101,5 +105,11 @@ class AppRunner: UIViewController {
             return topViewController(controller: presented)
         }
         return controller
+    }
+
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is UIEditorController {
+            runner.terminateRunner()
+        }
     }
 }
