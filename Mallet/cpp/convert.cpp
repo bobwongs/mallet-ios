@@ -287,7 +287,7 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
     {
         //* Variable
 
-        int address;
+        int address = -1;
 
         if (isSharedVariable[code[firstCodeIndex]])
         {
@@ -301,14 +301,20 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
             if (isGlobalVariable[code[firstCodeIndex]])
             {
                 if (globalVariableAddress[code[firstCodeIndex]] == 0)
+                {
                     printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+                    return -1;
+                }
                 else
                     address = globalVariableAddress[code[firstCodeIndex]];
             }
             else
             {
                 if (variableAddresses[code[firstCodeIndex]] == 0)
+                {
                     printf("The variable %s is not declared!\n", code[firstCodeIndex].c_str());
+                    return -1;
+                }
                 else
                     address = variableAddresses[code[firstCodeIndex]];
             }
