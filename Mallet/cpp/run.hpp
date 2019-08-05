@@ -17,6 +17,8 @@
 class Run
 {
 public:
+    void Terminate();
+
     void InitRunner(std::string codeDataStr);
 
     var RunCode(int funcID, std::vector<var> args);
@@ -24,6 +26,8 @@ public:
     Run();
 
 private:
+    bool terminate;
+
     CppFuncManager cppFuncManager;
 
     std::vector<int> memorySize;

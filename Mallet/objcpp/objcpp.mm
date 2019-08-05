@@ -69,4 +69,9 @@
     runner->InitRunner(codeDataStrString);
 }
 
+- (void)TerminateRunner
+{
+    runner->Terminate();
+}
+
 @end

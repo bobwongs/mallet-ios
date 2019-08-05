@@ -22,6 +22,8 @@
 - (void)RunCode:(int)index;
 
 - (void)InitRunner:(NSString *)codeDataStr;
+
+- (void)TerminateRunner;
 @end
 
 #endif /* objcpp_h */

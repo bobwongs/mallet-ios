@@ -387,6 +387,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
         if (error)
             break;
+
+        if (terminate)
+            return -1;
     }
 
     if (stackIndex < 0)
@@ -570,7 +573,14 @@ void Run::InitRunner(std::string codeDataStr)
         }
     }
 
+    terminate = false;
+
     RunCode(0, std::vector<var>(0));
+}
+
+void Run::Terminate()
+{
+    terminate = true;
 }
 
 Run::Run()
