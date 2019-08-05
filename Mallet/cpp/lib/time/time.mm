@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <ModelIO/ModelIO.h>
 #include "time.hpp"
-//#include <unistd.h>
 
 var sleepForSeconds(std::vector<var> &args)
 {
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:getNumberValue(args[0])]];
+
+    double time = [[NSDate date] timeIntervalSince1970] + getNumberValue(args[0]);
+
+    while (time > [[NSDate date] timeIntervalSince1970]) {}
 
     return 0;
 }
