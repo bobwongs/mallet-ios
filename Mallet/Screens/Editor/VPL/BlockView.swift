@@ -147,8 +147,10 @@ class BlockView: UIView {
                 textField.backgroundColor = UIColor.white
                 textField.textAlignment = .center
                 textField.layer.cornerRadius = 5
-
                 textField.sizeToFit()
+
+                textField.autocapitalizationType = .none
+                textField.spellCheckingType = .no
 
                 width += textField.frame.width + 10
 
@@ -168,8 +170,10 @@ class BlockView: UIView {
                 textField.backgroundColor = UIColor.white
                 textField.textAlignment = .center
                 textField.layer.cornerRadius = 5
-
                 textField.sizeToFit()
+
+                textField.autocapitalizationType = .none
+                textField.spellCheckingType = .no
 
                 width += textField.frame.width + 10
 
