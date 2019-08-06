@@ -26,6 +26,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     var uiType: UIType!
     var uiData: EditorUIData!
 
+    let initialEditorMode = EditorMode.Text
+
     var editorMode = EditorMode.Text
 
     var codeStr = ""
@@ -48,6 +50,10 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if editorMode == .Visual {
+            codeStr = visualCodeEditorController.vplToCode()
+        }
+
         if viewController is UIEditorController {
             switch uiType! {
             case .Button:
@@ -73,6 +79,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     func initEditor() {
         uiType = uiData.uiType
 
+        editorMode = initialEditorMode
+
         switchEditorModeTo(mode: .Text)
     }
 
@@ -91,13 +99,18 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             hideTextCodeEditorView()
             showVisualCodeEditorView()
 
-        } else {
-            codeStr = visualCodeEditorController.vplToCode()
+        } else if mode == .Text {
+
+            if editorMode != initialEditorMode {
+                codeStr = visualCodeEditorController.vplToCode()
+            }
 
             editorMode = EditorMode.Text
 
             hideVisualCodeEditorView()
             showTextCodeEditorView()
+
+            print(codeStr)
 
             textCodeEditorController.editorArea.text = codeStr
         }

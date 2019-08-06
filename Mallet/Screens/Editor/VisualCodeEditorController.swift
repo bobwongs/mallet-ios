@@ -30,13 +30,16 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         BlockType.Print:
         BlockData(
                 blockType: .Print,
+                funcType: .Func,
                 funcName: "print",
                 contents: [BlockContentData(type: .Label, value: "Print", order: -1),
                            BlockContentData(type: .InputAll, value: "256", order: 0)],
                 indent: 0),
+
         BlockType.SetUIText:
         BlockData(
                 blockType: .SetUIText,
+                funcType: .Func,
                 funcName: "setUIText",
                 contents: [BlockContentData(type: .Label, value: "Set text of", order: -1),
                            BlockContentData(type: .InputSingleVariable, value: "Label1", order: 0),
@@ -44,15 +47,53 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                            BlockContentData(type: .InputAll, value: "512", order: 1)],
                 indent:
                 0),
+
         BlockType.Sleep:
         BlockData(
                 blockType: .Sleep,
+                funcType: .Func,
                 funcName: "sleep",
                 contents: [BlockContentData(type: .Label, value: "Wait", order: -1),
                            BlockContentData(type: .InputAll, value: "1", order: 0),
                            BlockContentData(type: .Label, value: "seconds", order: -1)],
                 indent:
-                0)
+                0),
+
+        BlockType.Assign:
+        BlockData(
+                blockType: .Assign,
+                funcType: .Assign,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "Set", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "foo", order: 0),
+                           BlockContentData(type: .Label, value: "to", order: -1),
+                           BlockContentData(type: .InputAll, value: "128", order: 1)],
+                indent:
+                0),
+
+        BlockType.Declare:
+        BlockData(
+                blockType: .Declare,
+                funcType: .Declare,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "Declare", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "foo", order: 0),
+                           BlockContentData(type: .Label, value: "(initial value:", order: -1),
+                           BlockContentData(type: .InputAll, value: "128", order: 1),
+                           BlockContentData(type: .Label, value: ")", order: -1)],
+                indent:
+                0),
+
+        BlockType.Repeat:
+        BlockData(
+                blockType: .Repeat,
+                funcType: .Bracket,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "repeat", order: -1),
+                           BlockContentData(type: .InputAll, value: "10", order: 0),
+                           BlockContentData(type: .Label, value: "times", order: -1)],
+                indent:
+                0),
     ]
 
     override func viewDidLoad() {
@@ -334,26 +375,51 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 fatalError()
             }
 
-            code += "\(blockData.funcName)("
-
             let args = blockView.args()
 
-            for argIndex in 0..<args.count {
-                switch args[argIndex].type {
-                case .InputAll:
-                    code += "\"\(args[argIndex].content)\""
-                case .InputSingleVariable:
-                    code += "\(args[argIndex].content)"
-                default:
-                    break
+            switch blockData.funcType {
+            case .Func:
+                code += "\(blockData.funcName)("
+
+                for argIndex in 0..<args.count {
+                    switch args[argIndex].type {
+                    case .InputAll:
+                        code += "\"\(args[argIndex].content)\""
+                    case .InputSingleVariable:
+                        code += "\(args[argIndex].content)"
+                    default:
+                        break
+                    }
+
+                    if argIndex != (args.count - 1) {
+                        code += ","
+                    }
                 }
 
-                if argIndex != (args.count - 1) {
-                    code += ","
+                code += ")\n"
+
+            case .Assign:
+                if args.count != 2 {
+                    continue
                 }
+
+                code += "\(args[0].content) = \"\(args[1].content)\""
+
+            case .Declare:
+                if args.count != 2 {
+                    continue
+                }
+
+                code += "var \(args[0].content) = \"\(args[1].content)\""
+
+            case .Bracket:
+
+                //TODO:
+
+                break
+
             }
 
-            code += ")\n"
         }
 
         print(code)

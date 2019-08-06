@@ -12,6 +12,16 @@ enum BlockType: CaseIterable {
     case Print
     case SetUIText
     case Sleep
+    case Assign
+    case Declare
+    case Repeat
+}
+
+enum FuncType {
+    case Func
+    case Assign
+    case Declare
+    case Bracket
 }
 
 enum BlockContentType {
@@ -28,12 +38,15 @@ struct BlockContentData {
 
 struct BlockData {
     let blockType: BlockType
+    let funcType: FuncType
     let funcName: String
     var contents: [BlockContentData]
     var indent: Int
 
-    init(blockType: BlockType, funcName: String, contents: [BlockContentData], indent: Int) {
+    init(blockType: BlockType, funcType: FuncType, funcName: String, contents: [BlockContentData], indent: Int) {
+
         self.blockType = blockType
+        self.funcType = funcType
         self.contents = contents
         self.funcName = funcName
         self.indent = indent
