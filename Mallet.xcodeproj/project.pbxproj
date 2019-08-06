@@ -19,6 +19,7 @@
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */; };
 		0E971B6322D646F000C45B53 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* convert.cpp */; };
+		0E9A958422F96DF900930215 /* BlockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A958322F96DF900930215 /* BlockData.swift */; };
 		0E9F3DA722F1C1890013659C /* EditorUIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F3DA622F1C1890013659C /* EditorUIData.swift */; };
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
 		0EAA0DC522F72C5600F5A051 /* time.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DC422F72C5600F5A051 /* time.mm */; };
@@ -28,7 +29,7 @@
 		0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3334A226E1226005B968A /* ScreenDataController.swift */; };
 		0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */; };
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
-		0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* Block.swift */; };
+		0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* BlockView.swift */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478A8226B78CD007315DB /* AppDelegate.swift */; };
 		0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478AA226B78CD007315DB /* HomeViewController.swift */; };
@@ -74,6 +75,7 @@
 		0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_func_manager.cpp; sourceTree = "<group>"; };
 		0E971B6222D646F000C45B53 /* convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = convert.cpp; sourceTree = "<group>"; };
 		0E971B6422D646F600C45B53 /* convert.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = convert.hpp; sourceTree = "<group>"; };
+		0E9A958322F96DF900930215 /* BlockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockData.swift; sourceTree = "<group>"; };
 		0E9F3DA422F191120013659C /* common.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = common.hpp; sourceTree = "<group>"; };
 		0E9F3DA522F191250013659C /* cpp_func_manager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp_func_manager.hpp; sourceTree = "<group>"; };
 		0E9F3DA622F1C1890013659C /* EditorUIData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorUIData.swift; sourceTree = "<group>"; };
@@ -86,7 +88,7 @@
 		0EC3334A226E1226005B968A /* ScreenDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenDataController.swift; sourceTree = "<group>"; };
 		0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
-		0EC9E82322E37AF700A9D6D9 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		0EC9E82322E37AF700A9D6D9 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
 		0EF478A5226B78CD007315DB /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,7 +222,8 @@
 		0EC9E82222E37AE600A9D6D9 /* VPL */ = {
 			isa = PBXGroup;
 			children = (
-				0EC9E82322E37AF700A9D6D9 /* Block.swift */,
+				0EC9E82322E37AF700A9D6D9 /* BlockView.swift */,
+				0E9A958322F96DF900930215 /* BlockData.swift */,
 			);
 			path = VPL;
 			sourceTree = "<group>";
@@ -448,7 +451,7 @@
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
-				0EC9E82422E37AF700A9D6D9 /* Block.swift in Sources */,
+				0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */,
 				0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */,
 				0EE5638422C3981A00F3F88C /* run.cpp in Sources */,
 				0EAA0DC522F72C5600F5A051 /* time.mm in Sources */,
@@ -459,6 +462,7 @@
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
 				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */,
+				0E9A958422F96DF900930215 /* BlockData.swift in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,
 				0E971B6322D646F000C45B53 /* convert.cpp in Sources */,
