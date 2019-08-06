@@ -250,7 +250,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
                 uiData.uiName = uiName
 
-                uiDictionary[uiNum] = ui
+                uiDictionary[uiData.uiID] = ui
             }
 
             UINameTextField.text = (ui as! EditorUIData).uiName
@@ -298,7 +298,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             return
         }
 
-        let uiData = uiDictionary[selectedUIID] as! EditorUIData
+        guard let uiData = uiDictionary[selectedUIID] as? EditorUIData else {
+            fatalError()
+        }
 
         setUIText(uiType: uiData.uiType, ui: uiDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
 
