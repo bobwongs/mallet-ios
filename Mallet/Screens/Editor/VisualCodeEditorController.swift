@@ -403,14 +403,14 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                     continue
                 }
 
-                code += "\(args[0].content) = \"\(args[1].content)\""
+                code += "\(args[0].content) = \"\(args[1].content)\"\n"
 
             case .Declare:
                 if args.count != 2 {
                     continue
                 }
 
-                code += "var \(args[0].content) = \"\(args[1].content)\""
+                code += "var \(args[0].content) = \"\(args[1].content)\"\n"
 
             case .Bracket:
 
