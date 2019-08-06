@@ -24,27 +24,41 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     let codeStackView = UIStackView()
 
-    var blockPos = [CGFloat]()
+    var blockViews = [Block]()
 
-    var blocks = [UIView]()
-
-    var blockData = [
+    var blocks: Dictionary<BlockType, BlockData> = [
+        BlockType.Print:
         BlockData(
-                contents: [BlockContentData(type: 0, value: "set"),
-                           BlockContentData(type: 1, value: "var"),
-                           BlockContentData(type: 0, value: "to"),
-                           BlockContentData(type: 1, value: "0"), ],
-                indent: 0
-        ),
+                blockType: .Print,
+                funcName: "print",
+                contents: [BlockContentData(type: .Label, value: "Print", order: -1),
+                           BlockContentData(type: .InputAll, value: "256", order: 0)],
+                indent: 0),
+        BlockType.SetUIText:
         BlockData(
-                contents: [BlockContentData(type: 0, value: "print"),
-                           BlockContentData(type: 1, value: "var"), ],
-                indent: 0
-        ),
+                blockType: .SetUIText,
+                funcName: "setUIText",
+                contents: [BlockContentData(type: .Label, value: "Set text of", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "Label1", order: 0),
+                           BlockContentData(type: .Label, value: "to", order: -1),
+                           BlockContentData(type: .InputAll, value: "512", order: 1)],
+                indent:
+                0),
+        BlockType.Sleep:
+        BlockData(
+                blockType: .Sleep,
+                funcName: "sleep",
+                contents: [BlockContentData(type: .Label, value: "Wait", order: -1),
+                           BlockContentData(type: .InputAll, value: "1", order: 0),
+                           BlockContentData(type: .Label, value: "seconds", order: -1)],
+                indent:
+                0)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
 
         blockTableView.delegate = self
         blockTableView.dataSource = self
@@ -61,50 +75,11 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
         codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: blockDefaultIndentSize).isActive = true
 
-        /*
-        let blockData = [
-            BlockData(
-                    contents: [BlockContentData(type: 0, value: "set"),
-                               BlockContentData(type: 1, value: "var"),
-                               BlockContentData(type: 0, value: "to"),
-                               BlockContentData(type: 1, value: "0"), ],
-                    indent: 0
-            ),
-            BlockData(
-                    contents: [BlockContentData(type: 0, value: "repeat"),
-                               BlockContentData(type: 1, value: "1024"), ],
-                    indent: 0
-            ),
-            BlockData(
-                    contents: [BlockContentData(type: 0, value: "set"),
-                               BlockContentData(type: 1, value: "var"),
-                               BlockContentData(type: 0, value: "to"),
-                               BlockContentData(type: 1, value: "var+1"), ],
-                    indent: 1
-            ),
-            BlockData(
-                    contents: [BlockContentData(type: 0, value: "print"),
-                               BlockContentData(type: 1, value: "var"), ],
-                    indent: 0
-            ),
-            BlockData(
-                    contents: [BlockContentData(type: 0, value: "print"),
-                               BlockContentData(type: 1, value: "var*2"), ],
-                    indent: 0
-            ),
-        ]
-        */
 
+        /*
         for i in 0..<5 {
 
-            /*
-            let stackViewInCodeStackView = UIStackView()
-
-            stackViewInCodeStackView.axis = .horizontal
-            stackViewInCodeStackView.translatesAutoresizingMaskIntoConstraints = false
-            */
-
-            let block = Block(blockData: blockData[i % (blockData.count)], index: i, blockDataIndex: i % (blockData.count), isOnTable: false)
+            let block = Block(blockData: blocks[i % (blocks.count)], index: i, isOnTable: false)
 
             block.translatesAutoresizingMaskIntoConstraints = false
 
@@ -112,39 +87,26 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             pan.delegate = self
             block.addGestureRecognizer(pan)
 
-            /*
-            let center = block.superview?.convert(block.center, to: self.view)
-
-            blockPos.append(center?.y ?? 0)
-
-            blocks.append(block)
-            */
-
-            /*
-            let blankView = UIView()
-            let indentConstraint = NSLayoutConstraint(item: blankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 30 * CGFloat(blockData[i].indent))
-            block.indentConstraint = indentConstraint
-            blankView.addConstraint(indentConstraint)
-
-            stackViewInCodeStackView.addArrangedSubview(blankView)
-            stackViewInCodeStackView.addArrangedSubview(block)
-
-            codeStackView.addArrangedSubview(stackViewInCodeStackView)
-            */
-
             codeStackView.addArrangedSubview(block)
         }
+        */
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return blockData.count
+        return BlockType.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
-        let block = Block(blockData: blockData[indexPath.row], index: 0, blockDataIndex: indexPath.row, isOnTable: true)
+        let blockType = BlockType.allCases[indexPath.row]
+
+        guard let blockData = blocks[blockType] else {
+            return cell
+        }
+
+        let block = Block(blockData: blockData, index: 0, isOnTable: true)
         cell.addSubview(block)
 
         setBlockOnTable(block: block, cell: cell)
@@ -200,9 +162,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                         fatalError()
                     }
 
-                    let blockDataIndex = blockView.blockDataIndex
+                    let blockType = blockView.blockType
 
-                    let newBlockOnTable = Block(blockData: blockData[blockDataIndex], index: 0, blockDataIndex: blockDataIndex, isOnTable: true)
+                    guard let blockData = blocks[blockType] else {
+                        fatalError()
+                    }
+
+                    let newBlockOnTable = Block(blockData: blockData, index: 0, isOnTable: true)
 
                     cell.addSubview(newBlockOnTable)
 
@@ -350,5 +316,48 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
         })
+
+        vplToCode()
+    }
+
+    func vplToCode() -> String {
+        var code = ""
+
+        for view in codeStackView.arrangedSubviews {
+            guard let blockView = view as? Block else {
+                fatalError()
+            }
+
+            let blockType = blockView.blockType
+
+            guard let blockData = blocks[blockType] else {
+                fatalError()
+            }
+
+            code += "\(blockData.funcName)("
+
+            let args = blockView.args()
+
+            for argIndex in 0..<args.count {
+                switch args[argIndex].type {
+                case .InputAll:
+                    code += "\"\(args[argIndex].content)\""
+                case .InputSingleVariable:
+                    code += "\(args[argIndex].content)"
+                default:
+                    break
+                }
+
+                if argIndex != (args.count - 1) {
+                    code += ","
+                }
+            }
+
+            code += ")\n"
+        }
+
+        print(code)
+
+        return code
     }
 }

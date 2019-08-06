@@ -92,6 +92,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             showVisualCodeEditorView()
 
         } else {
+            codeStr = visualCodeEditorController.vplToCode()
+
             editorMode = EditorMode.Text
 
             hideVisualCodeEditorView()

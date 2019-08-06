@@ -1,5 +1,5 @@
 //
-//  Block.swift
+//  BlockView.swift
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/07/21.
@@ -8,36 +8,29 @@
 
 import UIKit
 
-public struct BlockContentData {
-    let type: Int
-    let value: String
-}
-
-public struct BlockData {
-    let contents: [BlockContentData]
-    let indent: Int
-}
-
-public class Block: UIStackView {
+class Block: UIStackView {
 
     public var index: Int
 
-    public var blockDataIndex: Int
-
     public var isOnTable: Bool
-
-    var indentConstraint = NSLayoutConstraint()
 
     var indent: Int
 
-    init(blockData: BlockData, index: Int, blockDataIndex: Int, isOnTable: Bool) {
+    var blockType: BlockType
 
-        self.indent = blockData.indent
+    var indentConstraint = NSLayoutConstraint()
+
+    let blockView: BlockView
+
+    init(blockData: BlockData, index: Int, isOnTable: Bool) {
         self.index = index
-        self.blockDataIndex = blockDataIndex
         self.isOnTable = isOnTable
+        self.indent = blockData.indent
+        self.blockType = blockData.blockType
+        self.blockView = BlockView(blockData: blockData)
 
         super.init(frame: CGRect())
+
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
@@ -50,22 +43,16 @@ public class Block: UIStackView {
         self.indentConstraint = indentConstraint
         self.addConstraint(indentConstraint)
 
-        self.addArrangedSubview(BlockWithoutIndent(blockData: blockData, index: index))
+        self.addArrangedSubview(blockView)
+
     }
-
-    /*
-required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-}
-*/
-
 
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
 
-    public func changeBlockIndent(direction: Int) {
+    func changeBlockIndent(direction: Int) {
 
         if indent + direction < 0 {
             return
@@ -81,20 +68,18 @@ required init?(coder aDecoder: NSCoder) {
             self.layoutIfNeeded()
         })
     }
+
+    func args() -> [BlockView.Arg] {
+        return blockView.args
+    }
+
 }
 
-public class BlockWithoutIndent: UIView {
+class BlockView: UIView {
 
-    public var indentConstraint = NSLayoutConstraint()
+    var args = [Arg]()
 
-    public var index: Int
-
-    var indent: Int
-
-    init(blockData: BlockData, index: Int) {
-
-        self.index = index
-        self.indent = blockData.indent
+    init(blockData: BlockData) {
 
         super.init(frame: CGRect())
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -126,13 +111,21 @@ public class BlockWithoutIndent: UIView {
 
         var width: CGFloat = 0
 
+        var argSize = 0
+        for content in blockData.contents {
+            if argSize < content.order + 1 {
+                argSize = content.order + 1
+            }
+        }
 
-        for i in blockData.contents {
+        args = [Arg](repeating: Arg(type: .InputAll, content: ""), count: argSize)
 
-            switch i.type {
-            case 0:
+        for content in blockData.contents {
+
+            switch content.type {
+            case .Label:
                 let text = UILabel()
-                text.text = i.value
+                text.text = content.value
                 text.textColor = UIColor.white
                 text.textAlignment = .center
 
@@ -142,10 +135,14 @@ public class BlockWithoutIndent: UIView {
 
                 blockStackView.addArrangedSubview(text)
 
-            case 1:
-                let textField = UITextField()
+            case .InputAll:
+                let textField = InputField(id: content.order)
 
-                textField.text = i.value
+                args[content.order] = Arg(type: content.type, content: content.value)
+
+                textField.addTarget(self, action: #selector(setArg), for: .editingChanged)
+
+                textField.text = content.value
                 textField.textColor = UIColor.black
                 textField.backgroundColor = UIColor.white
                 textField.textAlignment = .center
@@ -157,17 +154,69 @@ public class BlockWithoutIndent: UIView {
 
                 blockStackView.addArrangedSubview(textField)
 
-            default:
-                break
+            case .InputSingleVariable:
+                //TODO:
+
+                let textField = InputField(id: content.order)
+
+                args[content.order] = Arg(type: content.type, content: content.value)
+
+                textField.addTarget(self, action: #selector(setArg), for: .editingChanged)
+
+                textField.text = content.value
+                textField.textColor = UIColor.black
+                textField.backgroundColor = UIColor.white
+                textField.textAlignment = .center
+                textField.layer.cornerRadius = 5
+
+                textField.sizeToFit()
+
+                width += textField.frame.width + 10
+
+                blockStackView.addArrangedSubview(textField)
+
+
             }
 
-            if i.type == 0 {
 
-            }
         }
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    @objc func setArg(textField: UITextField) {
+        guard let inputField = textField as? InputField else {
+            fatalError()
+        }
+
+        args[inputField.id].content = textField.text ?? ""
+    }
+
+
+    class InputField: UITextField {
+        let id: Int
+
+        init(id: Int) {
+            self.id = id
+
+            super.init(frame: CGRect())
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
+
+    struct Arg {
+        let type: BlockContentType
+        var content: String
+
+        init(type: BlockContentType, content: String) {
+            self.type = type
+            self.content = content
+        }
+    }
+
 }
