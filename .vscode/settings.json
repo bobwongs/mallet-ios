@@ -66,6 +66,8 @@
         "deque": "cpp",
         "fstream": "cpp",
         "sstream": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "list": "cpp",
+        "*.ipp": "cpp"
     }
 }

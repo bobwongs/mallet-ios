@@ -94,6 +94,47 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                            BlockContentData(type: .Label, value: "times", order: -1)],
                 indent:
                 0),
+
+        BlockType.While:
+        BlockData(
+                blockType: .While,
+                funcType: .Bracket,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "while", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 0)],
+                indent:
+                0),
+
+        BlockType.IF:
+        BlockData(
+                blockType: .IF,
+                funcType: .Bracket,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "if", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 0)],
+                indent:
+                0),
+
+        BlockType.ELSE:
+        BlockData(
+                blockType: .ELSE,
+                funcType: .Bracket,
+                funcName: "",
+                contents: [BlockContentData(type: .Label, value: "else", order: -1)],
+                indent:
+                0),
+
+        BlockType.AddToList:
+        BlockData(
+                blockType: .AddToList,
+                funcType: .Func,
+                funcName: "addToList",
+                contents: [BlockContentData(type: .Label, value: "Add", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1),
+                           BlockContentData(type: .Label, value: "to", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "", order: 0)],
+                indent:
+                0),
     ]
 
     override func viewDidLoad() {
@@ -175,7 +216,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             return
         }
 
-        let blockView = senderView as! Block
+        guard let blockView = senderView as? Block else {
+            fatalError()
+        }
 
         let blockIndex = blockView.index
         let isOnTable = blockView.isOnTable
@@ -195,8 +238,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                     direction = -1
                 }
 
-                blockView.changeBlockIndent(direction: direction)
-
+                changeIndent(movingBlockView: blockView, direction: direction)
             } else {
                 if (isOnTable) {
                     guard let cell = senderView.superview else {
@@ -230,6 +272,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 if (isOnTable) {
                     blockView.index = codeStackView.arrangedSubviews.count
                     blockView.isOnTable = false
+
+                    blockViews.append(blockView)
+
                     addBlock()
 
                 } else {
@@ -244,10 +289,14 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
             if movingBlockState == .vertical {
                 dropBlock(index: blockIndex, block: senderView)
-            } else {
-                /*
-                dropBlock(index: blockIndex, block: senderView)
-                */
+            }
+
+            if blockView.index < codeStackView.arrangedSubviews.count - 1 {
+                guard let bottomBlockIndent = (codeStackView.arrangedSubviews[blockView.index + 1] as? Block)?.indent else {
+                    fatalError()
+                }
+
+                blockView.changeBlockIndent(direction: bottomBlockIndent)
             }
 
             movingBlockState = .notMoving
@@ -357,8 +406,75 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         UIView.animate(withDuration: 0.2, animations: {
             self.view.layoutIfNeeded()
         })
+    }
 
-        vplToCode()
+    func changeIndent(movingBlockView: Block, direction: Int) {
+
+        let blockIndex = movingBlockView.index
+
+        if blockIndex == 0 {
+            return
+        }
+
+        let currentIndent = movingBlockView.indent
+
+        let nextIndent: Int!
+
+        if direction > 0 {
+            nextIndent = currentIndent + 1
+
+            var index = blockIndex - 1
+
+            while index >= 0 {
+
+                guard let blockView = codeStackView.arrangedSubviews[index] as? Block else {
+                    fatalError()
+                }
+
+                let indent: Int!
+
+                if blockView.isBracket {
+                    indent = blockView.indent + 1
+                } else {
+                    indent = blockView.indent
+                }
+
+                if indent == nextIndent {
+                    break
+                }
+
+                if indent < nextIndent {
+                    return
+                }
+
+                index -= 1
+            }
+
+            movingBlockView.changeBlockIndent(direction: 1)
+
+        } else {
+            if currentIndent == 0 {
+                return
+            }
+
+            movingBlockView.changeBlockIndent(direction: -1)
+
+            var index = blockIndex + 1
+
+            while index < codeStackView.arrangedSubviews.count {
+                guard let blockView = codeStackView.arrangedSubviews[index] as? Block else {
+                    fatalError()
+                }
+
+                if blockView.indent == currentIndent {
+                    return
+                }
+
+                blockView.changeBlockIndent(direction: -1)
+
+                index += 1
+            }
+        }
     }
 
     func vplToCode() -> String {

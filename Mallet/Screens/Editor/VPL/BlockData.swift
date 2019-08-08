@@ -15,6 +15,10 @@ enum BlockType: CaseIterable {
     case Assign
     case Declare
     case Repeat
+    case While
+    case IF
+    case ELSE
+    case AddToList
 }
 
 enum FuncType {

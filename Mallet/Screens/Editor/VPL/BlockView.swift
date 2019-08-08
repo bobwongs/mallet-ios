@@ -10,17 +10,19 @@ import UIKit
 
 class Block: UIStackView {
 
-    public var index: Int
+    var index: Int
 
-    public var isOnTable: Bool
+    var isOnTable: Bool
 
     var indent: Int
 
     var blockType: BlockType
 
-    var indentConstraint = NSLayoutConstraint()
+    let isBracket: Bool
 
-    let blockView: BlockView
+    private var indentConstraint = NSLayoutConstraint()
+
+    private let blockView: BlockView
 
     init(blockData: BlockData, index: Int, isOnTable: Bool) {
         self.index = index
@@ -28,6 +30,20 @@ class Block: UIStackView {
         self.indent = blockData.indent
         self.blockType = blockData.blockType
         self.blockView = BlockView(blockData: blockData)
+
+        if blockData.blockType == .Repeat ||
+                   blockData.blockType == .While ||
+                   blockData.blockType == .IF ||
+                   blockData.blockType == .ELSE {
+            self.isBracket = true
+        } else {
+            self.isBracket = false
+        }
+
+        if true || true || true {
+
+        }
+
 
         super.init(frame: CGRect())
 
