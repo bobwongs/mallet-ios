@@ -289,15 +289,17 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
             if movingBlockState == .vertical {
                 dropBlock(index: blockIndex, block: senderView)
-            }
 
-            if blockView.index < codeStackView.arrangedSubviews.count - 1 {
-                guard let bottomBlockIndent = (codeStackView.arrangedSubviews[blockView.index + 1] as? Block)?.indent else {
-                    fatalError()
+                if blockView.index < codeStackView.arrangedSubviews.count - 1 {
+                    guard let bottomBlockIndent = (codeStackView.arrangedSubviews[blockView.index + 1] as? Block)?.indent else {
+                        fatalError()
+                    }
+
+                    blockView.changeBlockIndent(direction: bottomBlockIndent - blockView.indent)
                 }
-
-                blockView.changeBlockIndent(direction: bottomBlockIndent)
             }
+
+            fixIndent()
 
             movingBlockState = .notMoving
 
@@ -473,6 +475,28 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 blockView.changeBlockIndent(direction: -1)
 
                 index += 1
+            }
+        }
+    }
+
+    func fixIndent() {
+        var maxIndent = 0
+
+        for block in codeStackView.arrangedSubviews {
+            guard let blockView = block as? Block else {
+                fatalError()
+            }
+
+            if maxIndent < blockView.indent {
+                blockView.changeBlockIndent(direction: maxIndent - blockView.indent)
+            }
+
+            if maxIndent > blockView.indent {
+                maxIndent = blockView.indent
+            }
+
+            if blockView.isBracket {
+                maxIndent += 1
             }
         }
     }
