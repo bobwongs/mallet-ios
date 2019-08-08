@@ -88,7 +88,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         BlockData(
                 blockType: .Repeat,
                 funcType: .Bracket,
-                funcName: "",
+                funcName: "repeat",
                 contents: [BlockContentData(type: .Label, value: "repeat", order: -1),
                            BlockContentData(type: .InputAll, value: "10", order: 0),
                            BlockContentData(type: .Label, value: "times", order: -1)],
@@ -99,7 +99,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         BlockData(
                 blockType: .While,
                 funcType: .Bracket,
-                funcName: "",
+                funcName: "while",
                 contents: [BlockContentData(type: .Label, value: "while", order: -1),
                            BlockContentData(type: .InputAll, value: "", order: 0)],
                 indent:
@@ -109,7 +109,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         BlockData(
                 blockType: .IF,
                 funcType: .Bracket,
-                funcName: "",
+                funcName: "if",
                 contents: [BlockContentData(type: .Label, value: "if", order: -1),
                            BlockContentData(type: .InputAll, value: "", order: 0)],
                 indent:
@@ -119,7 +119,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         BlockData(
                 blockType: .ELSE,
                 funcType: .Bracket,
-                funcName: "",
+                funcName: "else",
                 contents: [BlockContentData(type: .Label, value: "else", order: -1)],
                 indent:
                 0),
@@ -502,11 +502,33 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func vplToCode() -> String {
+        return vplToCode(startIndex: 0).0
+    }
+
+    func vplToCode(startIndex: Int) -> (String, Int) {
+
+        if startIndex < 0 || codeStackView.arrangedSubviews.count <= startIndex {
+            return ("", 0)
+        }
+
+        guard let firstIndent = (codeStackView.arrangedSubviews[startIndex] as? Block)?.indent else {
+            fatalError()
+        }
+
         var code = ""
 
-        for view in codeStackView.arrangedSubviews {
-            guard let blockView = view as? Block else {
+        var lastIndex = codeStackView.arrangedSubviews.count - 1
+
+        var index = startIndex
+        while index < codeStackView.arrangedSubviews.count {
+
+            guard let blockView = codeStackView.arrangedSubviews[index] as? Block else {
                 fatalError()
+            }
+
+            if blockView.indent < firstIndent {
+                lastIndex = index - 1
+                break
             }
 
             let blockType = blockView.blockType
@@ -553,17 +575,36 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 code += "var \(args[0].content) = \"\(args[1].content)\"\n"
 
             case .Bracket:
+                if args.count != 1 {
+                    continue
+                }
 
-                //TODO:
+                let codeWithIndex: (String, Int)!
 
-                break
+                if index == codeStackView.arrangedSubviews.count - 1 ||
+                           (codeStackView.arrangedSubviews[index + 1] as? Block)?.indent == blockView.indent {
+                    codeWithIndex = ("", index)
+                } else {
+                    codeWithIndex = vplToCode(startIndex: index + 1)
+                }
+
+                code += """
+                        \(blockData.funcName) (\(args[0].content))
+                        {
+                        \(codeWithIndex.0)
+                                }
+                        """
+
+                index = codeWithIndex.1
 
             }
+
+            index += 1
 
         }
 
         print(code)
 
-        return code
+        return (code, lastIndex)
     }
 }
