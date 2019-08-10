@@ -23,6 +23,8 @@
 		0E9F3DA722F1C1890013659C /* EditorUIData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F3DA622F1C1890013659C /* EditorUIData.swift */; };
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
 		0EAA0DC522F72C5600F5A051 /* time.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DC422F72C5600F5A051 /* time.mm */; };
+		0EB764A622FD640300DFD72C /* VariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A522FD640300DFD72C /* VariableView.swift */; };
+		0EB764A822FD644700DFD72C /* VariableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A722FD644700DFD72C /* VariableData.swift */; };
 		0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* AppRunner.swift */; };
 		0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* AppRunner.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
@@ -82,6 +84,8 @@
 		0EA9DF55227F216A00584C0B /* UIEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEditorController.swift; sourceTree = "<group>"; };
 		0EAA0DBE22F6F92600F5A051 /* time.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = time.hpp; sourceTree = "<group>"; };
 		0EAA0DC422F72C5600F5A051 /* time.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = time.mm; sourceTree = "<group>"; };
+		0EB764A522FD640300DFD72C /* VariableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableView.swift; sourceTree = "<group>"; };
+		0EB764A722FD644700DFD72C /* VariableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableData.swift; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* AppRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRunner.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* AppRunner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppRunner.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 			children = (
 				0EC9E82322E37AF700A9D6D9 /* BlockView.swift */,
 				0E9A958322F96DF900930215 /* BlockData.swift */,
+				0EB764A522FD640300DFD72C /* VariableView.swift */,
+				0EB764A722FD644700DFD72C /* VariableData.swift */,
 			);
 			path = VPL;
 			sourceTree = "<group>";
@@ -448,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
+				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E3FDD7C226CA90200F20326 /* DataSource.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
@@ -471,6 +478,7 @@
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
+				0EB764A822FD644700DFD72C /* VariableData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
