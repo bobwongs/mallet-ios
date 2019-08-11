@@ -8,47 +8,72 @@
 
 import UIKit
 
-class ViewController: UITableViewController {
+class HomeViewController: UIViewController {
 
-    private let dataSource = AppInfoDataSource()
+    let appStackView = UIStackView()
+
+    var appData = [
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", uiData: [], code: ""),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let scrollView = UIScrollView()
+        self.view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: 3000)
+
+        scrollView.addSubview(appStackView)
+
+        appStackView.translatesAutoresizingMaskIntoConstraints = false
+        appStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        appStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
+        appStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        appStackView.leftAnchor.constraint(equalTo: scrollView.leftAnchor).isActive = true
+        appStackView.rightAnchor.constraint(equalTo: scrollView.rightAnchor).isActive = true
+
+        appStackView.axis = .vertical
+        appStackView.alignment = .center
+        appStackView.spacing = 15
+
+        initAppStackView()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.appInfo.count
-    }
+    func initAppStackView() {
+        for appData in self.appData {
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? HomeViewCell else {
-            fatalError()
+            let appCard = AppCard(appData: appData, homeViewController: self)
+            appStackView.addArrangedSubview(appCard)
+
+            appCard.translatesAutoresizingMaskIntoConstraints = false
+            appCard.leftAnchor.constraint(equalTo: appStackView.leftAnchor, constant: 20).isActive = true
+            appCard.rightAnchor.constraint(equalTo: appStackView.rightAnchor, constant: -20).isActive = true
         }
-        let appInfo = dataSource.appInfo[(indexPath as NSIndexPath).row]
-        cell.showCell(info: appInfo)
-
-        return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let appInfo = dataSource.appInfo[(indexPath as NSIndexPath).row]
-
+    func edit(appData: AppData) {
         let storyboard = UIStoryboard(name: "UIEditor", bundle: nil)
-        guard let controller = storyboard.instantiateInitialViewController() as? UIEditorController else {
+        guard let uiEditorController = storyboard.instantiateInitialViewController() as? UIEditorController else {
             fatalError()
         }
 
-        //controller.code = appInfo.code
-        //controller.uiData = appInfo.ui
+        navigationController?.pushViewController(uiEditorController, animated: true)
+    }
 
-        //let appData = AppData()
+    func run(appData: AppData) {
 
-        //controller.appData = appData
-
-        navigationController?.pushViewController(controller, animated: true)
-
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 
 }

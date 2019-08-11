@@ -446,7 +446,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         let codeData = ConverterObjCpp().convertCode(code) ?? ""
 
-        let appData = AppData(uiData: uiDataTable, code: codeData)
+        let appData = AppData(appName: "", uiData: uiDataTable, code: codeData)
 
         do {
             let jsonData = try JSONEncoder().encode(appData)
