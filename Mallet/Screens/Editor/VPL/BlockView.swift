@@ -91,7 +91,7 @@ class Block: UIStackView {
 
 }
 
-class BlockView: UIView {
+class BlockView: UIView, UITextFieldDelegate {
 
     var args = [Arg]()
 
@@ -154,6 +154,8 @@ class BlockView: UIView {
             case .InputAll:
                 let textField = InputField(id: content.order)
 
+                textField.delegate = self
+
                 args[content.order] = Arg(type: content.type, content: content.value)
 
                 textField.addTarget(self, action: #selector(setArg), for: .editingChanged)
@@ -176,6 +178,8 @@ class BlockView: UIView {
                 //TODO:
 
                 let textField = InputField(id: content.order)
+
+                textField.delegate = self
 
                 args[content.order] = Arg(type: content.type, content: content.value)
 
@@ -239,4 +243,8 @@ class BlockView: UIView {
         }
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
