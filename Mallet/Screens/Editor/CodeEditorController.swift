@@ -128,6 +128,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     func hideTextCodeEditorView() {
         TextCodeEditorView.isHidden = true
+
+        textCodeEditorController.editorArea.endEditing(true)
     }
 
     func showVisualCodeEditorView() {
