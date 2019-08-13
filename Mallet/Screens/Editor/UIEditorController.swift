@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
+class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate {
     @IBOutlet var editorView: UIView!
     @IBOutlet var uiTable: UITableView!
     @IBOutlet var appScreenParent: UIView!
@@ -80,6 +80,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         UINameTextField.addTarget(self, action: #selector(setUINameToValueOfTextField), for: .editingChanged)
         UITextTextField.addTarget(self, action: #selector(setUITextToValueOfTextField), for: .editingChanged)
+
+        UINameTextField.delegate = self
+        UITextTextField.delegate = self
     }
 
     func generateScreen() {
@@ -465,5 +468,10 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         } catch let error {
             print(error)
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
