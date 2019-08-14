@@ -206,12 +206,17 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
 
-        codeArea.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
-
         self.view.bringSubviewToFront(blockTableView)
+
+        let backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        codeArea.backgroundColor = backgroundColor
+        self.view.backgroundColor = backgroundColor
+
 
         blockTableView.delegate = self
         blockTableView.dataSource = self
+        blockTableView.layer.cornerRadius = 10
+        blockTableView.layer.masksToBounds = true
 
         codeStackView.axis = .vertical
         codeStackView.distribution = .fill
