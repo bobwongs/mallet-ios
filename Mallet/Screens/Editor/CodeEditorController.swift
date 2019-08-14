@@ -71,7 +71,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func initEditorView() {
-        self.navigationItem.title = "Code"
+        self.navigationItem.title = uiData.uiName
 
         navigationController?.delegate = self
     }
