@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource {
+class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate {
 
     enum MovingBlockState {
         case notMoving
@@ -253,7 +253,6 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func setBlockOnTable(block: UIView, cell: UIView) {
-
         block.translatesAutoresizingMaskIntoConstraints = false
         block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: blockDefaultIndentSize).isActive = true
         block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10).isActive = true
@@ -268,11 +267,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @objc func dragBlock(_ sender: UIPanGestureRecognizer) {
 
-        guard let senderView = sender.view else {
-            return
-        }
-
-        guard let blockView = senderView as? Block else {
+        guard let blockView = sender.view as? Block else {
             fatalError()
         }
 
@@ -297,7 +292,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 changeIndent(movingBlockView: blockView, direction: direction)
             } else {
                 if isOnTable {
-                    guard let cell = senderView.superview else {
+                    guard let cell = blockView.superview else {
                         fatalError()
                     }
 
@@ -316,23 +311,24 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 movingBlockState = .vertical
 
-                let center = senderView.superview?.convert(senderView.center, to: codeArea)
+                let center = blockView.superview?.convert(blockView.center, to: codeArea)
 
                 if isOnTable {
-                    self.view.addSubview(senderView)
-                    self.view.bringSubviewToFront(senderView)
+                    self.view.addSubview(blockView)
+                    self.view.bringSubviewToFront(blockView)
                 } else {
-                    codeArea.addSubview(senderView)
-                    codeArea.bringSubviewToFront(senderView)
+                    codeArea.addSubview(blockView)
+                    codeArea.bringSubviewToFront(blockView)
                 }
 
-                senderView.translatesAutoresizingMaskIntoConstraints = true
+                blockView.translatesAutoresizingMaskIntoConstraints = true
 
-                senderView.center = center ?? CGPoint()
+                blockView.center = center ?? CGPoint()
 
                 if (isOnTable) {
                     blockView.index = codeStackView.arrangedSubviews.count
                     blockView.isOnTable = false
+                    blockView.delegate = self
 
                     blockViews.append(blockView)
 
@@ -349,7 +345,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         if sender.state == .ended {
 
             if movingBlockState == .vertical {
-                dropBlock(index: blockIndex, block: senderView)
+                dropBlock(index: blockIndex, block: blockView)
 
                 if blockView.index < codeStackView.arrangedSubviews.count - 1 {
                     guard let bottomBlockIndent = (codeStackView.arrangedSubviews[blockView.index + 1] as? Block)?.indent else {
@@ -372,7 +368,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             sender.view?.center.y += move.y
 
 
-            let centerY = senderView.superview?.convert(senderView.center, to: codeStackView).y ?? 0
+            let centerY = blockView.superview?.convert(blockView.center, to: codeStackView).y ?? 0
 
             var nearestIndex = -1
             var minDiff: CGFloat = 10000000
@@ -388,18 +384,10 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             }
 
             if nearestIndex != blockIndex {
-                (senderView as! Block).index = nearestIndex
+                blockView.index = nearestIndex
 
                 moveBlock(from: blockIndex, to: nearestIndex)
             }
-        } else {
-
-            /*
-            senderView.center.x += move.x
-
-            sender.setTranslation(CGPoint.zero, in: self.view)
-            */
-
         }
     }
 
@@ -469,6 +457,41 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         UIView.animate(withDuration: 0.2, animations: {
             self.codeArea.layoutIfNeeded()
         })
+    }
+
+    func deleteBlock(index: Int) {
+        let blockView = codeStackView.arrangedSubviews[index]
+
+        floatBlock(index: index)
+
+        blockView.removeFromSuperview()
+
+        let blankView = codeStackView.arrangedSubviews[index]
+
+        let blankViewHeightConstraint = NSLayoutConstraint(item: blankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
+
+        blankView.removeConstraints(blankView.constraints)
+        blankView.addConstraint(blankViewHeightConstraint)
+
+        codeStackView.insertArrangedSubview(blankView, at: index)
+
+        codeArea.layoutIfNeeded()
+
+        blankViewHeightConstraint.constant = 0
+
+        UIView.animate(withDuration: 0.2, animations: {
+            self.codeArea.layoutIfNeeded()
+        })
+
+        blankView.removeFromSuperview()
+
+        for blockIndex in index..<codeStackView.arrangedSubviews.count {
+            guard let blockView = codeStackView.arrangedSubviews[blockIndex] as? Block else {
+                fatalError()
+            }
+
+            blockView.index -= 1
+        }
     }
 
     func changeIndent(movingBlockView: Block, direction: Int) {
@@ -668,4 +691,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
         return (code, lastIndex)
     }
+}
+
+protocol blockDelegate: class {
+    func deleteBlock(index: Int)
 }

@@ -10,6 +10,8 @@ import UIKit
 
 class Block: UIStackView {
 
+    var delegate: blockDelegate?
+
     var index: Int
 
     var isOnTable: Bool
@@ -40,13 +42,7 @@ class Block: UIStackView {
             self.isBracket = false
         }
 
-        if true || true || true {
-
-        }
-
-
         super.init(frame: CGRect())
-
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
@@ -61,6 +57,7 @@ class Block: UIStackView {
 
         self.addArrangedSubview(blockView)
 
+        blockView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
     }
 
     required init(coder: NSCoder) {
@@ -89,6 +86,39 @@ class Block: UIStackView {
         return blockView.args
     }
 
+    @objc func showMenu(_ sender: UITapGestureRecognizer) {
+        if isOnTable {
+            return
+        }
+
+        becomeFirstResponder()
+
+        let menu = UIMenuController.shared
+        menu.isMenuVisible = true
+        menu.arrowDirection = .down
+        menu.setTargetRect(self.bounds, in: self)
+
+        let deleteMenu = UIMenuItem(title: "Delete", action: #selector(self.onDelete(sender:)))
+        let menuItems = [deleteMenu]
+        menu.menuItems = menuItems
+        menu.setMenuVisible(true, animated: true)
+    }
+
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(self.onDelete(sender:)) {
+            return true
+        }
+
+        return false
+    }
+
+    @objc func onDelete(sender: UIMenuItem) {
+        self.delegate?.deleteBlock(index: self.index)
+    }
 }
 
 class BlockView: UIView, UITextFieldDelegate {
@@ -198,8 +228,6 @@ class BlockView: UIView, UITextFieldDelegate {
                 width += textField.frame.width + 10
 
                 blockStackView.addArrangedSubview(textField)
-
-
             }
 
 
@@ -247,4 +275,5 @@ class BlockView: UIView, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+
 }
