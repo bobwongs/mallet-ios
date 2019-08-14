@@ -135,6 +135,61 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                            BlockContentData(type: .InputSingleVariable, value: "", order: 0)],
                 indent:
                 0),
+
+        BlockType.ShowWebPage:
+        BlockData(
+                blockType: .ShowWebPage,
+                funcType: .Func,
+                funcName: "showWebPage",
+                contents: [BlockContentData(type: .Label, value: "Show web page", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1),
+                           BlockContentData(type: .Label, value: "in", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "WebView", order: 0)],
+                indent:
+                0),
+
+        BlockType.ShowInTableView:
+        BlockData(
+                blockType: .ShowInTableView,
+                funcType: .Func,
+                funcName: "showInTableView",
+                contents: [BlockContentData(type: .Label, value: "Show", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1),
+                           BlockContentData(type: .Label, value: "in", order: -1),
+                           BlockContentData(type: .InputSingleVariable, value: "TableView", order: 0)],
+                indent:
+                0),
+
+        BlockType.CopyToClipboard:
+        BlockData(
+                blockType: .CopyToClipboard,
+                funcType: .Func,
+                funcName: "copyToClipBoard",
+                contents: [BlockContentData(type: .Label, value: "Copy", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1),
+                           BlockContentData(type: .Label, value: "to clipBoard", order: -1)],
+                indent:
+                0),
+
+        BlockType.Tweet:
+        BlockData(
+                blockType: .Tweet,
+                funcType: .Func,
+                funcName: "tweet",
+                contents: [BlockContentData(type: .Label, value: "Tweet", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1)],
+                indent:
+                0),
+
+        BlockType.AddMemo:
+        BlockData(
+                blockType: .AddMemo,
+                funcType: .Func,
+                funcName: "addMemo",
+                contents: [BlockContentData(type: .Label, value: "AddMemo", order: -1),
+                           BlockContentData(type: .InputAll, value: "", order: 1)],
+                indent:
+                0),
     ]
 
     override func viewDidLoad() {
@@ -546,7 +601,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 for argIndex in 0..<args.count {
                     switch args[argIndex].type {
                     case .InputAll:
-                        code += "\"\(args[argIndex].content)\""
+                        code += "\(args[argIndex].content)"
                     case .InputSingleVariable:
                         code += "\(args[argIndex].content)"
                     default:
@@ -565,14 +620,14 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                     continue
                 }
 
-                code += "\(args[0].content) = \"\(args[1].content)\"\n"
+                code += "\(args[0].content) = \(args[1].content)\n"
 
             case .Declare:
                 if args.count != 2 {
                     continue
                 }
 
-                code += "var \(args[0].content) = \"\(args[1].content)\"\n"
+                code += "var \(args[0].content) = \(args[1].content)\n"
 
             case .Bracket:
                 if args.count != 1 {

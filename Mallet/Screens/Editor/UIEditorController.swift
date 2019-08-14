@@ -392,6 +392,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         var code = """
                    \(getUINameDeclarationCode())
+
+                   var global = 0
+
                    func init()
                    {
                    \(initialCode)

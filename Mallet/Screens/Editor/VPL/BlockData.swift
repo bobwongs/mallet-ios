@@ -19,6 +19,11 @@ enum BlockType: CaseIterable {
     case IF
     case ELSE
     case AddToList
+    case ShowWebPage
+    case ShowInTableView
+    case CopyToClipboard
+    case Tweet
+    case AddMemo
 }
 
 enum FuncType {

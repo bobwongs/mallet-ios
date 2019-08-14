@@ -110,8 +110,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             hideVisualCodeEditorView()
             showTextCodeEditorView()
 
-            print(codeStr)
-
             textCodeEditorController.editorArea.text = codeStr
         }
     }
