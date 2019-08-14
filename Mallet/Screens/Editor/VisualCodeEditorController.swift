@@ -18,7 +18,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @IBOutlet weak var blockTableView: UITableView!
 
-    let codeArea: UIView = UIView()
+    let codeArea: UIView = UIScrollView()
 
     let blockDefaultIndentSize: CGFloat = 20
 
@@ -201,7 +201,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeArea.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             codeArea.topAnchor.constraint(equalTo: self.view.topAnchor),
-            codeArea.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            codeArea.bottomAnchor.constraint(equalTo: blockTableView.topAnchor),
             codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
@@ -221,9 +221,12 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeArea.addSubview(codeStackView)
 
         codeStackView.translatesAutoresizingMaskIntoConstraints = false
-
-        codeStackView.topAnchor.constraint(equalTo: codeArea.topAnchor, constant: 20).isActive = true
-        codeStackView.leftAnchor.constraint(equalTo: codeArea.leftAnchor, constant: blockDefaultIndentSize).isActive = true
+        NSLayoutConstraint.activate([
+            codeStackView.topAnchor.constraint(equalTo: codeArea.topAnchor, constant: 20),
+            codeStackView.bottomAnchor.constraint(equalTo: codeArea.bottomAnchor),
+            codeStackView.leftAnchor.constraint(equalTo: codeArea.leftAnchor, constant: blockDefaultIndentSize),
+            codeStackView.rightAnchor.constraint(equalTo: codeArea.rightAnchor)
+        ])
 
     }
 
@@ -293,7 +296,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 changeIndent(movingBlockView: blockView, direction: direction)
             } else {
-                if (isOnTable) {
+                if isOnTable {
                     guard let cell = senderView.superview else {
                         fatalError()
                     }
@@ -315,8 +318,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 let center = senderView.superview?.convert(senderView.center, to: codeArea)
 
-                codeArea.addSubview(senderView)
-                codeArea.bringSubviewToFront(senderView)
+                if isOnTable {
+                    self.view.addSubview(senderView)
+                    self.view.bringSubviewToFront(senderView)
+                } else {
+                    codeArea.addSubview(senderView)
+                    codeArea.bringSubviewToFront(senderView)
+                }
 
                 senderView.translatesAutoresizingMaskIntoConstraints = true
 
