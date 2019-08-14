@@ -18,6 +18,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @IBOutlet weak var blockTableView: UITableView!
 
+    let codeArea: UIView = UIView()
+
     let blockDefaultIndentSize: CGFloat = 20
 
     var movingBlockState: MovingBlockState = .notMoving
@@ -195,7 +197,18 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        self.view.addSubview(codeArea)
+        codeArea.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            codeArea.topAnchor.constraint(equalTo: self.view.topAnchor),
+            codeArea.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+        ])
+
+        codeArea.backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+
+        self.view.bringSubviewToFront(blockTableView)
 
         blockTableView.delegate = self
         blockTableView.dataSource = self
@@ -205,28 +218,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeStackView.spacing = 5
         codeStackView.alignment = .leading
 
-        self.view.addSubview(codeStackView)
+        codeArea.addSubview(codeStackView)
 
         codeStackView.translatesAutoresizingMaskIntoConstraints = false
 
-        codeStackView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20).isActive = true
-        codeStackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: blockDefaultIndentSize).isActive = true
+        codeStackView.topAnchor.constraint(equalTo: codeArea.topAnchor, constant: 20).isActive = true
+        codeStackView.leftAnchor.constraint(equalTo: codeArea.leftAnchor, constant: blockDefaultIndentSize).isActive = true
 
-
-        /*
-        for i in 0..<5 {
-
-            let block = Block(blockData: blocks[i % (blocks.count)], index: i, isOnTable: false)
-
-            block.translatesAutoresizingMaskIntoConstraints = false
-
-            let pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(dragBlock(_:)))
-            pan.delegate = self
-            block.addGestureRecognizer(pan)
-
-            codeStackView.addArrangedSubview(block)
-        }
-        */
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -278,8 +276,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         let blockIndex = blockView.index
         let isOnTable = blockView.isOnTable
 
-        let move = sender.translation(in: self.view)
-        sender.setTranslation(CGPoint.zero, in: self.view)
+        let move = sender.translation(in: codeArea)
+        sender.setTranslation(CGPoint.zero, in: codeArea)
 
         if sender.state == .began {
 
@@ -315,10 +313,10 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 movingBlockState = .vertical
 
-                let center = senderView.superview?.convert(senderView.center, to: self.view)
+                let center = senderView.superview?.convert(senderView.center, to: codeArea)
 
-                self.view.addSubview(senderView)
-                self.view.bringSubviewToFront(senderView)
+                codeArea.addSubview(senderView)
+                codeArea.bringSubviewToFront(senderView)
 
                 senderView.translatesAutoresizingMaskIntoConstraints = true
 
@@ -418,7 +416,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
-        self.view.addSubview(toBlankView)
+        codeArea.addSubview(toBlankView)
 
         let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
         let toViewHeight = NSLayoutConstraint(item: toBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 0)
@@ -435,13 +433,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             codeStackView.insertArrangedSubview(toBlankView, at: to + 1)
         }
 
-        self.view.layoutIfNeeded()
+        codeArea.layoutIfNeeded()
 
         fromViewHeight.constant = 0
         toViewHeight.constant = 44
 
         UIView.animate(withDuration: 0.2, animations: {
-            self.view.layoutIfNeeded()
+            self.codeArea.layoutIfNeeded()
         })
 
         fromBlankView.removeFromSuperview()
@@ -450,18 +448,18 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func dropBlock(index: Int, block: UIView) {
-        let center = self.view.convert(block.center, to: codeStackView)
+        let center = codeArea.convert(block.center, to: codeStackView)
 
         block.center = center
 
-        self.view.layoutIfNeeded()
+        codeArea.layoutIfNeeded()
 
         codeStackView.arrangedSubviews[index].removeFromSuperview()
 
         codeStackView.insertArrangedSubview(block, at: index)
 
         UIView.animate(withDuration: 0.2, animations: {
-            self.view.layoutIfNeeded()
+            self.codeArea.layoutIfNeeded()
         })
     }
 
