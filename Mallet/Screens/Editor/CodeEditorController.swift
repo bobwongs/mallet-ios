@@ -93,6 +93,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func switchEditorModeTo(mode: EditorMode) {
+        self.view.endEditing(true)
+
         if mode == .Visual {
             editorMode = EditorMode.Visual
 
@@ -126,8 +128,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     func hideTextCodeEditorView() {
         TextCodeEditorView.isHidden = true
-
-        textCodeEditorController.editorArea.endEditing(true)
     }
 
     func showVisualCodeEditorView() {
