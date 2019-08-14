@@ -166,6 +166,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
 
+        self.view.endEditing(true)
+
         let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
 
         guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
