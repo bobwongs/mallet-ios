@@ -1,14 +1,22 @@
-.vscode/ipch
+# Xcode
+UserInterfaceState.xcuserstate
+
+# AppCode
 .idea/workspace.xml
 .idea/tasks.xml
 
+# VSCode
+.vscode/ipch
+
+# CocoaPods
+/Pods
+
+# test
 Mallet/cpp/test.cpp
 Mallet/cpp/test.mal
 Mallet/cpp/Makefile
 
+# others
 *.out
 *.o
-
-UserInterfaceState.xcuserstate
-
 .DS_Store
