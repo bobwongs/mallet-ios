@@ -17,6 +17,7 @@
 		0E4288A922F590E2005CF2BF /* cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288A722F590E2005CF2BF /* cast.cpp */; };
 		0E4288B922F59D8D005CF2BF /* ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288B822F59D8D005CF2BF /* ui.mm */; };
 		0E43716622F876C2004CA2BD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E43716522F876C2004CA2BD /* Extension.swift */; };
+		0E829C5B23101B5F008FE529 /* AddShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E829C5A23101B5F008FE529 /* AddShortcut.swift */; };
 		0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8B783322AFF807002336A2 /* UIEditor.storyboard */; };
 		0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */; };
 		0E971B6322D646F000C45B53 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* convert.cpp */; };
@@ -80,6 +81,7 @@
 		0E4288B422F59D28005CF2BF /* ui.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ui.hpp; sourceTree = "<group>"; };
 		0E4288B822F59D8D005CF2BF /* ui.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ui.mm; sourceTree = "<group>"; };
 		0E43716522F876C2004CA2BD /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		0E829C5A23101B5F008FE529 /* AddShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShortcut.swift; sourceTree = "<group>"; };
 		0E8B783322AFF807002336A2 /* UIEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UIEditor.storyboard; sourceTree = "<group>"; };
 		0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_func_manager.cpp; sourceTree = "<group>"; };
 		0E971B6222D646F000C45B53 /* convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = convert.cpp; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
 				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
 				0E9F3DA622F1C1890013659C /* EditorUIData.swift */,
+				0E829C5A23101B5F008FE529 /* AddShortcut.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -592,6 +595,7 @@
 				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E3FDD7A226CA87C00F20326 /* HomeViewCell.swift in Sources */,
 				0E9A958422F96DF900930215 /* BlockData.swift in Sources */,
+				0E829C5B23101B5F008FE529 /* AddShortcut.swift in Sources */,
 				0E2645F022FF13AD005BDD14 /* AppCard.swift in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,
