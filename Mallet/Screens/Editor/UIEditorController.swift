@@ -16,6 +16,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var UINameTextField: UITextField!
     @IBOutlet var UITextTextField: UITextField!
 
+    var appData: AppData!
+    var appName: String!
+
     var appScreen: UIView = UIView()
 
     var uiData: [UIData]?
@@ -43,6 +46,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func initUIEditor() {
+        setupAppData()
         setupView()
 
         selectedUIID = -1
@@ -52,7 +56,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
+    func setupAppData() {
+        appName = appData.appName
+    }
+
     func setupView() {
+        navigationItem.title = appData.appName
+
         var screenSize = UIScreen.main.bounds.size
         if let navigationController = navigationController {
             screenSize.height -= navigationController.navigationBar.frame.size.height
@@ -86,24 +96,43 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func generateScreen() {
-        if let uiData = self.uiData {
-            for uiData in uiData {
-                let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
-                appScreen.addSubview(ui)
+        for uiData in appData.uiData {
+            let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
+            appScreen.addSubview(ui)
 
-                var appSampleUIData = ui as! EditorUIData
-                appSampleUIData.uiID = uiData.uiID
+            var appSampleUIData = ui as! EditorUIData
+            appSampleUIData.uiID = uiData.uiID
 
-                ui.center.x = uiData.x * uiScale
-                ui.center.y = uiData.y * uiScale
+            ui.center.x = uiData.x * uiScale
+            ui.center.y = uiData.y * uiScale
 
-                ui.isUserInteractionEnabled = true
+            ui.isUserInteractionEnabled = true
 
-                addGesture(ui: ui)
+            addGesture(ui: ui)
 
-                setUIText(uiType: uiData.uiType, ui: ui, text: uiData.text)
+            setUIText(uiType: uiData.uiType, ui: ui, text: uiData.text)
 
-                UINumOfEachType[uiData.uiType]! += 1
+            UINumOfEachType[uiData.uiType]! += 1
+
+            switch uiData.uiType {
+            case .Button:
+                guard let editorUIButton = ui as? EditorUIButton else {
+                    fatalError()
+                }
+
+                if uiData.code.count < 1 {
+                    editorUIButton.tap = ""
+                } else {
+                    editorUIButton.tap = uiData.code[0]
+                }
+
+                break
+
+            case .Label:
+                break
+
+            case .Switch:
+                break
             }
         }
     }
@@ -348,6 +377,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func getUIScript(uiType: UIType, ui: UIView) -> String {
+        //TODO:
+
         var script = ""
 
         switch uiType {
@@ -387,7 +418,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         return code
     }
 
-    @IBAction func runButton(_: Any) {
+    func generateAppData() -> AppData {
         var uiDataTable = [UIData]()
 
         var funcID = 1
@@ -437,7 +468,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     value: uiValue,
                     x: ui.value.center.x / uiScale,
                     y: ui.value.center.y / uiScale,
-                    funcID: funcIDs
+                    funcID: funcIDs,
+                    code: [""]
             )
 
             uiDataTable.append(uiData)
@@ -450,11 +482,15 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     """
         }
 
-        print(code)
-
         let codeData = ConverterObjCpp().convertCode(code) ?? ""
 
-        let appData = AppData(appName: "", uiData: uiDataTable, code: codeData)
+        let appData = AppData(appName: appName, appID: self.appData.appID, uiData: uiDataTable, code: codeData)
+
+        return appData
+    }
+
+    @IBAction func runButton(_: Any) {
+        let appData = generateAppData()
 
         do {
             let jsonData = try JSONEncoder().encode(appData)
@@ -478,5 +514,27 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    @IBAction func SettingsButton(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "AppSettings", bundle: nil)
+
+        guard let appSettingsController = storyboard.instantiateInitialViewController() as? AppSettingsController else {
+            fatalError()
+        }
+
+        appSettingsController.uiEditorController = self
+
+        navigationController?.present(appSettingsController, animated: true)
+    }
+
+    func setAppName(appName: String?) {
+        guard let appName: String = appName else {
+            return
+        }
+
+        self.appName = appName
+
+        self.navigationItem.title = appName
     }
 }

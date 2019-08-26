@@ -13,6 +13,7 @@
         <!--Navigation Controller-->
         <scene sceneID="cHW-Pd-hYe">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Eq4-F9-Tda" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="NnO-v6-fVb" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M3M-NQ-a2v">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -22,7 +23,6 @@
                         <segue destination="AIj-Sb-75T" kind="relationship" relationship="rootViewController" id="56h-ot-e6w"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Eq4-F9-Tda" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-880" y="129"/>
         </scene>
@@ -134,11 +134,18 @@
                         <viewLayoutGuide key="safeArea" id="MeI-G7-vY6"/>
                     </view>
                     <navigationItem key="navigationItem" title="Editor" id="Tes-Qs-ZTT">
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="uu5-Gh-qyl">
-                            <connections>
-                                <action selector="runButton:" destination="AIj-Sb-75T" id="6Nn-8q-fEo"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="play" id="uu5-Gh-qyl">
+                                <connections>
+                                    <action selector="runButton:" destination="AIj-Sb-75T" id="6Nn-8q-fEo"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Settings" id="vta-zd-nO2">
+                                <connections>
+                                    <action selector="SettingsButton:" destination="AIj-Sb-75T" id="w2k-DO-xcU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="UINameTextField" destination="eE2-oW-xWq" id="WDY-Aj-zLs"/>

@@ -10,11 +10,13 @@ import Foundation
 
 class AppData: Codable {
     let appName: String
+    let appID: Int
     let uiData: [UIData]
     let code: String
 
-    init(appName: String, uiData: [UIData], code: String) {
+    init(appName: String, appID: Int, uiData: [UIData], code: String) {
         self.appName = appName
+        self.appID = appID
         self.uiData = uiData
         self.code = code
     }

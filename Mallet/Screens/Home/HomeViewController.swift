@@ -13,13 +13,7 @@ class HomeViewController: UIViewController {
     let appStackView = UIStackView()
 
     var appData = [
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
-        AppData(appName: "TestApp", uiData: [], code: ""),
+        AppData(appName: "TestApp", appID: 0, uiData: [], code: ""),
     ]
 
     override func viewDidLoad() {
@@ -68,6 +62,8 @@ class HomeViewController: UIViewController {
         guard let uiEditorController = storyboard.instantiateInitialViewController() as? UIEditorController else {
             fatalError()
         }
+
+        uiEditorController.appData = appData
 
         navigationController?.pushViewController(uiEditorController, animated: true)
     }

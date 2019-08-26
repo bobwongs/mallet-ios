@@ -17,9 +17,10 @@ public class UIData: Codable {
     let x: CGFloat
     let y: CGFloat
     let funcID: [Int]
+    let code: [String]
 
 
-    init(uiID: Int, uiName: String, uiType: UIType, text: String, value: Int, x: CGFloat, y: CGFloat, funcID: [Int]) {
+    init(uiID: Int, uiName: String, uiType: UIType, text: String, value: Int, x: CGFloat, y: CGFloat, funcID: [Int], code: [String]) {
         self.uiID = uiID
         self.uiName = uiName
         self.uiType = uiType
@@ -28,6 +29,7 @@ public class UIData: Codable {
         self.x = x
         self.y = y
         self.funcID = funcID
+        self.code = code
     }
 }
 
