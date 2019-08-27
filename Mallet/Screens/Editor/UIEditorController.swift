@@ -540,6 +540,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func saveApp() {
         let appData = generateAppData()
+
+        StorageManager.saveApp(appData: appData)
     }
 
     func addToHomeScreen() {
