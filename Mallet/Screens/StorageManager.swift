@@ -23,9 +23,10 @@ class StorageManager {
         let appName = "Untitled App"
 
         var appIDList = [Int]()
-        for appID in appIDList {
+        for (appID, _) in appList {
             appIDList.append(appID)
         }
+        appIDList.append(appID)
 
         userDefaults.set(appIDList, forKey: appIDListKey)
         userDefaults.set(appName, forKey: "\(appNameKeyPrefix)\(appID)")
@@ -106,5 +107,25 @@ class StorageManager {
         }
 
         return appList
+    }
+
+    static func removeAll() {
+        if let bundled = Bundle.main.bundleIdentifier {
+            userDefaults.removePersistentDomain(forName: bundled)
+        }
+
+        guard let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
+            return
+        }
+
+        do {
+            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentDirectoryFileURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+
+            for fileURL in fileURLs {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+        } catch let error {
+            print(error)
+        }
     }
 }

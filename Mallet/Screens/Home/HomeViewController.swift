@@ -12,13 +12,18 @@ class HomeViewController: UIViewController {
 
     let appStackView = UIStackView()
 
-    var appData = [
-        AppData(appName: "TestApp", appID: 0, uiData: [], code: ""),
-    ]
+    var appList: [(Int, String)]!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        appList = StorageManager.getAppList()
+
+        initScrollView()
+        initAppStackView()
+    }
+
+    func initScrollView() {
         let scrollView = UIScrollView()
         self.view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,14 +46,18 @@ class HomeViewController: UIViewController {
         appStackView.axis = .vertical
         appStackView.alignment = .center
         appStackView.spacing = 15
-
-        initAppStackView()
     }
 
     func initAppStackView() {
-        for appData in self.appData {
+        appList = StorageManager.getAppList()
 
-            let appCard = AppCard(appData: appData, homeViewController: self)
+        for view in appStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+
+        for (appID, appName) in self.appList {
+
+            let appCard = AppCard(appName: appName, appID: appID, homeViewController: self)
             appStackView.addArrangedSubview(appCard)
 
             appCard.translatesAutoresizingMaskIntoConstraints = false
@@ -57,20 +66,39 @@ class HomeViewController: UIViewController {
         }
     }
 
-    func edit(appData: AppData) {
+    func edit(appID: Int) {
         let storyboard = UIStoryboard(name: "UIEditor", bundle: nil)
         guard let uiEditorController = storyboard.instantiateInitialViewController() as? UIEditorController else {
             fatalError()
         }
+
+        let appData = StorageManager.getApp(appID: appID)
 
         uiEditorController.appData = appData
 
         navigationController?.pushViewController(uiEditorController, animated: true)
     }
 
-    func run(appData: AppData) {
+    func run(appID: Int) {
+        let appData = StorageManager.getApp(appID: appID)
 
+        //TODO:
     }
 
+    @IBAction func addAppButton(_ sender: Any) {
+        let appData = StorageManager.createNewApp()
+
+        initAppStackView()
+
+        print(appData.appID)
+
+        edit(appID: appData.appID)
+    }
+
+    @IBAction func removeAllButton(_ sender: Any) {
+        StorageManager.removeAll()
+
+        initAppStackView()
+    }
 }
 

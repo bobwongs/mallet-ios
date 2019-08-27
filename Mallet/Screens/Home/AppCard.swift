@@ -10,12 +10,14 @@ import UIKit
 
 class AppCard: UIView {
 
-    let appData: AppData
+    let appName: String
+    let appID: Int
 
     let homeViewController: HomeViewController
 
-    init(appData: AppData, homeViewController: HomeViewController) {
-        self.appData = appData
+    init(appName: String, appID: Int, homeViewController: HomeViewController) {
+        self.appName = appName
+        self.appID = appID
         self.homeViewController = homeViewController
 
         super.init(frame: CGRect())
@@ -43,7 +45,7 @@ class AppCard: UIView {
         ])
 
         let titleLabel = UILabel()
-        titleLabel.text = appData.appName
+        titleLabel.text = self.appName
         titleLabel.sizeToFit()
         titleLabel.font = titleLabel.font.withSize(25)
 
@@ -67,11 +69,11 @@ class AppCard: UIView {
     }
 
     @objc func edit(_ sender: UIButton) {
-        homeViewController.edit(appData: appData)
+        homeViewController.edit(appID: appID)
     }
 
     @objc func run(_ sender: UIButton) {
-        homeViewController.run(appData: appData)
+        homeViewController.run(appID: appID)
     }
 }
 

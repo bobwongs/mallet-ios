@@ -23,6 +23,7 @@ class AppSettingsController: UIViewController, UINavigationBarDelegate {
         navigationBar.delegate = self
 
         appSettingsTableViewController.appNameTextField.text = uiEditorController.appName
+        appSettingsTableViewController.appSettingsController = self
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -42,11 +43,25 @@ class AppSettingsController: UIViewController, UINavigationBarDelegate {
 
         self.dismiss(animated: true)
     }
+
+    func save() {
+        uiEditorController.setAppName(appName: appSettingsTableViewController.appNameTextField.text)
+
+        uiEditorController.saveApp()
+    }
+
+    func addToHomeScreen() {
+        uiEditorController.setAppName(appName: appSettingsTableViewController.appNameTextField.text)
+
+        uiEditorController.addToHomeScreen()
+    }
 }
 
 class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate {
 
     @IBOutlet weak var appNameTextField: UITextField!
+
+    var appSettingsController: AppSettingsController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +71,18 @@ class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+
+        switch tableView.cellForRow(at: indexPath)?.reuseIdentifier ?? "" {
+        case "save":
+            appSettingsController.save()
+
+        case "addToHomeScreen":
+            appSettingsController.addToHomeScreen()
+
+        default:
+            break
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

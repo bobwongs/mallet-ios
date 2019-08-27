@@ -20,7 +20,18 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="8an-bp-Ab7"/>
                     </view>
-                    <navigationItem key="navigationItem" id="99C-O5-ovG"/>
+                    <navigationItem key="navigationItem" id="99C-O5-ovG">
+                        <barButtonItem key="leftBarButtonItem" systemItem="trash" id="7BC-v6-QKf">
+                            <connections>
+                                <action selector="removeAllButton:" destination="uln-gd-zNy" id="Aap-cf-m4G"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="j05-Q8-V2o">
+                            <connections>
+                                <action selector="addAppButton:" destination="uln-gd-zNy" id="WmB-bA-FHr"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Etl-wb-srw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

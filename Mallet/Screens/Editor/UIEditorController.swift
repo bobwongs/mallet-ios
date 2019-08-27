@@ -537,4 +537,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         self.navigationItem.title = appName
     }
+
+    func saveApp() {
+        let appData = generateAppData()
+    }
+
+    func addToHomeScreen() {
+        let appData = generateAppData()
+    }
 }
