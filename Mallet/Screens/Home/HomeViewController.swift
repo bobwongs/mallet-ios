@@ -88,10 +88,6 @@ class HomeViewController: UIViewController {
     @IBAction func addAppButton(_ sender: Any) {
         let appData = StorageManager.createNewApp()
 
-        initAppStackView()
-
-        print(appData.appID)
-
         edit(appID: appData.appID)
     }
 

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate {
+class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
     @IBOutlet var editorView: UIView!
     @IBOutlet var uiTable: UITableView!
     @IBOutlet var appScreenParent: UIView!
@@ -40,9 +40,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.delegate = self
+
         initUIEditor()
 
         generateScreen()
+    }
+
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is HomeViewController {
+            (viewController as! HomeViewController).initAppStackView()
+        }
     }
 
     func initUIEditor() {
