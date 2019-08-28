@@ -122,6 +122,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
             UINumOfEachType[uiData.uiType]! += 1
 
+            uiDictionary[uiData.uiID] = ui
+
             switch uiData.uiType {
             case .Button:
                 guard let editorUIButton = ui as? EditorUIButton else {
@@ -457,12 +459,20 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
             var funcIDs = [Int]()
 
+            var codes = [String]()
+
             switch editorUIData.uiType {
             case .Label:
                 funcID += 1
             case .Button:
                 funcIDs.append(funcID)
                 funcID += 1
+
+                guard let button = ui.value as? EditorUIButton else {
+                    fatalError()
+                }
+                codes.append(button.tap)
+
             case .Switch:
                 funcID += 1
                 break
@@ -477,7 +487,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     x: ui.value.center.x / uiScale,
                     y: ui.value.center.y / uiScale,
                     funcID: funcIDs,
-                    code: [""]
+                    code: codes
             )
 
             uiDataTable.append(uiData)
@@ -498,25 +508,15 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     @IBAction func runButton(_: Any) {
-        let appData = generateAppData()
+        let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
 
-        do {
-            let jsonData = try JSONEncoder().encode(appData)
-
-            let jsonStr = String(bytes: jsonData, encoding: .utf8)
-
-            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
-
-            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
-                fatalError()
-            }
-
-            appRunner.appData = jsonStr
-
-            navigationController?.pushViewController(appRunner, animated: true)
-        } catch let error {
-            print(error)
+        guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+            fatalError()
         }
+
+        appRunner.appData = generateAppData()
+
+        navigationController?.pushViewController(appRunner, animated: true)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

@@ -80,9 +80,15 @@ class HomeViewController: UIViewController {
     }
 
     func run(appID: Int) {
-        let appData = StorageManager.getApp(appID: appID)
+        let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
 
-        //TODO:
+        guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+            fatalError()
+        }
+
+        appRunner.appData = StorageManager.getApp(appID: appID)
+
+        navigationController?.pushViewController(appRunner, animated: true)
     }
 
     @IBAction func addAppButton(_ sender: Any) {

@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-1028" y="196"/>
         </scene>
-        <!--Run-->
+        <!--App Runner-->
         <scene sceneID="gER-Kq-iWi">
             <objects>
                 <viewController id="WZl-p4-bIy" customClass="AppRunner" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
@@ -47,7 +47,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vCM-VV-OrL"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Run" id="wpb-cf-c24"/>
+                    <navigationItem key="navigationItem" id="wpb-cf-c24"/>
                     <connections>
                         <outlet property="appView" destination="xkG-kH-gf3" id="EEM-nm-9Uz"/>
                     </connections>

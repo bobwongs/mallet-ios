@@ -12,14 +12,9 @@ import UIKit
 class AppRunner: UIViewController, UINavigationControllerDelegate {
     @IBOutlet var appView: UIView!
 
-    public var appData: String?
+    var appData: AppData?
 
-    public var codeStr: String?
-    public var uiData: [UIData]?
-
-    public var uiName = Dictionary<String, Int>()
-
-    public var appUI: Dictionary<Int, UIView> = Dictionary()
+    var appUI: Dictionary<Int, UIView> = Dictionary()
 
     private let runner = RunnerObjCpp()
 
@@ -31,72 +26,32 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         InitRunner()
     }
 
+    private func InitRunner() {
+        guard let appData = self.appData else {
+            print("appData is nil")
+            fatalError()
+        }
+
+        navigationItem.title = appData.appName
+
+        GenerateAppScreen()
+
+        print(appData.code)
+
+        runner.initRunner(appData.code)
+    }
+
     private func GenerateAppScreen() {
-        guard let uiData = uiData else {
+        guard let uiData = appData?.uiData else {
             fatalError()
         }
 
         ScreenGenerator().generateScreen(inputUIData: uiData, appView: appView)
     }
 
-    public func SetUIText(id: Int, text: String) {
-        DispatchQueue.main.async {
-            guard let appRunner = self.topViewController() as? AppRunner else {
-                return
-            }
-
-            let typeOfUI = type(of: appRunner.appUI[id]!)
-
-            if typeOfUI == AppButton.self {
-                let button = appRunner.appUI[id] as! UIButton
-                button.setTitle(text, for: .normal)
-                button.sizeToFit()
-            }
-            if typeOfUI == AppLabel.self {
-                let label = appRunner.appUI[id] as! UILabel
-                label.text = text
-                label.sizeToFit()
-            }
-        }
-    }
-
-    private func InitRunner() {
-        guard let appData = appData else {
-            print("appData is nil")
-            fatalError()
-        }
-
-        guard let jsonData = appData.data(using: .utf8) else {
-            fatalError()
-        }
-
-        do {
-            let decodedAppData = try JSONDecoder().decode(AppData.self, from: jsonData)
-
-            uiData = decodedAppData.uiData
-            codeStr = decodedAppData.code
-        } catch let error {
-            print(error)
-        }
-
-        guard let codeStr = codeStr else {
-            fatalError()
-        }
-
-        GenerateAppScreen()
-
-        runner.initRunner(codeStr)
-    }
-
     func CallFunc(id: Int) {
         runner.runCode(Int32(id))
     }
-
-    /*
-     public func RunCode(id: Int) {
-     runner.runCode(Int32(id))
-     }
-     */
 
     func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
@@ -114,8 +69,29 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
     }
 
     func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
-        if viewController is UIEditorController {
+        if !(viewController is AppRunner) {
             runner.terminateRunner()
+        }
+    }
+
+    func SetUIText(id: Int, text: String) {
+        DispatchQueue.main.async {
+            guard let appRunner = self.topViewController() as? AppRunner else {
+                return
+            }
+
+            let typeOfUI = type(of: appRunner.appUI[id]!)
+
+            if typeOfUI == AppButton.self {
+                let button = appRunner.appUI[id] as! UIButton
+                button.setTitle(text, for: .normal)
+                button.sizeToFit()
+            }
+            if typeOfUI == AppLabel.self {
+                let label = appRunner.appUI[id] as! UILabel
+                label.text = text
+                label.sizeToFit()
+            }
         }
     }
 }
