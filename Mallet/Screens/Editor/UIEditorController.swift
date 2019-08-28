@@ -553,6 +553,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func addToHomeScreen() {
-        let appData = generateAppData()
+        AddShortcut.showShortcutScreen(appID: self.appData.appID)
     }
 }

@@ -19,6 +19,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        if url.host == "run" {
+            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
+
+            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+                fatalError()
+            }
+
+            guard let appID = Int(url.path.suffix(url.path.count - 1)) else {
+                return true
+            }
+
+            appRunner.appData = StorageManager.getApp(appID: appID)
+
+            self.window?.rootViewController = appRunner
+        }
+
+        self.window?.makeKeyAndVisible()
+
+        return true
+    }
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

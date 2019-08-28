@@ -14,19 +14,15 @@ class AddShortcut {
 
     static let localServer = HttpServer()
 
-    static func showShortcutScreen(deepLink: String) {
+    static func showShortcutScreen(appID: Int) {
 
-        /*
-        guard let deepLinkURL = URL(string: deepLink) else {
-            return
-        }
-        */
+        let urlStr = "mallet-shortcut://run/\(appID)"
 
-        guard let shortcutURL = URL(string: "http://localhost:8123/shortcut") else {
+        guard let shortcutURL = URL(string: "http://localhost:52133/shortcut") else {
             return
         }
 
-        let html = generateHTML(icon: "", title: "TestApp", data: "")
+        let html = generateHTML(icon: "", title: "TestApp", url: urlStr)
 
         print(html)
 
@@ -39,14 +35,14 @@ class AddShortcut {
         }
 
         do {
-            try localServer.start(8123)
+            try localServer.start(52133)
         } catch {
             print("Error")
         }
         UIApplication.shared.open(shortcutURL)
     }
 
-    static func generateHTML(icon: String, title: String, data: String) -> String {
+    static func generateHTML(icon: String, title: String, url: String) -> String {
         return """
                <html>
                  <head>
@@ -57,7 +53,8 @@ class AddShortcut {
                    </title>
                  </head>
                  <body>
-                   <a id="redirect" href="mallet-shortcut://"></a>
+                   <a id="redirect" href="\(url)"></a>
+                   <h1>//TODO:</h1>
                    <script type="text/javascript">
                      if(navigator.standalone){
                          var e = document.getElementById("redirect");
@@ -66,7 +63,6 @@ class AddShortcut {
                          e.dispatchEvent(v);
                      }
                      else{
-                         alert("Add to home");
                      }
                    </script>
                  </body>
