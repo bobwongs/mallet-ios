@@ -119,6 +119,22 @@ std::vector<std::string> Convert::SplitCode(std::string codeStr)
 
         std::string str = "";
 
+        /*
+        if (i + 1 < codeStr.size() && codeStr[i] == '-' && codeStr[i + 1] != ' ')
+        {
+            if (splitCode.size() > 0)
+            {
+                std::string previousToken = splitCode[splitCode.size() - 1];
+
+                if (symbol.count(previousToken) || doubleSymbol.count(previousToken))
+                {
+                    str += "-";
+                    i++;
+                }
+            }
+        }
+        */
+
         while (i < codeStr.size())
         {
             str += codeStr[i];
@@ -234,7 +250,7 @@ void Convert::DeclareConstant(const int firstCodeIndex)
             if (commaNum > 1)
                 isNumber = false;
 
-            if (!(code[firstCodeIndex][0] == '.' || (0 <= (code[firstCodeIndex][0] - '0') && (code[firstCodeIndex][0] - '0') <= 9)))
+            if (!(code[firstCodeIndex][i] == '.' || (0 <= (code[firstCodeIndex][i] - '0') && (code[firstCodeIndex][i] - '0') <= 9)))
                 isNumber = false;
 
             if (!isNumber)
@@ -375,12 +391,26 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
 
             while (i < code.size())
             {
-                if (bracketStack == 0 &&
-                    (operatorsPrioritiesAccum[operatorIndex].count(code[i]) > 0 ||
-                     (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}") ||
-                     (start < i && ((symbol.count(code[i - 1]) == 0 && doubleSymbol.count(code[i - 1]) == 0) || code[i - 1] == ")") && (symbol.count(code[i]) == 0 && doubleSymbol.count(code[i]) == 0))))
+                if (bracketStack == 0)
                 {
-                    break;
+                    if (operatorsPrioritiesAccum[operatorIndex].count(code[i]) > 0)
+                    {
+                        if (code[i] != "-" || !(0 < i && isSymbol(code[i - 1])))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}")
+                    {
+                        if (code[i] != "-" || !(0 < i && isSymbol(code[i - 1])))
+                        {
+                            break;
+                        }
+                    }
+
+                    if (start < i && ((symbol.count(code[i - 1]) == 0 && doubleSymbol.count(code[i - 1]) == 0) || code[i - 1] == ")") && (symbol.count(code[i]) == 0 && doubleSymbol.count(code[i]) == 0))
+                        break;
                 }
 
                 if (funcNames.count(code[i]) > 0 || cppFuncNames.count(code[i]) > 0)
@@ -471,10 +501,20 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
     {
         if (code[parts[0].first] == "!")
         {
-            returnFormulaData.type = ConvertFormula(firstCodeIndex, 0, convert).type;
+            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
 
             if (convert)
                 AddCmdCode(NOT, 1);
+        }
+        else if (code[parts[0].first] == "-")
+        {
+            if (convert)
+                AddPush0Code();
+
+            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+
+            if (convert)
+                AddCmdCode(SUB, 2);
         }
         else
         {
@@ -885,10 +925,8 @@ std::string Convert::ConvertCode(std::string codeStr)
 
     code = SplitCode(codeStr);
 
-    /*
     for (int i = 0; i < code.size(); i++)
         printf("#%d: %s\n", i, code[i].c_str());
-    */
 
     for (int codeIndex = 0; codeIndex < code.size(); codeIndex++)
     {
@@ -1166,6 +1204,11 @@ int Convert::Type2AddressType(const int typeID)
         return BOOL_ADDRESS_TYPE;
 
     return typeID;
+}
+
+bool Convert::isSymbol(const std::string code)
+{
+    return symbol.count(code) > 0 || doubleSymbol.count(code) > 0;
 }
 
 void Convert::AddCode(int code)

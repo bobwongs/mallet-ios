@@ -93,6 +93,8 @@ private:
 
     bool checkVariableOrFuncName(const std::string name);
 
+    bool isSymbol(const std::string code);
+
     std::string Code2Str();
 
     std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
