@@ -501,7 +501,10 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
     {
         if (code[parts[0].first] == "!")
         {
-            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+            if (code[parts[0].first] == "(")
+                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+            else
+                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 6, convert).type;
 
             if (convert)
                 AddCmdCode(NOT, 1);
@@ -511,7 +514,10 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
             if (convert)
                 AddPush0Code();
 
-            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+            if (code[parts[0].first] == "(")
+                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+            else
+                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 6, convert).type;
 
             if (convert)
                 AddCmdCode(SUB, 2);
