@@ -34,14 +34,17 @@ enum FuncType {
 }
 
 enum BlockContentType {
-    case Label
-    case InputSingleVariable
-    case InputAll
+    case Label(String)
+    case Arg([ArgContentType])
+}
+
+enum ArgContentType {
+    case Text(String)
+    case Block(BlockData)
 }
 
 struct BlockContentData {
-    let type: BlockContentType
-    let value: String
+    let value: BlockContentType
     let order: Int
 }
 
@@ -52,6 +55,7 @@ struct BlockData {
     var contents: [BlockContentData]
     var indent: Int
 
+    /*
     init(blockType: BlockType, funcType: FuncType, funcName: String, contents: [BlockContentData], indent: Int) {
 
         self.blockType = blockType
@@ -60,4 +64,5 @@ struct BlockData {
         self.funcName = funcName
         self.indent = indent
     }
+    */
 }

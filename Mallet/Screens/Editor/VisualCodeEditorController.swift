@@ -18,7 +18,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @IBOutlet weak var blockTableView: UITableView!
 
-    let codeArea: UIView = UIScrollView()
+    static let codeArea: UIView = UIScrollView()
 
     let blockDefaultIndentSize: CGFloat = 20
 
@@ -34,10 +34,11 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 blockType: .Print,
                 funcType: .Func,
                 funcName: "print",
-                contents: [BlockContentData(type: .Label, value: "Print", order: -1),
-                           BlockContentData(type: .InputAll, value: "256", order: 0)],
+                contents: [BlockContentData(value: .Label("Print"), order: -1),
+                           BlockContentData(value: .Arg([.Text("ABC"), .Text("EFG")]), order: 0)],
                 indent: 0),
 
+        /*
         BlockType.SetUIText:
         BlockData(
                 blockType: .SetUIText,
@@ -192,24 +193,25 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                            BlockContentData(type: .InputAll, value: "", order: 1)],
                 indent:
                 0),
+                */
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.addSubview(codeArea)
-        codeArea.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(VisualCodeEditorController.codeArea)
+        VisualCodeEditorController.codeArea.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            codeArea.topAnchor.constraint(equalTo: self.view.topAnchor),
-            codeArea.bottomAnchor.constraint(equalTo: blockTableView.topAnchor),
-            codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+            VisualCodeEditorController.codeArea.topAnchor.constraint(equalTo: self.view.topAnchor),
+            VisualCodeEditorController.codeArea.bottomAnchor.constraint(equalTo: blockTableView.topAnchor),
+            VisualCodeEditorController.codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            VisualCodeEditorController.codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
 
         self.view.bringSubviewToFront(blockTableView)
 
         let backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
-        codeArea.backgroundColor = backgroundColor
+        VisualCodeEditorController.codeArea.backgroundColor = backgroundColor
         self.view.backgroundColor = backgroundColor
 
 
@@ -223,14 +225,14 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeStackView.spacing = 5
         codeStackView.alignment = .leading
 
-        codeArea.addSubview(codeStackView)
+        VisualCodeEditorController.codeArea.addSubview(codeStackView)
 
         codeStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            codeStackView.topAnchor.constraint(equalTo: codeArea.topAnchor, constant: 20),
-            codeStackView.bottomAnchor.constraint(equalTo: codeArea.bottomAnchor),
-            codeStackView.leftAnchor.constraint(equalTo: codeArea.leftAnchor, constant: blockDefaultIndentSize),
-            codeStackView.rightAnchor.constraint(equalTo: codeArea.rightAnchor)
+            codeStackView.topAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.topAnchor, constant: 20),
+            codeStackView.bottomAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.bottomAnchor),
+            codeStackView.leftAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.leftAnchor, constant: blockDefaultIndentSize),
+            codeStackView.rightAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.rightAnchor)
         ])
 
     }
@@ -279,8 +281,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         let blockIndex = blockView.index
         let isOnTable = blockView.isOnTable
 
-        let move = sender.translation(in: codeArea)
-        sender.setTranslation(CGPoint.zero, in: codeArea)
+        let move = sender.translation(in: VisualCodeEditorController.codeArea)
+        sender.setTranslation(CGPoint.zero, in: VisualCodeEditorController.codeArea)
 
         if sender.state == .began {
 
@@ -316,14 +318,14 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 movingBlockState = .vertical
 
-                let center = blockView.superview?.convert(blockView.center, to: codeArea)
+                let center = blockView.superview?.convert(blockView.center, to: VisualCodeEditorController.codeArea)
 
                 if isOnTable {
                     self.view.addSubview(blockView)
                     self.view.bringSubviewToFront(blockView)
                 } else {
-                    codeArea.addSubview(blockView)
-                    codeArea.bringSubviewToFront(blockView)
+                    VisualCodeEditorController.codeArea.addSubview(blockView)
+                    VisualCodeEditorController.codeArea.bringSubviewToFront(blockView)
                 }
 
                 blockView.translatesAutoresizingMaskIntoConstraints = true
@@ -417,7 +419,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
-        codeArea.addSubview(toBlankView)
+        VisualCodeEditorController.codeArea.addSubview(toBlankView)
 
         let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
         let toViewHeight = NSLayoutConstraint(item: toBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 0)
@@ -434,13 +436,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             codeStackView.insertArrangedSubview(toBlankView, at: to + 1)
         }
 
-        codeArea.layoutIfNeeded()
+        VisualCodeEditorController.codeArea.layoutIfNeeded()
 
         fromViewHeight.constant = 0
         toViewHeight.constant = 44
 
         UIView.animate(withDuration: 0.2, animations: {
-            self.codeArea.layoutIfNeeded()
+            VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
 
         fromBlankView.removeFromSuperview()
@@ -449,18 +451,18 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func dropBlock(index: Int, block: UIView) {
-        let center = codeArea.convert(block.center, to: codeStackView)
+        let center = VisualCodeEditorController.codeArea.convert(block.center, to: codeStackView)
 
         block.center = center
 
-        codeArea.layoutIfNeeded()
+        VisualCodeEditorController.codeArea.layoutIfNeeded()
 
         codeStackView.arrangedSubviews[index].removeFromSuperview()
 
         codeStackView.insertArrangedSubview(block, at: index)
 
         UIView.animate(withDuration: 0.2, animations: {
-            self.codeArea.layoutIfNeeded()
+            VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
     }
 
@@ -480,12 +482,12 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
         codeStackView.insertArrangedSubview(blankView, at: index)
 
-        codeArea.layoutIfNeeded()
+        VisualCodeEditorController.codeArea.layoutIfNeeded()
 
         blankViewHeightConstraint.constant = 0
 
         UIView.animate(withDuration: 0.2, animations: {
-            self.codeArea.layoutIfNeeded()
+            VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
 
         blankView.removeFromSuperview()
@@ -632,6 +634,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             case .Func:
                 code += "\(blockData.funcName)("
 
+                /*
+                TODO:
                 for argIndex in 0..<args.count {
                     switch args[argIndex].type {
                     case .InputAll:
@@ -646,6 +650,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                         code += ","
                     }
                 }
+                */
 
                 code += ")\n"
 

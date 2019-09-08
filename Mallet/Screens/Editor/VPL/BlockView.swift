@@ -144,7 +144,7 @@ class BlockView: UIView, UITextFieldDelegate {
 
         self.addSubview(blockStackView)
 
-        let paddingV: CGFloat = 7
+        let paddingV: CGFloat = 3
         let paddingH: CGFloat = 7
 
         blockStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -155,8 +155,6 @@ class BlockView: UIView, UITextFieldDelegate {
 
         blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-        var width: CGFloat = 0
-
         var argSize = 0
         for content in blockData.contents {
             if argSize < content.order + 1 {
@@ -164,73 +162,25 @@ class BlockView: UIView, UITextFieldDelegate {
             }
         }
 
-        args = [Arg](repeating: Arg(type: .InputAll, content: ""), count: argSize)
+        args = [Arg](repeating: Arg(type: .Label(""), content: ""), count: argSize)
 
         for content in blockData.contents {
 
-            switch content.type {
-            case .Label:
-                let text = UILabel()
-                text.text = content.value
-                text.textColor = UIColor.white
-                text.textAlignment = .center
+            switch content.value {
+            case .Label(let text):
+                let label = UILabel()
+                label.text = text
+                label.textColor = UIColor.white
+                label.textAlignment = .center
 
-                text.sizeToFit()
+                label.sizeToFit()
 
-                width += text.frame.width + 10
+                blockStackView.addArrangedSubview(label)
 
-                blockStackView.addArrangedSubview(text)
-
-            case .InputAll:
-                let textField = InputField(id: content.order)
-
-                textField.delegate = self
-
-                args[content.order] = Arg(type: content.type, content: content.value)
-
-                textField.addTarget(self, action: #selector(setArg), for: .editingChanged)
-
-                textField.text = content.value
-                textField.textColor = UIColor.black
-                textField.backgroundColor = UIColor.white
-                textField.textAlignment = .center
-                textField.layer.cornerRadius = 5
-                textField.sizeToFit()
-
-                textField.autocapitalizationType = .none
-                textField.spellCheckingType = .no
-
-                width += textField.frame.width + 10
-
-                blockStackView.addArrangedSubview(textField)
-
-            case .InputSingleVariable:
-                //TODO:
-
-                let textField = InputField(id: content.order)
-
-                textField.delegate = self
-
-                args[content.order] = Arg(type: content.type, content: content.value)
-
-                textField.addTarget(self, action: #selector(setArg), for: .editingChanged)
-
-                textField.text = content.value
-                textField.textColor = UIColor.black
-                textField.backgroundColor = UIColor.white
-                textField.textAlignment = .center
-                textField.layer.cornerRadius = 5
-                textField.sizeToFit()
-
-                textField.autocapitalizationType = .none
-                textField.spellCheckingType = .no
-
-                width += textField.frame.width + 10
-
-                blockStackView.addArrangedSubview(textField)
+            case .Arg(let argData):
+                let argView = ArgView(contents: argData)
+                blockStackView.addArrangedSubview(argView)
             }
-
-
         }
     }
 
@@ -275,5 +225,4 @@ class BlockView: UIView, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-
 }
