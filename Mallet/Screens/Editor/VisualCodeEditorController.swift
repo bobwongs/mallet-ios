@@ -342,7 +342,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                     addBlock()
 
                 } else {
-                    floatBlock(index: blockIndex)
+                    floatBlock(blockView: blockView, index: blockIndex)
                 }
             }
 
@@ -393,7 +393,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             if nearestIndex != blockIndex {
                 blockView.index = nearestIndex
 
-                moveBlock(from: blockIndex, to: nearestIndex)
+                moveBlock(blockView: blockView, from: blockIndex, to: nearestIndex)
             }
         }
     }
@@ -403,25 +403,25 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         codeStackView.addArrangedSubview(blankView)
 
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        //blankView.heightAnchor.constraint(equalToConstant: 0).isActive = true
     }
 
-    func floatBlock(index: Int) {
+    func floatBlock(blockView: UIView, index: Int) {
         let blankView = UIView()
 
         codeStackView.insertArrangedSubview(blankView, at: index)
 
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        blankView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        blankView.heightAnchor.constraint(equalToConstant: blockView.frame.height).isActive = true
     }
 
-    func moveBlock(from: Int, to: Int) {
+    func moveBlock(blockView: UIView, from: Int, to: Int) {
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
         VisualCodeEditorController.codeArea.addSubview(toBlankView)
 
-        let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
+        let fromViewHeight = NSLayoutConstraint(item: fromBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: blockView.frame.height)
         let toViewHeight = NSLayoutConstraint(item: toBlankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 0)
 
         fromBlankView.removeConstraints(fromBlankView.constraints)
@@ -439,7 +439,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         VisualCodeEditorController.codeArea.layoutIfNeeded()
 
         fromViewHeight.constant = 0
-        toViewHeight.constant = 44
+        toViewHeight.constant = blockView.frame.height
 
         UIView.animate(withDuration: 0.2, animations: {
             VisualCodeEditorController.codeArea.layoutIfNeeded()
@@ -469,13 +469,13 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     func deleteBlock(index: Int) {
         let blockView = codeStackView.arrangedSubviews[index]
 
-        floatBlock(index: index)
+        floatBlock(blockView: blockView, index: index)
 
         blockView.removeFromSuperview()
 
         let blankView = codeStackView.arrangedSubviews[index]
 
-        let blankViewHeightConstraint = NSLayoutConstraint(item: blankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: 44)
+        let blankViewHeightConstraint = NSLayoutConstraint(item: blankView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1.0, constant: blockView.frame.height)
 
         blankView.removeConstraints(blankView.constraints)
         blankView.addConstraint(blankViewHeightConstraint)
@@ -701,6 +701,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
         return (code, lastIndex)
     }
+
 }
 
 protocol blockDelegate: class {
