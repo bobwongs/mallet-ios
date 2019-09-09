@@ -31,6 +31,7 @@
 		0EB764A622FD640300DFD72C /* VariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A522FD640300DFD72C /* VariableView.swift */; };
 		0EB764A822FD644700DFD72C /* VariableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A722FD644700DFD72C /* VariableData.swift */; };
 		0EBEB4C22326823B004A25A3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C12326823B004A25A3 /* Home.storyboard */; };
+		0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */; };
 		0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* AppRunner.swift */; };
 		0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* AppRunner.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
@@ -104,6 +105,7 @@
 		0EB764A522FD640300DFD72C /* VariableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableView.swift; sourceTree = "<group>"; };
 		0EB764A722FD644700DFD72C /* VariableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableData.swift; sourceTree = "<group>"; };
 		0EBEB4C12326823B004A25A3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* AppRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRunner.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* AppRunner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppRunner.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
 				611ACBE81FD0A5217407B85C /* AppData.swift */,
 				0E43716522F876C2004CA2BD /* Extension.swift */,
+				0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */,
 				0E24CF0B231578BE00D5D5C2 /* StorageManager.swift */,
 				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
 				0EF478AF226B78CE007315DB /* Assets.xcassets */,
@@ -596,6 +599,7 @@
 			files = (
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
 				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
+				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
 				0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */,

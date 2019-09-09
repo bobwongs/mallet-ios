@@ -189,6 +189,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func insertContent(content: ArgContent, index: Int) {
+        HapticFeedback.blockFeedback()
+
         let blankView = stackView.arrangedSubviews[index]
 
         let center = VisualCodeEditorController.codeArea.convert(content.center, to: stackView)
@@ -215,6 +217,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func floatContent(content: ArgContent, index: Int) {
+        HapticFeedback.blockFeedback()
 
         let center = content.superview!.convert(content.center, to: VisualCodeEditorController.codeArea)
 
@@ -238,6 +241,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func insertBlankView(content: ArgContent, index: Int) {
+        HapticFeedback.selectionFeedback()
+
         let blankView = UIView()
         stackView.insertArrangedSubview(blankView, at: index)
         blankView.translatesAutoresizingMaskIntoConstraints = false
@@ -255,6 +260,12 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func moveBlankView(content: ArgContent, from: Int, to: Int) {
+        if from == to {
+            return
+        }
+
+        HapticFeedback.selectionFeedback()
+
         let fromBlankView = stackView.arrangedSubviews[from]
         fromBlankView.removeConstraints(fromBlankView.constraints)
         let fromBlankViewWidth = NSLayoutConstraint(item: fromBlankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: content.frame.width)
@@ -284,6 +295,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func removeBlankView(content: UIView, index: Int) {
+        HapticFeedback.selectionFeedback()
+
         let blankView = stackView.arrangedSubviews[index]
 
         blankView.removeConstraints(blankView.constraints)

@@ -9,13 +9,6 @@
 import UIKit
 
 class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate {
-
-    let feedbackGenerator: UISelectionFeedbackGenerator = {
-        let generator = UISelectionFeedbackGenerator()
-        generator.prepare()
-        return generator
-    }()
-
     enum MovingBlockState {
         case notMoving
         case horizontal
@@ -291,9 +284,6 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         sender.setTranslation(CGPoint.zero, in: VisualCodeEditorController.codeArea)
 
         if sender.state == .began {
-
-            feedbackGenerator.selectionChanged()
-
             if abs(move.x) > 0.3 && abs(move.y) < 1 && !isOnTable {
                 movingBlockState = .horizontal
 
@@ -346,6 +336,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                     blockView.delegate = self
 
                     blockViews.append(blockView)
+                    blockViews.append(blockView)
 
                     addBlock()
 
@@ -358,8 +349,6 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         }
 
         if sender.state == .ended {
-            feedbackGenerator.selectionChanged()
-
             if movingBlockState == .vertical {
                 dropBlock(index: blockIndex, block: blockView)
 
@@ -383,6 +372,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
             sender.view?.center.y += move.y
 
+            self.view.layoutIfNeeded()
 
             let centerY = blockView.superview?.convert(blockView.center, to: codeStackView).y ?? 0
 
@@ -408,14 +398,19 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func addBlock() {
+        HapticFeedback.blockFeedback()
+
         let blankView = UIView()
         codeStackView.addArrangedSubview(blankView)
 
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        //blankView.heightAnchor.constraint(equalToConstant: 0).isActive = true
+
+        self.view.layoutIfNeeded()
     }
 
     func floatBlock(blockView: UIView, index: Int) {
+        HapticFeedback.blockFeedback()
+
         let blankView = UIView()
 
         codeStackView.insertArrangedSubview(blankView, at: index)
@@ -425,6 +420,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func moveBlock(blockView: UIView, from: Int, to: Int) {
+        HapticFeedback.selectionFeedback()
+
         let fromBlankView = codeStackView.arrangedSubviews[from]
         let toBlankView = UIView()
 
@@ -460,6 +457,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func dropBlock(index: Int, block: UIView) {
+        HapticFeedback.blockFeedback()
+
         let center = VisualCodeEditorController.codeArea.convert(block.center, to: codeStackView)
 
         block.center = center
@@ -476,6 +475,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func deleteBlock(index: Int) {
+        HapticFeedback.blockFeedback()
+
         let blockView = codeStackView.arrangedSubviews[index]
 
         floatBlock(blockView: blockView, index: index)
@@ -511,6 +512,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func changeIndent(movingBlockView: Block, direction: Int) {
+        HapticFeedback.blockFeedback()
 
         let blockIndex = movingBlockView.index
 
