@@ -10,6 +10,12 @@ import UIKit
 
 class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate {
 
+    let feedbackGenerator: UISelectionFeedbackGenerator = {
+        let generator = UISelectionFeedbackGenerator()
+        generator.prepare()
+        return generator
+    }()
+
     enum MovingBlockState {
         case notMoving
         case horizontal
@@ -286,6 +292,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
         if sender.state == .began {
 
+            feedbackGenerator.selectionChanged()
+
             if abs(move.x) > 0.3 && abs(move.y) < 1 && !isOnTable {
                 movingBlockState = .horizontal
 
@@ -350,6 +358,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         }
 
         if sender.state == .ended {
+            feedbackGenerator.selectionChanged()
 
             if movingBlockState == .vertical {
                 dropBlock(index: blockIndex, block: blockView)
