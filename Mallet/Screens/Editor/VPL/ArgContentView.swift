@@ -229,7 +229,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         let blankView = UIView()
         stackView.insertArrangedSubview(blankView, at: index)
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        blankView.widthAnchor.constraint(equalTo: blankView.widthAnchor).isActive = true
+        //blankView.widthAnchor.constraint(equalTo: blankView.widthAnchor).isActive = true
 
         for contentIndex in (index + 1)..<stackView.arrangedSubviews.count {
             guard  let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {
@@ -260,16 +260,15 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     func moveBlankView(content: ArgContent, from: Int, to: Int) {
-        if from == to {
-            return
+        if from != to {
+            HapticFeedback.selectionFeedback()
         }
-
-        HapticFeedback.selectionFeedback()
 
         let fromBlankView = stackView.arrangedSubviews[from]
         fromBlankView.removeConstraints(fromBlankView.constraints)
         let fromBlankViewWidth = NSLayoutConstraint(item: fromBlankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: content.frame.width)
         fromBlankView.addConstraint(fromBlankViewWidth)
+        fromBlankView.heightAnchor.constraint(equalToConstant: 0).isActive = true
 
         let toBlankView = UIView()
         if to < from {
@@ -283,8 +282,12 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         VisualCodeEditorController.codeArea.layoutIfNeeded()
 
+        fromBlankView.removeConstraints(fromBlankView.constraints)
         fromBlankViewWidth.constant = 0
+        fromBlankView.addConstraint(fromBlankViewWidth)
         toBlankViewWidth.constant = content.frame.width
+
+        print(fromBlankView.constraints)
 
         UIView.animate(withDuration: 0.1, animations:
         {
