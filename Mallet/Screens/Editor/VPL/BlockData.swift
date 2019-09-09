@@ -10,6 +10,7 @@ import Foundation
 
 enum BlockType: CaseIterable {
     case Print
+    case Variable
     case SetUIText
     case Sleep
     case Assign

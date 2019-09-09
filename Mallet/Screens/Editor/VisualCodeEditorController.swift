@@ -41,7 +41,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 funcType: .Func,
                 funcName: "print",
                 contents: [BlockContentData(value: .Label("Print"), order: -1),
-                           BlockContentData(value: .Arg([.Text("ABC"), .Text("EFG")]), order: 0)],
+                           BlockContentData(value: .Arg([.Text("ABC"), .Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "var", contents: [BlockContentData(value: .Label("VAR"), order: 0)], indent: 0)), .Text("EFG")]), order: 0)],
                 indent: 0),
 
         /*

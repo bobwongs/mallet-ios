@@ -153,7 +153,7 @@ class BlockView: UIView, UITextFieldDelegate {
         blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH).isActive = true
         blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH).isActive = true
 
-        blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        //blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
         var argSize = 0
         for content in blockData.contents {

@@ -55,8 +55,11 @@ class ArgView: UIView {
 
             case .Block(let blockData):
                 //TODO:
+                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView)
 
-                //block.index = contentIndex
+                block.index = contentIndex
+
+                contentsStackView.addArrangedSubview(block)
 
                 break
             }

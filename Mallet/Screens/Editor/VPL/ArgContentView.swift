@@ -303,18 +303,6 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 }
 
-class ArgVariable: ArgContent {
-
-    init(value: String) {
-        fatalError()
-        //super.init(argContentValue: .Block(BlockData()))
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError()
-    }
-}
-
 class ArgText: ArgContent, UITextFieldDelegate {
     init(value: String, stackView: UIStackView) {
         super.init(argContentValue: .Text(value), stackView: stackView)
@@ -356,4 +344,29 @@ class ArgText: ArgContent, UITextFieldDelegate {
         return true
     }
 
+}
+
+class ArgBlock: ArgContent {
+    init(blockData: BlockData, stackView: UIStackView) {
+        super.init(argContentValue: .Block(blockData), stackView: stackView)
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        let blockView = BlockView(blockData: blockData)
+        self.addSubview(blockView)
+        blockView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    blockView.topAnchor.constraint(equalTo: self.topAnchor),
+                    blockView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                    blockView.leftAnchor.constraint(equalTo: self.leftAnchor),
+                    blockView.rightAnchor.constraint(equalTo: self.rightAnchor)
+                ]
+        )
+
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
 }
