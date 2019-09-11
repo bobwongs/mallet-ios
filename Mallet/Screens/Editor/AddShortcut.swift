@@ -14,7 +14,7 @@ class AddShortcut {
 
     static let localServer = HttpServer()
 
-    static func showShortcutScreen(appID: Int) {
+    static func showShortcutScreen(appID: Int, appName: String) {
 
         let urlStr = "mallet-shortcut://run/\(appID)"
 
@@ -22,7 +22,7 @@ class AddShortcut {
             return
         }
 
-        let html = generateHTML(icon: "", title: "TestApp", url: urlStr)
+        let html = generateHTML(icon: "", title: appName, url: urlStr)
 
         print(html)
 
