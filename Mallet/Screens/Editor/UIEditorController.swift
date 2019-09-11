@@ -11,7 +11,6 @@ import UIKit
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
     @IBOutlet var editorView: UIView!
     @IBOutlet var uiTable: UITableView!
-    @IBOutlet var appScreenParent: UIView!
 
     @IBOutlet var UINameTextField: UITextField!
     @IBOutlet var UITextTextField: UITextField!
@@ -27,7 +26,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     var uiNum = 0
     var selectedUIID = 0
 
-    var uiScale: CGFloat = 0.7
+    var uiScale: CGFloat = 1
 
     let uiTypeNum = UIType.allCases.count
     var UINumOfEachType = Dictionary<UIType, Int>()
@@ -76,19 +75,19 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             screenSize.height -= navigationController.navigationBar.frame.size.height
         }
 
-        appScreen = UIView(frame: CGRect(x: 0, y: 0, width: screenSize.width * uiScale, height: screenSize.height * uiScale))
-        appScreen.center = appScreenParent.center
-        appScreenParent.addSubview(appScreen)
-
+        appScreen = UIView()
+        self.view.addSubview(appScreen)
         appScreen.translatesAutoresizingMaskIntoConstraints = false
-        appScreen.centerXAnchor.constraint(equalTo: appScreenParent.centerXAnchor).isActive = true
-        appScreen.centerYAnchor.constraint(equalTo: appScreenParent.centerYAnchor).isActive = true
-        appScreen.widthAnchor.constraint(equalToConstant: screenSize.width * uiScale).isActive = true
-        appScreen.heightAnchor.constraint(equalToConstant: screenSize.height * uiScale).isActive = true
+        NSLayoutConstraint.activate(
+                [
+                    appScreen.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+                    appScreen.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+                    appScreen.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+                    appScreen.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+                ]
+        )
 
         appScreen.backgroundColor = UIColor.white
-        appScreen.layer.borderColor = UIColor.lightGray.cgColor
-        appScreen.layer.borderWidth = 1
 
         uiTable.delegate = self
         uiTable.dataSource = self
