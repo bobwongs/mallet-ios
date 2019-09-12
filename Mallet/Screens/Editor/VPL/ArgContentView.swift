@@ -229,7 +229,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         let blankView = UIView()
         stackView.insertArrangedSubview(blankView, at: index)
         blankView.translatesAutoresizingMaskIntoConstraints = false
-        //blankView.widthAnchor.constraint(equalTo: blankView.widthAnchor).isActive = true
+        blankView.widthAnchor.constraint(equalTo: blankView.widthAnchor).isActive = true
 
         for contentIndex in (index + 1)..<stackView.arrangedSubviews.count {
             guard  let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {

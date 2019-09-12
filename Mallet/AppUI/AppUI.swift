@@ -69,19 +69,107 @@ protocol EditorUIData {
     var uiName: String { set get }
 }
 
-public class EditorUILabel: AppUILabel, EditorUIData {
-    let uiType = UIType.Label
+
+public class EditorUI: UIView, EditorUIData {
+
+    let uiType: UIType
     var uiID: Int
     var uiName: String
 
-    init(uiID: Int, uiName: String) {
+    var menu: UIMenuController
+
+    init(uiID: Int, uiName: String, uiType: UIType, ui: UIView) {
+        self.uiType = uiType
         self.uiID = uiID
         self.uiName = uiName
 
+        self.menu = UIMenuController.shared
+
         super.init(frame: CGRect())
 
-        let wall = UIView(frame: self.frame)
+        self.addSubview(ui)
+        ui.translatesAutoresizingMaskIntoConstraints = false
+
+        let wall = UIView()
         self.addSubview(wall)
+        wall.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    wall.topAnchor.constraint(equalTo: ui.topAnchor),
+                    wall.bottomAnchor.constraint(equalTo: ui.bottomAnchor),
+                    wall.leftAnchor.constraint(equalTo: ui.leftAnchor),
+                    wall.rightAnchor.constraint(equalTo: ui.rightAnchor)
+                ]
+        )
+
+        self.bringSubviewToFront(wall)
+
+        self.layoutIfNeeded()
+        self.frame = wall.frame
+
+        wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
+        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
+
+    }
+
+    public required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
+    @objc func showMenu(_ sender: UITapGestureRecognizer) {
+        if self.uiID < 0 {
+            return
+        }
+
+        becomeFirstResponder()
+
+        self.menu = UIMenuController.shared
+        self.menu.isMenuVisible = true
+        self.menu.arrowDirection = .down
+        self.menu.setTargetRect(self.bounds, in: self)
+
+        let editCodeMenu = UIMenuItem(title: "Edit Code", action: #selector(self.editCode(sender:)))
+        let editUIMenu = UIMenuItem(title: "Edit", action: #selector(self.editUI(sender:)))
+        let menuItems = [editCodeMenu, editUIMenu]
+        self.menu.menuItems = menuItems
+
+        self.menu.setMenuVisible(true, animated: true)
+    }
+
+    public override var canBecomeFirstResponder: Bool {
+        return true
+    }
+
+    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(self.editCode(sender:)) {
+            return true
+        }
+
+        if action == #selector(self.editUI(sender:)) {
+            return true
+        }
+
+        return false
+    }
+
+    @objc func editCode(sender: UIMenuItem) {
+
+    }
+
+    @objc func editUI(sender: UIMenuItem) {
+
+    }
+}
+
+public class EditorUILabel: EditorUI {
+
+    let label: AppUILabel
+
+    init(uiID: Int, uiName: String) {
+        let ui = AppUILabel()
+        self.label = ui
+
+        super.init(uiID: uiID, uiName: uiName, uiType: .Label, ui: ui)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -89,21 +177,17 @@ public class EditorUILabel: AppUILabel, EditorUIData {
     }
 }
 
-public class EditorUIButton: AppUIButton, EditorUIData {
-    let uiType = UIType.Button
-    var uiID: Int
-    var uiName: String
+public class EditorUIButton: EditorUI {
+
+    let button: AppUIButton
 
     var tap = ""
 
     init(uiID: Int, uiName: String) {
-        self.uiID = uiID
-        self.uiName = uiName
+        let ui = AppUIButton()
+        self.button = ui
 
-        super.init(frame: CGRect())
-
-        let wall = UIView(frame: self.frame)
-        self.addSubview(wall)
+        super.init(uiID: uiID, uiName: uiName, uiType: .Button, ui: ui)
     }
 
     required init?(coder aDecoder: NSCoder) {

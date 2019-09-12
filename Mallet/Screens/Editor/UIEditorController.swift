@@ -353,11 +353,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     func setUIText(uiType: UIType, ui: UIView, text: String) {
         switch uiType {
         case .Label:
-            let label = ui as! UILabel
+            guard let label = (ui as? EditorUILabel)?.label else {
+                fatalError()
+            }
+
             label.text = text
 
         case .Button:
-            let button = ui as! UIButton
+            guard let button = (ui as? EditorUIButton)?.button else {
+                fatalError()
+            }
+
             button.setTitle(text, for: .normal)
 
         default:
@@ -368,11 +374,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     func getUIText(uiType: UIType, ui: UIView) -> String {
         switch uiType {
         case .Label:
-            let label = ui as! UILabel
+            guard let label = (ui as? EditorUILabel)?.label else {
+                fatalError()
+            }
+
             return label.text ?? ""
 
         case .Button:
-            let button = ui as! UIButton
+            guard let button = (ui as? EditorUIButton)?.button else {
+                fatalError()
+            }
+
             return button.titleLabel?.text ?? ""
 
         default:
