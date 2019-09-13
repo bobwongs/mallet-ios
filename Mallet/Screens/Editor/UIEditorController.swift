@@ -9,11 +9,17 @@
 import UIKit
 
 class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
-    @IBOutlet var editorView: UIView!
-    @IBOutlet var uiTable: UITableView!
 
+    @IBOutlet var editorView: UIView!
+
+    var uiTableModal: UIView!
+    var uiTableModalPos: NSLayoutConstraint!
+    var uiTable: UITableView!
+
+    /*
     @IBOutlet var UINameTextField: UITextField!
     @IBOutlet var UITextTextField: UITextField!
+    */
 
     var appData: AppData!
     var appName: String!
@@ -89,9 +95,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         appScreen.backgroundColor = UIColor.white
 
+        generateUITableModal()
+
         uiTable.delegate = self
         uiTable.dataSource = self
 
+        /*
         UINameTextField.text = ""
         UITextTextField.text = ""
 
@@ -100,6 +109,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         UINameTextField.delegate = self
         UITextTextField.delegate = self
+        */
     }
 
     func generateScreen() {
@@ -246,8 +256,10 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         let uiData = senderView as! EditorUIData
 
+        /*
         UINameTextField.text = uiData.uiName
         UITextTextField.text = getUIText(uiType: uiData.uiType, ui: senderView)
+        */
 
         selectedUIID = uiData.uiID
     }
@@ -296,8 +308,10 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 uiDictionary[uiData.uiID] = ui
             }
 
+            /*
             UINameTextField.text = (ui as! EditorUIData).uiName
             UITextTextField.text = getUIText(uiType: uiData.uiType, ui: ui)
+            */
 
             selectedUIID = uiData.uiID
         }
@@ -345,7 +359,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError()
         }
 
-        setUIText(uiType: uiData.uiType, ui: uiDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
+        //setUIText(uiType: uiData.uiType, ui: uiDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
 
         uiDictionary[selectedUIID]!.sizeToFit()
     }
@@ -565,5 +579,53 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func addToHomeScreen() {
         AddShortcut.showShortcutScreen(appID: self.appData.appID, appName: self.appData.appName)
+    }
+
+    func generateUITableModal() {
+        self.uiTableModal = UIView()
+        //let scrollView = UIScrollView()
+        self.uiTable = UITableView()
+
+
+        self.view.addSubview(self.uiTableModal)
+        self.uiTableModal.addSubview(self.uiTable)
+
+        self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    self.uiTableModal.heightAnchor.constraint(equalTo: self.view.heightAnchor),
+                    //self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.view.frame.height - (UIApplication.shared.statusBarFrame.height) - (self.navigationController?.navigationBar.frame.height ?? 0))),
+                    self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -500),
+                    self.uiTableModal.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+                    self.uiTableModal.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+                ]
+        )
+        self.uiTableModal.backgroundColor = UIColor.groupTableViewBackground
+        self.view.bringSubviewToFront(self.uiTableModal)
+
+        /*
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    scrollView.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: 50),
+                    scrollView.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
+                    scrollView.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
+                    scrollView.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
+                ]
+        )
+        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: 3000)
+
+        scrollView.addSubview(self.uiTable)
+        */
+
+        self.uiTable.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    self.uiTable.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: 50),
+                    self.uiTable.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
+                    self.uiTable.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
+                    self.uiTable.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
+                ]
+        )
     }
 }

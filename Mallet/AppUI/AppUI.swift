@@ -69,7 +69,6 @@ protocol EditorUIData {
     var uiName: String { set get }
 }
 
-
 public class EditorUI: UIView, EditorUIData {
 
     let uiType: UIType
@@ -109,6 +108,16 @@ public class EditorUI: UIView, EditorUIData {
 
         wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
         //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
+
+        //self.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    wall.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                    wall.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                    ui.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                    ui.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+                ]
+        )
 
     }
 
