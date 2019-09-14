@@ -71,13 +71,17 @@ protocol EditorUIData {
 
 public class EditorUI: UIView, EditorUIData {
 
+    var delegate: EditorUIDelegate?
+
     let uiType: UIType
     var uiID: Int
     var uiName: String
 
     var menu: UIMenuController
 
-    init(uiID: Int, uiName: String, uiType: UIType, ui: UIView) {
+    init(uiID: Int, uiName: String, uiType: UIType, ui: UIView, uiEditorController: UIEditorController) {
+        self.delegate = uiEditorController
+
         self.uiType = uiType
         self.uiID = uiID
         self.uiName = uiName
@@ -165,7 +169,7 @@ public class EditorUI: UIView, EditorUIData {
     }
 
     @objc func editCode(sender: UIMenuItem) {
-
+        self.delegate?.openCodeEditor(ui: self)
     }
 
     @objc func editUI(sender: UIMenuItem) {
@@ -177,11 +181,11 @@ public class EditorUILabel: EditorUI {
 
     let label: AppUILabel
 
-    init(uiID: Int, uiName: String) {
+    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
         let ui = AppUILabel()
         self.label = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Label, ui: ui)
+        super.init(uiID: uiID, uiName: uiName, uiType: .Label, ui: ui, uiEditorController: uiEditorController)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -195,11 +199,11 @@ public class EditorUIButton: EditorUI {
 
     var tap = ""
 
-    init(uiID: Int, uiName: String) {
+    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
         let ui = AppUIButton()
         self.button = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Button, ui: ui)
+        super.init(uiID: uiID, uiName: uiName, uiType: .Button, ui: ui, uiEditorController: uiEditorController)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -207,22 +211,22 @@ public class EditorUIButton: EditorUI {
     }
 }
 
-public class EditorUISwitch: AppUISwitch, EditorUIData {
-    let uiType = UIType.Switch
-    var uiID: Int
-    var uiName: String
+public class EditorUISwitch: EditorUI {
 
-    init(uiID: Int, uiName: String) {
-        self.uiID = uiID
-        self.uiName = uiName
+    let switchView: AppUISwitch
 
-        super.init(frame: CGRect())
+    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
+        let ui = AppUISwitch()
+        self.switchView = ui
 
-        let wall = UIView(frame: self.frame)
-        self.addSubview(wall)
+        super.init(uiID: uiID, uiName: uiName, uiType: .Switch, ui: ui, uiEditorController: uiEditorController)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+protocol EditorUIDelegate {
+    func openCodeEditor(ui: EditorUI)
 }

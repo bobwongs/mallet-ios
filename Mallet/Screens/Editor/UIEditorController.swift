@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate {
+class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
 
     @IBOutlet var editorView: UIView!
 
@@ -207,6 +207,39 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         ui.addGestureRecognizer(tap)
     }
 
+    func openCodeEditor(ui: EditorUI) {
+        self.view.endEditing(true)
+
+        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
+
+        guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
+            fatalError()
+        }
+
+        let uiData = ui as EditorUIData
+
+        codeEditorController.ui = ui
+
+        codeEditorController.uiData = uiData
+
+        switch uiData.uiType {
+        case .Label:
+            codeEditorController.codeStr = ""
+        case .Button:
+            guard let button = ui as? EditorUIButton else {
+                print("This is not a button")
+                fatalError()
+            }
+
+            // TODO:
+            codeEditorController.codeStr = button.tap
+        case .Switch:
+            codeEditorController.codeStr = ""
+        }
+
+        navigationController?.pushViewController(codeEditorController, animated: true)
+    }
+
     @objc func moveToCode(_ sender: UILongPressGestureRecognizer) {
         if let senderSuperView = sender.view?.superview {
             if senderSuperView != appScreen {
@@ -336,12 +369,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         switch uiType {
         case .Label:
-            ui = EditorUILabel(uiID: uiID, uiName: uiName)
+            ui = EditorUILabel(uiID: uiID, uiName: uiName, uiEditorController: self)
         case .Button:
-            ui = EditorUIButton(uiID: uiID, uiName: uiName)
+            ui = EditorUIButton(uiID: uiID, uiName: uiName, uiEditorController: self)
         case .Switch:
-            ui = EditorUISwitch(uiID: uiID, uiName: uiName)
-            (ui as! EditorUISwitch).isOn = true
+            ui = EditorUISwitch(uiID: uiID, uiName: uiName, uiEditorController: self)
+            (ui as! EditorUISwitch).switchView.isOn = true
         }
 
         ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
