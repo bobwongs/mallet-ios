@@ -59,7 +59,11 @@
                                     <action selector="SettingsButton:" destination="AIj-Sb-75T" id="w2k-DO-xcU"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="add" id="1v1-LG-rXs"/>
+                            <barButtonItem systemItem="add" id="1v1-LG-rXs">
+                                <connections>
+                                    <action selector="openUITable:" destination="AIj-Sb-75T" id="VD2-7w-nxR"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>

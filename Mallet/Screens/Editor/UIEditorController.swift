@@ -279,8 +279,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             if superView != appScreen {
                 // 画面にUIを追加
 
-                print(114514)
-
                 let uiType = uiData.uiType
                 let uiOnTable = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -593,49 +591,67 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func generateUITableModal() {
         self.uiTableModal = UIView()
-        //let scrollView = UIScrollView()
         self.uiTable = UITableView()
+
+        let titleBar = UIView()
+        let doneButton = UIButton(type: .system)
 
 
         self.view.addSubview(self.uiTableModal)
         self.uiTableModal.addSubview(self.uiTable)
+        self.uiTableModal.addSubview(titleBar)
+        titleBar.addSubview(doneButton)
 
         self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
                     self.uiTableModal.heightAnchor.constraint(equalTo: self.view.heightAnchor),
                     //self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.view.frame.height - (UIApplication.shared.statusBarFrame.height) - (self.navigationController?.navigationBar.frame.height ?? 0))),
-                    self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -500),
+                    self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -250),
                     self.uiTableModal.leftAnchor.constraint(equalTo: self.view.leftAnchor),
                     self.uiTableModal.rightAnchor.constraint(equalTo: self.view.rightAnchor)
                 ]
         )
-        self.uiTableModal.backgroundColor = UIColor.groupTableViewBackground
         self.view.bringSubviewToFront(self.uiTableModal)
 
-        /*
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        titleBar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    scrollView.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: 50),
-                    scrollView.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
-                    scrollView.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
-                    scrollView.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
+                    titleBar.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor),
+                    titleBar.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
+                    titleBar.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor),
+                    titleBar.heightAnchor.constraint(equalToConstant: 50)
                 ]
         )
-        scrollView.contentSize = CGSize(width: UIScreen.main.bounds.size.width, height: 3000)
+        titleBar.backgroundColor = .groupTableViewBackground
 
-        scrollView.addSubview(self.uiTable)
-        */
+        doneButton.setTitle("Done", for: .normal)
+        doneButton.titleLabel?.font = doneButton.titleLabel?.font.withSize(17)
+        doneButton.addTarget(self, action: #selector(closeUITable(_:)), for: .touchUpInside)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    doneButton.rightAnchor.constraint(equalTo: titleBar.rightAnchor, constant: -15),
+                    doneButton.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
+                ]
+        )
 
         self.uiTable.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    self.uiTable.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: 50),
+                    self.uiTable.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
                     self.uiTable.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
                     self.uiTable.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
                     self.uiTable.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
                 ]
         )
+    }
+
+    @IBAction func openUITable(_ sender: Any) {
+        print("Open UI Table")
+    }
+
+    @objc func closeUITable(_ sender: Any) {
+        print("Close UI Table")
     }
 }
