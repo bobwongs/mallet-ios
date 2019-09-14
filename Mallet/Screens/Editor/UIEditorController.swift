@@ -279,6 +279,8 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             if superView != appScreen {
                 // 画面にUIを追加
 
+                print(114514)
+
                 let uiType = uiData.uiType
                 let uiOnTable = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -298,8 +300,9 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 ui.translatesAutoresizingMaskIntoConstraints = true
 
-                let center = ui.superview?.convert(ui.center, to: appScreen)
-                appScreen.addSubview(ui)
+                let center = ui.superview?.convert(ui.center, to: self.view)
+                self.view.addSubview(ui)
+                self.view.bringSubviewToFront(ui)
                 ui.center = center ?? CGPoint()
 
                 let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
@@ -314,6 +317,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
             */
 
             selectedUIID = uiData.uiID
+        }
+
+        if sender.state == .ended {
+            let center = ui.superview?.convert(ui.center, to: appScreen)
+            appScreen.addSubview(ui)
+            appScreen.bringSubviewToFront(ui)
+            ui.center = center ?? CGPoint()
         }
 
         let move = sender.translation(in: view)

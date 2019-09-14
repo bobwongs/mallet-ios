@@ -87,10 +87,12 @@ public class EditorUI: UIView, EditorUIData {
         super.init(frame: CGRect())
 
         self.addSubview(ui)
-        ui.translatesAutoresizingMaskIntoConstraints = false
+        //ui.translatesAutoresizingMaskIntoConstraints = false
 
         let wall = UIView()
         self.addSubview(wall)
+        wall.frame = ui.frame
+        /*
         wall.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
@@ -100,11 +102,12 @@ public class EditorUI: UIView, EditorUIData {
                     wall.rightAnchor.constraint(equalTo: ui.rightAnchor)
                 ]
         )
+        */
 
         self.bringSubviewToFront(wall)
 
-        self.layoutIfNeeded()
-        self.frame = wall.frame
+        //self.layoutIfNeeded()
+        self.frame = ui.frame
 
         wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
         //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
