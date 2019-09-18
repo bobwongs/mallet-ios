@@ -8,8 +8,9 @@ UserInterfaceState.xcuserstate
 # VSCode
 .vscode/ipch
 
-# CocoaPods
-/Pods
+# Carthage
+Carthage/Build
+Carthage/Checkouts
 
 # test
 Mallet/cpp/test.cpp
