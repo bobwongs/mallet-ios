@@ -146,7 +146,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
             bool jumped = false;
 
-            if (cmd >= 1024)
+            if (OPERATOR_BEGIN < cmd && cmd < OPERATOR_END)
             {
                 double firstValue = getNumberValue(*topStackData[0]);
                 double secondValue;

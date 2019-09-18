@@ -58,7 +58,8 @@ enum
     BOOL_ADDRESS_TYPE,
 
     // Operator
-    ADD = 1024,
+    OPERATOR_BEGIN,
+    ADD,
     SUB,
     MUL,
     DIV,
@@ -72,6 +73,7 @@ enum
     AND,
     OR,
     NOT,
+    OPERATOR_END,
 };
 
 typedef std::variant<ControlCode, int, double, bool, std::string> var;
