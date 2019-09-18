@@ -40,6 +40,8 @@
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* BlockView.swift */; };
 		0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9723324E9C00CD9321 /* Swifter.framework */; };
+		0ED08D9B233266E600CD9321 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9A233266E600CD9321 /* Realm.framework */; };
+		0ED08D9D233266FE00CD9321 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9C233266FE00CD9321 /* RealmSwift.framework */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */; };
 		0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE32312D56800AD661E /* AppSettingsController.swift */; };
@@ -110,6 +112,8 @@
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82322E37AF700A9D6D9 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		0ED08D9723324E9C00CD9321 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
+		0ED08D9A233266E600CD9321 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		0ED08D9C233266FE00CD9321 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
 		0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettings.storyboard; sourceTree = "<group>"; };
@@ -138,6 +142,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0ED08D9D233266FE00CD9321 /* RealmSwift.framework in Frameworks */,
+				0ED08D9B233266E600CD9321 /* Realm.framework in Frameworks */,
 				0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +267,8 @@
 		0ED08D9623324E9C00CD9321 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0ED08D9C233266FE00CD9321 /* RealmSwift.framework */,
+				0ED08D9A233266E600CD9321 /* Realm.framework */,
 				0ED08D9723324E9C00CD9321 /* Swifter.framework */,
 			);
 			name = Frameworks;
@@ -496,6 +504,8 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 			);
 			outputFileListPaths = (
 			);
