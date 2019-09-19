@@ -75,6 +75,8 @@ private:
 
     int DeclareVariable(const std::string name, const bool isGlobal);
 
+    int DeclareList(const std::string name, const bool isGlobal);
+
     void ListFunction();
 
     void ListCppFunction();
@@ -94,6 +96,8 @@ private:
     bool checkVariableOrFuncName(const std::string name);
 
     bool isSymbol(const std::string code);
+
+    bool checkName(const std::string name);
 
     std::string Code2Str();
 
@@ -116,6 +120,7 @@ private:
     std::unordered_map<std::string, bool> isGlobalVariable;
 
     std::vector<int> memorySize;
+    std::vector<int> listMemorySize;
 
     std::unordered_map<std::string, int> globalVariableAddress;
 
@@ -124,6 +129,10 @@ private:
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<int> variableNums;
     int variableNum;
+
+    std::unordered_map<std::string, int> listAddresses;
+    std::vector<int> listNums;
+    int listNum;
 
     std::unordered_map<int, var> variableInitialValues;
 
@@ -143,6 +152,10 @@ private:
     int sharedVariableNum;
     std::unordered_map<std::string, int> sharedVariableAddress;
     std::unordered_map<std::string, bool> isSharedVariable;
+
+    int sharedListNum;
+    std::unordered_map<std::string, int> sharedListAddress;
+    std::unordered_map<std::string, bool> isSharedList;
 };
 
 #endif /* convert_hpp */
