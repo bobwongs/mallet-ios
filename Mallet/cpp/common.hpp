@@ -83,5 +83,6 @@ enum
 };
 
 typedef std::variant<ControlCode, int, double, bool, std::string> var;
+typedef std::vector<var> list;
 
 #endif /* common_h */
