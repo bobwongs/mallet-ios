@@ -404,10 +404,7 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
 
                     if (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}" || code[i] == "]")
                     {
-                        if (code[i] != "-" || !(0 < i && isSymbol(code[i - 1])))
-                        {
-                            break;
-                        }
+                        break;
                     }
 
                     if (start < i && ((symbol.count(code[i - 1]) == 0 && doubleSymbol.count(code[i - 1]) == 0) || code[i - 1] == ")") && (symbol.count(code[i]) == 0 && doubleSymbol.count(code[i]) == 0))
@@ -476,12 +473,10 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
         return codeSize;
     }
 
-    /*
     for (auto p : parts)
     {
         printf("%d %d\n", p.first, p.second);
     }
-    */
 
     if (parts.size() < 1)
     {
