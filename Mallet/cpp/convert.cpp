@@ -119,22 +119,6 @@ std::vector<std::string> Convert::SplitCode(std::string codeStr)
 
         std::string str = "";
 
-        /*
-        if (i + 1 < codeStr.size() && codeStr[i] == '-' && codeStr[i + 1] != ' ')
-        {
-            if (splitCode.size() > 0)
-            {
-                std::string previousToken = splitCode[splitCode.size() - 1];
-
-                if (symbol.count(previousToken) || doubleSymbol.count(previousToken))
-                {
-                    str += "-";
-                    i++;
-                }
-            }
-        }
-        */
-
         while (i < codeStr.size())
         {
             str += codeStr[i];
@@ -510,8 +494,6 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
     else if (funcNames.count(code[parts[0].first]) > 0 || cppFuncNames.count(code[parts[0].first]) > 0)
     {
         ConvertFunc(firstCodeIndex, convert);
-
-        // returnFormulaData.type
     }
     else
     {
@@ -543,9 +525,6 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
             ConvertFormula(firstCodeIndex + 1, 0, convert);
         }
     }
-
-    //TODO:
-    //returnFormulaData.type = NUMBER_TYPE;
 
     return codeSize;
 }
@@ -610,9 +589,6 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 
             int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
 
-            //ConvertFormula(codeIndex, 0, true);
-
-            //TODO: Type
             if (!isCppFunc)
                 AddCmdCode(SET_VARIABLE, 2);
 
@@ -672,8 +648,6 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else if (token == "return")
         {
-            //TODO: check type
-
             codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true);
 
             AddCmdCode(RETURN, 0);
@@ -838,21 +812,6 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 break;
             }
 
-                /*
-            case GLOBAL_VARIABLE:
-            {
-                int address = sharedVariableAddress[code[codeIndex]];
-
-                AddPushAddressCode(address, true);
-
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
-
-                AddCmdCode(SET_SHARED_VARIABLE, 2);
-
-                break;
-            }
-            */
-
             case SHARED_VARIABLE:
             {
                 int address = sharedVariableAddress[code[codeIndex]];
@@ -946,7 +905,6 @@ std::string getInitialValueStr(var value)
 
     if (std::holds_alternative<double>(value))
     {
-        //TODO: acc
         std::ostringstream strstream;
         strstream << std::fixed << std::setprecision(10) << std::get<double>(value);
         str += "NUMBER\n";
@@ -1052,8 +1010,6 @@ std::string Convert::ConvertCode(std::string codeStr)
     ListCppFunction();
     ListFunction();
 
-    //int initFuncID = funcIDs[{"init", 0}];
-
     for (int funcID = 0; funcID < funcStartIndexes.size(); funcID++)
     {
         ClearLocalVariable();
@@ -1063,23 +1019,11 @@ std::string Convert::ConvertCode(std::string codeStr)
         else
             funcBytecodeStartIndexes.push_back(bytecodeIndex);
 
-        /*
-       if (funcID == initFuncID)
-        {
-            for (int i = 0; i < globalVariableDeclarationByteCode.size(); i++)
-            {
-                bytecode[bytecodeIndex] = globalVariableDeclarationByteCode[i];
-                bytecodeIndex++;
-            }
-        }
-        */
-
         for (int argIndex = 0; argIndex < funcArgAddresses[funcID].size(); argIndex++)
         {
             AddPushAddressCode(DeclareVariable(funcArgOriginalVariableNames[funcID][argIndex], false), false);
             AddPushCode(funcArgAddresses[funcID][argIndex], true);
 
-            //TODO:
             AddCmdCode(SET_VARIABLE, 2);
         }
 
@@ -1184,7 +1128,6 @@ void Convert::ListFunction()
 
             if (isFuncExists[newFuncData] || isCppFuncExists[newFuncData])
             {
-                //TODO: show detail
                 printf("The function %s is already declared\n", newFuncData.funcName.c_str());
                 break;
             }
