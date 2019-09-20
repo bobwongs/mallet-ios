@@ -279,10 +279,8 @@ void Convert::DeclareConstant(const int firstCodeIndex)
     }
 }
 
-int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
+void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 {
-    int type = -1;
-
     if (code[firstCodeIndex][0] == '"')
     {
     }
@@ -332,13 +330,33 @@ int Convert::ConvertValue(const int firstCodeIndex, const bool convert)
             break;
         }
     }
-
-    //! Delete
-    return type;
 }
 
-Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
+int Convert::ConvertListElement(const int firstCodeIndex, const bool convert)
 {
+    if (convert)
+    {
+        std::string listName = code[firstCodeIndex];
+
+        int address = listAddresses[listName];
+
+        AddPushAddressCode(address, false);
+    }
+
+    printf("#%d,%d\n", firstCodeIndex, convert ? 114514 : 0);
+    int codeSize = 3 + ConvertFormula(firstCodeIndex + 2, 0, convert);
+
+    if (convert)
+    {
+        AddCmdCode(GET_LIST, 2);
+    }
+
+    return codeSize;
+}
+
+int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
+{
+    printf("@%d\n", firstCodeIndex);
     const std::vector<std::set<std::string>> operatorsPriorities = {
         {"||"},
         {"&&"},
@@ -394,7 +412,7 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
                         }
                     }
 
-                    if (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}")
+                    if (operatorsPriority.count(code[i]) > 0 || code[i] == "," || code[i] == ")" || code[i] == "}" || code[i] == "]")
                     {
                         if (code[i] != "-" || !(0 < i && isSymbol(code[i - 1])))
                         {
@@ -415,9 +433,9 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
                     if (firstCodeIndex < i && bracketStack == 0)
                         allBracket = false;
 
-                    if (code[i] == "(")
+                    if (code[i] == "(" || code[i] == "[")
                         bracketStack++;
-                    if (code[i] == ")")
+                    if (code[i] == ")" || code[i] == "]")
                         bracketStack--;
 
                     if (firstCodeIndex == i && bracketStack == 0)
@@ -463,41 +481,46 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
             }
         }
 
-        formulaData returnFormulaData;
+        int codeSize = parts[parts.size() - 1].second - parts[0].first;
 
-        returnFormulaData.codeSize = parts[parts.size() - 1].second - parts[0].first;
-        //returnFormulaData.type = NUMBER_TYPE;
+        return codeSize;
+    }
 
-        return returnFormulaData;
+    for (auto p : parts)
+    {
+        printf("%d %d\n", p.first, p.second);
     }
 
     if (parts.size() < 1)
     {
-        return formulaData();
+        return -1;
     }
 
-    formulaData returnFormulaData;
-
-    returnFormulaData.codeSize = parts[parts.size() - 1].second - parts[0].first;
+    int codeSize = parts[parts.size() - 1].second - parts[0].first;
 
     if ((parts[0].second - parts[0].first == 1))
     {
-        returnFormulaData.type = ConvertValue(firstCodeIndex, convert);
+        ConvertValue(firstCodeIndex, convert);
+        //returnFormulaData.type = 0;
+    }
+    else if (code[parts[0].first + 1] == "[" && code[parts[0].second - 1] == "]")
+    {
+        ConvertListElement(firstCodeIndex, convert);
     }
     else if (funcNames.count(code[parts[0].first]) > 0 || cppFuncNames.count(code[parts[0].first]) > 0)
     {
         ConvertFunc(firstCodeIndex, convert);
 
-        //TODO: returnFormulaData.type
+        // returnFormulaData.type
     }
     else
     {
         if (code[parts[0].first] == "!")
         {
             if (code[parts[0].first] == "(")
-                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+                ConvertFormula(firstCodeIndex + 1, 0, convert);
             else
-                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 6, convert).type;
+                ConvertFormula(firstCodeIndex + 1, 6, convert);
 
             if (convert)
                 AddCmdCode(NOT, 1);
@@ -508,23 +531,23 @@ Convert::formulaData Convert::ConvertFormula(const int firstCodeIndex, int opera
                 AddPush0Code();
 
             if (code[parts[0].first] == "(")
-                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+                ConvertFormula(firstCodeIndex + 1, 0, convert);
             else
-                returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 6, convert).type;
+                ConvertFormula(firstCodeIndex + 1, 6, convert);
 
             if (convert)
                 AddCmdCode(SUB, 2);
         }
         else
         {
-            returnFormulaData.type = ConvertFormula(firstCodeIndex + 1, 0, convert).type;
+            ConvertFormula(firstCodeIndex + 1, 0, convert);
         }
     }
 
     //TODO:
     //returnFormulaData.type = NUMBER_TYPE;
 
-    return returnFormulaData;
+    return codeSize;
 }
 
 int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
@@ -544,12 +567,11 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
     {
         argNum++;
 
-        formulaData argData;
-        argData = ConvertFormula(codeIndex, 0, false);
+        int formulaCodeSize = ConvertFormula(codeIndex, 0, false);
 
-        codeSize += argData.codeSize + 1;
+        codeSize += formulaCodeSize + 1;
 
-        codeIndex += argData.codeSize;
+        codeIndex += formulaCodeSize;
 
         if (code[codeIndex] == ",")
             codeIndex++;
@@ -583,21 +605,20 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
         int argIndex = 0;
         while (code[codeIndex] != ")")
         {
-            formulaData argData;
-            argData = ConvertFormula(codeIndex, 0, false);
-
             if (!isCppFunc)
                 AddPushAddressCode(funcArgAddresses[funcID][argIndex], true);
 
-            ConvertFormula(codeIndex, 0, true);
+            int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
+
+            //ConvertFormula(codeIndex, 0, true);
 
             //TODO: Type
             if (!isCppFunc)
                 AddCmdCode(SET_VARIABLE, 2);
 
-            codeSize += argData.codeSize + 1;
+            codeSize += formulaCodeSize + 1;
 
-            codeIndex += argData.codeSize;
+            codeIndex += formulaCodeSize;
 
             if (code[codeIndex] == ",")
                 codeIndex++;
@@ -653,13 +674,13 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         {
             //TODO: check type
 
-            codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true).codeSize;
+            codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true);
 
             AddCmdCode(RETURN, 0);
         }
         else if (token == "print")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true);
 
             AddCmdCode(PRINT_NUMBER, 1);
         }
@@ -693,7 +714,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         {
             int firstIndex = bytecodeIndex;
 
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true);
 
             AddCmdCode(NOT, 1);
 
@@ -715,7 +736,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else if (token == "if")
         {
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true);
 
             AddCmdCode(NOT, 1);
 
@@ -758,7 +779,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
             int repeatTimeVarAddress = variableNum;
 
             AddPushAddressCode(repeatTimeVarAddress, false);
-            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+            codeSize = 3 + ConvertFormula(codeIndex + 2, 0, true);
             AddCmdCode(SET_VARIABLE, 2);
 
             AddPushAddressCode(countVarAddress, false);
@@ -810,7 +831,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
                 AddPushAddressCode(address, false);
 
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
 
                 AddCmdCode(SET_VARIABLE, 2);
 
@@ -838,7 +859,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
                 AddPushAddressCode(address, true);
 
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true).codeSize;
+                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
 
                 AddCmdCode(SET_SHARED_VARIABLE, 2);
 
@@ -860,7 +881,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 while (code[index - 1] != "}")
                 {
                     AddPushAddressCode(address, false);
-                    index += ConvertFormula(index, 0, true).codeSize + 1;
+                    index += ConvertFormula(index, 0, true) + 1;
                     AddCmdCode(ADD_LIST, 2);
                 }
 
@@ -884,7 +905,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 while (code[index] != "}")
                 {
                     AddPushAddressCode(address, true);
-                    index += ConvertFormula(index, 0, true).codeSize + 1;
+                    index += ConvertFormula(index, 0, true) + 1;
                     AddCmdCode(ADD_LIST, 2);
                 }
 
@@ -998,6 +1019,17 @@ std::string Convert::Code2Str()
     str += std::to_string(globalVariableNum) + "\n";
     str += "#GLOBAL_VARIABLE_NUM_END\n";
 
+    str += "#LIST_MEMORY_SIZE\n";
+    for (int size : listMemorySize)
+    {
+        str += std::to_string(size) + "\n";
+    }
+    str += "#LIST_MEMORY_SIZE_END\n";
+
+    str += "#SHARED_LIST_NUM\n";
+    str += std::to_string(sharedListNum) + "\n";
+    str += "#SHARED_LIST_NUM_END\n";
+
     str += "#END\n";
 
     return str;
@@ -1073,6 +1105,7 @@ std::string Convert::ConvertCode(std::string codeStr)
         AddCmdCode(END_OF_FUNC, 0);
 
         memorySize.push_back(variableNum);
+        listMemorySize.push_back(listNum);
     }
 
     bytecode.resize(bytecodeSize);
@@ -1179,7 +1212,7 @@ void Convert::ListFunction()
 
             AddPushAddressCode(sharedVariableAddress[varName], true);
 
-            codeIndex += ConvertFormula(codeIndex, 0, true).codeSize;
+            codeIndex += ConvertFormula(codeIndex, 0, true);
 
             AddCmdCode(SET_SHARED_VARIABLE, 2);
         }
@@ -1255,60 +1288,6 @@ bool Convert::checkVariableOrFuncName(const std::string name)
            funcNames.count(name) == 0 ||
            cppFuncNames.count(name) == 0;
 }
-
-/*
-int Convert::TypeName2ID(const std::string typeName)
-{
-    if (typeName == "void")
-        return VOID_TYPE;
-    if (typeName == "number")
-        return NUMBER_TYPE;
-    if (typeName == "string")
-        return STRING_TYPE;
-    if (typeName == "bool")
-        return BOOL_TYPE;
-
-    return -1;
-}
-
-std::string Convert::ID2TypeName(const int typeID)
-{
-    if (typeID == NUMBER_TYPE)
-        return "number";
-    if (typeID == STRING_TYPE)
-        return "string";
-    if (typeID == BOOL_TYPE)
-        return "bool";
-    if (typeID == VOID_TYPE)
-        return "void";
-
-    return "Unknown Type";
-}
-
-int Convert::LocalType2GlobalType(const int typeID)
-{
-    if (typeID == NUMBER_TYPE)
-        return NUMBER_GLOBAL_TYPE;
-    if (typeID == STRING_TYPE)
-        return STRING_GLOBAL_TYPE;
-    if (typeID == BOOL_TYPE)
-        return BOOL_GLOBAL_TYPE;
-
-    return typeID;
-}
-
-int Convert::Type2AddressType(const int typeID)
-{
-    if (typeID == NUMBER_TYPE)
-        return NUMBER_ADDRESS_TYPE;
-    if (typeID == STRING_TYPE)
-        return STRING_ADDRESS_TYPE;
-    if (typeID == BOOL_TYPE)
-        return BOOL_ADDRESS_TYPE;
-
-    return typeID;
-}
-*/
 
 bool Convert::isSymbol(const std::string code)
 {
@@ -1397,15 +1376,19 @@ void Convert::InitConverter()
     isSharedVariable = std::unordered_map<std::string, bool>();
 
     globalVariableNum = 4;
+
+    listNum = 0;
+    listAddresses.clear();
 }
 
 void Convert::ClearLocalVariable()
 {
     variableType = globalVariableType;
-
     variableAddresses = globalVariableAddress;
-
     variableNum = 0;
+
+    listAddresses.clear();
+    listNum = 0;
 }
 
 bool Convert::checkName(const std::string name)

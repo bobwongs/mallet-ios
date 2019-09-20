@@ -59,9 +59,11 @@ private:
 
     std::vector<std::string> SplitCode(std::string codeStr);
 
-    int ConvertValue(const int firstCodeIndex, const bool convert);
+    void ConvertValue(const int firstCodeIndex, const bool convert);
 
-    formulaData ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
+    int ConvertListElement(const int firstCodeIndex, const bool convert);
+
+    int ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert);
 
     int ConvertCodeBlock(const int firstCodeIndex, const int funcID);
 
@@ -101,7 +103,7 @@ private:
 
     std::string Code2Str();
 
-    std::set<std::string> symbol = {"(", ")", "{", "}", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+    std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
     std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
     std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
     std::set<std::string> typeName = {"void", "number", "string", "bool"};

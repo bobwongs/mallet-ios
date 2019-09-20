@@ -45,6 +45,8 @@ var Run::RunCode(int funcID, std::vector<var> args)
     variable[3] = (double)0;
     variable[4] = (double)1;
 
+    std::vector<list> lists(100000);
+
     constexpr int pushCodeSize = 5;
     constexpr int defaultCodeSize = 3;
 
@@ -294,10 +296,39 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                     break;
 
-                case SET_GLOBAL_VARIABLE:
+                case SET_SHARED_VARIABLE:
                     globalVariable[getIntValue(*topStackData[0])] = *topStackData[1];
 
                     break;
+
+                case INIT_LIST:
+                    lists[getIntValue(*topStackData[0])].clear();
+
+                    break;
+
+                case ADD_LIST:
+                    lists[getIntValue(*topStackData[0])].push_back(*topStackData[1]);
+
+                    break;
+
+                case GET_LIST:
+                {
+                    int listAddress = getIntValue(*topStackData[0]);
+                    int elementID = getIntValue(*topStackData[1]);
+
+                    stackIndex++;
+
+                    if (lists[listAddress].size() <= elementID)
+                    {
+                        stack[stackIndex] = 0;
+                    }
+                    else
+                    {
+                        stack[stackIndex] = lists[listAddress][elementID];
+                    }
+                }
+
+                break;
 
                 case JUMP:
                     if (getBoolValue(*topStackData[0]))
@@ -562,6 +593,21 @@ void Run::InitRunner(std::string codeDataStr)
         else if (type == "#GLOBAL_VARIABLE_NUM")
         {
             globalVariableNum = (int)strtol(codeData[index].c_str(), NULL, 10);
+            index += 2;
+        }
+        else if (type == "#LIST_MEMORY_SIZE")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                listMemorySize.push_back((int)strtol(codeData[index].c_str(), NULL, 10));
+                index++;
+            }
+
+            index++;
+        }
+        else if (type == "#SHARED_LIST_NUM")
+        {
+            sharedListNum = (int)strtol(codeData[index].c_str(), NULL, 10);
             index += 2;
         }
         else

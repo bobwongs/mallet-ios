@@ -31,10 +31,12 @@ private:
     CppFuncManager cppFuncManager;
 
     std::vector<int> memorySize;
-
     std::vector<var> globalVariable;
-
     int globalVariableNum;
+
+    std::vector<int> listMemorySize;
+    std::vector<list> sharedList;
+    int sharedListNum;
 
     std::vector<int> bytecode;
 
