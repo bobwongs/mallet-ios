@@ -158,6 +158,12 @@ private:
     int sharedListNum;
     std::unordered_map<std::string, int> sharedListAddress;
     std::unordered_map<std::string, bool> isSharedList;
+
+    std::set<std::string> defaultFuncNames;
+
+    std::map<std::string, std::pair<int, int>> defaultFuncData = {
+        {"size", {GET_LIST_SIZE, 1}},
+        {"add", {ADD_LIST, 2}}};
 };
 
 #endif /* convert_hpp */

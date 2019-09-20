@@ -14,6 +14,7 @@
 
 class CppFuncManager
 {
+public:
     typedef struct
     {
         var (*func)(std::vector<var> &args);
@@ -24,7 +25,6 @@ class CppFuncManager
 
     } funcData;
 
-public:
     std::unordered_map<std::string, int> cppFuncID;
 
     std::vector<funcData> cppFunc;

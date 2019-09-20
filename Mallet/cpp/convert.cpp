@@ -310,6 +310,14 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
             break;
 
+        case LIST:
+            address = listAddresses[code[firstCodeIndex]];
+
+            if (convert)
+                AddPushAddressCode(address, false);
+
+            break;
+
         default:
             break;
         }
@@ -327,7 +335,6 @@ int Convert::ConvertListElement(const int firstCodeIndex, const bool convert)
         AddPushAddressCode(address, false);
     }
 
-    printf("#%d,%d\n", firstCodeIndex, convert ? 114514 : 0);
     int codeSize = 3 + ConvertFormula(firstCodeIndex + 2, 0, convert);
 
     if (convert)
@@ -340,7 +347,6 @@ int Convert::ConvertListElement(const int firstCodeIndex, const bool convert)
 
 int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const bool convert)
 {
-    printf("@%d\n", firstCodeIndex);
     const std::vector<std::set<std::string>> operatorsPriorities = {
         {"||"},
         {"&&"},
@@ -470,10 +476,12 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
         return codeSize;
     }
 
+    /*
     for (auto p : parts)
     {
         printf("%d %d\n", p.first, p.second);
     }
+    */
 
     if (parts.size() < 1)
     {
@@ -558,7 +566,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 
     thisFuncData.argNum = argNum;
 
-    if (!isFuncExists[thisFuncData] && !isCppFuncExists[thisFuncData])
+    if (!isFuncExists[thisFuncData] && !isCppFuncExists[thisFuncData] && defaultFuncNames.count(thisFuncData.funcName) == 0)
     {
         printf("Error : The function %s is not declared\n", thisFuncData.funcName.c_str());
 
@@ -566,10 +574,13 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
     }
 
     bool isCppFunc = isCppFuncExists[thisFuncData];
+    bool isMalletFunc = isFuncExists[thisFuncData] && (defaultFuncNames.count(thisFuncData.funcName) == 0);
+    bool isDefaultFunc = defaultFuncNames.count(thisFuncData.funcName) > 0;
+
     int funcID;
     if (isCppFunc)
         funcID = cppFuncIDs[thisFuncData];
-    else
+    if (isMalletFunc)
         funcID = funcIDs[thisFuncData];
 
     if (convert)
@@ -584,12 +595,12 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
         int argIndex = 0;
         while (code[codeIndex] != ")")
         {
-            if (!isCppFunc)
+            if (isMalletFunc)
                 AddPushAddressCode(funcArgAddresses[funcID][argIndex], true);
 
             int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
 
-            if (!isCppFunc)
+            if (isMalletFunc)
                 AddCmdCode(SET_VARIABLE, 2);
 
             codeSize += formulaCodeSize + 1;
@@ -603,18 +614,22 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
         }
 
         int backIndex = bytecodeIndex + 3;
-        if (!isCppFunc)
+        if (isMalletFunc)
             AddPushAddressCode(-1, true);
 
-        AddPushAddressCode(funcID, true);
+        if (isMalletFunc || isCppFunc)
+            AddPushAddressCode(funcID, true);
 
         if (isCppFunc)
             AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argNum);
-        else
+        if (isMalletFunc)
             AddCmdCode(CALL_MALLET_FUNC, 1);
 
-        if (!isCppFunc)
+        if (isMalletFunc)
             bytecode[backIndex] = bytecodeIndex;
+
+        if (isDefaultFunc)
+            AddCmdCode(defaultFuncData[thisFuncData.funcName].first, defaultFuncData[thisFuncData.funcName].second);
     }
 
     return codeSize;
@@ -1067,6 +1082,13 @@ void Convert::ListFunction()
 
     std::unordered_map<std::string, std::string> newVarName;
 
+    defaultFuncNames.clear();
+    for (auto funcData : defaultFuncData)
+    {
+        funcNames.insert(funcData.first);
+        defaultFuncNames.insert(funcData.first);
+    }
+
     while (codeIndex < code.size())
     {
         if (code[codeIndex] == "func")
@@ -1126,7 +1148,7 @@ void Convert::ListFunction()
                 codeIndex++;
             }
 
-            if (isFuncExists[newFuncData] || isCppFuncExists[newFuncData])
+            if (isFuncExists[newFuncData] || isCppFuncExists[newFuncData] || !checkName(newFuncData.funcName))
             {
                 printf("The function %s is already declared\n", newFuncData.funcName.c_str());
                 break;
@@ -1338,6 +1360,7 @@ bool Convert::checkName(const std::string name)
 {
     if (funcNames.count(name) > 0 ||
         cppFuncNames.count(name) > 0 ||
+        defaultFuncNames.count(name) > 0 ||
         variableType[name] != 0)
         return false;
 

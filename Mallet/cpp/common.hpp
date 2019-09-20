@@ -47,6 +47,7 @@ enum
     INSERT_LIST,
     REMOVE_LIST,
     GET_LIST,
+    GET_LIST_SIZE,
 
     PRINT_NUMBER,
     PRINT_STRING,

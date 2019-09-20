@@ -47,6 +47,8 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
     std::vector<list> lists(100000);
 
+    CppFuncManager::variableData varData = {&variable, &lists};
+
     constexpr int pushCodeSize = 5;
     constexpr int defaultCodeSize = 3;
 
@@ -314,21 +316,29 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 case GET_LIST:
                 {
                     int listAddress = getIntValue(*topStackData[0]);
-                    int elementID = getIntValue(*topStackData[1]);
+                    int elementAddress = getIntValue(*topStackData[1]);
 
                     stackIndex++;
 
-                    if (lists[listAddress].size() <= elementID)
+                    if (lists[listAddress].size() <= elementAddress)
                     {
                         stack[stackIndex] = 0;
                     }
                     else
                     {
-                        stack[stackIndex] = lists[listAddress][elementID];
+                        stack[stackIndex] = lists[listAddress][elementAddress];
                     }
                 }
 
                 break;
+
+                case GET_LIST_SIZE:
+
+                    stackIndex++;
+
+                    stack[stackIndex] = (int)lists[getIntValue(*topStackData[0])].size();
+
+                    break;
 
                 case JUMP:
                     if (getBoolValue(*topStackData[0]))
