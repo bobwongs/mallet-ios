@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
+#import <UIKit/UIKit.h>
 #import "Mallet-Swift.h"
 #include "ui.hpp"
 
