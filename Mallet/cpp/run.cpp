@@ -47,8 +47,6 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
     std::vector<list> lists(100000);
 
-    CppFuncManager::variableData varData = {&variable, &lists};
-
     constexpr int pushCodeSize = 5;
     constexpr int defaultCodeSize = 3;
 
