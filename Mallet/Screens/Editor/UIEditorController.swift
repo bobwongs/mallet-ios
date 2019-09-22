@@ -147,7 +147,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+
+        cell.backgroundColor = .white
 
         let uiType: UIType!
         switch indexPath.row {
@@ -618,6 +621,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func generateUITableModal() {
         self.uiTableModal = UIView()
+        if #available(iOS 13, *) {
+            self.uiTableModal.backgroundColor = .systemBackground
+        } else {
+            self.uiTableModal.backgroundColor = .white
+        }
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -626,11 +634,17 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         layout.itemSize = CGSize(width: 100, height: 100)
         self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        self.uiCollection.backgroundColor = .white
+
+        /*
+        if #available(iOS 13, *) {
+            self.uiCollection.backgroundColor = .systemBackground
+        } else {
+            self.uiCollection.backgroundColor = .white
+        }
+        */
 
         let titleBar = UIView()
         let doneButton = UIButton(type: .system)
-
 
         self.view.addSubview(self.uiTableModal)
         self.uiTableModal.addSubview(self.uiCollection)
@@ -658,6 +672,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                     titleBar.heightAnchor.constraint(equalToConstant: 50)
                 ]
         )
+
         titleBar.backgroundColor = .groupTableViewBackground
 
         doneButton.setTitle("Done", for: .normal)
@@ -676,8 +691,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 [
                     self.uiCollection.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
                     self.uiCollection.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
-                    self.uiCollection.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
-                    self.uiCollection.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
+                    self.uiCollection.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor, constant: 20),
+                    self.uiCollection.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor, constant: -20)
                 ]
         )
     }
