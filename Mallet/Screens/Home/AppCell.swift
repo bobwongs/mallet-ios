@@ -10,15 +10,39 @@ import UIKit
 
 class AppCell: UITableViewCell {
 
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var appIconImage: UIImageView!
+    @IBOutlet weak var appTitleLabel: UILabel!
+
+    private var delegate: AppCellDelegate?
+
+    private var appID: Int?
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+
+        self.cellView.layer.cornerRadius = 15
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func setCell(homeViewController: HomeViewController, appID: Int, appTitle: String) {
+        self.delegate = homeViewController
 
-        // Configure the view for the selected state
+        self.appID = appID
+
+        self.appTitleLabel.text = appTitle
     }
-    
+
+    @IBAction func editButton(_ sender: Any) {
+        delegate?.editApp(appID: self.appID ?? 0)
+    }
+
+    @IBAction func runButton(_ sender: Any) {
+        delegate?.runApp(appID: self.appID ?? 0)
+    }
+}
+
+protocol AppCellDelegate {
+    func editApp(appID: Int)
+
+    func runApp(appID: Int)
 }
