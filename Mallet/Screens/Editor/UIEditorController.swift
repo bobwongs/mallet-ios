@@ -8,13 +8,14 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
+class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
 
     @IBOutlet var editorView: UIView!
 
     var uiTableModal: UIView!
     var uiTableModalPos: NSLayoutConstraint!
-    var uiTable: UITableView!
+    //var uiTable: UITableView!
+    var uiCollection: UICollectionView!
 
     /*
     @IBOutlet var UINameTextField: UITextField!
@@ -54,7 +55,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is HomeViewController {
-            (viewController as! HomeViewController).initAppStackView()
+            (viewController as! HomeViewController).reloadAppTableView()
         }
     }
 
@@ -97,8 +98,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         generateUITableModal()
 
+        /*
         uiTable.delegate = self
         uiTable.dataSource = self
+        */
+
+        uiCollection.delegate = self
+        uiCollection.dataSource = self
 
         /*
         UINameTextField.text = ""
@@ -163,6 +169,40 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
+
+        let uiType: UIType!
+        switch indexPath.row {
+        case 0:
+            uiType = .Label
+        case 1:
+            uiType = .Button
+        case 2:
+            uiType = .Switch
+        default:
+            uiType = .Label
+        }
+
+        let ui = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
+        cell.addSubview(ui)
+
+        ui.translatesAutoresizingMaskIntoConstraints = false
+        ui.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+        ui.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
+
+        ui.isUserInteractionEnabled = true
+
+        addGesture(ui: ui)
+
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return uiTypeNum
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        //cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
         let uiType: UIType!
         switch indexPath.row {
@@ -405,6 +445,27 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         uiDictionary[selectedUIID]!.sizeToFit()
     }
 
+    func editUI(ui: EditorUI) {
+        switch (ui as EditorUIData).uiType {
+        case .Label:
+            guard let label = (ui as? EditorUILabel)?.label else {
+                fatalError()
+            }
+
+            label.text = readLine() ?? "Text"
+
+        case .Button:
+            guard let button = (ui as? EditorUIButton)?.button else {
+                fatalError()
+            }
+
+            button.setTitle(readLine() ?? "Button", for: .normal)
+
+        default:
+            break
+        }
+    }
+
     func setUIText(uiType: UIType, ui: UIView, text: String) {
         switch uiType {
         case .Label:
@@ -624,14 +685,24 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func generateUITableModal() {
         self.uiTableModal = UIView()
-        self.uiTable = UITableView()
+        //self.uiTable = UITableView()
+
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        layout.itemSize = CGSize(width: 100, height: 100)
+        self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
+        self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        self.uiCollection.backgroundColor = .white
 
         let titleBar = UIView()
         let doneButton = UIButton(type: .system)
 
 
         self.view.addSubview(self.uiTableModal)
-        self.uiTableModal.addSubview(self.uiTable)
+        //self.uiTableModal.addSubview(self.uiTable)
+        self.uiTableModal.addSubview(self.uiCollection)
         self.uiTableModal.addSubview(titleBar)
         titleBar.addSubview(doneButton)
 
@@ -669,6 +740,7 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                 ]
         )
 
+        /*
         self.uiTable.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
@@ -676,6 +748,17 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     self.uiTable.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
                     self.uiTable.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
                     self.uiTable.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
+                ]
+        )
+        */
+
+        self.uiCollection.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    self.uiCollection.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
+                    self.uiCollection.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
+                    self.uiCollection.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
+                    self.uiCollection.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
                 ]
         )
     }
