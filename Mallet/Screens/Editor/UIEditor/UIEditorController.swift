@@ -183,15 +183,17 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         pan.delegate = self
         ui.addGestureRecognizer(pan)
 
+        /*
         let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(moveToCode(_:)))
         doubleTap.delegate = self
         doubleTap.numberOfTapsRequired = 2
         ui.addGestureRecognizer(doubleTap)
+        */
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectUI(_:)))
         tap.delegate = self
         tap.numberOfTapsRequired = 1
-        tap.require(toFail: doubleTap)
+        //tap.require(toFail: doubleTap)
         ui.addGestureRecognizer(tap)
     }
 
@@ -621,11 +623,14 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func generateUITableModal() {
         self.uiTableModal = UIView()
+        self.uiTableModal.backgroundColor = .lightGray
+        /*
         if #available(iOS 13, *) {
             self.uiTableModal.backgroundColor = .systemBackground
         } else {
             self.uiTableModal.backgroundColor = .white
         }
+        */
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -634,12 +639,14 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         layout.itemSize = CGSize(width: 100, height: 70)
         self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-
+        self.uiCollection.backgroundColor = .clear
+        /*
         if #available(iOS 13, *) {
             self.uiCollection.backgroundColor = .systemBackground
         } else {
             self.uiCollection.backgroundColor = .white
         }
+        */
 
         let titleBar = UIView()
         let doneButton = UIButton(type: .system)
