@@ -631,17 +631,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.itemSize = CGSize(width: 100, height: 70)
         self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 
-        /*
         if #available(iOS 13, *) {
             self.uiCollection.backgroundColor = .systemBackground
         } else {
             self.uiCollection.backgroundColor = .white
         }
-        */
 
         let titleBar = UIView()
         let doneButton = UIButton(type: .system)
