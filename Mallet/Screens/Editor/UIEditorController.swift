@@ -8,19 +8,13 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
+class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
 
     @IBOutlet var editorView: UIView!
 
     var uiTableModal: UIView!
     var uiTableModalPos: NSLayoutConstraint!
-    //var uiTable: UITableView!
     var uiCollection: UICollectionView!
-
-    /*
-    @IBOutlet var UINameTextField: UITextField!
-    @IBOutlet var UITextTextField: UITextField!
-    */
 
     var appData: AppData!
     var appName: String!
@@ -98,27 +92,13 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         generateUITableModal()
 
-        /*
-        uiTable.delegate = self
-        uiTable.dataSource = self
-        */
-
         uiCollection.delegate = self
         uiCollection.dataSource = self
-
-        /*
-        UINameTextField.text = ""
-        UITextTextField.text = ""
-
-        UINameTextField.addTarget(self, action: #selector(setUINameToValueOfTextField), for: .editingChanged)
-        UITextTextField.addTarget(self, action: #selector(setUITextToValueOfTextField), for: .editingChanged)
-
-        UINameTextField.delegate = self
-        UITextTextField.delegate = self
-        */
     }
 
     func generateScreen() {
+        uiNum = appData.uiData.count
+
         for uiData in appData.uiData {
             let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
             appScreen.addSubview(ui)
@@ -162,47 +142,12 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        return uiTypeNum
-    }
-
-    func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
-        let uiType: UIType!
-        switch indexPath.row {
-        case 0:
-            uiType = .Label
-        case 1:
-            uiType = .Button
-        case 2:
-            uiType = .Switch
-        default:
-            uiType = .Label
-        }
-
-        let ui = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
-        cell.addSubview(ui)
-
-        ui.translatesAutoresizingMaskIntoConstraints = false
-        ui.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
-        ui.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
-
-        ui.isUserInteractionEnabled = true
-
-        addGesture(ui: ui)
-
-        return cell
-    }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return uiTypeNum
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        //cell.selectionStyle = UITableViewCell.SelectionStyle.none
 
         let uiType: UIType!
         switch indexPath.row {
@@ -329,11 +274,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
         let uiData = senderView as! EditorUIData
 
-        /*
-        UINameTextField.text = uiData.uiName
-        UITextTextField.text = getUIText(uiType: uiData.uiType, ui: senderView)
-        */
-
         selectedUIID = uiData.uiID
     }
 
@@ -381,11 +321,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
                 uiDictionary[uiData.uiID] = ui
             }
-
-            /*
-            UINameTextField.text = (ui as! EditorUIData).uiName
-            UITextTextField.text = getUIText(uiType: uiData.uiType, ui: ui)
-            */
 
             selectedUIID = uiData.uiID
         }
@@ -439,8 +374,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
         guard let uiData = uiDictionary[selectedUIID] as? EditorUIData else {
             fatalError()
         }
-
-        //setUIText(uiType: uiData.uiType, ui: uiDictionary[selectedUIID]!, text: UITextTextField.text ?? "")
 
         uiDictionary[selectedUIID]!.sizeToFit()
     }
@@ -685,7 +618,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
     func generateUITableModal() {
         self.uiTableModal = UIView()
-        //self.uiTable = UITableView()
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -701,7 +633,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
 
 
         self.view.addSubview(self.uiTableModal)
-        //self.uiTableModal.addSubview(self.uiTable)
         self.uiTableModal.addSubview(self.uiCollection)
         self.uiTableModal.addSubview(titleBar)
         titleBar.addSubview(doneButton)
@@ -739,18 +670,6 @@ class UIEditorController: UIViewController, UITableViewDelegate, UITableViewData
                     doneButton.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
                 ]
         )
-
-        /*
-        self.uiTable.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-                [
-                    self.uiTable.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
-                    self.uiTable.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
-                    self.uiTable.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
-                    self.uiTable.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor)
-                ]
-        )
-        */
 
         self.uiCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
