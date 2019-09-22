@@ -334,7 +334,7 @@ class ArgText: ArgContent, UITextFieldDelegate {
         textField.delegate = self
         textField.backgroundColor = .white
         textField.layer.borderWidth = 2
-        textField.layer.borderColor = UIColor.purple.cgColor
+        textField.layer.borderColor = UIColor.white.cgColor //UIColor.purple.cgColor
         textField.layer.cornerRadius = 5
         textField.text = value
         textField.textAlignment = .center

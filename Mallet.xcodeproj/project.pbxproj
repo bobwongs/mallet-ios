@@ -185,6 +185,37 @@
 			path = Screens;
 			sourceTree = "<group>";
 		};
+		0E3ED95F2337C1B500C10A72 /* UIEditor */ = {
+			isa = PBXGroup;
+			children = (
+				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
+				0E9F3DA622F1C1890013659C /* EditorUIData.swift */,
+				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
+			);
+			path = UIEditor;
+			sourceTree = "<group>";
+		};
+		0E3ED9602337C1D400C10A72 /* AppSettings */ = {
+			isa = PBXGroup;
+			children = (
+				0EF3CDE32312D56800AD661E /* AppSettingsController.swift */,
+				0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */,
+			);
+			path = AppSettings;
+			sourceTree = "<group>";
+		};
+		0E3ED9612337C21500C10A72 /* CodeEditor */ = {
+			isa = PBXGroup;
+			children = (
+				0EC9E82222E37AE600A9D6D9 /* VPL */,
+				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
+				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
+				0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */,
+				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
+			);
+			path = CodeEditor;
+			sourceTree = "<group>";
+		};
 		0E3FDD78226CA7A200F20326 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,17 +230,9 @@
 		0E3FDD7D226CB99700F20326 /* Editor */ = {
 			isa = PBXGroup;
 			children = (
-				0EC9E82222E37AE600A9D6D9 /* VPL */,
-				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
-				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
-				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
-				0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */,
-				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
-				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
-				0E9F3DA622F1C1890013659C /* EditorUIData.swift */,
-				0E829C5A23101B5F008FE529 /* AddShortcut.swift */,
-				0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */,
-				0EF3CDE32312D56800AD661E /* AppSettingsController.swift */,
+				0E3ED95F2337C1B500C10A72 /* UIEditor */,
+				0E3ED9612337C21500C10A72 /* CodeEditor */,
+				0E3ED9602337C1D400C10A72 /* AppSettings */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -245,8 +268,8 @@
 			isa = PBXGroup;
 			children = (
 				0EC33344226E0B7F005B968A /* AppRunner.swift */,
-				0EC33346226E0B92005B968A /* AppRunner.storyboard */,
 				0EC33348226E1174005B968A /* ScreenGenerator.swift */,
+				0EC33346226E0B92005B968A /* AppRunner.storyboard */,
 				0EC3334A226E1226005B968A /* ScreenDataController.swift */,
 			);
 			path = AppRunner;
@@ -306,6 +329,7 @@
 				0E33E2CB22799AF800352BDB /* Screens */,
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
 				611ACBE81FD0A5217407B85C /* AppData.swift */,
+				0E829C5A23101B5F008FE529 /* AddShortcut.swift */,
 				0E43716522F876C2004CA2BD /* Extension.swift */,
 				0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */,
 				0E24CF0B231578BE00D5D5C2 /* StorageManager.swift */,
