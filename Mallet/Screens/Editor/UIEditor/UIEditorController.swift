@@ -150,7 +150,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
 
-        cell.backgroundColor = .white
+        cell.backgroundColor = Color.uiCollectionCellBackground
 
         let uiType: UIType!
         switch indexPath.row {
@@ -624,8 +624,12 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func generateUITableModal() {
+        let cornerRadius: CGFloat = 10
+
         self.uiTableModal = UIView()
-        self.uiTableModal.backgroundColor = .lightGray
+        self.uiTableModal.backgroundColor = Color.uiCollectionBackground
+        self.uiTableModal.layer.cornerRadius = cornerRadius
+        self.uiTableModal.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -637,13 +641,14 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiCollection.backgroundColor = .clear
 
         let titleBar = UIView()
+        let titleLabel = UILabel()
         let doneButton = UIButton(type: .system)
 
         self.view.addSubview(self.uiTableModal)
         self.uiTableModal.addSubview(self.uiCollection)
         self.uiTableModal.addSubview(titleBar)
+        titleBar.addSubview(titleLabel)
         titleBar.addSubview(doneButton)
-
 
         self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
         self.uiTableModalPosY = NSLayoutConstraint(item: self.uiTableModal!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0)
@@ -668,14 +673,26 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         )
 
         titleBar.backgroundColor = .groupTableViewBackground
+        titleBar.layer.cornerRadius = cornerRadius
+        titleBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
-        doneButton.setTitle("Done", for: .normal)
+        titleLabel.text = "Add UI"
+        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    titleLabel.centerXAnchor.constraint(equalTo: titleBar.centerXAnchor),
+                    titleLabel.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
+                ]
+        )
+
+        doneButton.setTitle("Cancel", for: .normal)
         doneButton.titleLabel?.font = doneButton.titleLabel?.font.withSize(17)
         doneButton.addTarget(self, action: #selector(closeUITable(_:)), for: .touchUpInside)
         doneButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    doneButton.rightAnchor.constraint(equalTo: titleBar.rightAnchor, constant: -15),
+                    doneButton.leftAnchor.constraint(equalTo: titleBar.leftAnchor, constant: 15),
                     doneButton.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
                 ]
         )
@@ -683,7 +700,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    self.uiCollection.topAnchor.constraint(equalTo: titleBar.bottomAnchor),
+                    self.uiCollection.topAnchor.constraint(equalTo: titleBar.bottomAnchor, constant: 20),
                     self.uiCollection.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
                     self.uiCollection.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor, constant: 20),
                     self.uiCollection.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor, constant: -20)
@@ -696,22 +713,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         self.uiTableModalPosY.constant = -250
 
-        /*
-        UIView.animate(withDuration: 0.1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, animations: {
-            self.view.layoutIfNeeded()
-        })
-        */
-
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations:
         {
             self.view.layoutIfNeeded()
         })
 
-        /*
-        UIView.animate(withDuration: 0.1, animations: {
-            self.view.layoutIfNeeded()
-        })
-        */
     }
 
     @objc func closeUITable(_ sender: Any) {

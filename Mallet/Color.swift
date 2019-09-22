@@ -6,4 +6,9 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class Color {
+    static let uiCollectionBackground = UIColor(hex: "F5F5F5")
+    static let uiCollectionCellBackground = UIColor(hex: "EAEAEA")
+}
