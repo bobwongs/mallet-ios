@@ -13,7 +13,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet var editorView: UIView!
 
     var uiTableModal: UIView!
-    var uiTableModalPos: NSLayoutConstraint!
+    var uiTableModalPosY: NSLayoutConstraint!
     var uiCollection: UICollectionView!
 
     var appData: AppData!
@@ -325,6 +325,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 uiData.uiName = uiName
 
                 uiDictionary[uiData.uiID] = ui
+
+                closeUITable(0)
             }
 
             selectedUIID = uiData.uiID
@@ -624,13 +626,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     func generateUITableModal() {
         self.uiTableModal = UIView()
         self.uiTableModal.backgroundColor = .lightGray
-        /*
-        if #available(iOS 13, *) {
-            self.uiTableModal.backgroundColor = .systemBackground
-        } else {
-            self.uiTableModal.backgroundColor = .white
-        }
-        */
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -640,13 +635,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         self.uiCollection.backgroundColor = .clear
-        /*
-        if #available(iOS 13, *) {
-            self.uiCollection.backgroundColor = .systemBackground
-        } else {
-            self.uiCollection.backgroundColor = .white
-        }
-        */
 
         let titleBar = UIView()
         let doneButton = UIButton(type: .system)
@@ -656,12 +644,13 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiTableModal.addSubview(titleBar)
         titleBar.addSubview(doneButton)
 
+
         self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
+        self.uiTableModalPosY = NSLayoutConstraint(item: self.uiTableModal!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0)
+        uiTableModalPosY.isActive = true
         NSLayoutConstraint.activate(
                 [
                     self.uiTableModal.heightAnchor.constraint(equalTo: self.view.heightAnchor),
-                    //self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -(self.view.frame.height - (UIApplication.shared.statusBarFrame.height) - (self.navigationController?.navigationBar.frame.height ?? 0))),
-                    self.uiTableModal.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -250),
                     self.uiTableModal.leftAnchor.constraint(equalTo: self.view.leftAnchor),
                     self.uiTableModal.rightAnchor.constraint(equalTo: self.view.rightAnchor)
                 ]
@@ -703,10 +692,35 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     @IBAction func openUITable(_ sender: Any) {
-        print("Open UI Table")
+        self.view.layoutIfNeeded()
+
+        self.uiTableModalPosY.constant = -250
+
+        /*
+        UIView.animate(withDuration: 0.1, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.0, animations: {
+            self.view.layoutIfNeeded()
+        })
+        */
+
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations:
+        {
+            self.view.layoutIfNeeded()
+        })
+
+        /*
+        UIView.animate(withDuration: 0.1, animations: {
+            self.view.layoutIfNeeded()
+        })
+        */
     }
 
     @objc func closeUITable(_ sender: Any) {
-        print("Close UI Table")
+        self.view.layoutIfNeeded()
+
+        self.uiTableModalPosY.constant = 0
+
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
 }
