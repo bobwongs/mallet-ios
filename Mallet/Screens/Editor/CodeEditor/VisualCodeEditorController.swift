@@ -29,12 +29,12 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     var blocks: Dictionary<BlockType, BlockData> = [
         BlockType.Print:
-        BlockData(
+            BlockData(
                 blockType: .Print,
                 funcType: .Func,
                 funcName: "print",
                 contents: [BlockContentData(value: .Label("Print"), order: -1),
-                           BlockContentData(value: .Arg([.Text("ABC"), .Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "var", contents: [BlockContentData(value: .Label("VAR"), order: 0)], indent: 0)), .Text("EFG")]), order: 0)],
+                    BlockContentData(value: .Arg([.Text("ABC"), .Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "var", contents: [BlockContentData(value: .Label("VAR"), order: 0)], indent: 0)), .Text("EFG")]), order: 0)],
                 indent: 0),
 
         /*
@@ -205,11 +205,11 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             VisualCodeEditorController.codeArea.bottomAnchor.constraint(equalTo: blockTableView.topAnchor),
             VisualCodeEditorController.codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             VisualCodeEditorController.codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
-        ])
+            ])
 
         self.view.bringSubviewToFront(blockTableView)
 
-        let backgroundColor = UIColor.rgb(red: 240, green: 240, blue: 240)
+        let backgroundColor = UIColor(red: 240, green: 240, blue: 240)
         VisualCodeEditorController.codeArea.backgroundColor = backgroundColor
         self.view.backgroundColor = backgroundColor
 
@@ -232,7 +232,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             codeStackView.bottomAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.bottomAnchor),
             codeStackView.leftAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.leftAnchor, constant: blockDefaultIndentSize),
             codeStackView.rightAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.rightAnchor)
-        ])
+            ])
 
     }
 
@@ -687,7 +687,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 let codeWithIndex: (String, Int)!
 
                 if index == codeStackView.arrangedSubviews.count - 1 ||
-                           (codeStackView.arrangedSubviews[index + 1] as? Block)?.indent == blockView.indent {
+                    (codeStackView.arrangedSubviews[index + 1] as? Block)?.indent == blockView.indent {
                     codeWithIndex = ("", index)
                 } else {
                     codeWithIndex = vplToCode(startIndex: index + 1)
