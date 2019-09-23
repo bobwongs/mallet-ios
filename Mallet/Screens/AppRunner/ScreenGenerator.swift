@@ -79,10 +79,18 @@ class ScreenGenerator {
             case .Label:
                 ui = AppLabel(uiData: uiData)
                 break
+
             case .Button:
                 ui = AppButton(uiData: uiData, onButtonClickID: uiData.funcID[0])
                 break
+
+            case .TextField:
+                break
+
             case .Switch:
+                break
+
+            case .Slider:
                 break
             }
 

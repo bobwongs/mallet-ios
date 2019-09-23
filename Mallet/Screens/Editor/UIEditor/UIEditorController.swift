@@ -33,7 +33,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     var UINumOfEachType = Dictionary<UIType, Int>()
     let uiTypeName = [UIType.Label: "Label",
                       UIType.Button: "Button",
-                      UIType.Switch: "Switch"]
+                      UIType.TextField: "TextField",
+                      UIType.Switch: "Switch",
+                      UIType.Slider: "Slider"]
 
     var initialCode = ""
 
@@ -136,7 +138,16 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Label:
                 break
 
+            case .TextField:
+                //TODO:
+                break
+
             case .Switch:
+                //TODO:
+                break
+
+            case .Slider:
+                //TODO:
                 break
             }
         }
@@ -151,6 +162,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
 
         cell.backgroundColor = Color.uiCollectionCellBackground
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = Color.uiCollectionCellBorder.cgColor
 
         let uiType: UIType!
         switch indexPath.row {
@@ -159,7 +172,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         case 1:
             uiType = .Button
         case 2:
+            uiType = .TextField
+        case 3:
             uiType = .Switch
+        case 4:
+            uiType = .Slider
         default:
             uiType = .Label
         }
@@ -192,7 +209,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectUI(_:)))
         tap.delegate = self
-        tap.numberOfTapsRequired = 1
+        //tap.numberOfTapsRequired = 1
         //tap.require(toFail: doubleTap)
         ui.addGestureRecognizer(tap)
     }
@@ -215,6 +232,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         switch uiData.uiType {
         case .Label:
             codeEditorController.codeStr = ""
+
         case .Button:
             guard let button = ui as? EditorUIButton else {
                 print("This is not a button")
@@ -223,7 +241,16 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
             // TODO:
             codeEditorController.codeStr = button.tap
+
+        case .TextField:
+            //TODO:
+            codeEditorController.codeStr = ""
+            break
+
         case .Switch:
+            codeEditorController.codeStr = ""
+
+        case .Slider:
             codeEditorController.codeStr = ""
         }
 
@@ -257,6 +284,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         switch uiData.uiType {
         case .Label:
             codeEditorController.codeStr = ""
+
         case .Button:
             guard let button = sender.view as? EditorUIButton else {
                 print("This is not a button")
@@ -265,7 +293,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
             // TODO:
             codeEditorController.codeStr = button.tap
+
+        case .TextField:
+            //TODO:
+            codeEditorController.codeStr = ""
+
         case .Switch:
+            codeEditorController.codeStr = ""
+
+        case .Slider:
             codeEditorController.codeStr = ""
         }
 
@@ -352,11 +388,19 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         switch uiType {
         case .Label:
             ui = EditorUILabel(uiID: uiID, uiName: uiName, uiEditorController: self)
+
         case .Button:
             ui = EditorUIButton(uiID: uiID, uiName: uiName, uiEditorController: self)
+
+        case .TextField:
+            ui = EditorUITextField(uiID: uiID, uiName: uiName, uiEditorController: self)
+
         case .Switch:
             ui = EditorUISwitch(uiID: uiID, uiName: uiName, uiEditorController: self)
             (ui as! EditorUISwitch).switchView.isOn = true
+
+        case .Slider:
+            ui = EditorUISlider(uiID: uiID, uiName: uiName, uiEditorController: self)
         }
 
         ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
@@ -469,7 +513,16 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
             script += button.tap
 
+        case .TextField:
+            //TODO:
+            break
+
         case .Switch:
+            //TODO:
+            break
+
+        case .Slider:
+            //TODO:
             break
         }
 
@@ -531,6 +584,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             switch editorUIData.uiType {
             case .Label:
                 funcID += 1
+
             case .Button:
                 funcIDs.append(funcID)
                 funcID += 1
@@ -540,7 +594,18 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
                 codes.append(button.tap)
 
+            case .TextField:
+                //TODO:
+                funcID += 1
+                break
+
             case .Switch:
+                //TODO:
+                funcID += 1
+                break
+
+            case .Slider:
+                //TODO:
                 funcID += 1
                 break
             }
@@ -633,8 +698,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 10
         layout.itemSize = CGSize(width: 100, height: 70)
         self.uiCollection = UICollectionView(frame: CGRect(), collectionViewLayout: layout)
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
