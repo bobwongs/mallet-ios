@@ -319,15 +319,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         sender.setTranslation(CGPoint.zero, in: VisualCodeEditorController.codeArea)
 
         if sender.state == .began {
-            print("""
-                  #####
-                  x: \(velocity.x)
-                  y: \(velocity.y)
-                  isOnTable: \(isOnTable)
-                  #####
-                  """)
             if abs(velocity.x) > 100 && abs(velocity.y) < 100 && !isOnTable {
-                print("Indent")
                 movingBlockState = .horizontal
 
                 let direction: Int!
@@ -339,7 +331,6 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 changeIndent(movingBlockView: blockView, direction: direction)
             } else {
-                print("Pos")
                 if isOnTable {
                     guard let cell = blockView.superview else {
                         fatalError()
@@ -556,8 +547,6 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     }
 
     func changeIndent(movingBlockView: Block, direction: Int) {
-        HapticFeedback.blockFeedback()
-
         let blockIndex = movingBlockView.index
 
         if blockIndex == 0 {
@@ -623,6 +612,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 index += 1
             }
         }
+        
+        HapticFeedback.blockFeedback()
     }
 
     func fixIndent() {
