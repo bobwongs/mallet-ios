@@ -473,10 +473,12 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
         return codeSize;
     }
 
+    /*
     for (auto p : parts)
     {
         printf("%d %d\n", p.first, p.second);
     }
+    */
 
     if (parts.size() < 1)
     {
