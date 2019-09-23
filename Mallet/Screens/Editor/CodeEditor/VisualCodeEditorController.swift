@@ -17,9 +17,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     @IBOutlet weak var blockTableView: UITableView!
 
-    static let codeArea: UIView = UIScrollView()
+    static var codeArea: UIView = UIScrollView()
 
-    let blockDefaultIndentSize: CGFloat = 20
+    let blockDefaultIndentSize: CGFloat = 10
 
     var movingBlockState: MovingBlockState = .notMoving
 
@@ -36,6 +36,36 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 contents: [BlockContentData(value: .Label("Print"), order: -1),
                            BlockContentData(value: .Arg([.Text("ABC"), .Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "var", contents: [BlockContentData(value: .Label("VAR"), order: 0)], indent: 0)), .Text("EFG")]), order: 0)],
                 indent: 0),
+
+        BlockType.IF:
+        BlockData(
+                blockType: .IF,
+                funcType: .Bracket,
+                funcName: "if",
+                contents: [BlockContentData(value: .Label("If"), order: -1),
+                           BlockContentData(value: .Arg([.Text("true")]), order: 0)],
+                indent:
+                0),
+
+        BlockType.ELSE:
+        BlockData(
+                blockType: .ELSE,
+                funcType: .Bracket,
+                funcName: "else",
+                contents: [BlockContentData(value: .Label("Else"), order: -1)],
+                indent:
+                0),
+
+        BlockType.While:
+        BlockData(
+                blockType: .While,
+                funcType: .Bracket,
+                funcName: "while",
+                contents: [BlockContentData(value: .Label("While"), order: -1),
+                           BlockContentData(value: .Arg([.Text("true")]), order: 0)],
+                indent:
+                0),
+
 
         /*
         BlockType.SetUIText:
@@ -198,6 +228,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        VisualCodeEditorController.codeArea = UIScrollView()
+
         self.view.addSubview(VisualCodeEditorController.codeArea)
         VisualCodeEditorController.codeArea.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -283,14 +315,23 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         let isOnTable = blockView.isOnTable
 
         let move = sender.translation(in: VisualCodeEditorController.codeArea)
+        let velocity = sender.velocity(in: VisualCodeEditorController.codeArea)
         sender.setTranslation(CGPoint.zero, in: VisualCodeEditorController.codeArea)
 
         if sender.state == .began {
-            if abs(move.x) > 0.3 && abs(move.y) < 1 && !isOnTable {
+            print("""
+                  #####
+                  x: \(velocity.x)
+                  y: \(velocity.y)
+                  isOnTable: \(isOnTable)
+                  #####
+                  """)
+            if abs(velocity.x) > 100 && abs(velocity.y) < 100 && !isOnTable {
+                print("Indent")
                 movingBlockState = .horizontal
 
                 let direction: Int!
-                if move.x > 0 {
+                if velocity.x > 0 {
                     direction = 1
                 } else {
                     direction = -1
@@ -298,6 +339,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 changeIndent(movingBlockView: blockView, direction: direction)
             } else {
+                print("Pos")
                 if isOnTable {
                     guard let cell = blockView.superview else {
                         fatalError()

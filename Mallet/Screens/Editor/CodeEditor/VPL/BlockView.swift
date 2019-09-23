@@ -26,6 +26,8 @@ class Block: UIStackView {
 
     private let blockView: BlockView
 
+    private let indentSize: CGFloat = 25
+
     init(blockData: BlockData, index: Int, isOnTable: Bool) {
         self.index = index
         self.isOnTable = isOnTable
@@ -75,7 +77,7 @@ class Block: UIStackView {
 
         indent += direction
 
-        indentConstraint.constant = 50 * CGFloat(indent)
+        indentConstraint.constant = self.indentSize * CGFloat(indent)
 
         UIView.animate(withDuration: 0.1, animations: {
             self.layoutIfNeeded()
@@ -130,28 +132,36 @@ class BlockView: UIView, UITextFieldDelegate {
         super.init(frame: CGRect())
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        self.layer.cornerRadius = 10
+        self.layer.cornerRadius = 5
+        /*
         self.layer.shadowOffset = CGSize(width: 0, height: 2)
         self.layer.shadowColor = UIColor.black.cgColor
         self.layer.shadowOpacity = 0.5
         self.layer.shadowRadius = 3
-        self.backgroundColor = UIColor.gray
+        */
+        if #available(iOS 13, *) {
+            self.backgroundColor = .vplBlock
+        } else {
+            self.backgroundColor = .gray
+        }
 
         let blockStackView = UIStackView(frame: CGRect())
         blockStackView.axis = .horizontal
         blockStackView.distribution = .fill
+        blockStackView.alignment = .center
         blockStackView.spacing = 5
 
         self.addSubview(blockStackView)
 
         let paddingV: CGFloat = 3
-        let paddingH: CGFloat = 7
+        let paddingH: CGFloat = 0
 
         blockStackView.translatesAutoresizingMaskIntoConstraints = false
         blockStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: paddingV).isActive = true
         blockStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -paddingV).isActive = true
         blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH).isActive = true
         blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH).isActive = true
+
 
         //blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
@@ -170,7 +180,6 @@ class BlockView: UIView, UITextFieldDelegate {
             case .Label(let text):
                 let label = UILabel()
                 label.text = text
-                label.textColor = UIColor.white
                 label.textAlignment = .center
 
                 label.sizeToFit()
@@ -182,6 +191,14 @@ class BlockView: UIView, UITextFieldDelegate {
                 blockStackView.addArrangedSubview(argView)
             }
         }
+
+        let leftView = UIView()
+        leftView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        blockStackView.insertArrangedSubview(leftView, at: 0)
+
+        let rightView = UIView()
+        rightView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        blockStackView.addArrangedSubview(rightView)
     }
 
     required init?(coder aDecoder: NSCoder) {

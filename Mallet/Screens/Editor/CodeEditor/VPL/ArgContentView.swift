@@ -330,23 +330,47 @@ class ArgText: ArgContent, UITextFieldDelegate {
         self.layer.cornerRadius = 3
         */
 
+
+        if #available(iOS 13, *) {
+            self.backgroundColor = .placeholderText
+        } else {
+            self.backgroundColor = .white
+        }
+        self.layer.cornerRadius = 5
+
         let textField = UITextField()
         textField.delegate = self
-        textField.backgroundColor = .white
+        /*
+        if #available(iOS 13, *) {
+            textField.backgroundColor = .pla //.systemBackground
+        } else {
+            textField.backgroundColor = .white
+        }
+        */
+        /*
         textField.layer.borderWidth = 2
-        textField.layer.borderColor = UIColor.white.cgColor //UIColor.purple.cgColor
-        textField.layer.cornerRadius = 5
+        if #available(iOS 13, *) {
+            textField.layer.borderColor = UIColor.separator.cgColor
+        } else {
+            textField.layer.borderColor = UIColor.white.cgColor
+        }
+        */
+
+        let padding: CGFloat = 5
+
+        textField.layer.cornerRadius = 3
         textField.text = value
         textField.textAlignment = .center
+        textField.backgroundColor = .clear
         textField.sizeToFit()
         self.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    textField.topAnchor.constraint(equalTo: self.topAnchor),
-                    textField.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                    textField.leftAnchor.constraint(equalTo: self.leftAnchor),
-                    textField.rightAnchor.constraint(equalTo: self.rightAnchor)
+                    textField.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+                    textField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+                    textField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: padding),
+                    textField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -padding)
                 ]
         )
     }

@@ -12,7 +12,7 @@ class ArgView: UIView {
 
     private let contents: [ArgContentType]!
 
-    static let spaceBetweenContents: CGFloat = 10.0
+    static let spaceBetweenContents: CGFloat = 5.0
 
     private let contentsStackView = UIStackView()
 
@@ -22,8 +22,12 @@ class ArgView: UIView {
 
         super.init(frame: CGRect())
 
-        self.backgroundColor = .white
-        self.layer.borderColor = UIColor.black.cgColor
+        if #available(iOS 13, *) {
+            self.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+            self.backgroundColor = .white
+        }
+        //self.layer.borderColor = UIColor.black.cgColor
         self.layer.borderWidth = 2
         self.layer.cornerRadius = 5
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -35,8 +39,8 @@ class ArgView: UIView {
         contentsStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    contentsStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
-                    contentsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
+                    contentsStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+                    contentsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
                     contentsStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ArgView.spaceBetweenContents / 2),
                     contentsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -ArgView.spaceBetweenContents / 2),
                 ]

@@ -10,15 +10,15 @@ import Foundation
 
 enum BlockType: CaseIterable {
     case Print
+    case While
+    case IF
+    case ELSE
     case Variable
     case SetUIText
     case Sleep
     case Assign
     case Declare
     case Repeat
-    case While
-    case IF
-    case ELSE
     case AddToList
     case ShowWebPage
     case ShowInTableView
