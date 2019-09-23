@@ -9,14 +9,14 @@
 import Foundation
 
 enum BlockType: CaseIterable {
-    case Print
+    //case Print
+    case SetUIText
     case While
     case IF
     case ELSE
-    case Variable
-    case SetUIText
-    case Sleep
     case Assign
+    case Sleep
+    case Variable
     case Declare
     case Repeat
     case AddToList

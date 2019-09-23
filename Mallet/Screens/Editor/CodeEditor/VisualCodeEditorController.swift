@@ -28,13 +28,16 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     var blockViews = [Block]()
 
     var blocks: Dictionary<BlockType, BlockData> = [
-        BlockType.Print:
+        BlockType.SetUIText:
         BlockData(
-                blockType: .Print,
+                blockType: .SetUIText,
                 funcType: .Func,
-                funcName: "print",
-                contents: [BlockContentData(value: .Label("Print"), order: -1),
-                           BlockContentData(value: .Arg([.Text("ABC"), .Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "var", contents: [BlockContentData(value: .Label("VAR"), order: 0)], indent: 0)), .Text("EFG")]), order: 0)],
+                funcName: "setUIText",
+                contents: [BlockContentData(value: .Label("Set text of"), order: -1),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0)], indent: 0))]), order: 0),
+                           BlockContentData(value: .Label("to"), order: -1),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("sec")]), order: 0),
+                ],
                 indent: 0),
 
         BlockType.IF:
@@ -66,6 +69,30 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 indent:
                 0),
 
+        BlockType.Assign:
+        BlockData(
+                blockType: .Assign,
+                funcType: .Assign,
+                funcName: "",
+                contents: [BlockContentData(value: .Label("Set"), order: -1),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0))]), order: 0),
+                           BlockContentData(value: .Label("to"), order: -1),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("+1")]), order: 0),
+                ],
+                indent: 0
+        ),
+
+        BlockType.Sleep:
+        BlockData(
+                blockType: .Sleep,
+                funcType: .Func,
+                funcName: "sleep",
+                contents: [BlockContentData(value: .Label("Wait"), order: -1),
+                           BlockContentData(value: .Arg([.Text("1")]), order: 0),
+                           BlockContentData(value: .Label("seconds"), order: -1),
+                ],
+                indent:
+                0),
 
         /*
         BlockType.SetUIText:
@@ -229,6 +256,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         super.viewDidLoad()
 
         VisualCodeEditorController.codeArea = UIScrollView()
+
+        VisualCodeEditorController.codeArea.backgroundColor = .vplBackground
 
         self.view.addSubview(VisualCodeEditorController.codeArea)
         VisualCodeEditorController.codeArea.translatesAutoresizingMaskIntoConstraints = false
@@ -612,7 +641,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 index += 1
             }
         }
-        
+
         HapticFeedback.blockFeedback()
     }
 
