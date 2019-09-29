@@ -36,6 +36,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = appRunner
         }
 
+        if url.host == "i" {
+            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
+
+            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+                fatalError()
+            }
+
+            let base64Str = String(url.path.suffix(url.path.count - 1))
+            print(base64Str)
+            appRunner.appData = StorageManager.decodeAppShortcutURL(base64Str: base64Str)
+
+            print(appRunner.appData)
+
+            self.window?.rootViewController = appRunner
+
+        }
+
         self.window?.makeKeyAndVisible()
 
         return true

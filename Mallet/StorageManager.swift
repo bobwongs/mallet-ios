@@ -7,125 +7,159 @@
 //
 
 import Foundation
+import Realm
+import UIKit
+
+class AppModel: RLMObject {
+    @objc dynamic var appID = 0
+    @objc dynamic var appName = ""
+    @objc dynamic var uiDataStr = ""
+    @objc dynamic var code = ""
+}
 
 class StorageManager {
-    static let userDefaults = UserDefaults.standard
 
-    static private let appIDListKey = "AppIDList"
+    static private func getUIDataStr(appData: AppData) -> String {
+        let uiData = try? JSONEncoder().encode(appData.uiData)
+        let uiDataStr = String(bytes: uiData ?? Data(), encoding: .utf8)
 
-    static private let appNameKeyPrefix = "AppName_"
+        return uiDataStr ?? ""
+    }
 
-    static private let appDataPrefix = "AppData_"
+    static private func getMaxAppID() -> Int {
+        if AppModel.allObjects().count == 0 {
+            return -1
+        }
+
+        let appModel = AppModel.allObjects().sortedResults(usingKeyPath: "appID", ascending: false).firstObject() as! AppModel
+
+        return appModel.appID
+    }
 
     static func createNewApp() -> AppData {
-        let appList = getAppList()
-        let appID = appList.count
+        let appID = getMaxAppID() + 1
         let appName = "Untitled App"
-
-        var appIDList = [Int]()
-        for (appID, _) in appList {
-            appIDList.append(appID)
-        }
-        appIDList.append(appID)
-
-        userDefaults.set(appIDList, forKey: appIDListKey)
-        userDefaults.set(appName, forKey: "\(appNameKeyPrefix)\(appID)")
 
         let appData = AppData(appName: appName, appID: appID, uiData: [], code: "")
 
-        saveApp(appData: appData)
+        do {
+            let realm = RLMRealm.default()
+
+            let appModel = AppModel()
+            appModel.appID = appData.appID
+            appModel.appName = appData.appName
+            appModel.uiDataStr = getUIDataStr(appData: appData)
+            appModel.code = appData.code
+
+            print(AppModel.allObjects().count)
+
+            realm.beginWriteTransaction()
+            realm.add(appModel)
+            try realm.commitWriteTransaction()
+
+            print(AppModel.allObjects().count)
+        } catch let error {
+            print(error)
+        }
 
         return appData
     }
 
     static func saveApp(appData: AppData) {
-        do {
-            let jsonData = try JSONEncoder().encode(appData)
-            let jsonStr = String(bytes: jsonData, encoding: .utf8)
-            let fileName = "\(appDataPrefix)\(appData.appID).json"
+        DispatchQueue.global().async {
+            autoreleasepool {
+                do {
+                    let realm = RLMRealm.default()
 
-            guard let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-                return
+                    realm.beginWriteTransaction()
+
+                    let currentAppModel = AppModel.objects(where: "appID == \(appData.appID)").firstObject() as! AppModel
+
+                    currentAppModel.appName = appData.appName
+                    currentAppModel.uiDataStr = getUIDataStr(appData: appData)
+                    currentAppModel.code = appData.code
+
+                    try realm.commitWriteTransaction()
+                } catch let error {
+                    print(error)
+                }
             }
-
-            let targetTextFilePath = documentDirectoryFileURL.appendingPathComponent(fileName)
-
-            do {
-                try  jsonStr?.write(to: targetTextFilePath, atomically: true, encoding: .utf8)
-
-                userDefaults.set(appData.appName, forKey: "\(appNameKeyPrefix)\(appData.appID)")
-            } catch let error {
-                print(error)
-            }
-
-        } catch let error {
-            print(error)
         }
     }
 
     static func getApp(appID: Int) -> AppData {
-        let jsonStr: String!
-
-        guard let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-            return createNewApp()
-        }
-
-        let fileName = "\(appDataPrefix)\(appID).json"
-        let targetTextFilePath = documentDirectoryFileURL.appendingPathComponent(fileName)
-
         do {
-            jsonStr = try String(contentsOf: targetTextFilePath, encoding: .utf8)
+            guard let appModel: AppModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+                return createNewApp()
+            }
+
+            guard let jsonData = appModel.uiDataStr.data(using: .utf8) else {
+                return createNewApp()
+            }
+
+            let uiData = try JSONDecoder().decode([UIData].self, from: jsonData)
+
+            let appData = AppData(appName: appModel.appName, appID: appModel.appID, uiData: uiData, code: appModel.code)
+
+            return appData
+
         } catch let error {
             print(error)
-            return createNewApp()
         }
 
-        guard let jsonData = jsonStr.data(using: .utf8) else {
-            return createNewApp()
-        }
-
-        do {
-            return try JSONDecoder().decode(AppData.self, from: jsonData)
-        } catch let error {
-            print(error)
-            return createNewApp()
-        }
+        return createNewApp()
     }
 
 
     static func getAppList() -> [(Int, String)] {
         var appList = [(Int, String)]()
 
-        guard let appIDList = userDefaults.array(forKey: appIDListKey) as? [Int] else {
-            return appList
-        }
+        let appModels = AppModel.allObjects()
 
-        for appID in appIDList {
-            let appName = userDefaults.string(forKey: "\(appNameKeyPrefix)\(appID)") ?? "Untitled App"
-
-            appList.append((appID, appName))
+        for appModel in appModels {
+            guard let appModel: AppModel = appModel as! AppModel else {
+                return appList
+            }
+            appList.append((appModel.appID, appModel.appName))
         }
 
         return appList
     }
 
     static func removeAll() {
-        if let bundled = Bundle.main.bundleIdentifier {
-            userDefaults.removePersistentDomain(forName: bundled)
-        }
-
-        guard let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last else {
-            return
-        }
-
         do {
-            let fileURLs = try FileManager.default.contentsOfDirectory(at: documentDirectoryFileURL, includingPropertiesForKeys: nil, options: [.skipsHiddenFiles, .skipsSubdirectoryDescendants])
+            let realm = RLMRealm.default()
 
-            for fileURL in fileURLs {
-                try FileManager.default.removeItem(at: fileURL)
+            let allApps = AppModel.allObjects()
+
+            realm.beginWriteTransaction()
+            for app in allApps {
+                realm.delete(app)
             }
+            try realm.commitWriteTransaction()
         } catch let error {
             print(error)
+        }
+    }
+
+    static func generateAppShortcutURL(appData: AppData) -> String {
+        let appDataData = try? JSONEncoder().encode(appData)
+        let base64Str = appDataData?.base64EncodedString()
+
+        let url = "mallet-shortcut://i/\(base64Str ?? "")"
+
+        UIPasteboard.general.string = url
+
+        return url
+    }
+
+    static func decodeAppShortcutURL(base64Str: String) -> AppData {
+        do {
+            let appData = try JSONDecoder().decode(AppData.self, from: Data(base64Encoded: base64Str)!)
+            return appData
+        } catch let error {
+            print(error)
+            return createNewApp()
         }
     }
 }

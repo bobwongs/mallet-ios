@@ -72,7 +72,6 @@ class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-
         switch tableView.cellForRow(at: indexPath)?.reuseIdentifier ?? "" {
         case "save":
             appSettingsController.save()

@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		0E07A15522B47FA200A848C2 /* SPEC.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E07A15422B47FA100A848C2 /* SPEC.md */; };
+		0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E24CF0C231578BE00D5D5C2 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* StorageManager.swift */; };
 		0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3ED95A2337956100C10A72 /* AppCell.swift */; };
@@ -34,6 +35,8 @@
 		0EB764A822FD644700DFD72C /* VariableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A722FD644700DFD72C /* VariableData.swift */; };
 		0EBEB4C22326823B004A25A3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C12326823B004A25A3 /* Home.storyboard */; };
 		0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */; };
+		0EC07A8823409A4E0028272F /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; };
+		0EC07A8923409A4E0028272F /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* AppRunner.swift */; };
 		0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* AppRunner.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
@@ -42,8 +45,6 @@
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* BlockView.swift */; };
 		0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9723324E9C00CD9321 /* Swifter.framework */; };
-		0ED08D9B233266E600CD9321 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9A233266E600CD9321 /* Realm.framework */; };
-		0ED08D9D233266FE00CD9321 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9C233266FE00CD9321 /* RealmSwift.framework */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */; };
 		0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE32312D56800AD661E /* AppSettingsController.swift */; };
@@ -74,8 +75,23 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		0EC07A8A23409A4E0028272F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0EC07A8923409A4E0028272F /* Realm.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0E07A15422B47FA100A848C2 /* SPEC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SPEC.md; sourceTree = "<group>"; };
+		0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E24CF0B231578BE00D5D5C2 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		0E3ED95A2337956100C10A72 /* AppCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
@@ -108,6 +124,7 @@
 		0EB764A722FD644700DFD72C /* VariableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableData.swift; sourceTree = "<group>"; };
 		0EBEB4C12326823B004A25A3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
+		0EC07A8723409A4E0028272F /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* AppRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRunner.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* AppRunner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppRunner.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -116,8 +133,6 @@
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82322E37AF700A9D6D9 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		0ED08D9723324E9C00CD9321 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
-		0ED08D9A233266E600CD9321 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
-		0ED08D9C233266FE00CD9321 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
 		0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettings.storyboard; sourceTree = "<group>"; };
@@ -146,8 +161,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ED08D9D233266FE00CD9321 /* RealmSwift.framework in Frameworks */,
-				0ED08D9B233266E600CD9321 /* Realm.framework in Frameworks */,
+				0EC07A8823409A4E0028272F /* Realm.framework in Frameworks */,
 				0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,8 +309,7 @@
 		0ED08D9623324E9C00CD9321 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0ED08D9C233266FE00CD9321 /* RealmSwift.framework */,
-				0ED08D9A233266E600CD9321 /* Realm.framework */,
+				0EC07A8723409A4E0028272F /* Realm.framework */,
 				0ED08D9723324E9C00CD9321 /* Swifter.framework */,
 			);
 			name = Frameworks;
@@ -336,6 +349,7 @@
 				0E3ED9622337DFC100C10A72 /* Color.swift */,
 				0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */,
 				0E24CF0B231578BE00D5D5C2 /* StorageManager.swift */,
+				0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */,
 				0EF478B1226B78CE007315DB /* LaunchScreen.storyboard */,
 				0EF478AF226B78CE007315DB /* Assets.xcassets */,
 				0EF478B4226B78CE007315DB /* Info.plist */,
@@ -402,6 +416,7 @@
 				0EF478A2226B78CD007315DB /* Frameworks */,
 				0EF478A3226B78CD007315DB /* Resources */,
 				0ED08D9923324FF900CD9321 /* ShellScript */,
+				0EC07A8A23409A4E0028272F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -416,6 +431,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EF478D0226B78CE007315DB /* Build configuration list for PBXNativeTarget "MalletTests" */;
 			buildPhases = (
+				60259933FD10E82B30B5A3F0 /* [CP] Check Pods Manifest.lock */,
 				0EF478B5226B78CE007315DB /* Sources */,
 				0EF478B6226B78CE007315DB /* Frameworks */,
 				0EF478B7226B78CE007315DB /* Resources */,
@@ -434,9 +450,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0EF478D3226B78CE007315DB /* Build configuration list for PBXNativeTarget "MalletUITests" */;
 			buildPhases = (
+				7E3D58958DE69261F6BE851F /* [CP] Check Pods Manifest.lock */,
 				0EF478C0226B78CE007315DB /* Sources */,
 				0EF478C1226B78CE007315DB /* Frameworks */,
 				0EF478C2226B78CE007315DB /* Resources */,
+				50C7679DC7D7FFB206A19642 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -536,7 +554,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -545,6 +562,67 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+		50C7679DC7D7FFB206A19642 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mallet-MalletUITests/Pods-Mallet-MalletUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Mallet-MalletUITests/Pods-Mallet-MalletUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Mallet-MalletUITests/Pods-Mallet-MalletUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		60259933FD10E82B30B5A3F0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MalletTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7E3D58958DE69261F6BE851F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Mallet-MalletUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -555,6 +633,7 @@
 			files = (
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
 				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
+				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,

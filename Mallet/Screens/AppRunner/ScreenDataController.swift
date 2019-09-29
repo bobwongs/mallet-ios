@@ -19,7 +19,6 @@ public class UIData: Codable {
     let funcID: [Int]
     let code: [String]
 
-
     init(uiID: Int, uiName: String, uiType: UIType, text: String, value: Int, x: CGFloat, y: CGFloat, funcID: [Int], code: [String]) {
         self.uiID = uiID
         self.uiName = uiName
