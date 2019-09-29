@@ -51,11 +51,14 @@
                         <viewLayoutGuide key="safeArea" id="4Nd-Y1-dgR"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="IvC-uY-bgk">
-                        <barButtonItem key="rightBarButtonItem" title="Mode" id="Eb2-37-0Ta">
-                            <connections>
-                                <action selector="switchModeButton:" destination="kGm-ie-ZMa" id="oPY-0B-BBl"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Mode" image="text.justifyleft" catalog="system" id="Eb2-37-0Ta">
+                                <connections>
+                                    <action selector="switchModeButton:" destination="kGm-ie-ZMa" id="oPY-0B-BBl"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Variables" id="prb-Dp-FHp"/>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="TextCodeEditorView" destination="ghb-NC-th5" id="jUV-Uy-K6h"/>
@@ -142,4 +145,7 @@
             <point key="canvasLocation" x="2480.8000000000002" y="193.5960591133005"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="text.justifyleft" catalog="system" width="64" height="50"/>
+    </resources>
 </document>

@@ -37,6 +37,9 @@
 		0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */; };
 		0EC07A8823409A4E0028272F /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; };
 		0EC07A8923409A4E0028272F /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0EC07A8D2340B1480028272F /* VariableSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC07A8C2340B1480028272F /* VariableSettings.storyboard */; };
+		0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC07A8E2340B2CA0028272F /* VariableSettingsController.swift */; };
+		0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC07A902340B3AA0028272F /* VariableSettingsCell.swift */; };
 		0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33344226E0B7F005B968A /* AppRunner.swift */; };
 		0EC33347226E0B92005B968A /* AppRunner.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC33346226E0B92005B968A /* AppRunner.storyboard */; };
 		0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC33348226E1174005B968A /* ScreenGenerator.swift */; };
@@ -125,6 +128,9 @@
 		0EBEB4C12326823B004A25A3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		0EC07A8723409A4E0028272F /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		0EC07A8C2340B1480028272F /* VariableSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = VariableSettings.storyboard; sourceTree = "<group>"; };
+		0EC07A8E2340B2CA0028272F /* VariableSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableSettingsController.swift; sourceTree = "<group>"; };
+		0EC07A902340B3AA0028272F /* VariableSettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableSettingsCell.swift; sourceTree = "<group>"; };
 		0EC33344226E0B7F005B968A /* AppRunner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRunner.swift; sourceTree = "<group>"; };
 		0EC33346226E0B92005B968A /* AppRunner.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppRunner.storyboard; sourceTree = "<group>"; };
 		0EC33348226E1174005B968A /* ScreenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenGenerator.swift; sourceTree = "<group>"; };
@@ -207,6 +213,7 @@
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
 				0E9F3DA622F1C1890013659C /* EditorUIData.swift */,
 				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
+				0E3ED9602337C1D400C10A72 /* AppSettings */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -223,6 +230,7 @@
 		0E3ED9612337C21500C10A72 /* CodeEditor */ = {
 			isa = PBXGroup;
 			children = (
+				0EC07A8B2340B1290028272F /* VariableSettings */,
 				0EC9E82222E37AE600A9D6D9 /* VPL */,
 				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
 				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
@@ -248,7 +256,6 @@
 			children = (
 				0E3ED95F2337C1B500C10A72 /* UIEditor */,
 				0E3ED9612337C21500C10A72 /* CodeEditor */,
-				0E3ED9602337C1D400C10A72 /* AppSettings */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -278,6 +285,16 @@
 				0EAA0DC422F72C5600F5A051 /* time.mm */,
 			);
 			path = time;
+			sourceTree = "<group>";
+		};
+		0EC07A8B2340B1290028272F /* VariableSettings */ = {
+			isa = PBXGroup;
+			children = (
+				0EC07A8C2340B1480028272F /* VariableSettings.storyboard */,
+				0EC07A8E2340B2CA0028272F /* VariableSettingsController.swift */,
+				0EC07A902340B3AA0028272F /* VariableSettingsCell.swift */,
+			);
+			path = VariableSettings;
 			sourceTree = "<group>";
 		};
 		0EC33343226E0B3C005B968A /* AppRunner */ = {
@@ -520,6 +537,7 @@
 				0EF478B3226B78CE007315DB /* LaunchScreen.storyboard in Resources */,
 				0EBEB4C22326823B004A25A3 /* Home.storyboard in Resources */,
 				0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */,
+				0EC07A8D2340B1480028272F /* VariableSettings.storyboard in Resources */,
 				0E3ED95D2337956100C10A72 /* AppCell.xib in Resources */,
 				0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */,
 				0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */,
@@ -635,6 +653,7 @@
 				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
+				0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
 				0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */,
@@ -643,6 +662,7 @@
 				0EAA0DC522F72C5600F5A051 /* time.mm in Sources */,
 				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
 				0E4288B922F59D8D005CF2BF /* ui.mm in Sources */,
+				0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0E9F3DA722F1C1890013659C /* EditorUIData.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
