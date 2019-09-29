@@ -8,7 +8,9 @@
 
 import UIKit
 
-class VariableSettingsController: UITableViewController {
+class VariableSettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    @IBOutlet weak var variableTableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,29 +20,30 @@ class VariableSettingsController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
+        variableTableView.delegate = self
+        variableTableView.dataSource = self
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         // Configure the cell...
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
@@ -87,4 +90,7 @@ class VariableSettingsController: UITableViewController {
     }
     */
 
+    @IBAction func closeButton(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
 }

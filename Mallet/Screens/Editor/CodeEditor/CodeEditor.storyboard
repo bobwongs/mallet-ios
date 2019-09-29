@@ -57,7 +57,11 @@
                                     <action selector="switchModeButton:" destination="kGm-ie-ZMa" id="oPY-0B-BBl"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Variables" id="prb-Dp-FHp"/>
+                            <barButtonItem title="Variables" id="prb-Dp-FHp">
+                                <connections>
+                                    <action selector="variableSettingsButton:" destination="kGm-ie-ZMa" id="CeF-6q-sZe"/>
+                                </connections>
+                            </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
