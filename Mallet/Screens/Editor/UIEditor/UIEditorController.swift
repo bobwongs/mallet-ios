@@ -681,7 +681,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     func saveApp() {
         let appData = generateAppData()
 
-        StorageManager.saveApp(appData: appData)
+        AppDatabaseController.saveApp(appData: appData)
     }
 
     func addToHomeScreen() {

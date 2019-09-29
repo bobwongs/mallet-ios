@@ -25,7 +25,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func reloadAppTableView() {
-        appList = StorageManager.getAppList()
+        appList = AppDatabaseController.getAppList()
 
         appTableView.reloadData()
     }
@@ -36,7 +36,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError()
         }
 
-        let appData = StorageManager.getApp(appID: appID)
+        let appData = AppDatabaseController.getApp(appID: appID)
 
         uiEditorController.appData = appData
 
@@ -50,19 +50,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             fatalError()
         }
 
-        appRunner.appData = StorageManager.getApp(appID: appID)
+        appRunner.appData = AppDatabaseController.getApp(appID: appID)
 
         navigationController?.pushViewController(appRunner, animated: true)
     }
 
     @IBAction func addAppButton(_ sender: Any) {
-        let appData = StorageManager.createNewApp()
+        let appData = AppDatabaseController.createNewApp()
 
         editApp(appID: appData.appID)
     }
 
     @IBAction func removeAllButton(_ sender: Any) {
-        StorageManager.removeAll()
+        AppDatabaseController.removeAll()
 
         reloadAppTableView()
     }

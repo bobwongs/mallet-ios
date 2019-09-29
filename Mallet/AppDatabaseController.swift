@@ -1,5 +1,5 @@
 //
-//  StorageManager.swift
+//  AppDatabaseController.swift
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/08/27.
@@ -17,7 +17,7 @@ class AppModel: RLMObject {
     @objc dynamic var code = ""
 }
 
-class StorageManager {
+class AppDatabaseController {
 
     static private func getUIDataStr(appData: AppData) -> String {
         let uiData = try? JSONEncoder().encode(appData.uiData)

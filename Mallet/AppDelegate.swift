@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 return true
             }
 
-            appRunner.appData = StorageManager.getApp(appID: appID)
+            appRunner.appData = AppDatabaseController.getApp(appID: appID)
 
             self.window?.rootViewController = appRunner
         }
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             let base64Str = String(url.path.suffix(url.path.count - 1))
             print(base64Str)
-            appRunner.appData = StorageManager.decodeAppShortcutURL(base64Str: base64Str)
+            appRunner.appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
 
             print(appRunner.appData)
 
