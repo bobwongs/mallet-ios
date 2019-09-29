@@ -794,4 +794,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             self.view.layoutIfNeeded()
         })
     }
+
+    func openUISettings() {
+
+    }
 }

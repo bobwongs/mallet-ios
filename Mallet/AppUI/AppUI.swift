@@ -150,32 +150,17 @@ public class EditorUI: UIView, EditorUIData {
         super.init(frame: CGRect())
 
         self.addSubview(ui)
-        //ui.translatesAutoresizingMaskIntoConstraints = false
 
         let wall = UIView()
         self.addSubview(wall)
         wall.frame = ui.frame
-        /*
-        wall.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-                [
-                    wall.topAnchor.constraint(equalTo: ui.topAnchor),
-                    wall.bottomAnchor.constraint(equalTo: ui.bottomAnchor),
-                    wall.leftAnchor.constraint(equalTo: ui.leftAnchor),
-                    wall.rightAnchor.constraint(equalTo: ui.rightAnchor)
-                ]
-        )
-        */
 
         self.bringSubviewToFront(wall)
 
-        //self.layoutIfNeeded()
         self.frame = ui.frame
 
         wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
-        //self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
 
-        //self.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
                     wall.centerXAnchor.constraint(equalTo: self.centerXAnchor),
@@ -203,8 +188,8 @@ public class EditorUI: UIView, EditorUIData {
         self.menu.arrowDirection = .down
         self.menu.setTargetRect(self.bounds, in: self)
 
-        let editCodeMenu = UIMenuItem(title: "Edit Code", action: #selector(self.editCode(sender:)))
-        let editUIMenu = UIMenuItem(title: "Edit", action: #selector(self.editUI(sender:)))
+        let editCodeMenu = UIMenuItem(title: "Edit", action: #selector(self.editCode(sender:)))
+        let editUIMenu = UIMenuItem(title: "Code", action: #selector(self.editUI(sender:)))
         let menuItems = [editCodeMenu, editUIMenu]
         self.menu.menuItems = menuItems
 
