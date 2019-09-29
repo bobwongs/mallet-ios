@@ -8,17 +8,38 @@
 
 import UIKit
 
-class VariableSettingsCell: UITableViewCell {
+class VariableSettingsCell: UITableViewCell, UITextFieldDelegate {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    init(reuseIdentifier: String?) {
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
+
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.frame = self.frame
+        self.addSubview(stackView)
+
+        let variableNameTextField = UITextField()
+        variableNameTextField.placeholder = "Name"
+        stackView.addArrangedSubview(variableNameTextField)
+        variableNameTextField.translatesAutoresizingMaskIntoConstraints = false
+        variableNameTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+
+        let variableValueTextField = UITextField()
+        variableValueTextField.placeholder = "Value"
+        stackView.addArrangedSubview(variableValueTextField)
+        variableValueTextField.translatesAutoresizingMaskIntoConstraints = false
+        variableValueTextField.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.5).isActive = true
+
+        variableNameTextField.delegate = self
+        variableValueTextField.delegate = self
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+    }
 }
