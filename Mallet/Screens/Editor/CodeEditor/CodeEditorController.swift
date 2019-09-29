@@ -151,7 +151,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     @IBAction func variableSettingsButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "VariableSettings", bundle: nil)
         guard let variableSettingsController = storyboard.instantiateInitialViewController() as? VariableSettingsController else {
-            print(storyboard.instantiateInitialViewController() is VariableSettingsController)
             fatalError()
         }
 
