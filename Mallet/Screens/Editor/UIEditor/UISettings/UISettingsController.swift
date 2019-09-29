@@ -10,6 +10,8 @@ import UIKit
 
 class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, UITextFieldDelegate {
 
+    //public var uiData: UIData?
+
     @IBOutlet weak var settingsTableView: UITableView!
 
     @IBOutlet weak var navigationBar: UINavigationBar!

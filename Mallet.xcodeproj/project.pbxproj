@@ -16,6 +16,8 @@
 		0E3ED9632337DFC100C10A72 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3ED9622337DFC100C10A72 /* Color.swift */; };
 		0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
+		0E4103CF234105F300839B5F /* UISettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E4103CE234105F300839B5F /* UISettings.storyboard */; };
+		0E4103D12341064000839B5F /* UISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4103D02341064000839B5F /* UISettingsController.swift */; };
 		0E4288A922F590E2005CF2BF /* cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288A722F590E2005CF2BF /* cast.cpp */; };
 		0E4288B922F59D8D005CF2BF /* ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288B822F59D8D005CF2BF /* ui.mm */; };
 		0E43716622F876C2004CA2BD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E43716522F876C2004CA2BD /* Extension.swift */; };
@@ -102,6 +104,8 @@
 		0E3ED9622337DFC100C10A72 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCodeEditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
+		0E4103CE234105F300839B5F /* UISettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UISettings.storyboard; sourceTree = "<group>"; };
+		0E4103D02341064000839B5F /* UISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsController.swift; sourceTree = "<group>"; };
 		0E4288A722F590E2005CF2BF /* cast.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cast.cpp; sourceTree = "<group>"; };
 		0E4288A822F590E2005CF2BF /* cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cast.hpp; sourceTree = "<group>"; };
 		0E4288B422F59D28005CF2BF /* ui.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ui.hpp; sourceTree = "<group>"; };
@@ -213,6 +217,7 @@
 				0EA9DF55227F216A00584C0B /* UIEditorController.swift */,
 				0E9F3DA622F1C1890013659C /* EditorUIData.swift */,
 				0E8B783322AFF807002336A2 /* UIEditor.storyboard */,
+				0E4103CD234105D700839B5F /* UISettings */,
 				0E3ED9602337C1D400C10A72 /* AppSettings */,
 			);
 			path = UIEditor;
@@ -258,6 +263,15 @@
 				0E3ED9612337C21500C10A72 /* CodeEditor */,
 			);
 			path = Editor;
+			sourceTree = "<group>";
+		};
+		0E4103CD234105D700839B5F /* UISettings */ = {
+			isa = PBXGroup;
+			children = (
+				0E4103D02341064000839B5F /* UISettingsController.swift */,
+				0E4103CE234105F300839B5F /* UISettings.storyboard */,
+			);
+			path = UISettings;
 			sourceTree = "<group>";
 		};
 		0E4288B022F59CEA005CF2BF /* lib */ = {
@@ -542,6 +556,7 @@
 				0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */,
 				0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */,
 				0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */,
+				0E4103CF234105F300839B5F /* UISettings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +666,7 @@
 			files = (
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
 				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
+				0E4103D12341064000839B5F /* UISettingsController.swift in Sources */,
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */,

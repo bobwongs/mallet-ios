@@ -430,6 +430,16 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func editUI(ui: EditorUI) {
+        let storyBoard = UIStoryboard(name: "UISettings", bundle: nil)
+        guard let uiSettingsController = storyBoard.instantiateInitialViewController() as? UISettingsController else {
+            fatalError()
+        }
+
+        //uiSettingsController.uiData =
+
+        navigationController?.present(uiSettingsController, animated: true)
+
+        /*
         switch (ui as EditorUIData).uiType {
         case .Label:
             guard let label = (ui as? EditorUILabel)?.label else {
@@ -448,6 +458,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         default:
             break
         }
+        */
     }
 
     func setUIText(uiType: UIType, ui: UIView, text: String) {
@@ -793,9 +804,5 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
         })
-    }
-
-    func openUISettings() {
-
     }
 }
