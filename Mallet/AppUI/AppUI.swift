@@ -188,8 +188,8 @@ public class EditorUI: UIView, EditorUIData {
         self.menu.arrowDirection = .down
         self.menu.setTargetRect(self.bounds, in: self)
 
-        let editCodeMenu = UIMenuItem(title: "Edit", action: #selector(self.editCode(sender:)))
-        let editUIMenu = UIMenuItem(title: "Code", action: #selector(self.editUI(sender:)))
+        let editCodeMenu = UIMenuItem(title: "Code", action: #selector(self.editCode(sender:)))
+        let editUIMenu = UIMenuItem(title: "Edit", action: #selector(self.editUI(sender:)))
         let menuItems = [editCodeMenu, editUIMenu]
         self.menu.menuItems = menuItems
 
