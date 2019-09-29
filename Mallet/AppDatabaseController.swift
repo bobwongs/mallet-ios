@@ -15,6 +15,12 @@ class AppModel: RLMObject {
     @objc dynamic var appName = ""
     @objc dynamic var uiDataStr = ""
     @objc dynamic var code = ""
+    @objc dynamic var appVariable = RLMArray<AppVariableModel>(objectClassName: AppVariableModel.className())
+}
+
+class AppVariableModel: RLMObject {
+    @objc dynamic var name = ""
+    @objc dynamic var value = ""
 }
 
 class AppDatabaseController {
