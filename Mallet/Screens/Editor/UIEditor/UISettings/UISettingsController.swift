@@ -18,6 +18,8 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
+    @IBOutlet weak var navigationBarItem: UINavigationItem!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,6 +27,8 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         settingsTableView.dataSource = self
 
         navigationBar.delegate = self
+
+        navigationBarItem.title = ui?.uiName
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -40,7 +44,26 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
             return nil
         }
 
-        return "Label"
+        if let uiType = uiData?.uiType {
+            switch uiType {
+            case .Label:
+                return "Label"
+
+            case .Button:
+                return "Button"
+
+            case .TextField:
+                return "Text Field"
+
+            case .Switch:
+                return "Switch"
+
+            case .Slider:
+                return "Slider"
+            }
+        }
+
+        return ""
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
