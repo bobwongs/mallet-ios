@@ -77,7 +77,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
                 }
 
             case .Slider:
-                if var sliderData = uiData.textFieldData {
+                if var sliderData = uiData.sliderData {
                     sliderData.onChange.code = codeStr
                 } else {
                     fatalError()
