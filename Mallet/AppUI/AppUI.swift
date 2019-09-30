@@ -17,14 +17,15 @@ public enum UIType: Int, Codable, CaseIterable {
 }
 
 public class AppUILabel: UILabel {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiData: UIData) {
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
-        self.text = "Text"
-        self.textColor = UIColor.black
-        self.font = font.withSize(22)
+        let labelData = uiData.labelData ?? LabelUIData()
 
-        self.sizeToFit()
+        self.text = labelData.text
+        self.textColor = UIColor(hex: labelData.fontColor)
+        self.font = self.font.withSize(CGFloat(labelData.fontSize))
+        self.textAlignment = UIData.TextUIAlignment2NSTextAlignment(alignment: labelData.alignment)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -34,18 +35,17 @@ public class AppUILabel: UILabel {
 
 public class AppUIButton: UIButton {
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiData: UIData) {
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
-        self.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.backgroundColor = UIColor(red: 0, green: 122 / 255, blue: 1, alpha: 1)
-        self.setTitle("Button", for: .normal)
-        self.titleLabel?.font = self.titleLabel?.font.withSize(17)
-        self.setTitleColor(UIColor.white, for: .normal)
-        self.setTitleColor(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1), for: .highlighted)
+        let buttonData = uiData.buttonData ?? ButtonUIData()
+
+        self.backgroundColor = UIColor(hex: buttonData.backgroundColor)
+        self.setTitle(buttonData.text, for: .normal)
+        self.setTitleColor(UIColor(hex: buttonData.fontColor), for: .normal)
+        self.titleLabel?.font = self.titleLabel?.font.withSize(CGFloat(buttonData.fontSize))
+        self.setTitleColor(UIColor(hex: buttonData.fontColor, alpha: 0.8), for: .highlighted)
         self.layer.cornerRadius = 7
-
-        self.sizeToFit()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -55,30 +55,21 @@ public class AppUIButton: UIButton {
 }
 
 public class AppUITextField: UITextField {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiData: UIData) {
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
+
+        let textFieldData = uiData.textFieldData ?? TextFieldUIData()
+
+        self.text = textFieldData.text
+        self.textColor = UIColor(hex: textFieldData.fontColor)
+        self.font = self.font?.withSize(CGFloat(textFieldData.fontSize))
+        self.textAlignment = UIData.TextUIAlignment2NSTextAlignment(alignment: textFieldData.alignment)
 
         if #available(iOS 13, *) {
             self.overrideUserInterfaceStyle = .light
         }
 
         self.borderStyle = .roundedRect
-        self.text = "Input"
-        self.textColor = .black
-        self.font = font?.withSize(17)
-        self.sizeToFit()
-
-        /*
-        self.layer.borderColor = UIColor.gray.cgColor
-        self.layer.borderWidth = 1
-        self.layer.cornerRadius = 10
-        */
-
-        /*
-        self.frame.size = CGSize(width: 50, height: 30)
-        self.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        self.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 0))
-        */
     }
 
     public required init?(coder: NSCoder) {
@@ -88,8 +79,12 @@ public class AppUITextField: UITextField {
 
 public class AppUISwitch: UISwitch {
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiData: UIData) {
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
+
+        let switchData = uiData.switchData ?? SwitchUIData()
+
+        self.isOn = switchData.value == 1
 
         if #available(iOS 13, *) {
             self.overrideUserInterfaceStyle = .light
@@ -103,14 +98,14 @@ public class AppUISwitch: UISwitch {
 
 public class AppUISlider: UISlider {
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(uiData: UIData) {
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
-        self.frame.size = CGSize(width: 70, height: 40)
+        let sliderData = uiData.sliderData ?? SliderUIData()
 
-        self.minimumValue = 0
-        self.maximumValue = 100
-        self.value = 50
+        self.minimumValue = sliderData.min
+        self.maximumValue = sliderData.max
+        self.value = sliderData.value
 
         if #available(iOS 13, *) {
             self.overrideUserInterfaceStyle = .light
@@ -122,42 +117,37 @@ public class AppUISlider: UISlider {
     }
 }
 
-protocol EditorUIData {
-    var uiType: UIType { get }
-    var uiID: Int { set get }
-    var uiName: String { set get }
-}
+public class EditorUI: UIView {
 
-public class EditorUI: UIView, EditorUIData {
+    let uiData: UIData
+
+    var uiID: Int
+
+    var uiName: String
 
     var delegate: EditorUIDelegate?
 
-    let uiType: UIType
-    var uiID: Int
-    var uiName: String
-
     var menu: UIMenuController
 
-    init(uiID: Int, uiName: String, uiType: UIType, ui: UIView, uiEditorController: UIEditorController) {
-        self.delegate = uiEditorController
+    init(uiData: UIData, ui: UIView) {
+        self.uiData = uiData
 
-        self.uiType = uiType
-        self.uiID = uiID
-        self.uiName = uiName
+        self.uiID = uiData.uiID
+
+        self.uiName = uiData.uiName
 
         self.menu = UIMenuController.shared
 
-        super.init(frame: CGRect())
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         self.addSubview(ui)
+        ui.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
         let wall = UIView()
         self.addSubview(wall)
-        wall.frame = ui.frame
+        wall.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
         self.bringSubviewToFront(wall)
-
-        self.frame = ui.frame
 
         wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
 
@@ -170,6 +160,24 @@ public class EditorUI: UIView, EditorUIData {
                 ]
         )
 
+        /*
+        ui.translatesAutoresizingMaskIntoConstraints = false
+        wall.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate(
+                [
+                    ui.topAnchor.constraint(equalTo: self.topAnchor),
+                    ui.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                    ui.leftAnchor.constraint(equalTo: self.leftAnchor),
+                    ui.rightAnchor.constraint(equalTo: self.rightAnchor),
+
+                    wall.topAnchor.constraint(equalTo: self.topAnchor),
+                    wall.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                    wall.leftAnchor.constraint(equalTo: self.leftAnchor),
+                    wall.rightAnchor.constraint(equalTo: self.rightAnchor),
+                ]
+        )
+        */
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -225,11 +233,17 @@ public class EditorUILabel: EditorUI {
 
     let label: AppUILabel
 
-    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
-        let ui = AppUILabel()
+    let labelData: LabelUIData
+
+    init(uiData: UIData) {
+        self.labelData = uiData.labelData ?? LabelUIData()
+
+        let ui = AppUILabel(uiData: uiData)
         self.label = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Label, ui: ui, uiEditorController: uiEditorController)
+        super.init(uiData: uiData, ui: ui)
+
+        //self.frame = super.frame
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -238,16 +252,17 @@ public class EditorUILabel: EditorUI {
 }
 
 public class EditorUIButton: EditorUI {
-
     let button: AppUIButton
 
-    var tap = ""
+    let buttonData: ButtonUIData
 
-    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
-        let ui = AppUIButton()
+    init(uiData: UIData) {
+        self.buttonData = uiData.buttonData ?? ButtonUIData()
+
+        let ui = AppUIButton(uiData: uiData)
         self.button = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Button, ui: ui, uiEditorController: uiEditorController)
+        super.init(uiData: uiData, ui: ui)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -258,11 +273,15 @@ public class EditorUIButton: EditorUI {
 public class EditorUITextField: EditorUI {
     let textField: AppUITextField
 
-    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
-        let ui = AppUITextField()
+    let textFieldData: TextFieldUIData
+
+    init(uiData: UIData) {
+        self.textFieldData = uiData.textFieldData ?? TextFieldUIData()
+
+        let ui = AppUITextField(uiData: uiData)
         self.textField = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .TextField, ui: ui, uiEditorController: uiEditorController)
+        super.init(uiData: uiData, ui: ui)
     }
 
     public required init?(coder: NSCoder) {
@@ -271,30 +290,37 @@ public class EditorUITextField: EditorUI {
 }
 
 public class EditorUISwitch: EditorUI {
-
     let switchView: AppUISwitch
 
-    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
-        let ui = AppUISwitch()
+    let switchData: SwitchUIData
+
+    init(uiData: UIData) {
+        self.switchData = uiData.switchData ?? SwitchUIData()
+
+        let ui = AppUISwitch(uiData: uiData)
         self.switchView = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Switch, ui: ui, uiEditorController: uiEditorController)
+        super.init(uiData: uiData, ui: ui)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
 }
 
 public class EditorUISlider: EditorUI {
-
     let slider: AppUISlider
 
-    init(uiID: Int, uiName: String, uiEditorController: UIEditorController) {
-        let ui = AppUISlider()
+    let sliderData: SliderUIData
+
+    init(uiData: UIData) {
+        self.sliderData = uiData.sliderData ?? SliderUIData()
+
+        let ui = AppUISlider(uiData: uiData)
         self.slider = ui
 
-        super.init(uiID: uiID, uiName: uiName, uiType: .Slider, ui: ui, uiEditorController: uiEditorController)
+        super.init(uiData: uiData, ui: ui)
     }
 
     required init?(coder aDecoder: NSCoder) {

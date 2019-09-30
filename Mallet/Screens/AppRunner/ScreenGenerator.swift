@@ -9,25 +9,14 @@
 import UIKit
 
 class AppButton: AppUIButton {
-
-    var uiData: UIData
-
     let onButtonClickID: Int
 
-    init(uiData: UIData, onButtonClickID: Int) {
-        self.uiData = uiData
-        self.onButtonClickID = onButtonClickID
+    override init(uiData: UIData) {
+        let buttonData = uiData.buttonData ?? ButtonUIData()
 
-        super.init(frame: CGRect())
+        self.onButtonClickID = buttonData.onTap.funcID
 
-        self.contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        self.backgroundColor = UIColor(red: 0, green: 122 / 255, blue: 1, alpha: 1)
-        self.setTitle(uiData.text, for: .normal)
-        self.setTitleColor(UIColor.white, for: .normal)
-        self.setTitleColor(UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1), for: .highlighted)
-        self.layer.cornerRadius = 7
-
-        self.sizeToFit()
+        super.init(uiData: uiData)
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
@@ -45,20 +34,12 @@ class AppButton: AppUIButton {
         DispatchQueue.global(qos: .default).async() {
             appRunner.CallFunc(id: self.onButtonClickID)
         }
-
     }
-
 }
 
-class AppLabel: UILabel {
-    init(uiData: UIData) {
-        super.init(frame: CGRect())
-
-        self.text = uiData.text
-        self.textColor = UIColor.black
-
-        self.sizeToFit()
-        self.textAlignment = NSTextAlignment.center
+class AppLabel: AppUILabel {
+    override init(uiData: UIData) {
+        super.init(uiData: uiData)
 
         let runApp = AppRunner().topViewController() as! AppRunner
         runApp.appUI[uiData.uiID] = self
@@ -81,7 +62,7 @@ class ScreenGenerator {
                 break
 
             case .Button:
-                ui = AppButton(uiData: uiData, onButtonClickID: uiData.funcID[0])
+                ui = AppButton(uiData: uiData)
                 break
 
             case .TextField:

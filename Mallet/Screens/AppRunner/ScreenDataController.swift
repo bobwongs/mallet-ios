@@ -12,10 +12,10 @@ public class UIData: Codable {
     let uiID: Int
     let uiType: UIType
     let uiName: String
-    let x: CGFloat
-    let y: CGFloat
-    let width: CGFloat
-    let height: CGFloat
+    var x: CGFloat
+    var y: CGFloat
+    var width: CGFloat
+    var height: CGFloat
 
     var labelData: LabelUIData?
     var buttonData: ButtonUIData?
@@ -32,13 +32,25 @@ public class UIData: Codable {
         self.width = width
         self.height = height
     }
+
+    static func TextUIAlignment2NSTextAlignment(alignment: TextUIAlignment) -> NSTextAlignment {
+        switch alignment {
+        case .left:
+            return .left
+        case .center:
+            return .center
+        case .right:
+            return .right
+        }
+    }
 }
 
 public struct LabelUIData: Codable {
-    let text: String
-    let fontSize: Int
-    let fontColor: String
-    let alignment: TextUIAlignment
+    var text: String
+    var fontSize: Int
+    var fontColor: String
+    var alignment: TextUIAlignment
+
 
     init(text: String, fontSize: Int, fontColor: String, alignment: TextUIAlignment) {
         self.text = text
@@ -62,16 +74,18 @@ public enum TextUIAlignment: Int, Codable {
 }
 
 public struct ButtonUIData: Codable {
-    let text: String
-    let fontSize: Int
-    let fontColor: String
+    var text: String
+    var fontSize: Int
+    var fontColor: String
+    var backgroundColor: String
 
-    let onTap: funcData
+    var onTap: funcData
 
-    init(text: String, fontSize: Int, fontColor: String, onTap: funcData) {
+    init(text: String, fontSize: Int, fontColor: String, backgroundColor: String, onTap: funcData) {
         self.text = text
         self.fontSize = fontSize
         self.fontColor = fontColor
+        self.backgroundColor = backgroundColor
 
         self.onTap = onTap
     }
@@ -79,32 +93,95 @@ public struct ButtonUIData: Codable {
     init() {
         self.text = "Button"
         self.fontSize = 17
-        self.fontColor = Color.defaultButtonColor.hexString()
+        self.fontColor = Color.defaultButtonLabelColor.hexString()
+        self.backgroundColor = Color.defaultButtonColor.hexString()
 
-        self.onTap = funcData(id: -1, code: "")
+        self.onTap = funcData()
     }
 }
 
 public struct TextFieldUIData: Codable {
+    var text: String
+    var fontSize: Int
+    var fontColor: String
+    var alignment: TextUIAlignment
 
+    var onChange: funcData
+
+    init(text: String, fontSize: Int, fontColor: String, alignment: TextUIAlignment, onChange: funcData) {
+        self.text = text
+        self.fontSize = fontSize
+        self.fontColor = fontColor
+        self.alignment = alignment
+
+        self.onChange = onChange
+    }
+
+    init() {
+        self.text = "Input"
+        self.fontSize = 17
+        self.fontColor = Color.defaultLabelColor.hexString()
+        self.alignment = .left
+
+        self.onChange = funcData()
+    }
 }
 
 public struct SwitchUIData: Codable {
+    var value: Int
 
+    var onChange: funcData
+
+    init(value: Int, onChange: funcData) {
+        self.value = value
+
+        self.onChange = onChange
+    }
+
+    init() {
+        self.value = 0
+
+        self.onChange = funcData()
+    }
 }
 
 
 public struct SliderUIData: Codable {
+    var value: Float
+    var max: Float
+    var min: Float
 
+    var onChange: funcData
+
+    init(value: Float, max: Float, min: Float, onChange: funcData) {
+        self.value = value
+        self.max = max
+        self.min = min
+
+        self.onChange = onChange
+    }
+
+    init() {
+        self.value = 0
+        self.max = 1
+        self.min = 0
+
+        self.onChange = funcData()
+    }
 }
 
 public struct funcData: Codable {
-    let funcID: Int
-    let code: String
+    var funcID: Int
+    var code: String
 
     init(id: Int, code: String) {
         self.funcID = id
         self.code = code
+    }
+
+    init() {
+        self.funcID = -1
+        self.code = ""
     }
 }
 

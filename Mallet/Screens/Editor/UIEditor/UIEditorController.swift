@@ -23,7 +23,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     var uiData: [UIData]?
 
-    var uiDictionary = Dictionary<Int, UIView>()
+    var uiDictionary = Dictionary<Int, EditorUI>()
     var uiNum = 0
     var selectedUIID = 0
 
@@ -102,54 +102,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         uiNum = appData.uiData.count
 
         for uiData in appData.uiData {
-            let ui = generateEditorUI(uiType: uiData.uiType, uiID: uiData.uiID, uiName: uiData.uiName)
+            let ui = generateEditorUI(uiData: uiData)
             appScreen.addSubview(ui)
-
-            var appSampleUIData = ui as! EditorUIData
-            appSampleUIData.uiID = uiData.uiID
-
-            ui.center.x = uiData.x * uiScale
-            ui.center.y = uiData.y * uiScale
 
             ui.isUserInteractionEnabled = true
 
             addGesture(ui: ui)
 
-            setUIText(uiType: uiData.uiType, ui: ui, text: uiData.text)
-
             UINumOfEachType[uiData.uiType]! += 1
-
             uiDictionary[uiData.uiID] = ui
-
-            switch uiData.uiType {
-            case .Button:
-                guard let editorUIButton = ui as? EditorUIButton else {
-                    fatalError()
-                }
-
-                if uiData.code.count < 1 {
-                    editorUIButton.tap = ""
-                } else {
-                    editorUIButton.tap = uiData.code[0]
-                }
-
-                break
-
-            case .Label:
-                break
-
-            case .TextField:
-                //TODO:
-                break
-
-            case .Switch:
-                //TODO:
-                break
-
-            case .Slider:
-                //TODO:
-                break
-            }
         }
     }
 
@@ -165,23 +126,35 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.layer.borderWidth = 1
         cell.layer.borderColor = Color.uiCollectionCellBorder.cgColor
 
-        let uiType: UIType!
+        let uiData: UIData
         switch indexPath.row {
         case 0:
-            uiType = .Label
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Label, x: 0, y: 0, width: 80, height: 40)
+            uiData.labelData = LabelUIData()
+
         case 1:
-            uiType = .Button
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Button, x: 0, y: 0, width: 70, height: 45)
+            uiData.buttonData = ButtonUIData()
+
         case 2:
-            uiType = .TextField
+            uiData = UIData(uiID: -1, uiName: "", uiType: .TextField, x: 0, y: 0, width: 80, height: 40)
+            uiData.textFieldData = TextFieldUIData()
+
         case 3:
-            uiType = .Switch
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Switch, x: 0, y: 0, width: 80, height: 40)
+            uiData.switchData = SwitchUIData()
+
         case 4:
-            uiType = .Slider
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Slider, x: 0, y: 0, width: 80, height: 40)
+            uiData.sliderData = SliderUIData()
+
         default:
-            uiType = .Label
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Label, x: 0, y: 0, width: 800, height: 40)
+            uiData.labelData = LabelUIData()
+
         }
 
-        let ui = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
+        let ui = generateEditorUI(uiData: uiData)
         cell.addSubview(ui)
 
         ui.translatesAutoresizingMaskIntoConstraints = false
@@ -223,86 +196,41 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
-        let uiData = ui as EditorUIData
-
         codeEditorController.ui = ui
 
-        codeEditorController.uiData = uiData
+        codeEditorController.uiData = ui.uiData
 
-        switch uiData.uiType {
+        switch ui.uiData.uiType {
         case .Label:
             codeEditorController.codeStr = ""
 
         case .Button:
-            guard let button = ui as? EditorUIButton else {
-                print("This is not a button")
-                fatalError()
+            if let buttonData = ui.uiData.buttonData {
+                codeEditorController.codeStr = buttonData.onTap.code
+            } else {
+                codeEditorController.codeStr = ""
             }
-
-            // TODO:
-            codeEditorController.codeStr = button.tap
 
         case .TextField:
-            //TODO:
-            codeEditorController.codeStr = ""
-            break
-
-        case .Switch:
-            codeEditorController.codeStr = ""
-
-        case .Slider:
-            codeEditorController.codeStr = ""
-        }
-
-        navigationController?.pushViewController(codeEditorController, animated: true)
-    }
-
-    @objc func moveToCode(_ sender: UILongPressGestureRecognizer) {
-        if let senderSuperView = sender.view?.superview {
-            if senderSuperView != appScreen {
-                return
-            }
-        }
-
-        self.view.endEditing(true)
-
-        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-        guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-            fatalError()
-        }
-
-        guard let uiData = sender.view as? EditorUIData else {
-            print("This is not UI")
-            fatalError()
-        }
-
-        codeEditorController.ui = sender.view
-
-        codeEditorController.uiData = uiData
-
-        switch uiData.uiType {
-        case .Label:
-            codeEditorController.codeStr = ""
-
-        case .Button:
-            guard let button = sender.view as? EditorUIButton else {
-                print("This is not a button")
-                fatalError()
+            if let textFieldData = ui.uiData.textFieldData {
+                codeEditorController.codeStr = textFieldData.onChange.code
+            } else {
+                codeEditorController.codeStr = ""
             }
 
-            // TODO:
-            codeEditorController.codeStr = button.tap
-
-        case .TextField:
-            //TODO:
-            codeEditorController.codeStr = ""
-
         case .Switch:
-            codeEditorController.codeStr = ""
+            if let switchData = ui.uiData.switchData {
+                codeEditorController.codeStr = switchData.onChange.code
+            } else {
+                codeEditorController.codeStr = ""
+            }
 
         case .Slider:
-            codeEditorController.codeStr = ""
+            if let sliderData = ui.uiData.sliderData {
+                codeEditorController.codeStr = sliderData.onChange.code
+            } else {
+                codeEditorController.codeStr = ""
+            }
         }
 
         navigationController?.pushViewController(codeEditorController, animated: true)
@@ -313,17 +241,19 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             return
         }
 
-        let uiData = senderView as! EditorUIData
+        guard let ui = senderView as? EditorUI else {
+            fatalError("This is not UI")
+        }
 
-        selectedUIID = uiData.uiID
+        selectedUIID = ui.uiData.uiID
     }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
-        guard let ui = sender.view else {
-            return
+        guard let ui = sender.view as? EditorUI else {
+            fatalError("This is not UI")
         }
 
-        var uiData = ui as! EditorUIData
+        let uiData = ui.uiData
 
         if sender.state == .began {
             guard let superView = ui.superview else {
@@ -331,10 +261,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             }
 
             if superView != appScreen {
-                // 画面にUIを追加
-
                 let uiType = uiData.uiType
-                let uiOnTable = generateEditorUI(uiType: uiType, uiID: -1, uiName: "")
+                let uiOnTable = generateEditorUI(uiData: uiData)
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
                 superView.addSubview(uiOnTable)
 
@@ -346,7 +274,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 addGesture(ui: uiOnTable)
 
-                uiData.uiID = uiNum
+                ui.uiID = uiNum
                 uiNum += 1
                 UINumOfEachType[uiType]! += 1
 
@@ -358,9 +286,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 ui.center = center ?? CGPoint()
 
                 let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
-                uiData.uiName = uiName
+                ui.uiName = uiName
 
-                uiDictionary[uiData.uiID] = ui
+                uiDictionary[ui.uiID] = ui
 
                 closeUITable(0)
             }
@@ -382,51 +310,29 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         sender.setTranslation(CGPoint.zero, in: view)
     }
 
-    func generateEditorUI(uiType: UIType, uiID: Int, uiName: String) -> UIView {
-        var ui: UIView!
+    func generateEditorUI(uiData: UIData) -> EditorUI {
+        let ui: EditorUI!
 
-        switch uiType {
+        switch uiData.uiType {
         case .Label:
-            ui = EditorUILabel(uiID: uiID, uiName: uiName, uiEditorController: self)
+            ui = EditorUILabel(uiData: uiData)
 
         case .Button:
-            ui = EditorUIButton(uiID: uiID, uiName: uiName, uiEditorController: self)
+            ui = EditorUIButton(uiData: uiData)
 
         case .TextField:
-            ui = EditorUITextField(uiID: uiID, uiName: uiName, uiEditorController: self)
+            ui = EditorUITextField(uiData: uiData)
 
         case .Switch:
-            ui = EditorUISwitch(uiID: uiID, uiName: uiName, uiEditorController: self)
-            (ui as! EditorUISwitch).switchView.isOn = true
+            ui = EditorUISwitch(uiData: uiData)
 
         case .Slider:
-            ui = EditorUISlider(uiID: uiID, uiName: uiName, uiEditorController: self)
+            ui = EditorUISlider(uiData: uiData)
         }
 
-        ui.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
+        ui.delegate = self
 
         return ui
-    }
-
-    @objc func setUINameToValueOfTextField(textField: UITextField) {
-        if selectedUIID < 0 {
-            return
-        }
-
-        var uiData = (uiDictionary[selectedUIID] as! EditorUIData)
-        uiData.uiName = textField.text ?? ""
-    }
-
-    @objc func setUITextToValueOfTextField(textField _: UITextField) {
-        if selectedUIID < 0 {
-            return
-        }
-
-        guard let uiData = uiDictionary[selectedUIID] as? EditorUIData else {
-            fatalError()
-        }
-
-        uiDictionary[selectedUIID]!.sizeToFit()
     }
 
     func editUI(ui: EditorUI) {
@@ -508,36 +414,63 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         return 0
     }
 
-    func getUIScript(uiType: UIType, ui: UIView) -> String {
-        //TODO:
-
-        var script = ""
-
-        switch uiType {
+    func getUIScript(ui: EditorUI) -> String {
+        switch ui.uiData.uiType {
         case .Label:
-            break
+            return ""
 
         case .Button:
-            guard let button = ui as? EditorUIButton else {
+            if let buttonData = ui.uiData.buttonData {
+                return """
+                       func @\(ui.uiID)_OnTap ()
+                       {
+                       \(buttonData.onTap.code)
+                       }
+
+                       """
+            } else {
                 fatalError()
             }
 
-            script += button.tap
-
         case .TextField:
-            //TODO:
-            break
+            if let textFieldData = ui.uiData.textFieldData {
+                return """
+                       func @\(ui.uiID)_OnChange ()
+                       {
+                       \(textFieldData.onChange.code)
+                       }
+
+                       """
+            } else {
+                fatalError()
+            }
 
         case .Switch:
-            //TODO:
-            break
+            if let switchData = ui.uiData.switchData {
+                return """
+                       func @\(ui.uiID)_OnChange ()
+                       {
+                       \(switchData.onChange.code)
+                       }
+
+                       """
+            } else {
+                fatalError()
+            }
 
         case .Slider:
-            //TODO:
-            break
-        }
+            if let sliderData = ui.uiData.sliderData {
+                return """
+                       func @\(ui.uiID)_OnChange ()
+                       {
+                       \(sliderData.onChange.code)
+                       }
 
-        return script
+                       """
+            } else {
+                fatalError()
+            }
+        }
     }
 
     func getUINameDeclarationCode() -> String {
@@ -546,12 +479,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                    """
 
         for ui in uiDictionary {
-            guard let editorUIData = ui.value as? EditorUIData else {
-                fatalError()
-            }
-
             code += """
-                    var \(editorUIData.uiName) = \(editorUIData.uiID)
+                    var \(ui.value.uiName) = \(ui.value.uiID)
 
                     """
         }
@@ -580,67 +509,66 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         let sortedUIDictionary = uiDictionary.sorted(by: { $0.key < $1.key })
 
         for ui in sortedUIDictionary {
-            guard let editorUIData = ui.value as? EditorUIData else {
-                fatalError()
-            }
-
-            let uiText = getUIText(uiType: editorUIData.uiType, ui: ui.value)
-
-            let uiValue = getUIValue(uiType: editorUIData.uiType, ui: ui.value)
-
-            var funcIDs = [Int]()
-
-            var codes = [String]()
-
-            switch editorUIData.uiType {
-            case .Label:
-                funcID += 1
-
-            case .Button:
-                funcIDs.append(funcID)
-                funcID += 1
-
-                guard let button = ui.value as? EditorUIButton else {
-                    fatalError()
-                }
-                codes.append(button.tap)
-
-            case .TextField:
-                //TODO:
-                funcID += 1
-                break
-
-            case .Switch:
-                //TODO:
-                funcID += 1
-                break
-
-            case .Slider:
-                //TODO:
-                funcID += 1
-                break
-            }
+            let ui = ui.value
 
             let uiData = UIData(
-                    uiID: editorUIData.uiID,
-                    uiName: editorUIData.uiName,
-                    uiType: editorUIData.uiType,
-                    text: uiText,
-                    value: uiValue,
-                    x: ui.value.center.x / uiScale,
-                    y: ui.value.center.y / uiScale,
-                    funcID: funcIDs,
-                    code: codes
+                    uiID: ui.uiID,
+                    uiName: ui.uiName,
+                    uiType: ui.uiData.uiType,
+                    x: ui.frame.origin.x / uiScale,
+                    y: ui.frame.origin.y / uiScale,
+                    width: ui.frame.width / uiScale,
+                    height: ui.frame.height / uiScale
             )
 
-            uiDataTable.append(uiData)
-            code += """
-                    func @\(editorUIData.uiID)_ ()
-                    {
-                    \(getUIScript(uiType: editorUIData.uiType, ui: ui.value))
-                    }
+            switch ui.uiData.uiType {
+            case .Label:
+                if let labelData = ui.uiData.labelData {
+                    ui.uiData.labelData = labelData
+                } else {
+                    fatalError()
+                }
+                funcID += 0
 
-                    """
+            case .Button:
+                if var buttonData = ui.uiData.buttonData {
+                    buttonData.onTap.funcID = funcID
+                    uiData.buttonData = buttonData
+                    funcID += 1
+                } else {
+                    fatalError()
+                }
+
+            case .TextField:
+                if var textFieldData = ui.uiData.textFieldData {
+                    textFieldData.onChange.funcID = funcID
+                    uiData.textFieldData = textFieldData
+                    funcID += 1
+                } else {
+                    fatalError()
+                }
+
+            case .Switch:
+                if var switchData = ui.uiData.switchData {
+                    switchData.onChange.funcID = funcID
+                    uiData.switchData = switchData
+                    funcID += 1
+                } else {
+                    fatalError()
+                }
+
+            case .Slider:
+                if var sliderData = ui.uiData.sliderData {
+                    sliderData.onChange.funcID = funcID
+                    uiData.sliderData = sliderData
+                    funcID += 1
+                } else {
+                    fatalError()
+                }
+            }
+
+            uiDataTable.append(uiData)
+            code += getUIScript(ui: ui)
         }
 
         let codeData = ConverterObjCpp().convertCode(code) ?? ""

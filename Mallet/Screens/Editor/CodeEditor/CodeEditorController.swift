@@ -23,8 +23,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     var ui: UIView!
 
-    var uiType: UIType!
-    var uiData: EditorUIData!
+    var uiData: UIData!
 
     let initialEditorMode = EditorMode.Text
 
@@ -55,14 +54,34 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         }
 
         if viewController is UIEditorController {
-            switch uiType! {
+            switch uiData.uiType {
             case .Button:
-                guard let button = ui as? EditorUIButton else {
-                    print("This is not a button")
+                if var buttonData = uiData.buttonData {
+                    buttonData.onTap.code = codeStr
+                } else {
                     fatalError()
                 }
 
-                button.tap = codeStr
+            case .TextField:
+                if var textFieldData = uiData.textFieldData {
+                    textFieldData.onChange.code = codeStr
+                } else {
+                    fatalError()
+                }
+
+            case .Switch:
+                if var switchData = uiData.switchData {
+                    switchData.onChange.code = codeStr
+                } else {
+                    fatalError()
+                }
+
+            case .Slider:
+                if var sliderData = uiData.textFieldData {
+                    sliderData.onChange.code = codeStr
+                } else {
+                    fatalError()
+                }
 
             default:
                 break
@@ -77,8 +96,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func initEditor() {
-        uiType = uiData.uiType
-
         editorMode = initialEditorMode
 
         switchEditorModeTo(mode: .Text)
