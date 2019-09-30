@@ -13,5 +13,6 @@ class Color {
     static let uiCollectionCellBackground = UIColor(hex: "EAEAEA")
     static let uiCollectionCellBorder = UIColor(hex: "E0E0E0")
 
+    static let defaultLabelColor = UIColor.black
     static let defaultButtonColor = UIColor(hex: "007aff")
 }
