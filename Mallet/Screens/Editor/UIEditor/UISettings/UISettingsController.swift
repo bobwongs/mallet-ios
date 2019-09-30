@@ -99,13 +99,13 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         let titleLabel = UILabel()
         let textField = UITextField()
 
+        textField.delegate = self
+
         textField.autocapitalizationType = .none
 
         let textFieldEvent: UIControl.Event = .editingDidEnd
 
         if indexPath.section == 0 {
-
-
             switch indexPath.row {
             case 0:
                 titleLabel.text = "Name"
@@ -223,6 +223,10 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         if let uiData = self.uiData {
             self.ui?.reload(uiData: uiData)
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
     }
 
     //######################
