@@ -14,6 +14,7 @@ public enum UIType: Int, Codable, CaseIterable {
     case TextField
     case Switch
     case Slider
+    case Table
 }
 
 public class AppUILabel: UILabel {
@@ -177,6 +178,39 @@ public class AppUISlider: UISlider {
     }
 }
 
+public class AppUITable: UITableView, UITableViewDataSource {
+    var uiData: UIData
+
+    init(uiData: UIData) {
+        self.uiData = uiData
+
+        super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height), style: .plain)
+
+        self.layer.borderColor = UIColor.gray.cgColor
+        self.layer.borderWidth = 1
+
+        if #available(iOS 13, *) {
+            self.overrideUserInterfaceStyle = .light
+        }
+    }
+
+    public required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return uiData.tableData?.value.count ?? 0
+    }
+
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+
+        cell.textLabel?.text = uiData.tableData?.value[indexPath.row] ?? ""
+
+        return cell
+    }
+}
+
 public class EditorUI: UIView {
 
     var uiData: UIData
@@ -316,6 +350,13 @@ public class EditorUI: UIView {
             }
             slider.uiData = uiData
             slider.reload()
+
+        case .Table:
+            guard let table = (self as? EditorUITable)?.table else {
+                fatalError()
+            }
+
+            table.uiData = uiData
         }
 
         reloadFrame()
@@ -334,11 +375,7 @@ public class EditorUILabel: EditorUI {
 
     let label: AppUILabel
 
-    let labelData: LabelUIData
-
     init(uiData: UIData) {
-        self.labelData = uiData.labelData ?? LabelUIData()
-
         let ui = AppUILabel(uiData: uiData)
         self.label = ui
 
@@ -355,11 +392,7 @@ public class EditorUILabel: EditorUI {
 public class EditorUIButton: EditorUI {
     let button: AppUIButton
 
-    let buttonData: ButtonUIData
-
     init(uiData: UIData) {
-        self.buttonData = uiData.buttonData ?? ButtonUIData()
-
         let ui = AppUIButton(uiData: uiData)
         self.button = ui
 
@@ -374,11 +407,7 @@ public class EditorUIButton: EditorUI {
 public class EditorUITextField: EditorUI {
     let textField: AppUITextField
 
-    let textFieldData: TextFieldUIData
-
     init(uiData: UIData) {
-        self.textFieldData = uiData.textFieldData ?? TextFieldUIData()
-
         let ui = AppUITextField(uiData: uiData)
         self.textField = ui
 
@@ -393,11 +422,7 @@ public class EditorUITextField: EditorUI {
 public class EditorUISwitch: EditorUI {
     let switchView: AppUISwitch
 
-    let switchData: SwitchUIData
-
     init(uiData: UIData) {
-        self.switchData = uiData.switchData ?? SwitchUIData()
-
         let ui = AppUISwitch(uiData: uiData)
         self.switchView = ui
 
@@ -412,11 +437,7 @@ public class EditorUISwitch: EditorUI {
 public class EditorUISlider: EditorUI {
     let slider: AppUISlider
 
-    let sliderData: SliderUIData
-
     init(uiData: UIData) {
-        self.sliderData = uiData.sliderData ?? SliderUIData()
-
         let ui = AppUISlider(uiData: uiData)
         self.slider = ui
 
@@ -424,6 +445,21 @@ public class EditorUISlider: EditorUI {
     }
 
     required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+public class EditorUITable: EditorUI {
+    let table: AppUITable
+
+    init(uiData: UIData) {
+        let ui = AppUITable(uiData: uiData)
+        self.table = ui
+
+        super.init(uiData: uiData, ui: ui)
+    }
+
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

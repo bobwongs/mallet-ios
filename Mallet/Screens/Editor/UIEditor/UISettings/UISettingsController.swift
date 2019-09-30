@@ -64,6 +64,9 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
             case .Slider:
                 return "Slider"
+
+            case .Table:
+                return "Table"
             }
         }
 
@@ -91,6 +94,9 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
             case .Slider:
                 return 3
+
+            case .Table:
+                return 1
             }
         }
 

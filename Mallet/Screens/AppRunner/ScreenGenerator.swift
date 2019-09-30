@@ -73,6 +73,9 @@ class ScreenGenerator {
 
             case .Slider:
                 break
+
+            case .Table:
+                break
             }
 
             appView.addSubview(ui)

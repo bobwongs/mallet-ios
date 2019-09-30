@@ -35,7 +35,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                       UIType.Button: "Button",
                       UIType.TextField: "TextField",
                       UIType.Switch: "Switch",
-                      UIType.Slider: "Slider"]
+                      UIType.Slider: "Slider",
+                      UIType.Table: "Table"]
 
     var initialCode = ""
 
@@ -148,6 +149,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             uiData = UIData(uiID: -1, uiName: "", uiType: .Slider, x: 0, y: 0, width: 80, height: 40)
             uiData.sliderData = SliderUIData()
 
+        case 5:
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Table, x: 0, y: 0, width: 80, height: 80)
+            uiData.tableData = tableUIData()
+
         default:
             uiData = UIData(uiID: -1, uiName: "", uiType: .Label, x: 0, y: 0, width: 800, height: 40)
             uiData.labelData = LabelUIData()
@@ -231,6 +236,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             } else {
                 codeEditorController.codeStr = ""
             }
+
+        case .Table:
+            codeEditorController.codeStr = ""
         }
 
         navigationController?.pushViewController(codeEditorController, animated: true)
@@ -303,7 +311,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             appScreen.addSubview(ui)
             appScreen.bringSubviewToFront(ui)
             ui.center = center ?? CGPoint()
-            
+
             self.saveApp()
         }
 
@@ -335,6 +343,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         case .Slider:
             ui = EditorUISlider(uiData: uiData)
+
+        case .Table:
+            ui = EditorUITable(uiData: uiData)
         }
 
         ui.delegate = self
@@ -459,6 +470,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             } else {
                 fatalError()
             }
+
+        case .Table:
+            return ""
         }
     }
 
@@ -514,10 +528,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Label:
                 if let labelData = ui.uiData.labelData {
                     uiData.labelData = labelData
+                    funcID += 0
                 } else {
                     fatalError()
                 }
-                funcID += 0
 
             case .Button:
                 if var buttonData = ui.uiData.buttonData {
@@ -551,6 +565,14 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                     sliderData.onChange.funcID = funcID
                     uiData.sliderData = sliderData
                     funcID += 1
+                } else {
+                    fatalError()
+                }
+
+            case .Table:
+                if let tableData = ui.uiData.tableData {
+                    uiData.tableData = tableData
+                    funcID += 0
                 } else {
                     fatalError()
                 }

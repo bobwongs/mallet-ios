@@ -22,6 +22,7 @@ public class UIData: Codable {
     var textFieldData: TextFieldUIData?
     var switchData: SwitchUIData?
     var sliderData: SliderUIData?
+    var tableData: tableUIData?
 
     init(uiID: Int, uiName: String, uiType: UIType, x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
         self.uiID = uiID
@@ -167,6 +168,18 @@ public struct SliderUIData: Codable {
         self.min = 0
 
         self.onChange = funcData()
+    }
+}
+
+public struct tableUIData: Codable {
+    var value: [String]
+
+    init(value: [String]) {
+        self.value = value
+    }
+
+    init() {
+        self.value = []
     }
 }
 
