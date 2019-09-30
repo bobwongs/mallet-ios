@@ -303,6 +303,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             appScreen.addSubview(ui)
             appScreen.bringSubviewToFront(ui)
             ui.center = center ?? CGPoint()
+            
+            self.saveApp()
         }
 
         let move = sender.translation(in: view)
@@ -313,7 +315,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         ui.uiData.x = ui.frame.origin.x
         ui.uiData.y = ui.frame.origin.y
 
-        self.saveApp()
     }
 
     func generateEditorUI(uiData: UIData) -> EditorUI {
