@@ -32,11 +32,9 @@ extension UIColor {
         var b: CGFloat = 0
         var a: CGFloat = 0
 
-        print(self)
-
         self.getRed(&r, green: &g, blue: &b, alpha: &a)
 
-        return String(format: "%02x%02x%02x%02x", Int(r * 255), Int(g * 255), Int(b * 255), Int(a * 255))
+        return String(format: "%02x%02x%02x", Int(r * 255), Int(g * 255), Int(b * 255))
     }
 
     public class func dynamicColor(light: UIColor, dark: UIColor) -> UIColor {
