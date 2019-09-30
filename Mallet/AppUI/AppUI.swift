@@ -208,6 +208,8 @@ public class EditorUI: UIView {
 
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
+        self.backgroundColor = UIColor.init(hex: "000000", alpha: 0.05)
+
         self.addSubview(ui)
         ui.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
@@ -226,25 +228,6 @@ public class EditorUI: UIView {
                     ui.centerYAnchor.constraint(equalTo: self.centerYAnchor)
                 ]
         )
-
-        /*
-        ui.translatesAutoresizingMaskIntoConstraints = false
-        wall.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate(
-                [
-                    ui.topAnchor.constraint(equalTo: self.topAnchor),
-                    ui.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                    ui.leftAnchor.constraint(equalTo: self.leftAnchor),
-                    ui.rightAnchor.constraint(equalTo: self.rightAnchor),
-
-                    wall.topAnchor.constraint(equalTo: self.topAnchor),
-                    wall.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-                    wall.leftAnchor.constraint(equalTo: self.leftAnchor),
-                    wall.rightAnchor.constraint(equalTo: self.rightAnchor),
-                ]
-        )
-        */
     }
 
     public required init?(coder aDecoder: NSCoder) {
