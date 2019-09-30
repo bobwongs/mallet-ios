@@ -16,6 +16,8 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
     @IBOutlet weak var settingsTableView: UITableView!
 
+    @IBOutlet weak var settingsTableViewButtonConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var navigationBar: UINavigationBar!
 
     @IBOutlet weak var navigationBarItem: UINavigationItem!
@@ -174,10 +176,31 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
                     break
                 }
 
-                break
-
             case .Button:
-                break
+                switch indexPath.row {
+                case 0:
+                    titleLabel.text = "Text"
+                    textField.text = uiData?.buttonData?.text ?? ""
+                    textField.addTarget(self, action: #selector(self.setButtonText(_:)), for: textFieldEvent)
+
+                case 1:
+                    titleLabel.text = "Font Size"
+                    textField.text = "\(uiData?.buttonData?.fontSize ?? 0)"
+                    textField.addTarget(self, action: #selector(self.setButtonFontSize(_:)), for: textFieldEvent)
+
+                case 2:
+                    titleLabel.text = "Font Color"
+                    textField.text = uiData?.buttonData?.fontColor
+                    textField.addTarget(self, action: #selector(self.setButtonFontColor(_:)), for: textFieldEvent)
+
+                case 3:
+                    titleLabel.text = "Background Color"
+                    textField.text = uiData?.buttonData?.backgroundColor
+                    textField.addTarget(self, action: #selector(self.setButtonBackgroundColor(_:)), for: textFieldEvent)
+
+                default:
+                    break
+                }
 
             case .TextField:
                 break
@@ -296,6 +319,25 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
     //######################
     //Button
+    @objc private func setButtonText(_ textField: UITextField) {
+        self.uiData?.buttonData?.text = textField.text ?? ""
+        self.reload()
+    }
+
+    @objc private func setButtonFontSize(_ textField: UITextField) {
+        self.uiData?.buttonData?.fontSize = Int(textField.text ?? "") ?? 0
+        self.reload()
+    }
+
+    @objc private func setButtonFontColor(_ textField: UITextField) {
+        self.uiData?.buttonData?.fontColor = textField.text ?? ""
+        self.reload()
+    }
+
+    @objc private func setButtonBackgroundColor(_ textField: UITextField) {
+        self.uiData?.buttonData?.backgroundColor = textField.text ?? ""
+        self.reload()
+    }
 
     //######################
 

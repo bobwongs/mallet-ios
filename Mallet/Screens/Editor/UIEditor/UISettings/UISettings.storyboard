@@ -50,6 +50,7 @@
                         <outlet property="navigationBar" destination="6bf-IT-Wjl" id="gt9-l5-BdV"/>
                         <outlet property="navigationBarItem" destination="ftF-B1-JhU" id="gxb-nb-4dK"/>
                         <outlet property="settingsTableView" destination="HUH-lf-V9m" id="xf8-7E-rfK"/>
+                        <outlet property="settingsTableViewButtonConstraint" destination="L0N-IV-xKW" id="owg-aM-kLZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSW-Pi-uBC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
