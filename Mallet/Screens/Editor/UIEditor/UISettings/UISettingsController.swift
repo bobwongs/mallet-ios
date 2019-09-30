@@ -14,6 +14,8 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
 
     public var uiData: UIData?
 
+    public var delegate: UISettingsDelegate?
+
     @IBOutlet weak var settingsTableView: UITableView!
 
     @IBOutlet weak var settingsTableViewButtonConstraint: NSLayoutConstraint!
@@ -245,11 +247,15 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
     private func reload() {
         if let uiData = self.uiData {
             self.ui?.reload(uiData: uiData)
+
+            self.delegate?.saveApp()
         }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
+
+        return true
     }
 
     //######################
@@ -355,4 +361,8 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
     //Slider
 
     //######################
+}
+
+public protocol UISettingsDelegate {
+    func saveApp()
 }

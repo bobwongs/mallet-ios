@@ -86,6 +86,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             default:
                 break
             }
+
+            (viewController as! UIEditorController).saveApp()
         }
     }
 

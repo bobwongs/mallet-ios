@@ -84,6 +84,11 @@ class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate
         }
     }
 
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        appSettingsController.save()
+        return true
+    }
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

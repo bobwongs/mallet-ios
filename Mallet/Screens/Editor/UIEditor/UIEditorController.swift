@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate {
+class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate, UISettingsDelegate {
 
     @IBOutlet var editorView: UIView!
 
@@ -312,6 +312,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         ui.uiData.x = ui.frame.origin.x
         ui.uiData.y = ui.frame.origin.y
+
+        self.saveApp()
     }
 
     func generateEditorUI(uiData: UIData) -> EditorUI {
@@ -345,10 +347,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
-        print(ui.uiData.labelData)
-
         uiSettingsController.ui = ui
         uiSettingsController.uiData = ui.uiData
+        uiSettingsController.delegate = self
 
         navigationController?.present(uiSettingsController, animated: true)
 
