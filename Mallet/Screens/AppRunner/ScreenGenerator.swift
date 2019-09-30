@@ -79,7 +79,6 @@ class ScreenGenerator {
             }
 
             appView.addSubview(ui)
-            ui.center = CGPoint(x: uiData.x, y: uiData.y)
         }
     }
 }
