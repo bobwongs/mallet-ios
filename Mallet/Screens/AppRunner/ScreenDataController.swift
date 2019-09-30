@@ -11,7 +11,7 @@ import UIKit
 public class UIData: Codable {
     let uiID: Int
     let uiType: UIType
-    let uiName: String
+    var uiName: String
     var x: CGFloat
     var y: CGFloat
     var width: CGFloat

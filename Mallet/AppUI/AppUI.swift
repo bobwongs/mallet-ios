@@ -338,7 +338,7 @@ public class EditorUI: UIView {
         reloadFrame()
     }
 
-    func reloadFrame() {
+    private func reloadFrame() {
         self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
 
         self.ui.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
