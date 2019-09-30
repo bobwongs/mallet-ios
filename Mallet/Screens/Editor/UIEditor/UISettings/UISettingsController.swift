@@ -8,9 +8,11 @@
 
 import UIKit
 
-class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, UITextFieldDelegate {
+class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UINavigationBarDelegate {
 
-    //public var uiData: UIData?
+    public var ui: EditorUI?
+
+    public var uiData: UIData?
 
     @IBOutlet weak var settingsTableView: UITableView!
 
@@ -23,6 +25,14 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         settingsTableView.dataSource = self
 
         navigationBar.delegate = self
+
+        if let uiData = uiData {
+            print("Yay!")
+
+            uiData.labelData?.text = "Yay!"
+
+            ui?.reload(uiData: uiData)
+        }
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -30,8 +40,22 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return nil
+        }
+
+        return "Label"
+    }
+
+/*
+func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 10
+}
+*/
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -41,6 +65,10 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     @IBAction func doneButton(_ sender: Any) {

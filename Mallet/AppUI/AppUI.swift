@@ -17,7 +17,7 @@ public enum UIType: Int, Codable, CaseIterable {
 }
 
 public class AppUILabel: UILabel {
-    let uiData: UIData
+    var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
@@ -47,7 +47,7 @@ public class AppUILabel: UILabel {
 }
 
 public class AppUIButton: UIButton {
-    let uiData: UIData
+    var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
@@ -82,7 +82,7 @@ public class AppUIButton: UIButton {
 }
 
 public class AppUITextField: UITextField {
-    let uiData: UIData
+    var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
@@ -118,7 +118,7 @@ public class AppUITextField: UITextField {
 }
 
 public class AppUISwitch: UISwitch {
-    let uiData: UIData
+    var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
@@ -146,7 +146,7 @@ public class AppUISwitch: UISwitch {
 }
 
 public class AppUISlider: UISlider {
-    let uiData: UIData
+    var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
@@ -179,7 +179,7 @@ public class AppUISlider: UISlider {
 
 public class EditorUI: UIView {
 
-    let uiData: UIData
+    var uiData: UIData
 
     var uiID: Int
 
@@ -295,6 +295,49 @@ public class EditorUI: UIView {
         self.delegate?.editUI(ui: self)
     }
 
+    func reload(uiData: UIData) {
+        self.uiData = uiData
+
+        switch uiData.uiType {
+        case .Label:
+            guard let label = (self as? EditorUILabel)?.label else {
+                fatalError()
+            }
+            label.uiData = uiData
+            label.reload()
+
+        case .Button:
+            guard let button = (self as? EditorUIButton)?.button else {
+                fatalError()
+            }
+            button.uiData = uiData
+            button.reload()
+
+        case .TextField:
+            guard let textField = (self as? EditorUITextField)?.textField else {
+                fatalError()
+            }
+            textField.uiData = uiData
+            textField.reload()
+
+        case .Switch:
+            guard let switchView = (self as? EditorUISwitch)?.switchView else {
+                fatalError()
+            }
+            switchView.uiData = uiData
+            switchView.reload()
+
+        case .Slider:
+            guard let slider = (self as? EditorUISlider)?.slider else {
+                fatalError()
+            }
+            slider.uiData = uiData
+            slider.reload()
+        }
+
+        reloadFrame()
+    }
+
     func reloadFrame() {
         self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
 
@@ -324,11 +367,6 @@ public class EditorUILabel: EditorUI {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func reload() {
-        self.label.reload()
-        self.reloadFrame()
-    }
 }
 
 public class EditorUIButton: EditorUI {
@@ -347,11 +385,6 @@ public class EditorUIButton: EditorUI {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func reload() {
-        self.button.reload()
-        self.reloadFrame()
     }
 }
 
@@ -372,11 +405,6 @@ public class EditorUITextField: EditorUI {
     public required init?(coder: NSCoder) {
         fatalError()
     }
-
-    func reload() {
-        self.textField.reload()
-        self.reloadFrame()
-    }
 }
 
 public class EditorUISwitch: EditorUI {
@@ -396,11 +424,6 @@ public class EditorUISwitch: EditorUI {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func reload() {
-        self.switchView.reload()
-        self.reloadFrame()
-    }
 }
 
 public class EditorUISlider: EditorUI {
@@ -419,11 +442,6 @@ public class EditorUISlider: EditorUI {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    func reload() {
-        self.slider.reload()
-        self.reloadFrame()
     }
 }
 

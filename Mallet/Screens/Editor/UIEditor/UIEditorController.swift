@@ -306,8 +306,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         let move = sender.translation(in: view)
         sender.view?.center.x += move.x
         sender.view?.center.y += move.y
-
         sender.setTranslation(CGPoint.zero, in: view)
+
+        ui.uiData.x = ui.frame.origin.x
+        ui.uiData.y = ui.frame.origin.y
     }
 
     func generateEditorUI(uiData: UIData) -> EditorUI {
@@ -341,30 +343,13 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
-        //uiSettingsController.uiData =
+        print(ui.uiData.labelData)
+
+        uiSettingsController.ui = ui
+        uiSettingsController.uiData = ui.uiData
 
         navigationController?.present(uiSettingsController, animated: true)
 
-        /*
-        switch (ui as EditorUIData).uiType {
-        case .Label:
-            guard let label = (ui as? EditorUILabel)?.label else {
-                fatalError()
-            }
-
-            label.text = readLine() ?? "Text"
-
-        case .Button:
-            guard let button = (ui as? EditorUIButton)?.button else {
-                fatalError()
-            }
-
-            button.setTitle(readLine() ?? "Button", for: .normal)
-
-        default:
-            break
-        }
-        */
     }
 
     func setUIText(uiType: UIType, ui: UIView, text: String) {
@@ -524,7 +509,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             switch ui.uiData.uiType {
             case .Label:
                 if let labelData = ui.uiData.labelData {
-                    ui.uiData.labelData = labelData
+                    uiData.labelData = labelData
                 } else {
                     fatalError()
                 }
