@@ -73,9 +73,6 @@ class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate
         tableView.deselectRow(at: indexPath, animated: true)
 
         switch tableView.cellForRow(at: indexPath)?.reuseIdentifier ?? "" {
-        case "save":
-            appSettingsController.save()
-
         case "addToHomeScreen":
             appSettingsController.addToHomeScreen()
 
