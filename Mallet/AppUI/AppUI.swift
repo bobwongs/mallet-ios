@@ -17,7 +17,11 @@ public enum UIType: Int, Codable, CaseIterable {
 }
 
 public class AppUILabel: UILabel {
+    let uiData: UIData
+
     init(uiData: UIData) {
+        self.uiData = uiData
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         let labelData = uiData.labelData ?? LabelUIData()
@@ -31,11 +35,23 @@ public class AppUILabel: UILabel {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func reload() {
+        let labelData = uiData.labelData ?? LabelUIData()
+
+        self.text = labelData.text
+        self.textColor = UIColor(hex: labelData.fontColor)
+        self.font = self.font.withSize(CGFloat(labelData.fontSize))
+        self.textAlignment = UIData.TextUIAlignment2NSTextAlignment(alignment: labelData.alignment)
+    }
 }
 
 public class AppUIButton: UIButton {
+    let uiData: UIData
 
     init(uiData: UIData) {
+        self.uiData = uiData
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         let buttonData = uiData.buttonData ?? ButtonUIData()
@@ -52,10 +68,25 @@ public class AppUIButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func reload() {
+        let buttonData = uiData.buttonData ?? ButtonUIData()
+
+        self.backgroundColor = UIColor(hex: buttonData.backgroundColor)
+        self.setTitle(buttonData.text, for: .normal)
+        self.setTitleColor(UIColor(hex: buttonData.fontColor), for: .normal)
+        self.titleLabel?.font = self.titleLabel?.font.withSize(CGFloat(buttonData.fontSize))
+        self.setTitleColor(UIColor(hex: buttonData.fontColor, alpha: 0.8), for: .highlighted)
+        self.layer.cornerRadius = 7
+    }
+
 }
 
 public class AppUITextField: UITextField {
+    let uiData: UIData
+
     init(uiData: UIData) {
+        self.uiData = uiData
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         let textFieldData = uiData.textFieldData ?? TextFieldUIData()
@@ -75,11 +106,23 @@ public class AppUITextField: UITextField {
     public required init?(coder: NSCoder) {
         fatalError()
     }
+
+    func reload() {
+        let textFieldData = uiData.textFieldData ?? TextFieldUIData()
+
+        self.text = textFieldData.text
+        self.textColor = UIColor(hex: textFieldData.fontColor)
+        self.font = self.font?.withSize(CGFloat(textFieldData.fontSize))
+        self.textAlignment = UIData.TextUIAlignment2NSTextAlignment(alignment: textFieldData.alignment)
+    }
 }
 
 public class AppUISwitch: UISwitch {
+    let uiData: UIData
 
     init(uiData: UIData) {
+        self.uiData = uiData
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         let switchData = uiData.switchData ?? SwitchUIData()
@@ -94,11 +137,20 @@ public class AppUISwitch: UISwitch {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func reload() {
+        let switchData = uiData.switchData ?? SwitchUIData()
+
+        self.isOn = switchData.value == 1
+    }
 }
 
 public class AppUISlider: UISlider {
+    let uiData: UIData
 
     init(uiData: UIData) {
+        self.uiData = uiData
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         let sliderData = uiData.sliderData ?? SliderUIData()
@@ -115,6 +167,14 @@ public class AppUISlider: UISlider {
     public required init?(coder: NSCoder) {
         fatalError()
     }
+
+    func reload() {
+        let sliderData = uiData.sliderData ?? SliderUIData()
+
+        self.minimumValue = sliderData.min
+        self.maximumValue = sliderData.max
+        self.value = sliderData.value
+    }
 }
 
 public class EditorUI: UIView {
@@ -129,6 +189,10 @@ public class EditorUI: UIView {
 
     var menu: UIMenuController
 
+    private let ui: UIView
+
+    private let wall: UIView
+
     init(uiData: UIData, ui: UIView) {
         self.uiData = uiData
 
@@ -138,23 +202,26 @@ public class EditorUI: UIView {
 
         self.menu = UIMenuController.shared
 
+        self.ui = ui
+
+        self.wall = UIView()
+
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
 
         self.addSubview(ui)
         ui.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
-        let wall = UIView()
-        self.addSubview(wall)
-        wall.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.addSubview(self.wall)
+        self.wall.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
-        self.bringSubviewToFront(wall)
+        self.bringSubviewToFront(self.wall)
 
-        wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
+        self.wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
 
         NSLayoutConstraint.activate(
                 [
-                    wall.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-                    wall.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                    self.wall.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                    self.wall.centerYAnchor.constraint(equalTo: self.centerYAnchor),
                     ui.centerXAnchor.constraint(equalTo: self.centerXAnchor),
                     ui.centerYAnchor.constraint(equalTo: self.centerYAnchor)
                 ]
@@ -227,6 +294,14 @@ public class EditorUI: UIView {
     @objc func editUI(sender: UIMenuItem) {
         self.delegate?.editUI(ui: self)
     }
+
+    func reloadFrame() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
+        self.ui.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+
+        self.wall.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+    }
 }
 
 public class EditorUILabel: EditorUI {
@@ -249,6 +324,11 @@ public class EditorUILabel: EditorUI {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func reload() {
+        self.label.reload()
+        self.reloadFrame()
+    }
 }
 
 public class EditorUIButton: EditorUI {
@@ -268,6 +348,11 @@ public class EditorUIButton: EditorUI {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func reload() {
+        self.button.reload()
+        self.reloadFrame()
+    }
 }
 
 public class EditorUITextField: EditorUI {
@@ -286,6 +371,11 @@ public class EditorUITextField: EditorUI {
 
     public required init?(coder: NSCoder) {
         fatalError()
+    }
+
+    func reload() {
+        self.textField.reload()
+        self.reloadFrame()
     }
 }
 
@@ -307,6 +397,10 @@ public class EditorUISwitch: EditorUI {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func reload() {
+        self.switchView.reload()
+        self.reloadFrame()
+    }
 }
 
 public class EditorUISlider: EditorUI {
@@ -325,6 +419,11 @@ public class EditorUISlider: EditorUI {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func reload() {
+        self.slider.reload()
+        self.reloadFrame()
     }
 }
 
