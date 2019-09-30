@@ -48,17 +48,40 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
             return 5
         }
 
+        if let uiType = uiData?.uiType {
+            switch uiType {
+            case .Label:
+                return 4
+
+            case .Button:
+                return 4
+
+            case .TextField:
+                return 4
+
+            case .Switch:
+                return 1
+
+            case .Slider:
+                return 3
+            }
+        }
+
         return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
 
-        if indexPath.section == 0 {
-            let titleLabel = UILabel()
-            let textField = UITextField()
+        let titleLabel = UILabel()
+        let textField = UITextField()
 
-            let textFieldEvent: UIControl.Event = .editingDidEnd
+        textField.autocapitalizationType = .none
+
+        let textFieldEvent: UIControl.Event = .editingDidEnd
+
+        if indexPath.section == 0 {
+
 
             switch indexPath.row {
             case 0:
@@ -90,34 +113,77 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
                 break
             }
 
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.distribution = .fill
-            stackView.frame.size = cell.frame.size
-            cell.addSubview(stackView)
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackView.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
-            stackView.heightAnchor.constraint(equalToConstant: cell.frame.height).isActive = true
-            /*
-            NSLayoutConstraint.activate(
-                    [
-                        stackView.topAnchor.constraint(equalTo: cell.topAnchor),
-                        stackView.bottomAnchor.constraint(equalTo: cell.bottomAnchor),
-                        stackView.leftAnchor.constraint(equalTo: cell.leftAnchor),
-                        stackView.rightAnchor.constraint(equalTo: cell.rightAnchor)
-                    ]
-            )
-            */
-
-            stackView.addArrangedSubview(titleLabel)
-            stackView.addArrangedSubview(textField)
-
-            titleLabel.translatesAutoresizingMaskIntoConstraints = false
-            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
 
         } else {
+            switch uiData?.uiType {
+            case .Label:
+                switch indexPath.row {
+                case 0:
+                    titleLabel.text = "Text"
+                    textField.text = uiData?.labelData?.text ?? ""
+                    textField.addTarget(self, action: #selector(self.setLabelText(_:)), for: textFieldEvent)
 
+                case 1:
+                    titleLabel.text = "Font Size"
+                    textField.text = "\(uiData?.labelData?.fontSize ?? 0)"
+                    textField.addTarget(self, action: #selector(self.setLabelFontSize(_:)), for: textFieldEvent)
+
+                case 2:
+                    titleLabel.text = "Font Color"
+                    textField.text = uiData?.labelData?.fontColor
+                    textField.addTarget(self, action: #selector(self.setLabelFontColor(_:)), for: textFieldEvent)
+
+                case 3:
+                    titleLabel.text = "Alignment"
+                    let text: String!
+                    switch (uiData?.labelData?.alignment ?? TextUIAlignment.left) {
+                    case .center:
+                        text = "center"
+                    case .left:
+                        text = "left"
+                    case .right:
+                        text = "right"
+                    }
+                    textField.text = text
+                    textField.addTarget(self, action: #selector(self.setLabelTextAlignment(_:)), for: textFieldEvent)
+
+                default:
+                    break
+                }
+
+                break
+
+            case .Button:
+                break
+
+            case .TextField:
+                break
+
+            case .Switch:
+                break
+
+            case .Slider:
+                break
+
+            default:
+                break
+            }
         }
+
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.frame.size = cell.frame.size
+        cell.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: cell.frame.height).isActive = true
+
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(textField)
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
 
         return cell
     }
@@ -135,6 +201,9 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
             self.ui?.reload(uiData: uiData)
         }
     }
+
+    //######################
+    // Default
 
     @objc private func setUIName(_ textField: UITextField) {
         self.ui?.uiName = textField.text ?? ""
@@ -160,4 +229,61 @@ class UISettingsController: UIViewController, UITableViewDelegate, UITableViewDa
         self.uiData?.height = CGFloat(Float(textField.text ?? "") ?? 0)
         self.reload()
     }
+
+    //######################
+
+    //######################
+    //Label
+    @objc private func setLabelText(_ textField: UITextField) {
+        self.uiData?.labelData?.text = textField.text ?? ""
+        self.reload()
+    }
+
+    @objc private func setLabelFontSize(_ textField: UITextField) {
+        self.uiData?.labelData?.fontSize = Int(textField.text ?? "") ?? 0
+        self.reload()
+    }
+
+    @objc private func setLabelFontColor(_ textField: UITextField) {
+        self.uiData?.labelData?.fontColor = textField.text ?? ""
+        self.reload()
+    }
+
+    @objc private func setLabelTextAlignment(_ textField: UITextField) {
+        let alignment: TextUIAlignment!
+        switch textField.text {
+        case "center":
+            alignment = .center
+        case "left":
+            alignment = .left
+        case "right":
+            alignment = .right
+        default:
+            alignment = .left
+        }
+        self.uiData?.labelData?.alignment = alignment
+        self.reload()
+    }
+
+    //######################
+
+    //######################
+    //Button
+
+    //######################
+
+    //######################
+    //TextField
+
+    //######################
+
+    //######################
+    //Switch
+
+    //######################
+
+    //######################
+    //Slider
+
+    //######################
 }
