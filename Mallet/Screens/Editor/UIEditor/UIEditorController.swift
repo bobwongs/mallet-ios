@@ -260,6 +260,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 return
             }
 
+            ui.superview!.bringSubviewToFront(ui)
+
             if superView != appScreen {
                 let uiType = uiData.uiType
                 let uiOnTable = generateEditorUI(uiData: uiData)
