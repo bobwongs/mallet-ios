@@ -139,7 +139,7 @@ public struct SwitchUIData: Codable {
     }
 
     init() {
-        self.value = 0
+        self.value = 1
 
         self.onChange = funcData()
     }
@@ -162,7 +162,7 @@ public struct SliderUIData: Codable {
     }
 
     init() {
-        self.value = 0
+        self.value = 0.5
         self.max = 1
         self.min = 0
 
