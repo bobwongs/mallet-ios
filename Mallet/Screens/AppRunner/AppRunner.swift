@@ -8,7 +8,6 @@
 
 import UIKit
 
-@objcMembers
 class AppRunner: UIViewController, UINavigationControllerDelegate {
     @IBOutlet var appView: UIView!
 
@@ -53,7 +52,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         runner.runCode(Int32(id))
     }
 
-    func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    static func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
         }
@@ -71,32 +70,6 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
     func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
         if !(viewController is AppRunner) {
             runner.terminateRunner()
-        }
-    }
-
-    func SetUIText(id: Int, text: String) {
-        DispatchQueue.main.async {
-            guard let appRunner = self.topViewController() as? AppRunner else {
-                return
-            }
-
-            if let uiData = appRunner.appUI[id]?.getUIData() {
-
-                switch uiData.uiType {
-                case .Label:
-                    uiData.labelData?.text = text
-                    print(text)
-
-                case .Button:
-                    uiData.buttonData?.text = text
-
-                default:
-                    //TODO:
-                    break
-                }
-
-                appRunner.appUI[id]?.reloadUI()
-            }
         }
     }
 }

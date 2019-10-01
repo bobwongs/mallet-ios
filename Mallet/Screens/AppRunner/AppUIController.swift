@@ -8,6 +8,31 @@
 
 import UIKit
 
-class AppUIController {
+@objcMembers
+class AppUIController: NSObject {
+    static func SetUIText(id: Int, text: String) {
+        DispatchQueue.main.async {
+            guard let appRunner = AppRunner.topViewController() as? AppRunner else {
+                return
+            }
 
+            if let uiData = appRunner.appUI[id]?.getUIData() {
+
+                switch uiData.uiType {
+                case .Label:
+                    uiData.labelData?.text = text
+                    print(text)
+
+                case .Button:
+                    uiData.buttonData?.text = text
+
+                default:
+                    //TODO:
+                    break
+                }
+
+                appRunner.appUI[id]?.reloadUI()
+            }
+        }
+    }
 }

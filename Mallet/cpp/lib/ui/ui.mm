@@ -17,7 +17,7 @@ var setUIText(std::vector<var> &args)
 {
     NSString *text = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
 
-    [[AppRunner alloc] SetUITextWithId:getIntValue(args[0]) text:text];
+    [AppUIController SetUITextWithId:getIntValue(args[0]) text:text];
 
     return 0;
 }

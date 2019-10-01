@@ -28,7 +28,7 @@ class AppButton: AppUIButton, AppUI {
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
 
-        let appRunner = AppRunner().topViewController() as! AppRunner
+        let appRunner = AppRunner.topViewController() as! AppRunner
         appRunner.appUI[uiData.uiID] = self
     }
 
@@ -37,7 +37,7 @@ class AppButton: AppUIButton, AppUI {
     }
 
     @objc func onButtonClick(_ sender: UIButton) {
-        let appRunner = AppRunner().topViewController() as! AppRunner
+        let appRunner = AppRunner.topViewController() as! AppRunner
 
         DispatchQueue.global(qos: .default).async() {
             appRunner.CallFunc(id: self.onButtonClickID)
@@ -58,7 +58,7 @@ class AppLabel: AppUILabel, AppUI {
     override init(uiData: UIData) {
         super.init(uiData: uiData)
 
-        let runApp = AppRunner().topViewController() as! AppRunner
+        let runApp = AppRunner.topViewController() as! AppRunner
         runApp.appUI[uiData.uiID] = self
     }
 
