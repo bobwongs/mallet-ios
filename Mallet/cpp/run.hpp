@@ -28,6 +28,9 @@ public:
 private:
     bool terminate;
 
+    static constexpr int pushCodeSize = 5;
+    static constexpr int defaultCodeSize = 3;
+
     CppFuncManager cppFuncManager;
 
     std::vector<int> memorySize;

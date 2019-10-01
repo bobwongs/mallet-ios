@@ -39,7 +39,7 @@ enum
 
     //Variable
     SET_VARIABLE,
-    SET_SHARED_VARIABLE,
+    SET_GLOBAL_VARIABLE,
 
     //List
     INIT_LIST,
@@ -59,7 +59,8 @@ enum
     // Type
     VARIABLE,
     GLOBAL_VARIABLE,
-    SHARED_VARIABLE,
+    PERSISTANT_VARIABLE,
+    CLOUD_VARIABLE,
     LIST,
     GLOBAL_LIST,
     SHARED_LIST,

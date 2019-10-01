@@ -35,20 +35,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
     std::vector<var> variable(100000);
 
-    int reservedMemorySize = globalVariableNum;
-
-    for (int i = 0; i < variableInitialValues.size(); i++)
-        variable[i] = variableInitialValues[i];
-
-    variable[1] = true;
-    variable[2] = false;
-    variable[3] = (double)0;
-    variable[4] = (double)1;
+    int reservedMemorySize = 0; //globalVariableNum;
 
     std::vector<list> lists(100000);
-
-    constexpr int pushCodeSize = 5;
-    constexpr int defaultCodeSize = 3;
 
     int argIndex = 0;
 
@@ -56,7 +45,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
     for (var arg : args)
     {
-        variable[argAddresses[funcID][argIndex]] = arg;
+        globalVariable[argAddresses[funcID][argIndex]] = arg;
 
         argIndex++;
     }
@@ -296,7 +285,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                     break;
 
-                case SET_SHARED_VARIABLE:
+                case SET_GLOBAL_VARIABLE:
                     globalVariable[getIntValue(*topStackData[0])] = *topStackData[1];
 
                     break;
@@ -395,6 +384,15 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     stackIndex--;
 
                     currentFuncID = getIntValue(stack[stackIndex]);
+
+                    //                    printf("%d\n", currentFuncID);
+
+                    if (currentFuncID == -1)
+                    {
+                        bytecodeIndex = bytecodeSize;
+                        jumped = true;
+                        break;
+                    }
 
                     stackIndex--;
                     bytecodeIndex = getIntValue(stack[stackIndex]);
@@ -626,6 +624,14 @@ void Run::InitRunner(std::string codeDataStr)
             return;
         }
     }
+
+    for (int i = 0; i < variableInitialValues.size(); i++)
+        globalVariable[i] = variableInitialValues[i];
+
+    globalVariable[1] = true;
+    globalVariable[2] = false;
+    globalVariable[3] = (double)0;
+    globalVariable[4] = (double)1;
 
     terminate = false;
 

@@ -9,7 +9,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {CALL_CPP_FUNC, "CallCppFunc"},
         {CALL_MALLET_FUNC, "CallMalletFunc"},
         {SET_VARIABLE, "SetVariable"},
-        {SET_SHARED_VARIABLE, "SetSharedVariable"},
+        {SET_GLOBAL_VARIABLE, "SetGlobalVariable"},
         {INIT_LIST, "InitList"},
         {ADD_LIST, "AddToList"},
         {INSERT_LIST, "InsertToList"},

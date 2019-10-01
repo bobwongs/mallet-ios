@@ -256,6 +256,8 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
             globalVariableType[varName] = GLOBAL_VARIABLE;
 
+            variableType[varName] = GLOBAL_VARIABLE;
+
             variableInitialValues[globalVariableNum] = std::stod(code[firstCodeIndex]);
         }
 
@@ -286,6 +288,7 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         switch (variableType[code[firstCodeIndex]])
         {
+            /*
         case SHARED_VARIABLE:
             address = sharedVariableAddress[code[firstCodeIndex]];
 
@@ -293,12 +296,13 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
                 AddPushGlobalCode(address);
 
             break;
+            */
 
         case GLOBAL_VARIABLE:
             address = globalVariableAddress[code[firstCodeIndex]];
 
             if (convert)
-                AddPushCode(address, true);
+                AddPushGlobalCode(address);
 
             break;
 
@@ -598,7 +602,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
 
             if (isMalletFunc)
-                AddCmdCode(SET_VARIABLE, 2);
+                AddCmdCode(SET_GLOBAL_VARIABLE, 2);
 
             codeSize += formulaCodeSize + 1;
 
@@ -660,7 +664,15 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else if (token == "return")
         {
-            codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true);
+            if (code[codeIndex + 1] == "}")
+            {
+                codeSize = 1;
+                AddPush0Code();
+            }
+            else
+            {
+                codeSize = 1 + ConvertFormula(codeIndex + 1, 0, true);
+            }
 
             AddCmdCode(RETURN, 0);
         }
@@ -824,15 +836,15 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 break;
             }
 
-            case SHARED_VARIABLE:
+            case GLOBAL_VARIABLE:
             {
-                int address = sharedVariableAddress[code[codeIndex]];
+                int address = globalVariableAddress[code[codeIndex]];
 
                 AddPushAddressCode(address, true);
 
                 codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
 
-                AddCmdCode(SET_SHARED_VARIABLE, 2);
+                AddCmdCode(SET_GLOBAL_VARIABLE, 2);
 
                 break;
             }
@@ -861,6 +873,8 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 break;
             }
 
+                /*
+                TODO:
             case SHARED_LIST:
             {
                 int address = sharedVariableAddress[code[codeIndex]];
@@ -882,6 +896,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
                 codeSize = index - codeIndex + 1;
             }
+            */
 
             default:
                 printf("%s is undefined #%d\n", code[codeIndex].c_str(), codeIndex);
@@ -1034,7 +1049,7 @@ std::string Convert::ConvertCode(std::string codeStr)
         for (int argIndex = 0; argIndex < funcArgAddresses[funcID].size(); argIndex++)
         {
             AddPushAddressCode(DeclareVariable(funcArgOriginalVariableNames[funcID][argIndex], false), false);
-            AddPushCode(funcArgAddresses[funcID][argIndex], true);
+            AddPushGlobalCode(funcArgAddresses[funcID][argIndex]);
 
             AddCmdCode(SET_VARIABLE, 2);
         }
@@ -1056,6 +1071,7 @@ std::string Convert::ConvertCode(std::string codeStr)
 
         ConvertCodeBlock(codeIndex, funcID);
 
+        AddPush0Code();
         AddCmdCode(RETURN, 0);
 
         AddCmdCode(END_OF_FUNC, 0);
@@ -1121,8 +1137,6 @@ void Convert::ListFunction()
                     funcArgAddresses[funcID].push_back(DeclareVariable(newName, true));
                     funcArgOriginalVariableNames[funcID].push_back(name);
 
-                    isGlobalVariable[newName] = true;
-
                     code[codeIndex + 1] = newName;
                     newVarName[name] = newName;
 
@@ -1165,18 +1179,18 @@ void Convert::ListFunction()
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            sharedVariableNum++;
-            sharedVariableAddress[varName] = sharedVariableNum;
+            globalVariableNum++;
+            globalVariableAddress[varName] = globalVariableNum;
 
-            isSharedVariable[varName] = true;
+            globalVariableType[varName] = GLOBAL_VARIABLE;
 
             codeIndex += 3;
 
-            AddPushAddressCode(sharedVariableAddress[varName], true);
+            AddPushAddressCode(globalVariableAddress[varName], true);
 
             codeIndex += ConvertFormula(codeIndex, 0, true);
 
-            AddCmdCode(SET_SHARED_VARIABLE, 2);
+            AddCmdCode(SET_GLOBAL_VARIABLE, 2);
         }
         else
         {
@@ -1214,14 +1228,24 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
     }
 
     if (isGlobal)
+    {
         variableType[name] = GLOBAL_VARIABLE;
+        globalVariableType[name] = GLOBAL_VARIABLE;
+
+        globalVariableNum++;
+        globalVariableAddress[name] = globalVariableNum;
+
+        return globalVariableNum;
+    }
     else
+    {
         variableType[name] = VARIABLE;
 
-    variableNum++;
-    variableAddresses[name] = variableNum;
+        variableNum++;
+        variableAddresses[name] = variableNum;
 
-    return variableNum;
+        return variableNum;
+    }
 }
 
 int Convert::DeclareList(const std::string name, const bool isGlobal)
@@ -1302,22 +1326,22 @@ void Convert::AddPushAddressCode(int address, bool absolute)
 
 void Convert::AddPushTrueCode()
 {
-    AddPushCode(1, true);
+    AddPushGlobalCode(1);
 }
 
 void Convert::AddPushFalseCode()
 {
-    AddPushCode(2, true);
+    AddPushGlobalCode(2);
 }
 
 void Convert::AddPush0Code()
 {
-    AddPushCode(3, true);
+    AddPushGlobalCode(3);
 }
 
 void Convert::AddPush1Code()
 {
-    AddPushCode(4, true);
+    AddPushGlobalCode(4);
 }
 
 void Convert::InitConverter()
@@ -1333,9 +1357,11 @@ void Convert::InitConverter()
 
     variableAddresses.clear();
 
+    /*
     sharedVariableNum = 0;
     sharedVariableAddress = std::unordered_map<std::string, int>();
     isSharedVariable = std::unordered_map<std::string, bool>();
+    */
 
     globalVariableNum = 4;
 

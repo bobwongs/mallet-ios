@@ -119,13 +119,11 @@ private:
 
     std::unordered_map<std::string, int> variableType;
     std::unordered_map<std::string, int> globalVariableType;
-    std::unordered_map<std::string, bool> isGlobalVariable;
 
     std::vector<int> memorySize;
     std::vector<int> listMemorySize;
 
     std::unordered_map<std::string, int> globalVariableAddress;
-
     int globalVariableNum;
 
     std::unordered_map<std::string, int> variableAddresses;
@@ -150,10 +148,6 @@ private:
     int bytecodeSize;
 
     std::vector<int> globalVariableDeclarationByteCode;
-
-    int sharedVariableNum;
-    std::unordered_map<std::string, int> sharedVariableAddress;
-    std::unordered_map<std::string, bool> isSharedVariable;
 
     int sharedListNum;
     std::unordered_map<std::string, int> sharedListAddress;
