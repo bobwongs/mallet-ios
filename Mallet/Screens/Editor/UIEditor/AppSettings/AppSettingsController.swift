@@ -55,6 +55,10 @@ class AppSettingsController: UIViewController, UINavigationBarDelegate {
 
         uiEditorController.addToHomeScreen()
     }
+
+    func copyShareLink() {
+        uiEditorController.copyShareLink()
+    }
 }
 
 class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate {
@@ -73,6 +77,9 @@ class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate
         tableView.deselectRow(at: indexPath, animated: true)
 
         switch tableView.cellForRow(at: indexPath)?.reuseIdentifier ?? "" {
+        case "copyShareLink":
+            appSettingsController.copyShareLink()
+
         case "addToHomeScreen":
             appSettingsController.addToHomeScreen()
 

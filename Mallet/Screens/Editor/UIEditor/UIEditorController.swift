@@ -651,6 +651,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         AddShortcut.showShortcutScreen(appID: self.appData.appID, appName: self.appData.appName)
     }
 
+    func copyShareLink() {
+        AppDatabaseController.generateAppShortcutURL(appData: generateAppData())
+    }
+
     func generateUITableModal() {
         let cornerRadius: CGFloat = 10
 
