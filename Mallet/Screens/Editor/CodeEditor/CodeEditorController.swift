@@ -56,32 +56,16 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         if viewController is UIEditorController {
             switch uiData.uiType {
             case .Button:
-                if var buttonData = uiData.buttonData {
-                    buttonData.onTap.code = codeStr
-                } else {
-                    fatalError()
-                }
+                uiData.buttonData?.onTap.code = codeStr
 
             case .TextField:
-                if var textFieldData = uiData.textFieldData {
-                    textFieldData.onChange.code = codeStr
-                } else {
-                    fatalError()
-                }
+                uiData.textFieldData?.onChange.code = codeStr
 
             case .Switch:
-                if var switchData = uiData.switchData {
-                    switchData.onChange.code = codeStr
-                } else {
-                    fatalError()
-                }
+                uiData.switchData?.onChange.code = codeStr
 
             case .Slider:
-                if var sliderData = uiData.sliderData {
-                    sliderData.onChange.code = codeStr
-                } else {
-                    fatalError()
-                }
+                uiData.sliderData?.onChange.code = codeStr
 
             default:
                 break
