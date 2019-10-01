@@ -12,6 +12,22 @@
 #include "../../common.hpp"
 #include "../../cast.hpp"
 
+var setUIPositionX(std::vector<var> &args);
+
+var setUIPositionY(std::vector<var> &args);
+
+var setUIWidth(std::vector<var> &args);
+
+var setUIHeight(std::vector<var> &args);
+
 var setUIText(std::vector<var> &args);
+
+var setUIFontColor(std::vector<var> &args);
+
+var setUIFontSize(std::vector<var> &args);
+
+var setUITextAlignment(std::vector<var> &args);
+
+var setUIBackgroundColor(std::vector<var> &args);
 
 #endif /* ui_hpp */

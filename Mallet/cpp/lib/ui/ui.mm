@@ -13,6 +13,24 @@
 #import "Mallet-Swift.h"
 #include "ui.hpp"
 
+var setUIPositionX(std::vector<var> &args)
+{
+    double x = getNumberValue(args[1]);
+
+    [AppUIController SetUIPositionXWithId:getIntValue(args[0]) x:x];
+
+    return 0;
+}
+
+var setUIPositionY(std::vector<var> &args)
+{
+    double y = getNumberValue(args[1]);
+
+    [AppUIController SetUIPositionYWithId:getIntValue(args[0]) y:y];
+
+    return 0;
+}
+
 var setUIText(std::vector<var> &args)
 {
     NSString *text = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];

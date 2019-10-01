@@ -38,6 +38,8 @@ public class AppUILabel: UILabel {
     }
 
     func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
         let labelData = uiData.labelData ?? LabelUIData()
 
         self.text = labelData.text
@@ -70,6 +72,8 @@ public class AppUIButton: UIButton {
     }
 
     func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
         let buttonData = uiData.buttonData ?? ButtonUIData()
 
         self.backgroundColor = UIColor(hex: buttonData.backgroundColor)
@@ -109,6 +113,8 @@ public class AppUITextField: UITextField {
     }
 
     func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
         let textFieldData = uiData.textFieldData ?? TextFieldUIData()
 
         self.text = textFieldData.text
@@ -140,6 +146,8 @@ public class AppUISwitch: UISwitch {
     }
 
     func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
         let switchData = uiData.switchData ?? SwitchUIData()
 
         self.isOn = switchData.value == 1
@@ -170,6 +178,8 @@ public class AppUISlider: UISlider {
     }
 
     func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
         let sliderData = uiData.sliderData ?? SliderUIData()
 
         self.minimumValue = sliderData.min
