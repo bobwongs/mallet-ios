@@ -11,6 +11,7 @@
 		0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */; };
+		0E34DBF323438E3200F624A2 /* AppUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E34DBF223438E3200F624A2 /* AppUIController.swift */; };
 		0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3ED95A2337956100C10A72 /* AppCell.swift */; };
 		0E3ED95D2337956100C10A72 /* AppCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E3ED95B2337956100C10A72 /* AppCell.xib */; };
 		0E3ED9632337DFC100C10A72 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3ED9622337DFC100C10A72 /* Color.swift */; };
@@ -98,6 +99,7 @@
 		0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabaseController.swift; sourceTree = "<group>"; };
+		0E34DBF223438E3200F624A2 /* AppUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUIController.swift; sourceTree = "<group>"; };
 		0E3ED95A2337956100C10A72 /* AppCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
 		0E3ED95B2337956100C10A72 /* AppCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppCell.xib; sourceTree = "<group>"; };
 		0E3ED9622337DFC100C10A72 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				0EC33348226E1174005B968A /* ScreenGenerator.swift */,
 				0EC33346226E0B92005B968A /* AppRunner.storyboard */,
 				0EC3334A226E1226005B968A /* ScreenDataController.swift */,
+				0E34DBF223438E3200F624A2 /* AppUIController.swift */,
 			);
 			path = AppRunner;
 			sourceTree = "<group>";
@@ -664,6 +667,7 @@
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
 				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
 				0E4103D12341064000839B5F /* UISettingsController.swift in Sources */,
+				0E34DBF323438E3200F624A2 /* AppUIController.swift in Sources */,
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */,
