@@ -46,7 +46,11 @@ class AppDatabaseController {
         let appID = getMaxAppID() + 1
         let appName = "Untitled App"
 
-        let appData = AppData(appName: appName, appID: appID, uiData: [], code: "")
+        let appData = AppData(appName: appName, appID: appID, uiData: [], code: """
+                                                                                init()
+                                                                                {
+                                                                                }
+                                                                                """)
 
         do {
             let realm = RLMRealm.default()
