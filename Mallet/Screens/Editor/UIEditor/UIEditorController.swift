@@ -40,6 +40,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     var initialCode = ""
 
+    private var activityIndicatorView = UIActivityIndicatorView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -47,11 +49,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         initUIEditor()
 
+        initActivityIndicatorView()
+
         generateScreen()
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController is HomeViewController {
+            self.saveApp()
+
             (viewController as! HomeViewController).reloadAppTableView()
         }
     }
@@ -65,6 +71,13 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         for type in UIType.allCases {
             UINumOfEachType[type] = 0
         }
+    }
+
+    func initActivityIndicatorView() {
+        self.activityIndicatorView.center = view.center
+        //activityIndicatorView.accessibilityNavigationStyle = .automatic
+
+        self.view.addSubview(self.activityIndicatorView)
     }
 
     func setupAppData() {
