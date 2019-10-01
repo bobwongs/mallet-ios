@@ -1192,6 +1192,36 @@ void Convert::ListFunction()
 
             AddCmdCode(SET_GLOBAL_VARIABLE, 2);
         }
+        else if (code[codeIndex] == "persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        {
+            std::string varName = code[codeIndex + 2];
+
+            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            {
+                printf("The variable %s is already declared\n", varName.c_str());
+            }
+
+            globalVariableAddress[varName] = (int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
+
+            globalVariableType[varName] = PERSISTENT_VARIABLE;
+
+            codeIndex += 5;
+        }
+        else if (code[codeIndex] == "cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        {
+            std::string varName = code[codeIndex + 2];
+
+            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            {
+                printf("The variable %s is already declared\n", varName.c_str());
+            }
+
+            globalVariableAddress[varName] = (int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
+
+            globalVariableType[varName] = CLOUD_VARIABLE;
+
+            codeIndex += 5;
+        }
         else
         {
             printf("This code is broken #%d\n", codeIndex);

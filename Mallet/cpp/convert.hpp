@@ -118,17 +118,20 @@ private:
     std::map<funcData, bool> isCppFuncExists;
 
     std::unordered_map<std::string, int> variableType;
-    std::unordered_map<std::string, int> globalVariableType;
-
-    std::vector<int> memorySize;
-    std::vector<int> listMemorySize;
-
-    std::unordered_map<std::string, int> globalVariableAddress;
-    int globalVariableNum;
-
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<int> variableNums;
     int variableNum;
+
+    std::unordered_map<std::string, int> globalVariableType;
+    std::unordered_map<std::string, int> globalVariableAddress;
+    int globalVariableNum;
+
+    int persistantVariableNum;
+
+    int cloudVariableNum;
+
+    std::vector<int> memorySize;
+    std::vector<int> listMemorySize;
 
     std::unordered_map<std::string, int> listAddresses;
     std::vector<int> listNums;
