@@ -163,7 +163,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             uiData.sliderData = SliderUIData()
 
         case 5:
-            uiData = UIData(uiID: -1, uiName: "", uiType: .Table, x: 0, y: 0, width: 80, height: 80)
+            uiData = UIData(uiID: -1, uiName: "", uiType: .Table, x: 0, y: 0, width: 80, height: 60)
             uiData.tableData = tableUIData()
 
         default:
