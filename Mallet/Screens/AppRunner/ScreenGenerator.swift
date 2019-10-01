@@ -8,10 +8,18 @@
 
 import UIKit
 
-class AppButton: AppUIButton {
+public protocol AppUI {
+    func getUIData() -> UIData
+
+    func reloadUI()
+}
+
+class AppButton: AppUIButton, AppUI {
+
     let onButtonClickID: Int
 
     override init(uiData: UIData) {
+
         let buttonData = uiData.buttonData ?? ButtonUIData()
 
         self.onButtonClickID = buttonData.onTap.funcID
@@ -35,9 +43,18 @@ class AppButton: AppUIButton {
             appRunner.CallFunc(id: self.onButtonClickID)
         }
     }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.uiData = uiData
+        self.reload()
+    }
 }
 
-class AppLabel: AppUILabel {
+class AppLabel: AppUILabel, AppUI {
     override init(uiData: UIData) {
         super.init(uiData: uiData)
 
@@ -47,6 +64,14 @@ class AppLabel: AppUILabel {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.reload()
     }
 }
 

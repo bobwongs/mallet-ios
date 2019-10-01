@@ -14,7 +14,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
     var appData: AppData?
 
-    var appUI: Dictionary<Int, UIView> = Dictionary()
+    var appUI: Dictionary<Int, AppUI> = Dictionary()
 
     private let runner = RunnerObjCpp()
 
@@ -80,17 +80,22 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
                 return
             }
 
-            let typeOfUI = type(of: appRunner.appUI[id]!)
+            if let uiData = appRunner.appUI[id]?.getUIData() {
 
-            if typeOfUI == AppButton.self {
-                let button = appRunner.appUI[id] as! UIButton
-                button.setTitle(text, for: .normal)
-                button.sizeToFit()
-            }
-            if typeOfUI == AppLabel.self {
-                let label = appRunner.appUI[id] as! UILabel
-                label.text = text
-                label.sizeToFit()
+                switch uiData.uiType {
+                case .Label:
+                    uiData.labelData?.text = text
+                    print(text)
+
+                case .Button:
+                    uiData.buttonData?.text = text
+
+                default:
+                    //TODO:
+                    break
+                }
+
+                appRunner.appUI[id]?.reloadUI()
             }
         }
     }

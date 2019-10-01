@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 #import <UIKit/UIKit.h>
-//#import "Mallet-Swift.h"
+#import <Realm/Realm.h>
+#import "Mallet-Swift.h"
 #include "ui.hpp"
 
 var setUIText(std::vector<var> &args)
 {
     NSString *text = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
 
-    //[[AppRunner alloc] SetUITextWithId:getIntValue(args[0]) text:text];
+    [[AppRunner alloc] SetUITextWithId:getIntValue(args[0]) text:text];
 
     return 0;
 }
