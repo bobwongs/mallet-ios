@@ -52,19 +52,19 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         runner.runCode(Int32(id))
     }
 
-    static func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    static func topAppRunner(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> AppRunner? {
         if let navigationController = controller as? UINavigationController {
-            return topViewController(controller: navigationController.visibleViewController)
+            return topAppRunner(controller: navigationController.visibleViewController)
         }
         if let tabController = controller as? UITabBarController {
             if let selected = tabController.selectedViewController {
-                return topViewController(controller: selected)
+                return topAppRunner(controller: selected)
             }
         }
         if let presented = controller?.presentedViewController {
-            return topViewController(controller: presented)
+            return topAppRunner(controller: presented)
         }
-        return controller
+        return controller as? AppRunner
     }
 
     func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
