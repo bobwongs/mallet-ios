@@ -45,6 +45,10 @@ private:
 
     void AddPushGlobalCode(int address);
 
+    void AddPushPersistentCode(int address);
+
+    void AddPushCloudCode(int address);
+
     void AddPushAddressCode(int address, bool absolute);
 
     void AddPushTrueCode();

@@ -288,15 +288,13 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         switch (variableType[code[firstCodeIndex]])
         {
-            /*
-        case SHARED_VARIABLE:
-            address = sharedVariableAddress[code[firstCodeIndex]];
+        case VARIABLE:
+            address = variableAddresses[code[firstCodeIndex]];
 
             if (convert)
-                AddPushGlobalCode(address);
+                AddPushCode(address, false);
 
             break;
-            */
 
         case GLOBAL_VARIABLE:
             address = globalVariableAddress[code[firstCodeIndex]];
@@ -306,11 +304,19 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
             break;
 
-        case VARIABLE:
-            address = variableAddresses[code[firstCodeIndex]];
+        case PERSISTENT_VARIABLE:
+            address = globalVariableAddress[code[firstCodeIndex]];
 
             if (convert)
-                AddPushCode(address, false);
+                AddPushPersistentCode(address);
+
+            break;
+
+        case CLOUD_VARIABLE:
+            address = globalVariableAddress[code[firstCodeIndex]];
+
+            if (convert)
+                AddPushCloudCode(address);
 
             break;
 
@@ -849,6 +855,32 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 break;
             }
 
+            case PERSISTENT_VARIABLE:
+            {
+                int address = globalVariableAddress[code[codeIndex]];
+
+                AddPushAddressCode(address, true);
+
+                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
+
+                AddCmdCode(SET_PERSISTENT_VARIABLE, 2);
+
+                break;
+            }
+
+            case CLOUD_VARIABLE:
+            {
+                int address = globalVariableAddress[code[codeIndex]];
+
+                AddPushAddressCode(address, true);
+
+                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
+
+                AddCmdCode(SET_CLOUD_VARIABLE, 2);
+
+                break;
+            }
+
             case LIST:
             {
                 int address = listAddresses[code[codeIndex]];
@@ -1340,6 +1372,24 @@ void Convert::AddPushGlobalCode(int address)
 {
     AddCode(CODE_BEGIN);
     AddCode(PUSH_GLOBAL_VARIABLE);
+    AddCode(0);
+    AddCode(address);
+    AddCode(1);
+}
+
+void Convert::AddPushPersistentCode(int address)
+{
+    AddCode(CODE_BEGIN);
+    AddCode(PUSH_PERSISTENT_VARIABLE);
+    AddCode(0);
+    AddCode(address);
+    AddCode(1);
+}
+
+void Convert::AddPushCloudCode(int address)
+{
+    AddCode(CODE_BEGIN);
+    AddCode(PUSH_CLOUD_VARIABLE);
     AddCode(0);
     AddCode(address);
     AddCode(1);

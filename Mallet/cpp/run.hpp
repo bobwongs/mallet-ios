@@ -13,6 +13,7 @@
 #include "common.hpp"
 #include "cast.hpp"
 #include "cpp_func_manager.hpp"
+#include "./lib/db/db.hpp"
 
 class Run
 {
