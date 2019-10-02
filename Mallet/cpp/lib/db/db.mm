@@ -19,7 +19,7 @@ void setAppVariable(int address, std::string value)
     [AppDatabaseController setAppVariableWithAddress:address value:valueString];
 }
 
-std::string getAppVariableValue(int address)
+std::string getAppVariable(int address)
 {
     NSString *valueString = [AppDatabaseController getAppVariableValueWithAddress:address];
 
