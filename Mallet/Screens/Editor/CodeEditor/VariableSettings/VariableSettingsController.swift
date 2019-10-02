@@ -58,3 +58,15 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         self.dismiss(animated: true)
     }
 }
+
+struct AppVariable {
+    var address: Int
+    var name: String
+    var value: String
+
+    init(address: Int, name: String, value: String) {
+        self.address = address
+        self.name = name
+        self.value = value
+    }
+}

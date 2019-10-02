@@ -19,6 +19,7 @@ class AppModel: RLMObject {
 }
 
 class AppVariableModel: RLMObject {
+    @objc dynamic var address = 0
     @objc dynamic var name = ""
     @objc dynamic var value = ""
 }
@@ -56,8 +57,6 @@ class AppDatabaseController {
             appModel.appName = appData.appName
             appModel.uiDataStr = getUIDataStr(appData: appData)
             appModel.code = appData.code
-
-            print(AppModel.allObjects().count)
 
             realm.beginWriteTransaction()
             realm.add(appModel)
@@ -148,6 +147,102 @@ class AppDatabaseController {
         }
     }
 
+    static func initAppVariable(appID: Int, variables: [AppVariable]) {
+        do {
+            let realm = RLMRealm.default()
+
+            guard let appModel = AppModel.objects(where: "AppID == \(appID)").firstObject() as? AppModel else {
+                return
+            }
+
+            realm.beginWriteTransaction()
+
+            for variable in variables {
+                let appVariableModel = AppVariableModel()
+                appVariableModel.address = variable.address
+                appVariableModel.name = variable.name
+                appVariableModel.value = variable.value
+
+                appModel.appVariable.add(appVariableModel)
+            }
+
+            try realm.commitWriteTransaction()
+        } catch let error {
+            print(error)
+        }
+    }
+
+    static func setAppVariable(appID: Int, address: Int, value: String) {
+        do {
+            let realm = RLMRealm.default()
+
+            guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+                return
+            }
+
+            let variable = appModel.appVariable.object(at: UInt(address))
+
+            realm.beginWriteTransaction()
+
+            variable.value = value
+
+            try realm.commitWriteTransaction()
+
+        } catch let error {
+            print(error)
+        }
+    }
+
+    static func getAppAllVariables(appID: Int) -> [AppVariable] {
+        guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+            return []
+        }
+
+        let variables = appModel.appVariable
+
+        var variableList = [AppVariable]()
+
+        for variable in variables {
+            guard let variable = variable as? AppVariableModel else {
+                return []
+            }
+
+            variableList.append(AppVariable(address: variable.address, name: variable.name, value: variable.value))
+        }
+
+        return variableList
+    }
+
+    static func getAppVariableValue(appID: Int, address: Int) -> String {
+        guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+            return ""
+        }
+
+        let variable = appModel.appVariable.object(at: UInt(address))
+
+        return variable.value
+    }
+
+    static func removeAllVariables(appID: Int) {
+        do {
+            let realm = RLMRealm.default()
+
+            guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+                return
+            }
+
+            realm.beginWriteTransaction()
+
+            for variable in appModel.appVariable {
+                realm.delete(variable)
+            }
+
+            try realm.commitWriteTransaction()
+        } catch let error {
+            print(error)
+        }
+    }
+
     static func generateAppShortcutURL(appData: AppData) -> String {
         let appDataData = try? JSONEncoder().encode(appData)
         let base64Str = appDataData?.base64EncodedString()
@@ -168,4 +263,5 @@ class AppDatabaseController {
             return createNewApp()
         }
     }
+
 }
