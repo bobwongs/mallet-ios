@@ -670,6 +670,14 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else if (token == "return")
         {
+            /*
+            TODO:
+
+            ! if (1==1)
+            !    return <=
+            ! if (1==2)
+            
+            */
             if (code[codeIndex + 1] == "}")
             {
                 codeSize = 1;
