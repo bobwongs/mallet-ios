@@ -24,7 +24,8 @@ class AppVariableModel: RLMObject {
     @objc dynamic var value = ""
 }
 
-class AppDatabaseController {
+@objcMembers
+class AppDatabaseController: NSObject {
 
     static private func getUIDataStr(appData: AppData) -> String {
         let uiData = try? JSONEncoder().encode(appData.uiData)
@@ -193,6 +194,14 @@ class AppDatabaseController {
         }
     }
 
+    static func setAppVariable(address: Int, value: String) {
+        let appRunner = AppRunner.topAppRunner()
+
+        if let appID = appRunner?.appData?.appID {
+            AppDatabaseController.setAppVariable(appID: appID, address: address, value: value)
+        }
+    }
+
     static func getAppAllVariables(appID: Int) -> [AppVariable] {
         guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
             return []
@@ -221,6 +230,16 @@ class AppDatabaseController {
         let variable = appModel.appVariable.object(at: UInt(address))
 
         return variable.value
+    }
+
+    static func getAppVariableValue(address: Int) -> String {
+        let appRunner = AppRunner.topAppRunner()
+
+        if let appID = appRunner?.appData?.appID {
+            return getAppVariableValue(appID: appID, address: address)
+        }
+
+        return ""
     }
 
     static func removeAllVariables(appID: Int) {
