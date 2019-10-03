@@ -9,13 +9,18 @@
 import UIKit
 
 public protocol AppUI {
+    var cloudVariableName: String? { get set }
+
     func getUIData() -> UIData
 
     func reloadUI()
+
+    func updateTextWithCloudVariable(value: String)
 }
 
 class AppButton: AppUIButton, AppUI {
 
+    var cloudVariableName: String?
     let onButtonClickID: Int
 
     override init(uiData: UIData) {
@@ -52,11 +57,21 @@ class AppButton: AppUIButton, AppUI {
         self.uiData = uiData
         self.reload()
     }
+
+    func updateTextWithCloudVariable(value: String) {
+        self.uiData.buttonData?.text = value
+        self.reloadUI()
+    }
 }
 
 class AppLabel: AppUILabel, AppUI {
+
+    var cloudVariableName: String?
+
     override init(uiData: UIData) {
         super.init(uiData: uiData)
+
+        cloudVariableName = "label"
 
         let runApp = AppRunner.topAppRunner() as! AppRunner
         runApp.appUI[uiData.uiID] = self
@@ -72,6 +87,11 @@ class AppLabel: AppUILabel, AppUI {
 
     func reloadUI() {
         self.reload()
+    }
+
+    func updateTextWithCloudVariable(value: String) {
+        self.uiData.labelData?.text = value
+        self.reloadUI()
     }
 }
 

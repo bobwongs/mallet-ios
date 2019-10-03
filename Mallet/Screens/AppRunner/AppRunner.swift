@@ -33,6 +33,8 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
         navigationItem.title = appData.appName
 
+        CloudVariableController.appRunner = self
+
         GenerateAppScreen()
 
         print(appData.code)
@@ -67,9 +69,22 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         return controller as? AppRunner
     }
 
+    func updateUIWithCloudVariable(name: String, value: String) {
+        for (_, ui) in self.appUI {
+            if ui.cloudVariableName == name {
+                ui.updateTextWithCloudVariable(value: value)
+            }
+        }
+    }
+
+    func quitApp() {
+        CloudVariableController.appRunner = nil
+        runner.terminateRunner()
+    }
+
     func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
         if !(viewController is AppRunner) {
-            runner.terminateRunner()
+            quitApp()
         }
     }
 }
