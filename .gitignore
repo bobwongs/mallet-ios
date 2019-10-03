@@ -15,6 +15,9 @@ Carthage/Checkouts/
 # CocoaPods
 Pods/
 
+# Firebase
+Mallet/GoogleService-Info.plist
+
 # test
 Mallet/cpp/test.cpp
 Mallet/cpp/test.mal
