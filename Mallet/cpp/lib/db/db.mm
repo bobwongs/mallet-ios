@@ -25,3 +25,14 @@ std::string getAppVariable(int address)
 
     return [valueString UTF8String];
 }
+
+void setCloudVariable(std::string name, std::string value)
+{
+
+}
+
+std::string getCloudVariable(std::string name)
+{
+
+    return "";
+}
