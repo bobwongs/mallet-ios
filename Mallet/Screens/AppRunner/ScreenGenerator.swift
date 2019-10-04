@@ -32,9 +32,6 @@ class AppButton: AppUIButton, AppUI {
         super.init(uiData: uiData)
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
-
-        let appRunner = AppRunner.topAppRunner()
-        appRunner?.appUI[uiData.uiID] = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -72,9 +69,6 @@ class AppLabel: AppUILabel, AppUI {
         super.init(uiData: uiData)
 
         cloudVariableName = "label"
-
-        let runApp = AppRunner.topAppRunner() as! AppRunner
-        runApp.appUI[uiData.uiID] = self
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -95,35 +89,121 @@ class AppLabel: AppUILabel, AppUI {
     }
 }
 
+class AppTextField: AppUITextField, AppUI {
+
+    var cloudVariableName: String?
+
+    override init(uiData: UIData) {
+        super.init(uiData: uiData)
+
+        cloudVariableName = "textField"
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.reload()
+    }
+
+    func updateTextWithCloudVariable(value: String) {
+
+    }
+}
+
+
+class AppSwitch: AppUISwitch, AppUI {
+
+    var cloudVariableName: String?
+
+    override init(uiData: UIData) {
+        super.init(uiData: uiData)
+
+        cloudVariableName = "switch"
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.reload()
+    }
+
+    func updateTextWithCloudVariable(value: String) {
+
+    }
+}
+
+class AppSlider: AppUISlider, AppUI {
+
+    var cloudVariableName: String?
+
+    override init(uiData: UIData) {
+        super.init(uiData: uiData)
+
+        cloudVariableName = "slider"
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.reload()
+    }
+
+    func updateTextWithCloudVariable(value: String) {
+
+    }
+}
+
 class ScreenGenerator {
 
-    public func generateScreen(inputUIData: [UIData], appView: UIView) {
+    public func generateScreen(appRunner: AppRunner, inputUIData: [UIData], appView: UIView) {
 
         for uiData in inputUIData {
-            var ui: UIView = UIView()
+            var ui: UIView?
             switch uiData.uiType {
             case .Label:
                 ui = AppLabel(uiData: uiData)
-                break
 
             case .Button:
                 ui = AppButton(uiData: uiData)
-                break
 
             case .TextField:
-                break
+                ui = AppTextField(uiData: uiData)
 
             case .Switch:
-                break
+                ui = AppSwitch(uiData: uiData)
 
             case .Slider:
-                break
+                ui = AppSlider(uiData: uiData)
 
             case .Table:
                 break
             }
 
-            appView.addSubview(ui)
+            if let ui = ui {
+                appView.addSubview(ui)
+            }
+
+            if let appUI = ui as? AppUI {
+                appRunner.appUI[uiData.uiID] = appUI
+            }
         }
     }
 }

@@ -48,7 +48,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
             fatalError()
         }
 
-        ScreenGenerator().generateScreen(inputUIData: uiData, appView: appView)
+        ScreenGenerator().generateScreen(appRunner: self, inputUIData: uiData, appView: appView)
     }
 
     func CallFunc(id: Int) {
