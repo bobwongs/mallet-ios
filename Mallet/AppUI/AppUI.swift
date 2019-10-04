@@ -86,13 +86,15 @@ public class AppUIButton: UIButton {
 
 }
 
-public class AppUITextField: UITextField {
+public class AppUITextField: UITextField, UITextFieldDelegate {
     var uiData: UIData
 
     init(uiData: UIData) {
         self.uiData = uiData
 
         super.init(frame: CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height))
+
+        self.delegate = self
 
         let textFieldData = uiData.textFieldData ?? TextFieldUIData()
 
@@ -121,6 +123,10 @@ public class AppUITextField: UITextField {
         self.textColor = UIColor(hex: textFieldData.fontColor)
         self.font = self.font?.withSize(CGFloat(textFieldData.fontSize))
         self.textAlignment = UIData.TextUIAlignment2NSTextAlignment(alignment: textFieldData.alignment)
+    }
+
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
     }
 }
 
