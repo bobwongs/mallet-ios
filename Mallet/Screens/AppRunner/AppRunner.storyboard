@@ -33,13 +33,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkG-kH-gf3">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="vCM-VV-OrL" firstAttribute="bottom" secondItem="xkG-kH-gf3" secondAttribute="bottom" id="2jr-L5-5C6"/>
-                            <constraint firstItem="xkG-kH-gf3" firstAttribute="top" secondItem="vCM-VV-OrL" secondAttribute="top" id="4Lq-C0-MOl"/>
+                            <constraint firstItem="xkG-kH-gf3" firstAttribute="top" secondItem="vCM-VV-OrL" secondAttribute="top" id="574-1L-9Rg"/>
+                            <constraint firstAttribute="bottom" secondItem="xkG-kH-gf3" secondAttribute="bottom" id="KQv-D8-MOE"/>
                             <constraint firstItem="xkG-kH-gf3" firstAttribute="leading" secondItem="vCM-VV-OrL" secondAttribute="leading" id="Zj3-jm-4hb"/>
                             <constraint firstItem="vCM-VV-OrL" firstAttribute="trailing" secondItem="xkG-kH-gf3" secondAttribute="trailing" id="vUz-Iz-7KT"/>
                         </constraints>
@@ -52,7 +53,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GXR-mf-Qfd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-164" y="198"/>
+            <point key="canvasLocation" x="-165.21739130434784" y="197.54464285714286"/>
         </scene>
     </scenes>
 </document>
