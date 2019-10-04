@@ -30,4 +30,6 @@ var setUITextAlignment(std::vector<var> &args);
 
 var setUIBackgroundColor(std::vector<var> &args);
 
+var getUIText(std::vector<var> &args);
+
 #endif /* ui_hpp */

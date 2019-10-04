@@ -74,4 +74,9 @@
     runner->Terminate();
 }
 
+- (bool)UpdateCloudVariable:(NSString *)address :(NSString *)value
+{
+    return runner->UpdateCloudVariable([address UTF8String], [value UTF8String]);
+}
+
 @end

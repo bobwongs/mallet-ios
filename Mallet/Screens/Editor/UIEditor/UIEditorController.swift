@@ -514,6 +514,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                    var global = 0
 
+                   cloud var label : "label"
+
+                   cloud var yay : "yay"
+
                    func init()
                    {
                    \(initialCode)

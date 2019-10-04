@@ -24,6 +24,8 @@
 - (void)InitRunner:(NSString *)codeDataStr;
 
 - (void)TerminateRunner;
+
+- (bool)UpdateCloudVariable:(NSString *)name :(NSString *)value;
 @end
 
 #endif /* objcpp_h */

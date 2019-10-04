@@ -33,11 +33,12 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
         navigationItem.title = appData.appName
 
-        CloudVariableController.appRunner = self
 
         GenerateAppScreen()
 
         print(appData.code)
+
+        CloudVariableController.start(appRunner: self)
 
         runner.initRunner(appData.code)
     }
@@ -69,16 +70,20 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         return controller as? AppRunner
     }
 
-    func updateUIWithCloudVariable(name: String, value: String) {
-        for (_, ui) in self.appUI {
-            if ui.cloudVariableName == name {
-                ui.updateTextWithCloudVariable(value: value)
+    func updateCloudVariables(variables: [AppVariable]) {
+        for variable in variables {
+            if runner.updateCloudVariable(variable.name, variable.value) {
+                for (_, ui) in self.appUI {
+                    if ui.cloudVariableName == variable.name {
+                        ui.updateTextWithCloudVariable(value: variable.value)
+                    }
+                }
             }
         }
     }
 
     func quitApp() {
-        CloudVariableController.appRunner = nil
+        CloudVariableController.end()
         runner.terminateRunner()
     }
 

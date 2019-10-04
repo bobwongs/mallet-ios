@@ -12,25 +12,42 @@ import FirebaseDatabase
 
 @objcMembers
 class CloudVariableController: NSObject {
-    public static var appRunner: AppRunner?
+    private static var appRunner: AppRunner?
 
     private static var ref = Database.database().reference()
 
     private static let variablePath = "variable"
 
-    static func start() {
+    static func start(appRunner: AppRunner) {
+        self.appRunner = appRunner
+
+        ref.child(variablePath).observeSingleEvent(of: .value, with: { snapshot in
+            CloudVariableController.updateCloudVariable(snapshot: snapshot)
+        })
+
         ref.child(variablePath).observe(.value, with: { snapshot in
-            print(114514)
-            if let appRunner = appRunner {
-                let variables = snapshot.value as? NSDictionary
-                if let value = variables?["label"] as? String {
-                    appRunner.updateUIWithCloudVariable(name: "label", value: value)
-                }
-            }
+            CloudVariableController.updateCloudVariable(snapshot: snapshot)
         })
     }
 
-    static func setCloudVariable(name: String, value: String) {
-        ref.child(variablePath).updateChildValues([name: value])
+    static func end() {
+        ref.removeAllObservers()
+    }
+
+    private static func updateCloudVariable(snapshot: DataSnapshot) {
+        if let appRunner = appRunner {
+            if let variableDic = snapshot.value as? NSDictionary {
+                var variables = [AppVariable]()
+                for variable in variableDic {
+                    variables.append(AppVariable(address: -1, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
+                }
+
+                appRunner.updateCloudVariables(variables: variables)
+            }
+        }
+    }
+
+    static func setCloudVariable(varName: String, value: String) {
+        ref.child(variablePath).updateChildValues([varName: value])
     }
 }

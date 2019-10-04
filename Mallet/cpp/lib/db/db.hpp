@@ -20,7 +20,7 @@ void setAppVariable(int address, std::string value);
 
 std::string getAppVariable(int address);
 
-void setCloudVariable(std::string name, std::string value);
+void setCloudVariable(std::string varName, std::string value);
 
 std::string getCloudVariable(std::string name);
 

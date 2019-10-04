@@ -26,9 +26,12 @@ std::string getAppVariable(int address)
     return [valueString UTF8String];
 }
 
-void setCloudVariable(std::string name, std::string value)
+void setCloudVariable(std::string varName, std::string value)
 {
+    NSString *varNameString = [NSString stringWithCString:varName.c_str() encoding:NSUTF8StringEncoding];
+    NSString *valueString = [NSString stringWithCString:value.c_str() encoding:NSUTF8StringEncoding];
 
+    [CloudVariableController setCloudVariableWithVarName:varNameString value:valueString];
 }
 
 std::string getCloudVariable(std::string name)

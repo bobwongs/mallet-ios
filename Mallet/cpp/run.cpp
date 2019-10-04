@@ -96,7 +96,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
             break;
         }
 
-        if (cmd == PUSH || cmd == PUSH_ADDRESS || cmd == PUSH_GLOBAL_VARIABLE || cmd == PUSH_PERSISTENT_VARIABLE)
+        if (cmd == PUSH || cmd == PUSH_ADDRESS || cmd == PUSH_GLOBAL_VARIABLE || cmd == PUSH_PERSISTENT_VARIABLE || cmd == PUSH_CLOUD_VARIABLE)
         {
             if (stackIndex >= stackSize)
             {
@@ -130,6 +130,11 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 stack[stackIndex] = globalVariable[address];
             else if (cmd == PUSH_PERSISTENT_VARIABLE)
                 stack[stackIndex] = getAppVariable(address);
+            else if (cmd == PUSH_CLOUD_VARIABLE)
+            {
+                std::string varName = getStringValue(globalVariable[address]);
+                stack[stackIndex] = cloudVariables[varName];
+            }
 
             bytecodeIndex += pushCodeSize;
         }
@@ -297,6 +302,16 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     int address = getIntValue(*topStackData[0]);
                     std::string value = getStringValue(*topStackData[1]);
                     setAppVariable(address, value);
+                }
+                break;
+
+                case SET_CLOUD_VARIABLE:
+                {
+                    int address = getIntValue(*topStackData[0]);
+                    std::string varName = getStringValue(globalVariable[address]);
+                    //TODO:
+                    std::string value = getOutValue(*topStackData[1]);
+                    setCloudVariable(varName, value);
                 }
                 break;
 
@@ -643,9 +658,20 @@ void Run::InitRunner(std::string codeDataStr)
     globalVariable[3] = (double)0;
     globalVariable[4] = (double)1;
 
+    cloudVariables = std::map<std::string, std::string>();
+
     terminate = false;
 
     RunCode(0, std::vector<var>(0));
+}
+
+bool Run::UpdateCloudVariable(std::string varName, std::string value)
+{
+    if (cloudVariables[varName] == value)
+        return false;
+
+    cloudVariables[varName] = value;
+    return true;
 }
 
 void Run::Terminate()

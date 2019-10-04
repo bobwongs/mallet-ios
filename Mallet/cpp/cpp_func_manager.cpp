@@ -17,6 +17,7 @@ CppFuncManager::CppFuncManager()
     addCppFunc(setUIPositionX, "setUIPositionX", 2);
     addCppFunc(setUIPositionY, "setUIPositionY", 2);
     addCppFunc(setUIText, "setUIText", 2);
+    addCppFunc(getUIText, "getUIText", 1);
 
     //time.hpp
     addCppFunc(sleepForSeconds, "sleep", 1);

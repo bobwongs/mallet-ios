@@ -212,4 +212,17 @@ class AppUIController: NSObject {
         }
     }
 
+    static func getUIText(id: Int) -> String {
+        let appRunner = AppRunner.topAppRunner()
+
+        if let ui = appRunner?.appUI[id] {
+            if let labelData = ui.getUIData().labelData {
+                print(labelData.text)
+                return labelData.text
+            }
+        }
+
+        return ""
+    }
+
 }

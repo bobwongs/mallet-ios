@@ -199,6 +199,8 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
         std::string varName = "@" + code[firstCodeIndex];
 
+        puts(varName.c_str());
+
         if (checkName(varName))
         {
             globalVariableNum++;
@@ -1256,7 +1258,7 @@ void Convert::ListFunction()
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            globalVariableAddress[varName] = (int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
+            globalVariableAddress[varName] = globalVariableAddress[code[codeIndex + 4]]; //(int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
 
             globalVariableType[varName] = CLOUD_VARIABLE;
 

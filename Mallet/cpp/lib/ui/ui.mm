@@ -39,3 +39,10 @@ var setUIText(std::vector<var> &args)
 
     return 0;
 }
+
+var getUIText(std::vector<var> &args)
+{
+    NSString *textString = [AppUIController getUITextWithId:getIntValue(args[0])];
+
+    return [textString UTF8String];
+}

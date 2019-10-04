@@ -20,6 +20,8 @@ class Run
 public:
     void Terminate();
 
+    bool UpdateCloudVariable(std::string varName, std::string value);
+
     void InitRunner(std::string codeDataStr);
 
     var RunCode(int funcID, std::vector<var> args);
@@ -33,6 +35,8 @@ private:
     static constexpr int defaultCodeSize = 3;
 
     CppFuncManager cppFuncManager;
+
+    std::map<std::string, std::string> cloudVariables;
 
     std::vector<int> memorySize;
     std::vector<var> globalVariable;
