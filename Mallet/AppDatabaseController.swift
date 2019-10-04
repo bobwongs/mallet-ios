@@ -135,7 +135,7 @@ class AppDatabaseController: NSObject {
         return appList
     }
 
-    static func removeAll() {
+    static func removeAllApp() {
         do {
             let realm = RLMRealm.default()
 
@@ -146,6 +146,20 @@ class AppDatabaseController: NSObject {
                 realm.delete(app)
             }
             try realm.commitWriteTransaction()
+        } catch let error {
+            print(error)
+        }
+    }
+
+    static func removeApp(appID: Int) {
+        do {
+            let realm = RLMRealm.default()
+
+            if let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() {
+                realm.beginWriteTransaction()
+                realm.delete(appModel)
+                try realm.commitWriteTransaction()
+            }
         } catch let error {
             print(error)
         }
@@ -285,5 +299,4 @@ class AppDatabaseController: NSObject {
             return createNewApp()
         }
     }
-
 }
