@@ -41,7 +41,6 @@
 		0EBEB4C22326823B004A25A3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C12326823B004A25A3 /* Home.storyboard */; };
 		0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */; };
 		0EC07A8823409A4E0028272F /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; };
-		0EC07A8923409A4E0028272F /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0EC07A8D2340B1480028272F /* VariableSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC07A8C2340B1480028272F /* VariableSettings.storyboard */; };
 		0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC07A8E2340B2CA0028272F /* VariableSettingsController.swift */; };
 		0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC07A902340B3AA0028272F /* VariableSettingsCell.swift */; };
@@ -85,20 +84,6 @@
 			remoteInfo = Mallet;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		0EC07A8A23409A4E0028272F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0EC07A8923409A4E0028272F /* Realm.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0E07A15422B47FA100A848C2 /* SPEC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SPEC.md; sourceTree = "<group>"; };
@@ -499,7 +484,6 @@
 				0EF478A2226B78CD007315DB /* Frameworks */,
 				0EF478A3226B78CD007315DB /* Resources */,
 				0ED08D9923324FF900CD9321 /* ShellScript */,
-				0EC07A8A23409A4E0028272F /* Embed Frameworks */,
 				7FE8FE755625FE668024E90B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -875,7 +859,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -936,7 +920,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -966,7 +950,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = T437NKTG46;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -977,8 +963,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -993,7 +981,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = T437NKTG46;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1004,8 +994,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
