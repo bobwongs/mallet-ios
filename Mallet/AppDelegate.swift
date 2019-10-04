@@ -39,20 +39,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         if url.host == "i" {
-            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
-
-            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
-                fatalError()
+            if let appRunner = AppRunner.topAppRunner() {
+                appRunner.quitApp()
             }
 
             let base64Str = String(url.path.suffix(url.path.count - 1))
             print(base64Str)
-            appRunner.appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
 
-            print(appRunner.appData)
+            let appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
 
-            self.window?.rootViewController = appRunner
+            let appID = AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, code: appData.code).appID
 
+            let storyboard = UIStoryboard(name: "Home", bundle: nil)
+
+            guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
+                fatalError()
+            }
+
+            let navigationController = self.window!.rootViewController as! UINavigationController
+
+            navigationController.pushViewController(homeViewController, animated: false)
+
+            homeViewController.runApp(appID: appID)
         }
 
         self.window?.makeKeyAndVisible()

@@ -45,10 +45,13 @@ class AppDatabaseController: NSObject {
     }
 
     static func createNewApp() -> AppData {
-        let appID = getMaxAppID() + 1
-        let appName = "Untitled App"
+        return AppDatabaseController.createNewApp(appName: "Untitled App", uiData: [], code: "")
+    }
 
-        let appData = AppData(appName: appName, appID: appID, uiData: [], code: "")
+    static func createNewApp(appName: String, uiData: [UIData], code: String) -> AppData {
+        let appID = getMaxAppID() + 1
+
+        let appData = AppData(appName: appName, appID: appID, uiData: uiData, code: code)
 
         do {
             let realm = RLMRealm.default()
