@@ -1212,8 +1212,12 @@ void Convert::ListFunction()
             isFuncExists[newFuncData] = true;
             funcID++;
         }
-        else if (code[codeIndex] == "var")
+        else if ((code[codeIndex] == "var" && code[codeIndex + 2] == "=") ||
+                 (code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "="))
         {
+            if (code[codeIndex] == "@ui")
+                codeIndex += 1;
+
             std::string varName = code[codeIndex + 1];
 
             if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
@@ -1234,7 +1238,7 @@ void Convert::ListFunction()
 
             AddCmdCode(SET_GLOBAL_VARIABLE, 2);
         }
-        else if (code[codeIndex] == "persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
         {
             std::string varName = code[codeIndex + 2];
 
@@ -1249,7 +1253,7 @@ void Convert::ListFunction()
 
             codeIndex += 5;
         }
-        else if (code[codeIndex] == "cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
         {
             std::string varName = code[codeIndex + 2];
 
@@ -1511,7 +1515,11 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
 
             codeIndex += 4;
         }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "=")
+        {
+            codeIndex += 5;
+        }
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
         {
             variables.push_back({variableType::persistent,
                                  code[codeIndex + 2],
@@ -1519,7 +1527,7 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
 
             codeIndex += 5;
         }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
         {
             variables.push_back({variableType::cloud,
                                  code[codeIndex + 2],
