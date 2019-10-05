@@ -36,8 +36,6 @@
 		0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA9DF55227F216A00584C0B /* UIEditorController.swift */; };
 		0EAA0DC522F72C5600F5A051 /* time.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA0DC422F72C5600F5A051 /* time.mm */; };
 		0EAA53852324F58500726C25 /* ArgData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA53842324F58500726C25 /* ArgData.swift */; };
-		0EB764A622FD640300DFD72C /* VariableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A522FD640300DFD72C /* VariableView.swift */; };
-		0EB764A822FD644700DFD72C /* VariableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB764A722FD644700DFD72C /* VariableData.swift */; };
 		0EBEB4C22326823B004A25A3 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C12326823B004A25A3 /* Home.storyboard */; };
 		0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */; };
 		0EC07A8823409A4E0028272F /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EC07A8723409A4E0028272F /* Realm.framework */; };
@@ -122,8 +120,6 @@
 		0EAA0DBE22F6F92600F5A051 /* time.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = time.hpp; sourceTree = "<group>"; };
 		0EAA0DC422F72C5600F5A051 /* time.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = time.mm; sourceTree = "<group>"; };
 		0EAA53842324F58500726C25 /* ArgData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgData.swift; sourceTree = "<group>"; };
-		0EB764A522FD640300DFD72C /* VariableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableView.swift; sourceTree = "<group>"; };
-		0EB764A722FD644700DFD72C /* VariableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableData.swift; sourceTree = "<group>"; };
 		0EBEB4C12326823B004A25A3 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		0EBEB4C32326830F004A25A3 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		0EC07A8723409A4E0028272F /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
@@ -344,8 +340,6 @@
 			children = (
 				0EC9E82322E37AF700A9D6D9 /* BlockView.swift */,
 				0E9A958322F96DF900930215 /* BlockData.swift */,
-				0EB764A522FD640300DFD72C /* VariableView.swift */,
-				0EB764A722FD644700DFD72C /* VariableData.swift */,
 				0E8DAEA1231FE660003C5EC7 /* ArgContentView.swift */,
 				0E8DAEA3231FE670003C5EC7 /* ArgContentData.swift */,
 				0E8DAEA523200014003C5EC7 /* ArgView.swift */,
@@ -742,7 +736,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E43716622F876C2004CA2BD /* Extension.swift in Sources */,
-				0EB764A622FD640300DFD72C /* VariableView.swift in Sources */,
 				0E4103D12341064000839B5F /* UISettingsController.swift in Sources */,
 				0E34DBF323438E3200F624A2 /* AppUIController.swift in Sources */,
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
@@ -779,7 +772,6 @@
 				0E8DAEA623200014003C5EC7 /* ArgView.swift in Sources */,
 				0EAA53852324F58500726C25 /* ArgData.swift in Sources */,
 				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
-				0EB764A822FD644700DFD72C /* VariableData.swift in Sources */,
 				0E8DAEA2231FE660003C5EC7 /* ArgContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
