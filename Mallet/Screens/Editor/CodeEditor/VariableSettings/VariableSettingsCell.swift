@@ -49,7 +49,7 @@ class VariableSettingsCell: UITableViewCell, UITextFieldDelegate {
 
         let variableValueTextField = UITextField()
         variableValueTextField.placeholder = "Value"
-        variableNameTextField.text = variableData.value
+        variableValueTextField.text = variableData.value
         stackView.addArrangedSubview(variableValueTextField)
         variableValueTextField.translatesAutoresizingMaskIntoConstraints = false
         variableValueTextField.addTarget(self, action: #selector(self.updateVariableValue(_:)), for: .editingDidEnd)

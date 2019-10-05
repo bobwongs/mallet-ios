@@ -214,6 +214,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
+        codeEditorController.uiEditorController = self
+
         codeEditorController.ui = ui
 
         codeEditorController.uiData = ui.uiData
@@ -604,6 +606,34 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         let appData = AppData(appName: appName, appID: self.appData.appID, uiData: uiDataTable, code: codeData)
 
         return appData
+    }
+
+    func getCodeStr() -> String {
+        var code = """
+                   \(getUINameDeclarationCode())
+
+                   var global = 0
+
+                   cloud var label : "label"
+
+                   cloud var yay : "yay"
+
+                   func init()
+                   {
+                   \(initialCode)
+                   }
+
+                   """
+
+        let sortedUIDictionary = uiDictionary.sorted(by: { $0.key < $1.key })
+
+        for ui in sortedUIDictionary {
+            let ui = ui.value
+
+            code += getUIScript(ui: ui)
+        }
+
+        return code
     }
 
     @IBAction func runButton(_: Any) {

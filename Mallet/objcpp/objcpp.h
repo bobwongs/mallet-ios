@@ -11,9 +11,27 @@
 
 #import <Foundation/Foundation.h>
 
+@interface VariableDataObjC : NSObject
+
+@property NSString *type;
+
+@property NSString *name;
+
+@property NSString *value;
+
+@end
+
 @interface ConverterObjCpp : NSObject
 
+- (NSString *)GetVariableDataObjCType:(VariableDataObjC *)value;
+
+- (NSString *)GetVariableDataObjCName:(VariableDataObjC *)value;
+
+- (NSString *)GetVariableDataObjCValue:(VariableDataObjC *)value;
+
 - (NSString *)ConvertCode:(NSString *)codeStr;
+
+- (NSMutableArray<VariableDataObjC *> *)GetGlobalVariables:(NSString *)codeStr;
 
 @end
 

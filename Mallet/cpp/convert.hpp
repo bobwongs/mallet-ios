@@ -12,9 +12,30 @@
 #include "common.hpp"
 #include "cpp_func_manager.hpp"
 
+static const std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+static const std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
+static const std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
+
 class Convert
 {
+
 public:
+    enum variableType
+    {
+        normal,
+        persistent,
+        cloud
+    };
+
+    struct variableData
+    {
+        variableType type;
+        std::string name;
+        std::string value;
+    };
+
+    static std::vector<variableData> getGlobalVariables(const std::string codeStr);
+
     std::string ConvertCode(std::string codeStr);
 
     std::vector<int> bytecode;
@@ -59,9 +80,9 @@ private:
 
     void AddPush1Code();
 
-    std::string RemoveComments(std::string codeStr);
+    static std::string RemoveComments(std::string codeStr);
 
-    std::vector<std::string> SplitCode(std::string codeStr);
+    static std::vector<std::string> SplitCode(std::string codeStr);
 
     void ConvertValue(const int firstCodeIndex, const bool convert);
 
@@ -107,9 +128,6 @@ private:
 
     std::string Code2Str();
 
-    std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
-    std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
-    std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
     std::set<std::string> typeName = {"void", "number", "string", "bool"};
     std::set<std::string> funcNames;
     std::map<funcData, int> funcIDs;

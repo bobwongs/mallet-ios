@@ -25,6 +25,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     var uiData: UIData!
 
+    var uiEditorController: UIEditorController?
+
     let initialEditorMode = EditorMode.Text
 
     var editorMode = EditorMode.Text
@@ -54,24 +56,28 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         }
 
         if viewController is UIEditorController {
-            switch uiData.uiType {
-            case .Button:
-                uiData.buttonData?.onTap.code = codeStr
-
-            case .TextField:
-                uiData.textFieldData?.onChange.code = codeStr
-
-            case .Switch:
-                uiData.switchData?.onChange.code = codeStr
-
-            case .Slider:
-                uiData.sliderData?.onChange.code = codeStr
-
-            default:
-                break
-            }
+            updateCode()
 
             (viewController as! UIEditorController).saveApp()
+        }
+    }
+
+    func updateCode() {
+        switch uiData.uiType {
+        case .Button:
+            uiData.buttonData?.onTap.code = codeStr
+
+        case .TextField:
+            uiData.textFieldData?.onChange.code = codeStr
+
+        case .Switch:
+            uiData.switchData?.onChange.code = codeStr
+
+        case .Slider:
+            uiData.sliderData?.onChange.code = codeStr
+
+        default:
+            break
         }
     }
 
@@ -156,6 +162,10 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         guard let variableSettingsController = storyboard.instantiateInitialViewController() as? VariableSettingsController else {
             fatalError()
         }
+
+        updateCode()
+
+        variableSettingsController.codeStr = self.uiEditorController?.getCodeStr()
 
         navigationController?.present(variableSettingsController, animated: true)
     }

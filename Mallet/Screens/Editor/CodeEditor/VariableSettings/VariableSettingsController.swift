@@ -18,13 +18,11 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
     struct VariableData {
         var type: VariableType
-        var address: Int
         var name: String
         var value: String
 
-        init(type: VariableType, address: Int, name: String, value: String) {
+        init(type: VariableType, name: String, value: String) {
             self.type = type
-            self.address = address
             self.name = name
             self.value = value
         }
@@ -33,6 +31,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var variableTableView: UITableView!
 
     @IBOutlet weak var navigationBar: UINavigationBar!
+
+    public var codeStr: String?
 
     public var varList = [VariableData]()
 
@@ -43,6 +43,44 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         self.variableTableView.dataSource = self
 
         self.navigationBar.delegate = self
+
+        initVariables()
+    }
+
+    func initVariables() {
+        if let codeStr = self.codeStr {
+            guard let variables = ConverterObjCpp().getGlobalVariables(codeStr) else {
+                return
+            }
+
+            print(codeStr)
+
+            self.varList.removeAll()
+
+            for variable in variables {
+                guard let variable = variable as? VariableDataObjC else {
+                    continue
+                }
+
+                let type: VariableType!
+                switch variable.type {
+                case "normal":
+                    type = .normal
+                case "persistent":
+                    type = .persistent
+                case "cloud":
+                    type = .cloud
+                default:
+                    type = .normal
+                }
+
+                //TODO:
+
+                self.varList.append(VariableData(type: type, name: variable.name, value: variable.value))
+            }
+        }
+
+        variableTableView.reloadData()
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -127,9 +165,10 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     @IBAction func addVariableButton(_ sender: Any) {
-        self.varList.append(VariableData(type: .normal, address: -1, name: "", value: ""))
+        self.varList.append(VariableData(type: .normal, name: "", value: ""))
         variableTableView.reloadData()
     }
+
 }
 
 struct AppVariable {

@@ -401,6 +401,7 @@
 				0EF478AF226B78CE007315DB /* Assets.xcassets */,
 				0EF478B4226B78CE007315DB /* Info.plist */,
 				0E73D5EE23462809001385A0 /* GoogleService-Info.plist */,
+				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
 				0EF478D7226B7A92007315DB /* objcpp */,
 				0EF478D6226B7A88007315DB /* cpp */,
 			);
@@ -429,7 +430,6 @@
 			isa = PBXGroup;
 			children = (
 				0E4288B022F59CEA005CF2BF /* lib */,
-				0EF478D8226B7ABE007315DB /* Mallet-Bridging-Header.h */,
 				0EF478DD226B7AEB007315DB /* cpp.hpp */,
 				0E9F3DA522F191250013659C /* cpp_func_manager.hpp */,
 				0E971B6222D646F000C45B53 /* convert.cpp */,
@@ -959,7 +959,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/Mallet-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -990,7 +990,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/cpp/Mallet-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Mallet/Mallet-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

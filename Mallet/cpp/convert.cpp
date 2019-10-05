@@ -1479,3 +1479,61 @@ bool Convert::checkName(const std::string name)
 
     return true;
 }
+
+std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string codeStr)
+{
+    std::vector<std::string> code = SplitCode(codeStr);
+
+    std::vector<variableData> variables = std::vector<variableData>();
+
+    int codeIndex = 0;
+
+    while (codeIndex < code.size())
+    {
+        if (code[codeIndex] == "func")
+        {
+            int bracketStack = 1;
+            while (codeIndex < code.size() && bracketStack > 0)
+            {
+                if (code[codeIndex] == "{")
+                    bracketStack++;
+                if (code[codeIndex] == "}")
+                    bracketStack--;
+
+                codeIndex++;
+            }
+        }
+        else if (codeIndex + 3 < code.size() && code[codeIndex] == "var" && code[codeIndex + 2] == "=")
+        {
+            variables.push_back({variableType::normal,
+                                 code[codeIndex + 1],
+                                 code[codeIndex + 3]});
+
+            codeIndex += 4;
+        }
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        {
+            variables.push_back({variableType::persistent,
+                                 code[codeIndex + 2],
+                                 ""});
+
+            codeIndex += 5;
+        }
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        {
+            variables.push_back({variableType::cloud,
+                                 code[codeIndex + 2],
+                                 ""});
+
+            codeIndex += 5;
+        }
+        else
+        {
+            printf("This code is broken #%d\n", codeIndex);
+            return variables;
+            break;
+        }
+    }
+
+    return variables;
+}
