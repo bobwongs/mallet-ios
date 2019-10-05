@@ -34,9 +34,14 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="Variables" id="SoQ-Re-q08">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Ghc-YG-Xsg">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="Ghc-YG-Xsg">
                                             <connections>
                                                 <action selector="closeButton:" destination="6PK-4k-fIb" id="v3W-n4-Pnx"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="e64-U4-Khx">
+                                            <connections>
+                                                <action selector="addVariableButton:" destination="6PK-4k-fIb" id="b0D-l6-9qB"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
