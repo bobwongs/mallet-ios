@@ -38,7 +38,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
         print(appData.code)
 
-        CloudVariableController.start(appRunner: self)
+        CloudVariableController.startApp(appRunner: self)
 
         runner.initRunner(appData.code)
     }
@@ -83,7 +83,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
     }
 
     func quitApp() {
-        CloudVariableController.end()
+        CloudVariableController.endApp()
         runner.terminateRunner()
     }
 

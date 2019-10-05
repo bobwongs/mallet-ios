@@ -12,38 +12,62 @@ import FirebaseDatabase
 
 @objcMembers
 class CloudVariableController: NSObject {
-    private static var appRunner: AppRunner?
-
     private static var ref = Database.database().reference()
 
     private static let variablePath = "variable"
 
-    static func start(appRunner: AppRunner) {
-        self.appRunner = appRunner
+    static func startApp(appRunner: AppRunner) {
+        ref.removeAllObservers()
 
         ref.child(variablePath).observeSingleEvent(of: .value, with: { snapshot in
-            CloudVariableController.updateCloudVariable(snapshot: snapshot)
+            CloudVariableController.updateCloudVariable(snapshot: snapshot, appRunner: appRunner)
         })
 
         ref.child(variablePath).observe(.value, with: { snapshot in
-            CloudVariableController.updateCloudVariable(snapshot: snapshot)
+            CloudVariableController.updateCloudVariable(snapshot: snapshot, appRunner: appRunner)
         })
     }
 
-    static func end() {
+    static func endApp() {
         ref.removeAllObservers()
     }
 
-    private static func updateCloudVariable(snapshot: DataSnapshot) {
-        if let appRunner = appRunner {
-            if let variableDic = snapshot.value as? NSDictionary {
-                var variables = [AppVariable]()
-                for variable in variableDic {
-                    variables.append(AppVariable(address: -1, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
-                }
+    static func startVariableSettings(variableSettingsController: VariableSettingsController) {
+        ref.removeAllObservers()
 
-                appRunner.updateCloudVariables(variables: variables)
+        ref.child(variablePath).observeSingleEvent(of: .value, with: { snapshot in
+            CloudVariableController.updateCloudVariableInVariableSettings(snapshot: snapshot, variableSettingsController: variableSettingsController)
+        })
+
+        ref.child(variablePath).observe(.value, with: { snapshot in
+            CloudVariableController.updateCloudVariableInVariableSettings(snapshot: snapshot, variableSettingsController: variableSettingsController)
+        })
+    }
+
+    static func endVariableSettings() {
+        ref.removeAllObservers()
+    }
+
+    private static func updateCloudVariable(snapshot: DataSnapshot, appRunner: AppRunner) {
+        if let variableDic = snapshot.value as? NSDictionary {
+            var variables = [AppVariable]()
+            for variable in variableDic {
+                variables.append(AppVariable(address: -1, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
             }
+
+            appRunner.updateCloudVariables(variables: variables)
+        }
+    }
+
+    private static func updateCloudVariableInVariableSettings(snapshot: DataSnapshot, variableSettingsController: VariableSettingsController) {
+        if let variableDic = snapshot.value as? NSDictionary {
+            variableSettingsController.updateCloudVariable(variables: variableDic)
+            /*
+            var variables = [VariableSettingsController.VariableData]()
+            for variable in variableDic {
+                variables.append(VariableSettingsController.VariableData(type: .cloud, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
+            }
+            */
         }
     }
 

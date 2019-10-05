@@ -45,6 +45,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         self.navigationBar.delegate = self
 
         initVariables()
+
+        CloudVariableController.startVariableSettings(variableSettingsController: self)
     }
 
     func initVariables() {
@@ -169,6 +171,15 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         variableTableView.reloadData()
     }
 
+    func updateCloudVariable(variables: NSDictionary) {
+        for i in 0..<self.varList.count {
+            if let value = variables[self.varList[i].name] {
+                self.varList[i].value = value as? String ?? ""
+            }
+        }
+
+        variableTableView.reloadData()
+    }
 }
 
 struct AppVariable {
