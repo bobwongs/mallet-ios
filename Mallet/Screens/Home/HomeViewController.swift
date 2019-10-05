@@ -44,6 +44,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func runApp(appID: Int) {
+        self.runApp(appID: appID, animated: true)
+    }
+
+    func runApp(appID: Int, animated: Bool) {
         let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
 
         guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
@@ -52,7 +56,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         appRunner.appData = AppDatabaseController.getApp(appID: appID)
 
-        navigationController?.pushViewController(appRunner, animated: true)
+        navigationController?.pushViewController(appRunner, animated: animated)
     }
 
     @IBAction func addAppButton(_ sender: Any) {

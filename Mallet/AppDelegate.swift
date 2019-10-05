@@ -50,6 +50,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             let appID = AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, code: appData.code).appID
 
+            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+
             let storyboard = UIStoryboard(name: "Home", bundle: nil)
 
             guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
@@ -60,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             navigationController.pushViewController(homeViewController, animated: false)
 
-            homeViewController.runApp(appID: appID)
+            homeViewController.runApp(appID: appID, animated: false)
         }
 
         self.window?.makeKeyAndVisible()
