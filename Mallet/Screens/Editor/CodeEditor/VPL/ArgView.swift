@@ -45,6 +45,9 @@ class ArgView: UIView {
                     contentsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -3),
                     contentsStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ArgView.spaceBetweenContents / 2),
                     contentsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -ArgView.spaceBetweenContents / 2),
+
+                    self.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+                    self.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
                 ]
         )
 
@@ -106,7 +109,11 @@ class ArgView: UIView {
 
         for block in self.blockViews {
             if block.frame.contains(center) {
-                return block.findArgViewStack(argContentView: argContentView)
+                if let stackView = block.findArgViewStack(argContentView: argContentView) {
+                    return stackView
+                } else {
+                    return self.contentsStackView
+                }
             }
         }
 

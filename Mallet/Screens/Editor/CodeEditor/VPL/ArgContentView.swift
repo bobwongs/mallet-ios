@@ -205,6 +205,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         stackView.removeArrangedSubview(blankView)
 
+        blankView.removeFromSuperview()
+
         stackView.insertArrangedSubview(content, at: index)
 
         UIView.animate(withDuration: 0.1, animations: {
@@ -317,7 +319,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
             VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
 
-        stackView.arrangedSubviews[index].removeFromSuperview()
+        stackView.removeArrangedSubview(blankView)
+        blankView.removeFromSuperview()
     }
 }
 
