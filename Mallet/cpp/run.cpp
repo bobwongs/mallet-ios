@@ -129,7 +129,10 @@ var Run::RunCode(int funcID, std::vector<var> args)
             else if (cmd == PUSH_GLOBAL_VARIABLE)
                 stack[stackIndex] = globalVariable[address];
             else if (cmd == PUSH_PERSISTENT_VARIABLE)
-                stack[stackIndex] = getAppVariable(address);
+            {
+                std::string varName = getStringValue(globalVariable[address]);
+                stack[stackIndex] = persistentVariables[varName];
+            }
             else if (cmd == PUSH_CLOUD_VARIABLE)
             {
                 std::string varName = getStringValue(globalVariable[address]);
@@ -300,8 +303,11 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 case SET_PERSISTENT_VARIABLE:
                 {
                     int address = getIntValue(*topStackData[0]);
-                    std::string value = getStringValue(*topStackData[1]);
-                    setAppVariable(address, value);
+                    std::string varName = getStringValue(globalVariable[address]);
+                    //TODO: out value
+                    std::string value = getOutValue(*topStackData[1]);
+                    setAppVariable(varName, value);
+                    persistentVariables[varName] = value;
                 }
                 break;
 
@@ -309,7 +315,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 {
                     int address = getIntValue(*topStackData[0]);
                     std::string varName = getStringValue(globalVariable[address]);
-                    //TODO:
+                    //TODO: out value
                     std::string value = getOutValue(*topStackData[1]);
                     setCloudVariable(varName, value);
                 }
@@ -485,12 +491,11 @@ var Run::CallCppFunc(int funcID, std::vector<var> &args)
     return (cppFuncManager.cppFunc[funcID].func)(args);
 }
 
-void Run::InitRunner(std::string codeDataStr)
+void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string> variables)
 {
     globalVariable = std::vector<var>(100000);
 
     variableInitialValues = std::vector<var>(100000);
-
     bytecode.clear();
     funcStartIndexes.clear();
     argAddresses.clear();
@@ -659,6 +664,14 @@ void Run::InitRunner(std::string codeDataStr)
     globalVariable[4] = (double)1;
 
     cloudVariables = std::map<std::string, std::string>();
+
+    persistentVariables = std::map<std::string, std::string>();
+
+    for (auto variable : variables)
+    {
+        puts(variable.first.c_str());
+        persistentVariables[variable.first] = variable.second;
+    }
 
     terminate = false;
 

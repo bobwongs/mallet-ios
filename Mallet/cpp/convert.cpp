@@ -191,6 +191,24 @@ int convertOperator(std::string operatorString)
     return operatorCode;
 }
 
+int Convert::DeclareString(const std::string str)
+{
+    if (checkName(str))
+    {
+        globalVariableNum++;
+
+        globalVariableAddress[str] = globalVariableNum;
+
+        globalVariableType[str] = GLOBAL_VARIABLE;
+
+        variableInitialValues[globalVariableNum] = str;
+
+        return globalVariableNum;
+    }
+
+    return -1;
+}
+
 void Convert::DeclareConstant(const int firstCodeIndex)
 {
     if (code[firstCodeIndex][0] == '"')
@@ -1238,7 +1256,7 @@ void Convert::ListFunction()
 
             AddCmdCode(SET_GLOBAL_VARIABLE, 2);
         }
-        else if (code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var")
         {
             std::string varName = code[codeIndex + 2];
 
@@ -1247,13 +1265,15 @@ void Convert::ListFunction()
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            globalVariableAddress[varName] = (int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
+            DeclareString(varName);
+
+            globalVariableAddress[varName] = globalVariableAddress[varName];
 
             globalVariableType[varName] = PERSISTENT_VARIABLE;
 
-            codeIndex += 5;
+            codeIndex += 3;
         }
-        else if (code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var")
         {
             std::string varName = code[codeIndex + 2];
 
@@ -1262,11 +1282,13 @@ void Convert::ListFunction()
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            globalVariableAddress[varName] = globalVariableAddress[code[codeIndex + 4]]; //(int)strtol(code[codeIndex + 4].c_str(), NULL, 10);
+            DeclareString(varName);
+
+            globalVariableAddress[varName] = globalVariableAddress[varName];
 
             globalVariableType[varName] = CLOUD_VARIABLE;
 
-            codeIndex += 5;
+            codeIndex += 3;
         }
         else
         {
@@ -1519,21 +1541,21 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
         {
             codeIndex += 5;
         }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var")
         {
             variables.push_back({variableType::persistent,
                                  code[codeIndex + 2],
                                  ""});
 
-            codeIndex += 5;
+            codeIndex += 3;
         }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == ":")
+        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var")
         {
             variables.push_back({variableType::cloud,
                                  code[codeIndex + 2],
                                  ""});
 
-            codeIndex += 5;
+            codeIndex += 3;
         }
         else
         {

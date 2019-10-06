@@ -12,11 +12,12 @@
 #include "Mallet-Swift.h"
 #include "db.hpp"
 
-void setAppVariable(int address, std::string value)
+void setAppVariable(std::string varName, std::string value)
 {
+    NSString *varNameString = [NSString stringWithCString:varName.c_str() encoding:NSUTF8StringEncoding];
     NSString *valueString = [NSString stringWithCString:value.c_str() encoding:NSUTF8StringEncoding];
 
-    [AppDatabaseController setAppVariableWithAddress:address value:valueString];
+    [AppDatabaseController setAppVariableWithVarName:varNameString value:valueString];
 }
 
 std::string getAppVariable(int address)

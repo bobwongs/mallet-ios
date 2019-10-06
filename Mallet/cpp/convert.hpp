@@ -96,6 +96,8 @@ private:
 
     void DeclareConstant(const int firstCodeIndex);
 
+    int DeclareString(const std::string str);
+
     formulaData GetFormulaSize(const int firstCodeIndex, int operatorNumber);
 
     int GetFuncSize(const int firstCodeIndex);

@@ -32,7 +32,7 @@ class VariableSettingsCell: UITableViewCell, UITextFieldDelegate {
         stackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         stackView.heightAnchor.constraint(equalToConstant: self.frame.height).isActive = true
 
-        variableTypeButton.setTitle("N", for: .normal)
+        updateVariableType(type: variableData.type)
         variableTypeButton.addTarget(self, action: #selector(self.updateVariableType(_:)), for: .touchDown)
         stackView.addArrangedSubview(variableTypeButton)
         variableTypeButton.translatesAutoresizingMaskIntoConstraints = false

@@ -21,6 +21,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     var textCodeEditorController: TextCodeEditorController!
     var visualCodeEditorController: VisualCodeEditorController!
 
+    var appID: Int!
+
     var ui: UIView!
 
     var uiData: UIData!
@@ -166,6 +168,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         updateCode()
 
         variableSettingsController.codeStr = self.uiEditorController?.getCodeStr()
+
+        variableSettingsController.appID = self.appID
 
         navigationController?.present(variableSettingsController, animated: true)
     }

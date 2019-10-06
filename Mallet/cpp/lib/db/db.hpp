@@ -16,12 +16,14 @@
 
 #include <string>
 
-void setAppVariable(int address, std::string value);
+void setAppVariable(std::string varName, std::string value);
 
 std::string getAppVariable(int address);
 
 void setCloudVariable(std::string varName, std::string value);
 
 std::string getCloudVariable(std::string name);
+
+void initPersistentVariable();
 
 #endif /* db_h */

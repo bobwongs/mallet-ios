@@ -22,7 +22,9 @@ public:
 
     bool UpdateCloudVariable(std::string varName, std::string value);
 
-    void InitRunner(std::string codeDataStr);
+    void InitRunner(std::string codeDataStr, std::map<std::string, std::string> variables);
+
+    void InitPersistentVariables(std::map<std::string, std::string> variables);
 
     var RunCode(int funcID, std::vector<var> args);
 
@@ -36,6 +38,7 @@ private:
 
     CppFuncManager cppFuncManager;
 
+    std::map<std::string, std::string> persistentVariables;
     std::map<std::string, std::string> cloudVariables;
 
     std::vector<int> memorySize;

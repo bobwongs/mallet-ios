@@ -39,11 +39,14 @@
 
 - (void)RunCode:(int)index;
 
-- (void)InitRunner:(NSString *)codeDataStr;
+- (void)InitRunner:(NSString *)codeDataStr :(NSDictionary<NSString *, NSString *> *)variables;
 
 - (void)TerminateRunner;
 
 - (bool)UpdateCloudVariable:(NSString *)name :(NSString *)value;
+
+- (void)InitPersistentVariable:(NSDictionary<NSString *, NSString *> *)variables;
+
 @end
 
 #endif /* objcpp_h */

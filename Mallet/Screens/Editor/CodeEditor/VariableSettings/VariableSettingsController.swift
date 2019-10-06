@@ -32,6 +32,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
+    public var appID: Int?
+
     public var codeStr: String?
 
     public var varList = [VariableData]()
@@ -80,6 +82,10 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
                 self.varList.append(VariableData(type: type, name: variable.name, value: variable.value))
             }
+        }
+
+        if let appID = self.appID {
+            varList = AppDatabaseController.getAppAllVariables(appID: appID, variableList: varList)
         }
 
         variableTableView.reloadData()

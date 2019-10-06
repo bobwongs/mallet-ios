@@ -190,53 +190,93 @@ class AppDatabaseController: NSObject {
         }
     }
 
-    static func setAppVariable(appID: Int, address: Int, value: String) {
-        do {
-            let realm = RLMRealm.default()
+    static func setAppVariable(appID: Int, varName: String, value: String) {
+        DispatchQueue.global().async {
+            autoreleasepool {
+                do {
+                    let realm = RLMRealm.default()
 
-            guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
-                return
+                    guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+                        return
+                    }
+
+                    if let variable = appModel.appVariable.objects(with: NSPredicate(format: "name == %@", argumentArray: [varName])).firstObject() {
+                        realm.beginWriteTransaction()
+
+                        variable.value = value
+
+                        try realm.commitWriteTransaction()
+                    } else {
+                        let appVariableModel = AppVariableModel()
+                        appVariableModel.address = -1
+                        appVariableModel.name = varName
+                        appVariableModel.value = value
+
+                        realm.beginWriteTransaction()
+
+                        appModel.appVariable.add(appVariableModel)
+
+                        try realm.commitWriteTransaction()
+                    }
+
+                } catch let error {
+                    print(error)
+                }
             }
-
-            let variable = appModel.appVariable.object(at: UInt(address))
-
-            realm.beginWriteTransaction()
-
-            variable.value = value
-
-            try realm.commitWriteTransaction()
-
-        } catch let error {
-            print(error)
         }
     }
 
-    static func setAppVariable(address: Int, value: String) {
+    static func setAppVariable(varName: String, value: String) {
         let appRunner = AppRunner.topAppRunner()
 
         if let appID = appRunner?.appData?.appID {
-            AppDatabaseController.setAppVariable(appID: appID, address: address, value: value)
+            AppDatabaseController.setAppVariable(appID: appID, varName: varName, value: value)
         }
     }
 
-    static func getAppAllVariables(appID: Int) -> [AppVariable] {
+    static func getAppAllVariables(appID: Int, variableList: [VariableSettingsController.VariableData]) -> [VariableSettingsController.VariableData] {
         guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
             return []
         }
 
-        let variables = appModel.appVariable
+        var newVariableList = [VariableSettingsController.VariableData]()
 
-        var variableList = [AppVariable]()
+        for variable in variableList {
+            if variable.type == .persistent {
+                let variableModels = appModel.appVariable.objects(with: NSPredicate(format: "name == %@", argumentArray: [variable.name]))
 
-        for variable in variables {
-            guard let variable = variable as? AppVariableModel else {
-                return []
+                if variableModels.count == 0 {
+                    setAppVariable(varName: variable.name, value: "")
+                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: ""))
+                } else {
+                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: variableModels.firstObject()!.value))
+                }
+            } else {
+                newVariableList.append(variable)
             }
-
-            variableList.append(AppVariable(address: variable.address, name: variable.name, value: variable.value))
         }
 
-        return variableList
+        return newVariableList
+    }
+
+    static func getAppVariablesDictionary(appID: Int) -> Dictionary<String, String> {
+        var dictionary = Dictionary<String, String>()
+
+        guard let appModel = AppModel.objects(where: "appID == \(appID)").firstObject() as? AppModel else {
+            return Dictionary<String, String>()
+        }
+
+        let variableModels = appModel.appVariable
+
+        for variableModel in variableModels {
+            guard let variable = variableModel as? AppVariableModel else {
+                return Dictionary<String, String>()
+            }
+
+            dictionary[variable.name] = variable.value
+        }
+
+        return dictionary
     }
 
     static func getAppVariableValue(appID: Int, address: Int) -> String {
@@ -299,4 +339,5 @@ class AppDatabaseController: NSObject {
             return createNewApp()
         }
     }
+
 }

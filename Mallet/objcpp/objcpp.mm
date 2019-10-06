@@ -115,11 +115,18 @@
     runner->RunCode(index, arg);
 }
 
-- (void)InitRunner:(NSString *)codeDataStr
+- (void)InitRunner:(NSString *)codeDataStr :(NSDictionary<NSString *, NSString *> *)variables
 {
+    std::map<std::string, std::string> variablesMap = std::map<std::string, std::string>();
+
+    for (id key in [variables keyEnumerator])
+    {
+        variablesMap[[key UTF8String]] = [[variables valueForKey:key] UTF8String];
+    }
+
     std::string codeDataStrString = [codeDataStr UTF8String];
 
-    runner->InitRunner(codeDataStrString);
+    runner->InitRunner(codeDataStrString, variablesMap);
 }
 
 - (void)TerminateRunner
@@ -130,6 +137,10 @@
 - (bool)UpdateCloudVariable:(NSString *)address :(NSString *)value
 {
     return runner->UpdateCloudVariable([address UTF8String], [value UTF8String]);
+}
+
+- (void)InitPersistentVariable:(NSDictionary<NSString *, NSString *> *)variables
+{
 }
 
 @end

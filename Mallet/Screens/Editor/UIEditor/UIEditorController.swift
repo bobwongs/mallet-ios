@@ -214,6 +214,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
+        codeEditorController.appID = self.appData.appID
+
         codeEditorController.uiEditorController = self
 
         codeEditorController.ui = ui
@@ -516,9 +518,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                    var global = 0
 
-                   @cloud cloud var label : "label"
+                   @cloud var label
 
-                   @cloud var yay : "yay"
+                   @cloud var yay
+
+                   @persistent var deviceVar
 
                    func init()
                    {
@@ -614,9 +618,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                    var global = 0
 
-                   @cloud var label : "label"
+                   @cloud var label 
 
-                   @cloud var yay : "yay"
+                   @cloud var yay
+
+                   @persistent var deviceVar
 
                    func init()
                    {
