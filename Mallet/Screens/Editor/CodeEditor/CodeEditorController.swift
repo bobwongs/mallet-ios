@@ -29,9 +29,9 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     var uiEditorController: UIEditorController?
 
-    let initialEditorMode = EditorMode.Text
+    let initialEditorMode = EditorMode.Visual
 
-    var editorMode = EditorMode.Text
+    var editorMode: EditorMode!
 
     var codeStr = ""
 
@@ -92,7 +92,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     func initEditor() {
         editorMode = initialEditorMode
 
-        switchEditorModeTo(mode: .Text)
+        switchEditorModeTo(mode: editorMode)
     }
 
     func switchEditorMode() {
@@ -107,7 +107,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         self.view.endEditing(true)
 
         if mode == .Visual {
-            editorMode = EditorMode.Visual
+            editorMode = .Visual
 
             hideTextCodeEditorView()
             showVisualCodeEditorView()
@@ -118,7 +118,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
                 codeStr = visualCodeEditorController.vplToCode()
             }
 
-            editorMode = EditorMode.Text
+            editorMode = .Text
 
             hideVisualCodeEditorView()
             showTextCodeEditorView()
