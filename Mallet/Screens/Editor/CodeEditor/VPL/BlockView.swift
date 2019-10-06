@@ -28,12 +28,12 @@ class Block: UIStackView {
 
     private let indentSize: CGFloat = 25
 
-    init(blockData: BlockData, index: Int, isOnTable: Bool) {
+    init(blockData: BlockData, index: Int, isOnTable: Bool, visualCodeEditorController: VisualCodeEditorController) {
         self.index = index
         self.isOnTable = isOnTable
         self.indent = blockData.indent
         self.blockType = blockData.blockType
-        self.blockView = BlockView(blockData: blockData)
+        self.blockView = BlockView(blockData: blockData, visualCodeEditorController: visualCodeEditorController)
 
         if blockData.blockType == .Repeat ||
                    blockData.blockType == .While ||
@@ -121,13 +121,21 @@ class Block: UIStackView {
     @objc func onDelete(sender: UIMenuItem) {
         self.delegate?.deleteBlock(index: self.index)
     }
+
+    public func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
+        return self.blockView.findArgViewStack(argContentView: argContentView)
+    }
 }
 
 class BlockView: UIView, UITextFieldDelegate {
 
     var args = [Arg]()
 
-    init(blockData: BlockData) {
+    private var argViews = [ArgView]()
+
+    private let blockStackView = UIStackView(frame: CGRect())
+
+    init(blockData: BlockData, visualCodeEditorController: VisualCodeEditorController) {
 
         super.init(frame: CGRect())
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -145,7 +153,6 @@ class BlockView: UIView, UITextFieldDelegate {
             self.backgroundColor = .gray
         }
 
-        let blockStackView = UIStackView(frame: CGRect())
         blockStackView.axis = .horizontal
         blockStackView.distribution = .fill
         blockStackView.alignment = .center
@@ -187,8 +194,10 @@ class BlockView: UIView, UITextFieldDelegate {
                 blockStackView.addArrangedSubview(label)
 
             case .Arg(let argData):
-                let argView = ArgView(contents: argData)
+                let argView = ArgView(contents: argData, visualCodeEditorController: visualCodeEditorController)
                 blockStackView.addArrangedSubview(argView)
+
+                self.argViews.append(argView)
             }
         }
 
@@ -212,7 +221,6 @@ class BlockView: UIView, UITextFieldDelegate {
 
         args[inputField.id].content = textField.text ?? ""
     }
-
 
     class InputField: UITextField {
         let id: Int
@@ -241,5 +249,18 @@ class BlockView: UIView, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    public func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
+        let center = argContentView.superview!.convert(argContentView.center, to: self.blockStackView)
+
+        for argView in self.argViews {
+            if argView.frame.contains(center) {
+
+                return argView.findArgViewStack(argContentView: argContentView)
+            }
+        }
+
+        return nil
     }
 }

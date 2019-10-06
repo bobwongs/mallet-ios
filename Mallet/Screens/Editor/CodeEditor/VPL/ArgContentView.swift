@@ -14,6 +14,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
     var index = -1
 
+    public var delegate: ArgContentViewDelegate?
+
     private var value: ArgContentType
 
     init(argContentValue: ArgContentType, stackView: UIStackView) {
@@ -97,6 +99,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         sender.view?.center.x += move.x
         sender.view?.center.y += move.y
+
+        print(delegate?.findArgViewStack(argContentView: self))
 
         let stackViewFrame = stackView.superview!.convert(stackView.frame, to: VisualCodeEditorController.codeArea)
 
@@ -287,8 +291,6 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         fromBlankView.addConstraint(fromBlankViewWidth)
         toBlankViewWidth.constant = content.frame.width
 
-        print(fromBlankView.constraints)
-
         UIView.animate(withDuration: 0.1, animations:
         {
             VisualCodeEditorController.codeArea.layoutIfNeeded()
@@ -320,8 +322,11 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 }
 
 class ArgText: ArgContent, UITextFieldDelegate {
-    init(value: String, stackView: UIStackView) {
+    init(value: String, stackView: UIStackView, visualCodeEditorController: VisualCodeEditorController) {
+
         super.init(argContentValue: .Text(value), stackView: stackView)
+
+        self.delegate = visualCodeEditorController
 
         self.translatesAutoresizingMaskIntoConstraints = false
         /*
@@ -387,12 +392,18 @@ class ArgText: ArgContent, UITextFieldDelegate {
 }
 
 class ArgBlock: ArgContent {
-    init(blockData: BlockData, stackView: UIStackView) {
+
+    private let blockView: BlockView!
+
+    init(blockData: BlockData, stackView: UIStackView, visualCodeEditorController: VisualCodeEditorController) {
+        self.blockView = BlockView(blockData: blockData, visualCodeEditorController: visualCodeEditorController)
+
         super.init(argContentValue: .Block(blockData), stackView: stackView)
+
+        self.delegate = visualCodeEditorController
 
         self.translatesAutoresizingMaskIntoConstraints = false
 
-        let blockView = BlockView(blockData: blockData)
         self.addSubview(blockView)
         blockView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
@@ -409,4 +420,12 @@ class ArgBlock: ArgContent {
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
+
+    public func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
+        return self.blockView.findArgViewStack(argContentView: argContentView)
+    }
+}
+
+protocol ArgContentViewDelegate {
+    func findArgViewStack(argContentView: ArgContent) -> UIStackView?
 }

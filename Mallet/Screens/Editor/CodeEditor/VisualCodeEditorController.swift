@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate {
+class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate, ArgContentViewDelegate {
     enum MovingBlockState {
         case notMoving
         case horizontal
@@ -313,7 +313,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             return cell
         }
 
-        let block = Block(blockData: blockData, index: 0, isOnTable: true)
+        let block = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self)
         cell.addSubview(block)
 
         setBlockOnTable(block: block, cell: cell)
@@ -371,7 +371,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                         fatalError()
                     }
 
-                    let newBlockOnTable = Block(blockData: blockData, index: 0, isOnTable: true)
+                    let newBlockOnTable = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self)
 
                     cell.addSubview(newBlockOnTable)
 
@@ -667,6 +667,22 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         }
     }
 
+    func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
+        let center = argContentView.superview!.convert(argContentView.center, to: self.codeStackView)
+
+        for blockView in codeStackView.arrangedSubviews {
+            guard let block = blockView as? Block else {
+                continue
+            }
+
+            if block.frame.contains(center) {
+                return block.findArgViewStack(argContentView: argContentView)
+            }
+        }
+
+        return nil
+    }
+
     func vplToCode() -> String {
         return vplToCode(startIndex: 0).0
     }
@@ -775,6 +791,10 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         print(code)
 
         return (code, lastIndex)
+    }
+
+    func generateBlockTableModal() {
+
     }
 
 }

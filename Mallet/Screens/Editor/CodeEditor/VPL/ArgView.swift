@@ -16,7 +16,9 @@ class ArgView: UIView {
 
     private let contentsStackView = UIStackView()
 
-    init(contents: [ArgContentType]) {
+    private var blockViews = [ArgBlock]()
+
+    init(contents: [ArgContentType], visualCodeEditorController: VisualCodeEditorController) {
 
         self.contents = contents
 
@@ -51,7 +53,9 @@ class ArgView: UIView {
         for content in contents {
             switch content {
             case .Text(let text):
-                let label = ArgText(value: text, stackView: self.contentsStackView)
+                let label = ArgText(value: text, stackView: self.contentsStackView, visualCodeEditorController: visualCodeEditorController)
+
+                label.delegate = visualCodeEditorController
 
                 label.index = contentIndex
 
@@ -59,11 +63,15 @@ class ArgView: UIView {
 
             case .Block(let blockData):
                 //TODO:
-                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView)
+                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView, visualCodeEditorController: visualCodeEditorController)
+
+                block.delegate = visualCodeEditorController
 
                 block.index = contentIndex
 
                 contentsStackView.addArrangedSubview(block)
+
+                self.blockViews.append(block)
 
                 break
             }
@@ -91,5 +99,17 @@ class ArgView: UIView {
         }
 
         return contentStr
+    }
+
+    func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
+        let center = argContentView.superview!.convert(argContentView.center, to: self.contentsStackView)
+
+        for block in self.blockViews {
+            if block.frame.contains(center) {
+                return block.findArgViewStack(argContentView: argContentView)
+            }
+        }
+
+        return self.contentsStackView
     }
 }
