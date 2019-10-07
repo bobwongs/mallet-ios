@@ -43,8 +43,8 @@ class ArgView: UIView {
                 [
                     contentsStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 3),
                     contentsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -3),
-                    contentsStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ArgView.spaceBetweenContents / 2),
-                    contentsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -ArgView.spaceBetweenContents / 2),
+                    contentsStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ArgView.spaceBetweenContents),
+                    contentsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -ArgView.spaceBetweenContents),
 
                     contentsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
                     contentsStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),

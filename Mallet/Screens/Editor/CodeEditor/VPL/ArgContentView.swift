@@ -26,6 +26,8 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         self.stackView = stackView
 
+        self.currentStackView = stackView
+
         self.value = argContentValue
 
         super.init(frame: CGRect())
@@ -90,17 +92,17 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         self.stackView = delegate?.findArgViewStack(argContentView: self)
 
-        if self.stackView == nil {
+        if self.stackView == nil || (self.stackView != self.currentStackView) {
             self.index = -1
-        }
 
-        if self.currentIndex != -1 && self.index == -1 {
-            removeBlankView()
+            if self.currentIndex != -1 {
+                removeBlankView()
 
-            self.currentIndex = -1
-            self.currentStackView = self.stackView
+                self.currentIndex = -1
+                self.currentStackView = self.stackView
 
-            return
+                return
+            }
         }
 
         guard let stackView = self.stackView else {
@@ -108,65 +110,60 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         }
 
         var minDis = stackView.bounds.width * 100000
-        var minIndex = -1
+        var minIndex = 0
         var index = 0
 
-        if stackView.arrangedSubviews.count == 0 {
-            minIndex = 0
-        } else {
-            for contentIndex in 0..<stackView.arrangedSubviews.count {
-                let contentInStackView = stackView.arrangedSubviews[contentIndex]
+        for contentIndex in 0..<stackView.arrangedSubviews.count {
+            let contentInStackView = stackView.arrangedSubviews[contentIndex]
 
-                let contentFrame = contentInStackView.superview!.convert(contentInStackView.frame, to: VisualCodeEditorController.codeArea)
+            if !(contentInStackView is ArgContent) {
+                continue
+            }
 
-                if contentIndex == 0 {
-                    let dis: CGFloat!
-                    if 0 < stackView.arrangedSubviews.count &&
-                               !(stackView.arrangedSubviews[0] is ArgContent) {
-                        dis = min(
-                                abs((contentFrame.minX + ArgView.spaceBetweenContents / 2) - self.center.x)
-                                ,
-                                abs((contentFrame.minX + ArgView.spaceBetweenContents / 2 + stackView.arrangedSubviews[0].frame.width + ArgView.spaceBetweenContents) - self.center.x))
-                    } else {
-                        dis = abs((contentFrame.minX - ArgView.spaceBetweenContents / 2) - self.center.x)
-                    }
+            let contentFrame = contentInStackView.superview!.convert(contentInStackView.frame, to: VisualCodeEditorController.codeArea)
 
-                    if minDis > dis {
-                        minDis = dis
-                        minIndex = 0
-                    }
-
-                    index += 1
-                }
-
-                if !(contentInStackView is ArgContent) {
-                    continue
-                }
-
+            if index == 0 {
                 let dis: CGFloat!
-
-                if contentIndex < stackView.arrangedSubviews.count - 1 &&
-                           !(stackView.arrangedSubviews[contentIndex + 1] is ArgContent) {
+                if 0 < stackView.arrangedSubviews.count &&
+                           !(stackView.arrangedSubviews[0] is ArgContent) {
                     dis = min(
-                            abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2) - self.center.x)
+                            abs((contentFrame.minX + ArgView.spaceBetweenContents / 2) - self.center.x)
                             ,
-                            abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2 + stackView.arrangedSubviews[contentIndex + 1].frame.width + ArgView.spaceBetweenContents) - self.center.x)
-                    )
+                            abs((contentFrame.minX + ArgView.spaceBetweenContents / 2 + stackView.arrangedSubviews[0].frame.width + ArgView.spaceBetweenContents) - self.center.x))
                 } else {
-                    dis = abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2) - self.center.x)
+                    dis = abs((contentFrame.minX - ArgView.spaceBetweenContents / 2) - self.center.x)
                 }
 
                 if minDis > dis {
                     minDis = dis
-                    minIndex = index
-                } else {
-                    break
+                    minIndex = 0
                 }
 
                 index += 1
             }
-        }
 
+            let dis: CGFloat!
+
+            if contentIndex < stackView.arrangedSubviews.count - 1 &&
+                       !(stackView.arrangedSubviews[contentIndex + 1] is ArgContent) {
+                dis = min(
+                        abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2) - self.center.x)
+                        ,
+                        abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2 + stackView.arrangedSubviews[contentIndex + 1].frame.width + ArgView.spaceBetweenContents) - self.center.x)
+                )
+            } else {
+                dis = abs((contentFrame.maxX + ArgView.spaceBetweenContents / 2) - self.center.x)
+            }
+
+            if minDis > dis {
+                minDis = dis
+                minIndex = index
+            } else {
+                break
+            }
+
+            index += 1
+        }
 
         self.index = minIndex
         if self.currentIndex == -1 {
@@ -204,12 +201,14 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
             VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
 
+        var index = self.index + 1
         for contentIndex in (self.index + 1)..<stackView.arrangedSubviews.count {
-            guard  let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {
-                fatalError()
+            guard let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {
+                continue
             }
 
-            contentInStackView.setContentIndex(index: contentIndex)
+            contentInStackView.setContentIndex(index: index)
+            index += 1
         }
     }
 
@@ -232,12 +231,15 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         blankView.translatesAutoresizingMaskIntoConstraints = false
         blankView.widthAnchor.constraint(equalTo: blankView.widthAnchor).isActive = true
 
+
+        var index = self.index + 1
         for contentIndex in (self.index + 1)..<stackView.arrangedSubviews.count {
-            guard  let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {
-                fatalError()
+            guard let contentInStackView = stackView.arrangedSubviews[contentIndex] as? ArgContent else {
+                continue
             }
 
-            contentInStackView.setContentIndex(index: contentIndex - 1)
+            contentInStackView.setContentIndex(index: index - 1)
+            index += 1
         }
     }
 
@@ -301,6 +303,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
             VisualCodeEditorController.codeArea.layoutIfNeeded()
         })
 
+        stackView.removeArrangedSubview(fromBlankView)
         fromBlankView.removeFromSuperview()
     }
 
