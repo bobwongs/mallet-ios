@@ -12,7 +12,7 @@
 #include "common.hpp"
 #include "cpp_func_manager.hpp"
 
-static const std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "\""};
+static const std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "~", "\""};
 static const std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};
 static const std::set<std::string> reservedWord = {"print", "var", "repeat", "while", "if", "else", "SetUIText", "number", "string", "bool"};
 

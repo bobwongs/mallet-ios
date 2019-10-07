@@ -19,18 +19,6 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {PRINT_STRING, "PrintString"},
         {JUMP, "Jump"},
         {RETURN, "Return"},
-        /*
-        {NUMBER_TYPE, "Number"},
-        {STRING_TYPE, "String"},
-        {BOOL_TYPE, "Bool"},
-        {NUMBER_GLOBAL_TYPE, "NumberGlobal"},
-        {STRING_GLOBAL_TYPE, "StringGlobal"},
-        {BOOL_GLOBAL_TYPE, "BoolGlobal"},
-        {VOID_TYPE, "Void"},
-        {NUMBER_ADDRESS_TYPE, "NumberAddress"},
-        {STRING_ADDRESS_TYPE, "StringAddress"},
-        {BOOL_ADDRESS_TYPE, "BoolAddress"},
-        */
         {END_OF_FUNC, "\x1b[45m  EndOfFunc  \x1b[49m"},
         {ADD, "+"},
         {SUB, "-"},
@@ -46,6 +34,7 @@ void Bytecode2String::ShowBytecodeString(std::vector<int> bytecode)
         {AND, "&&"},
         {OR, "||"},
         {NOT, "!"},
+        {CONNECT_STRING, "ConnectString"},
     };
 
     constexpr int pushCodeSize = 5;

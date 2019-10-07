@@ -85,6 +85,7 @@ enum
     AND,
     OR,
     NOT,
+    CONNECT_STRING,
     OPERATOR_END,
 };
 

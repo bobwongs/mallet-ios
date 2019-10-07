@@ -143,123 +143,109 @@ var Run::RunCode(int funcID, std::vector<var> args)
         }
         else
         {
-            //TODO: String + String
-
             bool jumped = false;
 
             if (OPERATOR_BEGIN < cmd && cmd < OPERATOR_END)
             {
-                double firstValue = getNumberValue(*topStackData[0]);
-                double secondValue;
+                var result;
 
-                //                std::string firstValueStr = getStringValue(*topStackData[0]);
-                //                std::string secondValueStr;
-
-                if (cmd == NOT)
+                if (cmd == CONNECT_STRING)
                 {
-                    secondValue = 0;
-                    //  secondValueStr = "";
+                    result = getStringValue(*topStackData[0]) + getStringValue(*topStackData[1]);
                 }
                 else
                 {
-                    secondValue = getNumberValue(*topStackData[1]);
-                    //secondValueStr = getStringValue(*topStackData[1]);
-                }
+                    double firstValue = getNumberValue(*topStackData[0]);
+                    double secondValue;
 
-                var result;
-
-                switch (cmd)
-                {
-                case ADD:
-                    /*
-                    if (std::holds_alternative<std::string>(*topStackData[0]) ||
-                        std::holds_alternative<std::string>(*topStackData[1]))
-                    {
-                        result = firstValueStr + secondValueStr;
-                    }
+                    if (cmd == NOT)
+                        secondValue = 0;
                     else
-                    */
+                        secondValue = getNumberValue(*topStackData[1]);
+
+                    switch (cmd)
                     {
+                    case ADD:
                         result = firstValue + secondValue;
+
+                        break;
+
+                    case SUB:
+                        result = firstValue - secondValue;
+
+                        break;
+
+                    case MUL:
+                        result = firstValue * secondValue;
+
+                        break;
+
+                    case DIV:
+                        if (secondValue == 0)
+                            result = 0;
+                        else
+                            result = firstValue / secondValue;
+
+                        break;
+
+                    case MOD:
+                        if ((int)secondValue == 0)
+                            result = 0;
+                        else
+                            result = (int)firstValue % (int)secondValue;
+
+                        break;
+
+                    case EQUAL:
+                        result = firstValue == secondValue ? 1 : 0;
+
+                        break;
+
+                    case NOT_EQUAL:
+                        result = firstValue != secondValue ? 1 : 0;
+
+                        break;
+
+                    case GREATER_THAN:
+                        result = firstValue > secondValue ? 1 : 0;
+
+                        break;
+
+                    case LESS_THAN:
+                        result = firstValue < secondValue ? 1 : 0;
+
+                        break;
+
+                    case GREATER_THAN_OR_EQUAL:
+                        result = firstValue >= secondValue ? 1 : 0;
+
+                        break;
+
+                    case LESS_THAN_OR_EQUAL:
+                        result = firstValue <= secondValue ? 1 : 0;
+
+                        break;
+
+                    case AND:
+                        result = (firstValue > 0) && (secondValue > 0) ? 1 : 0;
+
+                        break;
+
+                    case OR:
+                        result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
+                        break;
+
+                    case NOT:
+                        result = (firstValue <= 0) ? 1 : 0;
+
+                        break;
+
+                    default:
+                        printf("Error : The operator %d is undefined #%d\n", cmd, bytecodeIndex);
+                        error = true;
+
+                        break;
                     }
-
-                    break;
-
-                case SUB:
-                    result = firstValue - secondValue;
-
-                    break;
-
-                case MUL:
-                    result = firstValue * secondValue;
-
-                    break;
-
-                case DIV:
-                    if (secondValue == 0)
-                        result = 0;
-                    else
-                        result = firstValue / secondValue;
-
-                    break;
-
-                case MOD:
-                    if ((int)secondValue == 0)
-                        result = 0;
-                    else
-                        result = (int)firstValue % (int)secondValue;
-
-                    break;
-
-                case EQUAL:
-                    result = firstValue == secondValue ? 1 : 0;
-
-                    break;
-
-                case NOT_EQUAL:
-                    result = firstValue != secondValue ? 1 : 0;
-
-                    break;
-
-                case GREATER_THAN:
-                    result = firstValue > secondValue ? 1 : 0;
-
-                    break;
-
-                case LESS_THAN:
-                    result = firstValue < secondValue ? 1 : 0;
-
-                    break;
-
-                case GREATER_THAN_OR_EQUAL:
-                    result = firstValue >= secondValue ? 1 : 0;
-
-                    break;
-
-                case LESS_THAN_OR_EQUAL:
-                    result = firstValue <= secondValue ? 1 : 0;
-
-                    break;
-
-                case AND:
-                    result = (firstValue > 0) && (secondValue > 0) ? 1 : 0;
-
-                    break;
-
-                case OR:
-                    result = (firstValue > 0) || (secondValue > 0) ? 1 : 0;
-                    break;
-
-                case NOT:
-                    result = (firstValue <= 0) ? 1 : 0;
-
-                    break;
-
-                default:
-                    printf("Error : The operator %d is undefined #%d\n", cmd, bytecodeIndex);
-                    error = true;
-
-                    break;
                 }
 
                 if (stackIndex >= stackSize)

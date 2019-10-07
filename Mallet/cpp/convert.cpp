@@ -185,6 +185,8 @@ int convertOperator(std::string operatorString)
         operatorCode = OR;
     else if (operatorString == "!")
         operatorCode = NOT;
+    else if (operatorString == "~")
+        operatorCode = CONNECT_STRING;
     else
         printf("\"%s\" is not an operator!\n", operatorString.c_str());
 
@@ -384,6 +386,7 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
         {"<", "<=", ">", ">="},
         {"+", "-"},
         {"*", "/", "%"},
+        {"~"},
         {"OPERATOR_END"},
     };
 
