@@ -83,21 +83,19 @@ class ArgView: UIView {
         fatalError()
     }
 
-    func getContentStr() -> String {
-        var contentStr = ""
+    func getCodeStr() -> String {
+        var codeStr = ""
 
-        for content in self.contents {
-            switch content {
-            case .Text(let text):
-                contentStr += text
-
-            case .Block(let blockData):
-
-                break
+        for content in self.contentsStackView.arrangedSubviews {
+            if let argText = content as? ArgText {
+                codeStr += argText.getCodeStr()
+            }
+            if let argBlock = content as? ArgBlock {
+                codeStr += argBlock.getCodeStr()
             }
         }
 
-        return contentStr
+        return codeStr
     }
 
     func findArgViewStack(argContentView: ArgContent) -> UIStackView? {

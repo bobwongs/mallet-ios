@@ -99,6 +99,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         if editorMode == .Text {
             switchEditorModeTo(mode: .Visual)
         } else {
+            codeStr = visualCodeEditorController.vplToCode()
             switchEditorModeTo(mode: .Text)
         }
     }
@@ -113,11 +114,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             showVisualCodeEditorView()
 
         } else if mode == .Text {
-
-            if editorMode != initialEditorMode {
-                codeStr = visualCodeEditorController.vplToCode()
-            }
-
             editorMode = .Text
 
             hideVisualCodeEditorView()

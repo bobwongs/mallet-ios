@@ -34,9 +34,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 funcType: .Func,
                 funcName: "setUIText",
                 contents: [BlockContentData(value: .Label("Set text of"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0)], indent: 0))]), order: 0),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0), BlockContentData(value: .Arg([.Text("Yay")]), order: 0)], indent: 0))]), order: 0),
                            BlockContentData(value: .Label("to"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("sec")]), order: 0),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("sec")]), order: 1),
                 ],
                 indent: 0),
 
@@ -77,7 +77,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 contents: [BlockContentData(value: .Label("Set"), order: -1),
                            BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0))]), order: 0),
                            BlockContentData(value: .Label("to"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("+1")]), order: 0),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("+1")]), order: 1),
                 ],
                 indent: 0
         ),
@@ -713,57 +713,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 break
             }
 
-            let blockType = blockView.blockType
+            code += blockView.getCodeStr()
 
-            guard let blockData = blocks[blockType] else {
-                fatalError()
-            }
-
-            let args = blockView.args()
-
-            switch blockData.funcType {
-            case .Func:
-                code += "\(blockData.funcName)("
-
-                /*
-                TODO:
-                for argIndex in 0..<args.count {
-                    switch args[argIndex].type {
-                    case .InputAll:
-                        code += "\(args[argIndex].content)"
-                    case .InputSingleVariable:
-                        code += "\(args[argIndex].content)"
-                    default:
-                        break
-                    }
-
-                    if argIndex != (args.count - 1) {
-                        code += ","
-                    }
-                }
-                */
-
-                code += ")\n"
-
-            case .Assign:
-                if args.count != 2 {
-                    continue
-                }
-
-                code += "\(args[0].content) = \(args[1].content)\n"
-
-            case .Declare:
-                if args.count != 2 {
-                    continue
-                }
-
-                code += "var \(args[0].content) = \(args[1].content)\n"
-
-            case .Bracket:
-                if args.count != 1 {
-                    continue
-                }
-
+            if blockView.isBracket {
                 let codeWithIndex: (String, Int)!
 
                 if index == codeStackView.arrangedSubviews.count - 1 ||
@@ -774,18 +726,16 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 }
 
                 code += """
-                        \(blockData.funcName) (\(args[0].content))
                         {
                         \(codeWithIndex.0)
-                                }
+                        }
+
                         """
 
                 index = codeWithIndex.1
-
             }
 
             index += 1
-
         }
 
         print(code)

@@ -55,6 +55,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         fatalError()
     }
 
+    /*
     func getValue() -> String {
         switch self.value {
         case .Text(let text):
@@ -66,6 +67,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
             break
         }
     }
+    */
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
 
@@ -340,6 +342,9 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 }
 
 class ArgText: ArgContent, UITextFieldDelegate {
+
+    private let textField = UITextField()
+
     init(value: String, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
 
         super.init(argContentValue: .Text(value), stackView: stackView, index: index)
@@ -347,12 +352,6 @@ class ArgText: ArgContent, UITextFieldDelegate {
         self.delegate = visualCodeEditorController
 
         self.translatesAutoresizingMaskIntoConstraints = false
-        /*
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.cornerRadius = 3
-        */
-
 
         if #available(iOS 13, *) {
             self.backgroundColor = .placeholderText
@@ -361,23 +360,7 @@ class ArgText: ArgContent, UITextFieldDelegate {
         }
         self.layer.cornerRadius = 5
 
-        let textField = UITextField()
         textField.delegate = self
-        /*
-        if #available(iOS 13, *) {
-            textField.backgroundColor = .pla //.systemBackground
-        } else {
-            textField.backgroundColor = .white
-        }
-        */
-        /*
-        textField.layer.borderWidth = 2
-        if #available(iOS 13, *) {
-            textField.layer.borderColor = UIColor.separator.cgColor
-        } else {
-            textField.layer.borderColor = UIColor.white.cgColor
-        }
-        */
 
         let padding: CGFloat = 5
 
@@ -405,6 +388,10 @@ class ArgText: ArgContent, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+
+    public func getCodeStr() -> String {
+        return "\"\(self.textField.text ?? "")\""
     }
 
 }
@@ -441,6 +428,10 @@ class ArgBlock: ArgContent {
 
     public func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
         return self.blockView.findArgViewStack(argContentView: argContentView)
+    }
+
+    public func getCodeStr() -> String {
+        return blockView.getCodeStr()
     }
 }
 

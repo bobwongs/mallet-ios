@@ -84,10 +84,6 @@ class Block: UIStackView {
         })
     }
 
-    func args() -> [BlockView.Arg] {
-        return blockView.args
-    }
-
     @objc func showMenu(_ sender: UITapGestureRecognizer) {
         if isOnTable {
             return
@@ -125,28 +121,33 @@ class Block: UIStackView {
     public func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
         return self.blockView.findArgViewStack(argContentView: argContentView)
     }
+
+    public func getCodeStr() -> String {
+        return self.blockView.getCodeStr()
+    }
 }
 
 class BlockView: UIView, UITextFieldDelegate {
 
-    var args = [Arg]()
-
-    private var argViews = [ArgView]()
+    private var argViews = [ArgView?]()
 
     private let blockStackView = UIStackView(frame: CGRect())
 
+    private let funcName: String
+
+    private let funcType: FuncType
+
     init(blockData: BlockData, visualCodeEditorController: VisualCodeEditorController) {
+
+        self.funcName = blockData.funcName
+
+        self.funcType = blockData.funcType
 
         super.init(frame: CGRect())
         self.translatesAutoresizingMaskIntoConstraints = false
 
         self.layer.cornerRadius = 5
-        /*
-        self.layer.shadowOffset = CGSize(width: 0, height: 2)
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.5
-        self.layer.shadowRadius = 3
-        */
+
         if #available(iOS 13, *) {
             self.backgroundColor = .vplBlock
         } else {
@@ -169,17 +170,14 @@ class BlockView: UIView, UITextFieldDelegate {
         blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH).isActive = true
         blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH).isActive = true
 
-
-        //blockStackView.heightAnchor.constraint(equalToConstant: 30).isActive = true
-
-        var argSize = 0
+        var argCount = 0
         for content in blockData.contents {
-            if argSize < content.order + 1 {
-                argSize = content.order + 1
+            if argCount < content.order + 1 {
+                argCount = content.order + 1
             }
         }
 
-        args = [Arg](repeating: Arg(type: .Label(""), content: ""), count: argSize)
+        argViews = [ArgView?](repeating: nil, count: argCount)
 
         for content in blockData.contents {
 
@@ -197,7 +195,7 @@ class BlockView: UIView, UITextFieldDelegate {
                 let argView = ArgView(contents: argData, visualCodeEditorController: visualCodeEditorController)
                 blockStackView.addArrangedSubview(argView)
 
-                self.argViews.append(argView)
+                self.argViews[content.order] = argView
             }
         }
 
@@ -214,38 +212,6 @@ class BlockView: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func setArg(textField: UITextField) {
-        guard let inputField = textField as? InputField else {
-            fatalError()
-        }
-
-        args[inputField.id].content = textField.text ?? ""
-    }
-
-    class InputField: UITextField {
-        let id: Int
-
-        init(id: Int) {
-            self.id = id
-
-            super.init(frame: CGRect())
-        }
-
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-    }
-
-    struct Arg {
-        let type: BlockContentType
-        var content: String
-
-        init(type: BlockContentType, content: String) {
-            self.type = type
-            self.content = content
-        }
-    }
-
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -255,12 +221,57 @@ class BlockView: UIView, UITextFieldDelegate {
         let center = argContentView.superview!.convert(argContentView.center, to: self.blockStackView)
 
         for argView in self.argViews {
-            if argView.frame.contains(center) {
+            if let argView = argView {
+                if argView.frame.contains(center) {
 
-                return argView.findArgViewStack(argContentView: argContentView)
+                    return argView.findArgViewStack(argContentView: argContentView)
+                }
             }
         }
 
         return nil
+    }
+
+    public func getCodeStr() -> String {
+        if self.funcName == "else" {
+            return self.funcName
+        }
+
+        var codeStr = ""
+
+        switch self.funcType {
+        case .Bracket:
+            fallthrough
+
+        case .Func:
+            codeStr = "\(self.funcName)("
+
+            for argIndex in 0..<self.argViews.count {
+                codeStr += self.argViews[argIndex]?.getCodeStr() ?? ""
+                if argIndex + 1 < self.argViews.count {
+                    codeStr += ","
+                }
+            }
+
+            codeStr += ")"
+
+        case .Assign:
+            if self.argViews.count != 2 {
+                return ""
+            }
+
+            codeStr = "\(argViews[0]?.getCodeStr() ?? "") = \(argViews[1]?.getCodeStr() ?? "")"
+
+        case .Declare:
+            if self.argViews.count != 2 {
+                return ""
+            }
+
+            codeStr = "var \(argViews[0]?.getCodeStr() ?? "") = \(argViews[1]?.getCodeStr() ?? "")"
+        }
+
+        codeStr += "\n"
+
+        return codeStr
     }
 }
