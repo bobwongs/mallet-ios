@@ -46,8 +46,8 @@ class ArgView: UIView {
                     contentsStackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: ArgView.spaceBetweenContents / 2),
                     contentsStackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -ArgView.spaceBetweenContents / 2),
 
-                    self.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
-                    self.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
+                    contentsStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+                    contentsStackView.widthAnchor.constraint(greaterThanOrEqualToConstant: 20),
                 ]
         )
 
@@ -56,21 +56,17 @@ class ArgView: UIView {
         for content in contents {
             switch content {
             case .Text(let text):
-                let label = ArgText(value: text, stackView: self.contentsStackView, visualCodeEditorController: visualCodeEditorController)
+                let label = ArgText(value: text, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
 
                 label.delegate = visualCodeEditorController
-
-                label.index = contentIndex
 
                 contentsStackView.addArrangedSubview(label)
 
             case .Block(let blockData):
                 //TODO:
-                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView, visualCodeEditorController: visualCodeEditorController)
+                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
 
                 block.delegate = visualCodeEditorController
-
-                block.index = contentIndex
 
                 contentsStackView.addArrangedSubview(block)
 
