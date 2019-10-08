@@ -18,9 +18,9 @@ class Block: UIStackView {
 
     var indent: Int
 
-    var blockType: BlockType
-
     let isBracket: Bool
+
+    public let initialBlockData: BlockData
 
     private var indentConstraint = NSLayoutConstraint()
 
@@ -32,17 +32,10 @@ class Block: UIStackView {
         self.index = index
         self.isOnTable = isOnTable
         self.indent = blockData.indent
-        self.blockType = blockData.blockType
         self.blockView = BlockView(blockData: blockData, visualCodeEditorController: visualCodeEditorController)
+        self.initialBlockData = blockData
 
-        if blockData.blockType == .Repeat ||
-                   blockData.blockType == .While ||
-                   blockData.blockType == .IF ||
-                   blockData.blockType == .ELSE {
-            self.isBracket = true
-        } else {
-            self.isBracket = false
-        }
+        self.isBracket = blockData.funcType == .Bracket
 
         super.init(frame: CGRect())
 
@@ -162,13 +155,18 @@ class BlockView: UIView, UITextFieldDelegate {
         self.addSubview(blockStackView)
 
         let paddingV: CGFloat = 3
-        let paddingH: CGFloat = 0
+        let paddingH: CGFloat = 3
 
         blockStackView.translatesAutoresizingMaskIntoConstraints = false
-        blockStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: paddingV).isActive = true
-        blockStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -paddingV).isActive = true
-        blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH).isActive = true
-        blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH).isActive = true
+        NSLayoutConstraint.activate(
+                [
+                    blockStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: paddingV),
+                    blockStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -paddingV),
+                    blockStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: paddingH),
+                    blockStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -paddingH),
+                    blockStackView.heightAnchor.constraint(greaterThanOrEqualToConstant: 30)
+                ]
+        )
 
         var argCount = 0
         for content in blockData.contents {
@@ -199,6 +197,7 @@ class BlockView: UIView, UITextFieldDelegate {
             }
         }
 
+        /*
         let leftView = UIView()
         leftView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         blockStackView.insertArrangedSubview(leftView, at: 0)
@@ -206,6 +205,7 @@ class BlockView: UIView, UITextFieldDelegate {
         let rightView = UIView()
         rightView.heightAnchor.constraint(equalToConstant: 30).isActive = true
         blockStackView.addArrangedSubview(rightView)
+        */
     }
 
     required init?(coder aDecoder: NSCoder) {

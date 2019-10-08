@@ -61,7 +61,7 @@ extension UIColor {
     public static var vplBackground: UIColor {
         return dynamicColor(
                 light: UIColor(hex: "FAFAFA"),
-                dark: UIColor(hex: "1C1C1E")
+                dark: UIColor(hex: "30303F")
         )
     }
 }

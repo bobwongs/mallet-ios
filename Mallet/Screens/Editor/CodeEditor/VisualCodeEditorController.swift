@@ -8,14 +8,12 @@
 
 import UIKit
 
-class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource, blockDelegate, ArgContentViewDelegate {
+class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate, blockDelegate, ArgContentViewDelegate {
     enum MovingBlockState {
         case notMoving
         case horizontal
         case vertical
     }
-
-    @IBOutlet weak var blockTableView: UITableView!
 
     static var codeArea: UIView = UIScrollView()
 
@@ -27,230 +25,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     var blockViews = [Block]()
 
-    var blocks: Dictionary<BlockType, BlockData> = [
-        BlockType.SetUIText:
-        BlockData(
-                blockType: .SetUIText,
-                funcType: .Func,
-                funcName: "setUIText",
-                contents: [BlockContentData(value: .Label("Set text of"), order: -1),
-                           BlockContentData(value: .Arg([.Variable("Label1")]), order: 0),
-                           BlockContentData(value: .Label("to"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0), BlockContentData(value: .Arg([.Text("Yay")]), order: 0)], indent: 0))]), order: 1),
-                ],
-                indent: 0),
-
-        BlockType.IF:
-        BlockData(
-                blockType: .IF,
-                funcType: .Bracket,
-                funcName: "if",
-                contents: [BlockContentData(value: .Label("If"), order: -1),
-                           BlockContentData(value: .Arg([.Text("true")]), order: 0)],
-                indent:
-                0),
-
-        BlockType.ELSE:
-        BlockData(
-                blockType: .ELSE,
-                funcType: .Bracket,
-                funcName: "else",
-                contents: [BlockContentData(value: .Label("Else"), order: -1)],
-                indent:
-                0),
-
-        BlockType.While:
-        BlockData(
-                blockType: .While,
-                funcType: .Bracket,
-                funcName: "while",
-                contents: [BlockContentData(value: .Label("While"), order: -1),
-                           BlockContentData(value: .Arg([.Text("true")]), order: 0)],
-                indent:
-                0),
-
-        BlockType.Assign:
-        BlockData(
-                blockType: .Assign,
-                funcType: .Assign,
-                funcName: "",
-                contents: [BlockContentData(value: .Label("Set"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0))]), order: 0),
-                           BlockContentData(value: .Label("to"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("+1")]), order: 1),
-                ],
-                indent: 0
-        ),
-
-        BlockType.Sleep:
-        BlockData(
-                blockType: .Sleep,
-                funcType: .Func,
-                funcName: "sleep",
-                contents: [BlockContentData(value: .Label("Wait"), order: -1),
-                           BlockContentData(value: .Arg([.Text("1")]), order: 0),
-                           BlockContentData(value: .Label("seconds"), order: -1),
-                ],
-                indent:
-                0),
-
-        /*
-        BlockType.SetUIText:
-        BlockData(
-                blockType: .SetUIText,
-                funcType: .Func,
-                funcName: "setUIText",
-                contents: [BlockContentData(type: .Label, value: "Set text of", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "Label1", order: 0),
-                           BlockContentData(type: .Label, value: "to", order: -1),
-                           BlockContentData(type: .InputAll, value: "512", order: 1)],
-                indent:
-                0),
-
-        BlockType.Sleep:
-        BlockData(
-                blockType: .Sleep,
-                funcType: .Func,
-                funcName: "sleep",
-                contents: [BlockContentData(type: .Label, value: "Wait", order: -1),
-                           BlockContentData(type: .InputAll, value: "1", order: 0),
-                           BlockContentData(type: .Label, value: "seconds", order: -1)],
-                indent:
-                0),
-
-        BlockType.Assign:
-        BlockData(
-                blockType: .Assign,
-                funcType: .Assign,
-                funcName: "",
-                contents: [BlockContentData(type: .Label, value: "Set", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "foo", order: 0),
-                           BlockContentData(type: .Label, value: "to", order: -1),
-                           BlockContentData(type: .InputAll, value: "128", order: 1)],
-                indent:
-                0),
-
-        BlockType.Declare:
-        BlockData(
-                blockType: .Declare,
-                funcType: .Declare,
-                funcName: "",
-                contents: [BlockContentData(type: .Label, value: "Declare", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "foo", order: 0),
-                           BlockContentData(type: .Label, value: "(initial value:", order: -1),
-                           BlockContentData(type: .InputAll, value: "128", order: 1),
-                           BlockContentData(type: .Label, value: ")", order: -1)],
-                indent:
-                0),
-
-        BlockType.Repeat:
-        BlockData(
-                blockType: .Repeat,
-                funcType: .Bracket,
-                funcName: "repeat",
-                contents: [BlockContentData(type: .Label, value: "repeat", order: -1),
-                           BlockContentData(type: .InputAll, value: "10", order: 0),
-                           BlockContentData(type: .Label, value: "times", order: -1)],
-                indent:
-                0),
-
-        BlockType.While:
-        BlockData(
-                blockType: .While,
-                funcType: .Bracket,
-                funcName: "while",
-                contents: [BlockContentData(type: .Label, value: "while", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 0)],
-                indent:
-                0),
-
-        BlockType.IF:
-        BlockData(
-                blockType: .IF,
-                funcType: .Bracket,
-                funcName: "if",
-                contents: [BlockContentData(type: .Label, value: "if", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 0)],
-                indent:
-                0),
-
-        BlockType.ELSE:
-        BlockData(
-                blockType: .ELSE,
-                funcType: .Bracket,
-                funcName: "else",
-                contents: [BlockContentData(type: .Label, value: "else", order: -1)],
-                indent:
-                0),
-
-        BlockType.AddToList:
-        BlockData(
-                blockType: .AddToList,
-                funcType: .Func,
-                funcName: "addToList",
-                contents: [BlockContentData(type: .Label, value: "Add", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1),
-                           BlockContentData(type: .Label, value: "to", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "", order: 0)],
-                indent:
-                0),
-
-        BlockType.ShowWebPage:
-        BlockData(
-                blockType: .ShowWebPage,
-                funcType: .Func,
-                funcName: "showWebPage",
-                contents: [BlockContentData(type: .Label, value: "Show web page", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1),
-                           BlockContentData(type: .Label, value: "in", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "WebView", order: 0)],
-                indent:
-                0),
-
-        BlockType.ShowInTableView:
-        BlockData(
-                blockType: .ShowInTableView,
-                funcType: .Func,
-                funcName: "showInTableView",
-                contents: [BlockContentData(type: .Label, value: "Show", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1),
-                           BlockContentData(type: .Label, value: "in", order: -1),
-                           BlockContentData(type: .InputSingleVariable, value: "TableView", order: 0)],
-                indent:
-                0),
-
-        BlockType.CopyToClipboard:
-        BlockData(
-                blockType: .CopyToClipboard,
-                funcType: .Func,
-                funcName: "copyToClipBoard",
-                contents: [BlockContentData(type: .Label, value: "Copy", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1),
-                           BlockContentData(type: .Label, value: "to clipBoard", order: -1)],
-                indent:
-                0),
-
-        BlockType.Tweet:
-        BlockData(
-                blockType: .Tweet,
-                funcType: .Func,
-                funcName: "tweet",
-                contents: [BlockContentData(type: .Label, value: "Tweet", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1)],
-                indent:
-                0),
-
-        BlockType.AddMemo:
-        BlockData(
-                blockType: .AddMemo,
-                funcType: .Func,
-                funcName: "addMemo",
-                contents: [BlockContentData(type: .Label, value: "AddMemo", order: -1),
-                           BlockContentData(type: .InputAll, value: "", order: 1)],
-                indent:
-                0),
-                */
-    ]
+    var vplBlockTable: VPLBlockTable!
+    var vplBlockTableBottomConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -263,24 +39,10 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         VisualCodeEditorController.codeArea.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             VisualCodeEditorController.codeArea.topAnchor.constraint(equalTo: self.view.topAnchor),
-            VisualCodeEditorController.codeArea.bottomAnchor.constraint(equalTo: blockTableView.topAnchor),
+            VisualCodeEditorController.codeArea.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             VisualCodeEditorController.codeArea.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             VisualCodeEditorController.codeArea.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         ])
-
-        self.view.bringSubviewToFront(blockTableView)
-
-        /*
-        let backgroundColor = UIColor(red: 240, green: 240, blue: 240)
-        VisualCodeEditorController.codeArea.backgroundColor = backgroundColor
-        self.view.backgroundColor = backgroundColor
-        */
-
-
-        blockTableView.delegate = self
-        blockTableView.dataSource = self
-        blockTableView.layer.cornerRadius = 10
-        blockTableView.layer.masksToBounds = true
 
         codeStackView.axis = .vertical
         codeStackView.distribution = .fill
@@ -297,39 +59,36 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             codeStackView.rightAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.rightAnchor)
         ])
 
-    }
+        vplBlockTable = VPLBlockTable(visualCodeEditorController: self)
+        self.view.addSubview(vplBlockTable)
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return BlockType.allCases.count
-    }
+        vplBlockTable.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    vplBlockTable.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+                    //vplBlockTable.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -vplBlockTable.titleBarHeight),
+                    vplBlockTable.widthAnchor.constraint(equalTo: self.view.widthAnchor),
+                    vplBlockTable.heightAnchor.constraint(equalToConstant: vplBlockTable.height)
+                ]
+        )
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
-        cell.selectionStyle = UITableViewCell.SelectionStyle.none
-
-        let blockType = BlockType.allCases[indexPath.row]
-
-        guard let blockData = blocks[blockType] else {
-            return cell
-        }
-
-        let block = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self)
-        cell.addSubview(block)
-
-        setBlockOnTable(block: block, cell: cell)
-
-        return cell
+        vplBlockTableBottomConstraint = NSLayoutConstraint(item: vplBlockTable!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -vplBlockTable.titleBarHeight)
+        vplBlockTableBottomConstraint.isActive = true
     }
 
     func setBlockOnTable(block: UIView, cell: UIView) {
         block.translatesAutoresizingMaskIntoConstraints = false
-        block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: blockDefaultIndentSize).isActive = true
-        block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10).isActive = true
-        block.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -10).isActive = true
+        NSLayoutConstraint.activate(
+                [
+                    block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: self.blockDefaultIndentSize),
+                    block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10),
+                    block.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -10),
+                ]
+        )
 
         block.isUserInteractionEnabled = true
 
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(dragBlock(_:)))
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dragBlock(_:)))
         pan.delegate = self
         block.addGestureRecognizer(pan)
     }
@@ -365,11 +124,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                         fatalError()
                     }
 
-                    let blockType = blockView.blockType
-
-                    guard let blockData = blocks[blockType] else {
-                        fatalError()
-                    }
+                    let blockData = blockView.initialBlockData
 
                     let newBlockOnTable = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self)
 
@@ -744,6 +499,26 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     func generateBlockTableModal() {
 
+    }
+
+    func showVPLBlockTable() {
+        self.view.layoutIfNeeded()
+
+        vplBlockTableBottomConstraint.constant = -vplBlockTable.height
+
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        })
+    }
+
+    func hideVPLBlockTable() {
+        self.view.layoutIfNeeded()
+
+        vplBlockTableBottomConstraint.constant = -vplBlockTable.titleBarHeight
+
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: {
+            self.view.layoutIfNeeded()
+        })
     }
 
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/*
 enum BlockType: CaseIterable {
     //case Print
     case SetUIText
@@ -25,6 +26,12 @@ enum BlockType: CaseIterable {
     case CopyToClipboard
     case Tweet
     case AddMemo
+}
+*/
+
+enum BlockType: String, CaseIterable {
+    case Variable = "Variable"
+    case Block = "Block"
 }
 
 enum FuncType {
@@ -51,7 +58,7 @@ struct BlockContentData {
 }
 
 struct BlockData {
-    let blockType: BlockType
+    //let blockType: BlockType
     let funcType: FuncType
     let funcName: String
     var contents: [BlockContentData]
@@ -67,4 +74,17 @@ struct BlockData {
         self.indent = indent
     }
     */
+}
+
+struct DefaultBlocks {
+    static let blocks: [BlockData] = [
+        BlockData(funcType: .Func, funcName: "setUIText", contents: [
+            BlockContentData(value: .Label("Set text of"), order: -1),
+            BlockContentData(value: .Arg([]), order: 0),
+            BlockContentData(value: .Label("to"), order: -1),
+            BlockContentData(value: .Arg([]), order: 1)
+        ], indent: 0)
+    ]
+
+    static let argBlocks: [BlockData] = []
 }

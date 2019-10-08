@@ -113,36 +113,9 @@
                     <view key="view" contentMode="scaleToFill" id="ZUz-ta-hnr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ctx-kh-tyQ">
-                                <rect key="frame" x="0.0" y="524" width="375" height="200"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="PtK-vl-edB"/>
-                                </constraints>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Q5q-uj-kjr">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Q5q-uj-kjr" id="j6Q-vS-9TG">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="ctx-kh-tyQ" firstAttribute="leading" secondItem="yhd-TG-Mpy" secondAttribute="leading" id="32z-Y5-qwP"/>
-                            <constraint firstItem="ctx-kh-tyQ" firstAttribute="trailing" secondItem="yhd-TG-Mpy" secondAttribute="trailing" id="Ena-ni-BMR"/>
-                            <constraint firstAttribute="bottom" secondItem="ctx-kh-tyQ" secondAttribute="bottom" id="TSt-5F-1d6"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="yhd-TG-Mpy"/>
                     </view>
-                    <connections>
-                        <outlet property="blockTableView" destination="ctx-kh-tyQ" id="pgx-9l-e0f"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJS-Mh-NcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
