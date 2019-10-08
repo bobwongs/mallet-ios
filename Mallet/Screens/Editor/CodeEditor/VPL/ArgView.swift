@@ -29,8 +29,7 @@ class ArgView: UIView {
         } else {
             self.backgroundColor = .white
         }
-        //self.layer.borderColor = UIColor.black.cgColor
-        //self.layer.borderWidth = 2
+
         self.layer.cornerRadius = 5
         self.translatesAutoresizingMaskIntoConstraints = false
 
@@ -72,8 +71,14 @@ class ArgView: UIView {
 
                 self.blockViews.append(block)
 
-                break
+            case .Variable(let varName):
+                let variable = ArgVariable(varName: varName, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
+
+                variable.delegate = visualCodeEditorController
+
+                contentsStackView.addArrangedSubview(variable)
             }
+
 
             contentIndex += 1
         }
@@ -92,6 +97,9 @@ class ArgView: UIView {
             }
             if let argBlock = content as? ArgBlock {
                 codeStr += argBlock.getCodeStr()
+            }
+            if let argVariable = content as? ArgVariable {
+                codeStr += argVariable.getCodeStr()
             }
         }
 

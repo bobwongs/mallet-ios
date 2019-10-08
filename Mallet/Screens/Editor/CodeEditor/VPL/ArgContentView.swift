@@ -403,7 +403,7 @@ class ArgText: ArgContent, UITextFieldDelegate {
 
 class ArgBlock: ArgContent {
 
-    private let blockView: BlockView!
+    private let blockView: BlockView
 
     init(blockData: BlockData, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
         self.blockView = BlockView(blockData: blockData, visualCodeEditorController: visualCodeEditorController)
@@ -437,6 +437,55 @@ class ArgBlock: ArgContent {
 
     public func getCodeStr() -> String {
         return blockView.getCodeStr()
+    }
+}
+
+class ArgVariable: ArgContent {
+
+    private let varName: String
+
+    init(varName: String, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+
+        self.varName = varName
+
+        super.init(argContentValue: .Text(varName), stackView: stackView, index: index)
+
+        self.delegate = visualCodeEditorController
+
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        if #available(iOS 13, *) {
+            self.backgroundColor = .placeholderText
+        } else {
+            self.backgroundColor = .white
+        }
+        self.layer.cornerRadius = 5
+
+        let padding: CGFloat = 5
+
+        let label = UILabel()
+        label.text = varName
+        label.textAlignment = .center
+        label.sizeToFit()
+
+        self.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    label.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+                    label.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+                    label.leftAnchor.constraint(equalTo: self.leftAnchor, constant: padding),
+                    label.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -padding)
+                ]
+        )
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
+    public func getCodeStr() -> String {
+        return varName
     }
 }
 

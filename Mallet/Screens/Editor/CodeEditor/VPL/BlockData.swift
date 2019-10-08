@@ -42,6 +42,7 @@ enum BlockContentType {
 enum ArgContentType {
     case Text(String)
     case Block(BlockData)
+    case Variable(String)
 }
 
 struct BlockContentData {
