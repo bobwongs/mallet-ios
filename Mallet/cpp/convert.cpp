@@ -856,13 +856,20 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
         }
         else
         {
-            int varType = variableType[code[codeIndex]];
+            std::string varName = code[codeIndex];
+
+            if (checkName(varName))
+            {
+                DeclareVariable(varName, false);
+            }
+
+            int varType = variableType[varName];
 
             switch (varType)
             {
             case VARIABLE:
             {
-                int address = variableAddresses[code[codeIndex]];
+                int address = variableAddresses[varName];
 
                 AddPushAddressCode(address, false);
 
@@ -875,7 +882,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             case GLOBAL_VARIABLE:
             {
-                int address = globalVariableAddress[code[codeIndex]];
+                int address = globalVariableAddress[varName];
 
                 AddPushAddressCode(address, true);
 
@@ -888,7 +895,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             case PERSISTENT_VARIABLE:
             {
-                int address = globalVariableAddress[code[codeIndex]];
+                int address = globalVariableAddress[varName];
 
                 AddPushAddressCode(address, true);
 
@@ -901,7 +908,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             case CLOUD_VARIABLE:
             {
-                int address = globalVariableAddress[code[codeIndex]];
+                int address = globalVariableAddress[varName];
 
                 AddPushAddressCode(address, true);
 
@@ -914,7 +921,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             case LIST:
             {
-                int address = listAddresses[code[codeIndex]];
+                int address = listAddresses[varName];
 
                 AddPushAddressCode(address, false);
                 AddCmdCode(INIT_LIST, 1);
@@ -936,33 +943,8 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 break;
             }
 
-                /*
-                TODO:
-            case SHARED_LIST:
-            {
-                int address = sharedVariableAddress[code[codeIndex]];
-
-                AddPushAddressCode(address, true);
-                AddCmdCode(INIT_LIST, 1);
-
-                //       v
-                // a = { 1 , 2 , 8 }
-                //       ^
-                int index = codeIndex + 3;
-
-                while (code[index] != "}")
-                {
-                    AddPushAddressCode(address, true);
-                    index += ConvertFormula(index, 0, true) + 1;
-                    AddCmdCode(ADD_LIST, 2);
-                }
-
-                codeSize = index - codeIndex + 1;
-            }
-            */
-
             default:
-                printf("%s is undefined #%d\n", code[codeIndex].c_str(), codeIndex);
+                printf("%s is undefined #%d\n", varName.c_str(), codeIndex);
                 break;
             }
         }
