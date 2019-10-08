@@ -123,7 +123,7 @@ class Block: UIStackView {
     }
 
     public func getCodeStr() -> String {
-        return self.blockView.getCodeStr()
+        return self.blockView.getCodeStr(newLine: true)
     }
 }
 
@@ -233,6 +233,10 @@ class BlockView: UIView, UITextFieldDelegate {
     }
 
     public func getCodeStr() -> String {
+        getCodeStr(newLine: false)
+    }
+
+    public func getCodeStr(newLine: Bool) -> String {
         if self.funcName == "else" {
             return self.funcName
         }
@@ -270,7 +274,9 @@ class BlockView: UIView, UITextFieldDelegate {
             codeStr = "var \(argViews[0]?.getCodeStr() ?? "") = \(argViews[1]?.getCodeStr() ?? "")"
         }
 
-        codeStr += "\n"
+        if newLine {
+            codeStr += "\n"
+        }
 
         return codeStr
     }

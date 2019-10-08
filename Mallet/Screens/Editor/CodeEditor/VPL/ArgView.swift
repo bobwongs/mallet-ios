@@ -91,7 +91,7 @@ class ArgView: UIView {
     func getCodeStr() -> String {
         var codeStr = ""
 
-        for content in self.contentsStackView.arrangedSubviews {
+        for (index, content) in self.contentsStackView.arrangedSubviews.enumerated() {
             if let argText = content as? ArgText {
                 codeStr += argText.getCodeStr()
             }
@@ -100,6 +100,10 @@ class ArgView: UIView {
             }
             if let argVariable = content as? ArgVariable {
                 codeStr += argVariable.getCodeStr()
+            }
+
+            if index + 1 < self.contentsStackView.arrangedSubviews.count {
+                codeStr += "~"
             }
         }
 

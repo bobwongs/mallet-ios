@@ -34,9 +34,9 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
                 funcType: .Func,
                 funcName: "setUIText",
                 contents: [BlockContentData(value: .Label("Set text of"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0), BlockContentData(value: .Arg([.Text("Yay")]), order: 0)], indent: 0))]), order: 0),
+                           BlockContentData(value: .Arg([.Variable("Label1")]), order: 0),
                            BlockContentData(value: .Label("to"), order: -1),
-                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "count", contents: [BlockContentData(value: .Label("count"), order: 0)], indent: 0)), .Text("sec")]), order: 1),
+                           BlockContentData(value: .Arg([.Block(BlockData(blockType: .Variable, funcType: .Func, funcName: "label", contents: [BlockContentData(value: .Label("Label"), order: 0), BlockContentData(value: .Arg([.Text("Yay")]), order: 0)], indent: 0))]), order: 1),
                 ],
                 indent: 0),
 
@@ -727,8 +727,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
                 code += """
                         {
-                        \(codeWithIndex.0)
-                        }
+                        \(codeWithIndex.0)}
 
                         """
 
