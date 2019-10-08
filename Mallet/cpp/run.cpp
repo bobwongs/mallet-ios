@@ -655,7 +655,6 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
 
     for (auto variable : variables)
     {
-        puts(variable.first.c_str());
         persistentVariables[variable.first] = variable.second;
     }
 
