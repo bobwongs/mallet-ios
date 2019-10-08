@@ -40,34 +40,39 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         setContentIndex(index: index)
 
-        switch self.value {
-        case .Text(let text):
-
-            break
-
-        case .Block(let blockData):
-
-            break
-        }
+        self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
 
-    /*
-    func getValue() -> String {
-        switch self.value {
-        case .Text(let text):
-            return text
-
-        case .Block(let blockData):
-            return ""
-
-            break
-        }
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
-    */
+
+    @objc func showMenu(_ sender: UITapGestureRecognizer) {
+        becomeFirstResponder()
+
+        let menu = UIMenuController.shared
+        menu.isMenuVisible = true
+        menu.arrowDirection = .down
+        menu.setTargetRect(self.bounds, in: self)
+
+        let deleteMenu = UIMenuItem(title: "Delete", action: #selector(deleteContent(_:)))
+        let menuItems = [deleteMenu]
+        menu.menuItems = menuItems
+        menu.setMenuVisible(true, animated: true)
+    }
+
+    @objc func deleteContent(_ sender: UIMenuItem) {
+        if self.stackView != nil {
+            self.floatContent()
+            self.removeBlankView()
+        }
+
+        self.removeFromSuperview()
+    }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
 
