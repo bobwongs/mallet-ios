@@ -151,7 +151,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                 if (cmd == CONNECT_STRING)
                 {
-                    result = getStringValue(*topStackData[0]) + getStringValue(*topStackData[1]);
+                    result = getOutValue(*topStackData[0]) + getOutValue(*topStackData[1]);
                 }
                 else
                 {

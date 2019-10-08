@@ -157,7 +157,7 @@ std::string getOutValue(var &variable)
     if (std::holds_alternative<double>(variable))
     {
         std::ostringstream strstream;
-        strstream << std::noshowpoint << std::setprecision(20) << std::get<double>(variable);
+        strstream << std::noshowpoint << std::setprecision(10) << std::get<double>(variable);
 
         return strstream.str();
     }
