@@ -8,13 +8,15 @@
 
 import UIKit
 
-class VPLBlockTable: UIView, BlockTypeCollectionViewDelegate, UIGestureRecognizerDelegate {
+class VPLBlockTable: UIView, BlockCategoryCollectionViewDelegate, UIGestureRecognizerDelegate {
 
     public let height: CGFloat = 300
     public let titleBarHeight: CGFloat = 70
     private let blockTypeCollectionViewHeight: CGFloat = 40
 
     private let visualCodeEditorController: VisualCodeEditorController
+
+    private var blockTableView: UIView?
 
     init(visualCodeEditorController: VisualCodeEditorController) {
         self.visualCodeEditorController = visualCodeEditorController
@@ -25,18 +27,13 @@ class VPLBlockTable: UIView, BlockTypeCollectionViewDelegate, UIGestureRecognize
 
         let titleBar = VPLBlockTableTitleBar(frame: CGRect(x: 0, y: 0, width: width, height: self.titleBarHeight))
 
-        let blockTypeCollectionView = BlockTypeCollectionView(frame: CGRect(x: 0, y: self.titleBarHeight, width: width, height: self.blockTypeCollectionViewHeight))
+        let blockTypeCollectionView = BlockCategoryCollectionView(frame: CGRect(x: 0, y: self.titleBarHeight, width: width, height: self.blockTypeCollectionViewHeight))
         blockTypeCollectionView.blockTypeCollectionViewDelegate = self
-
-        let blockTableView = VPLBlockTableView(
-                frame: CGRect(x: 0, y: self.titleBarHeight + self.blockTypeCollectionViewHeight, width: width, height: self.height - self.titleBarHeight - self.blockTypeCollectionViewHeight),
-                blockDataList: DefaultBlocks.blocks,
-                visualCodeEditorController: visualCodeEditorController
-        )
 
         self.addSubview(titleBar)
         self.addSubview(blockTypeCollectionView)
-        self.addSubview(blockTableView)
+
+        self.setBlockCategory(blockCategory: .Block)
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(moveView(_:)))
         pan.delegate = self
@@ -48,13 +45,36 @@ class VPLBlockTable: UIView, BlockTypeCollectionViewDelegate, UIGestureRecognize
         fatalError()
     }
 
-    fileprivate func changeBlockType(blockType: BlockType) {
+    fileprivate func setBlockCategory(blockCategory: BlockCategory) {
+        self.blockTableView?.removeFromSuperview()
+
+        let width: CGFloat = UIScreen.main.bounds.size.width
+
+        let frame = CGRect(x: 0, y: self.titleBarHeight + self.blockTypeCollectionViewHeight, width: width, height: self.height - self.titleBarHeight - self.blockTypeCollectionViewHeight)
+
+        switch blockCategory {
+        case .Variable:
+            let argBlockTableView = VPLArgBlockTableView(frame: frame, visualCodeEditorController: self.visualCodeEditorController)
+
+            self.blockTableView = argBlockTableView
+
+        default:
+            let blockTableView = VPLBlockTableView(
+                    frame: frame,
+                    blockCategory: blockCategory,
+                    visualCodeEditorController: visualCodeEditorController
+            )
+
+            self.blockTableView = blockTableView
+        }
+
+        if let blockTableView = self.blockTableView {
+            self.addSubview(blockTableView)
+        }
     }
 
     @objc func moveView(_ sender: UIPanGestureRecognizer) {
         let velocity = sender.velocity(in: self)
-
-        print(velocity.y)
 
         if velocity.y > 100 {
             self.visualCodeEditorController.hideVPLBlockTable()
@@ -97,9 +117,9 @@ private class VPLBlockTableTitleBar: UIView {
     }
 }
 
-private class BlockTypeCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
+private class BlockCategoryCollectionView: UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    public var blockTypeCollectionViewDelegate: BlockTypeCollectionViewDelegate?
+    public var blockTypeCollectionViewDelegate: BlockCategoryCollectionViewDelegate?
 
     init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -126,7 +146,7 @@ private class BlockTypeCollectionView: UICollectionView, UICollectionViewDelegat
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return BlockType.allCases.count
+        return BlockCategory.allCases.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,7 +154,7 @@ private class BlockTypeCollectionView: UICollectionView, UICollectionViewDelegat
 
         let titleLabel = UILabel(frame: CGRect(origin: CGPoint.zero, size: cell.frame.size))
         titleLabel.textAlignment = .center
-        titleLabel.text = BlockType.allCases[indexPath.row].rawValue
+        titleLabel.text = BlockCategory.allCases[indexPath.row].rawValue
 
         cell.addSubview(titleLabel)
 
@@ -142,7 +162,7 @@ private class BlockTypeCollectionView: UICollectionView, UICollectionViewDelegat
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.blockTypeCollectionViewDelegate?.changeBlockType(blockType: BlockType.allCases[indexPath.row])
+        self.blockTypeCollectionViewDelegate?.setBlockCategory(blockCategory: BlockCategory.allCases[indexPath.row])
     }
 }
 
@@ -152,10 +172,10 @@ private class VPLBlockTableView: UITableView, UITableViewDelegate, UITableViewDa
 
     private let blockDataList: [BlockData]
 
-    init(frame: CGRect, blockDataList: [BlockData], visualCodeEditorController: VisualCodeEditorController) {
+    init(frame: CGRect, blockCategory: BlockCategory, visualCodeEditorController: VisualCodeEditorController) {
         self.visualCodeEditorController = visualCodeEditorController
 
-        self.blockDataList = blockDataList
+        self.blockDataList = DefaultBlocks.blocks[blockCategory] ?? []
 
         super.init(frame: frame, style: .plain)
 
@@ -188,16 +208,72 @@ private class VPLBlockTableView: UITableView, UITableViewDelegate, UITableViewDa
 
 }
 
-private class VPLVariableTableView: UIView {
-    override init(frame: CGRect) {
+private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+
+    private let fundamentalArgContentHeight: CGFloat = 50
+
+    private let fundamentalArgContentsCollectionView: UICollectionView
+
+    private let visualCodeEditorController: VisualCodeEditorController
+
+    init(frame: CGRect, visualCodeEditorController: VisualCodeEditorController) {
+
+        let fundamentalArgContentsCollectionViewFrame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: fundamentalArgContentHeight)
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 100, height: fundamentalArgContentHeight)
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        self.fundamentalArgContentsCollectionView = UICollectionView(frame: fundamentalArgContentsCollectionViewFrame, collectionViewLayout: layout)
+
+
+        self.visualCodeEditorController = visualCodeEditorController
+
         super.init(frame: frame)
+
+        self.addSubview(self.fundamentalArgContentsCollectionView)
+        self.fundamentalArgContentsCollectionView.delegate = self
+        self.fundamentalArgContentsCollectionView.dataSource = self
+        self.fundamentalArgContentsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+
+        let blockTableViewFrame = CGRect(x: frame.origin.x, y: frame.origin.y + fundamentalArgContentHeight, width: frame.width, height: frame.height - fundamentalArgContentHeight)
+        let blockTableView = VPLBlockTableView(frame: blockTableViewFrame, blockCategory: .Variable, visualCodeEditorController: visualCodeEditorController)
+        self.addSubview(blockTableView)
     }
 
     required init?(coder: NSCoder) {
         fatalError()
     }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+
+        let argContent: ArgContent!
+        switch indexPath.row {
+        case 0:
+            argContent = ArgText(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController)
+        case 1:
+            argContent = ArgInput(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController)
+        default:
+            return cell
+        }
+
+        cell.addSubview(argContent)
+
+        //TODO:
+
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+    }
 }
 
-private protocol BlockTypeCollectionViewDelegate {
-    func changeBlockType(blockType: BlockType)
+private protocol BlockCategoryCollectionViewDelegate {
+    func setBlockCategory(blockCategory: BlockCategory)
 }

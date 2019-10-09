@@ -128,7 +128,7 @@ class BlockView: UIView, UITextFieldDelegate {
 
     private let funcName: String
 
-    private let funcType: FuncType
+    private let funcType: BlockType
 
     init(blockData: BlockData, visualCodeEditorController: VisualCodeEditorController) {
 
@@ -247,7 +247,7 @@ class BlockView: UIView, UITextFieldDelegate {
         case .Bracket:
             fallthrough
 
-        case .Func:
+        case .Block:
             codeStr = "\(self.funcName)("
 
             for argIndex in 0..<self.argViews.count {
@@ -272,6 +272,10 @@ class BlockView: UIView, UITextFieldDelegate {
             }
 
             codeStr = "var \(argViews[0]?.getCodeStr() ?? "") = \(argViews[1]?.getCodeStr() ?? "")"
+
+        default:
+            //TODO:
+            break
         }
 
         if newLine {

@@ -54,14 +54,21 @@ extension UIColor {
     public static var vplBlock: UIColor {
         return dynamicColor(
                 light: UIColor(hex: "DDDDDD"),
-                dark: UIColor(hex: "333333")
+                dark: UIColor(hex: "3F3F3F")
         )
     }
 
     public static var vplBackground: UIColor {
+        if #available(iOS 13, *) {
+            return .systemBackground
+        } else {
+            return .white
+        }
+        /*
         return dynamicColor(
                 light: UIColor(hex: "FAFAFA"),
                 dark: UIColor(hex: "30303F")
         )
+        */
     }
 }

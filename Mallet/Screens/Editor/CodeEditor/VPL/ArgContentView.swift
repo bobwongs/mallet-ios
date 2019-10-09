@@ -22,7 +22,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
     private var value: ArgContentType
 
-    init(argContentValue: ArgContentType, stackView: UIStackView, index: Int) {
+    init(argContentValue: ArgContentType, stackView: UIStackView?, index: Int) {
 
         self.stackView = stackView
 
@@ -346,11 +346,13 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 }
 
-class ArgText: ArgContent, UITextFieldDelegate {
+class ArgInput: ArgContent, UITextFieldDelegate {
 
-    private let textField = UITextField()
+    let textField = UITextField()
 
-    init(value: String, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+    let stackView = UIStackView()
+
+    init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController) {
 
         super.init(argContentValue: .Text(value), stackView: stackView, index: index)
 
@@ -365,10 +367,19 @@ class ArgText: ArgContent, UITextFieldDelegate {
         }
         self.layer.cornerRadius = 5
 
-        textField.delegate = self
-
         let padding: CGFloat = 5
+        self.stackView.axis = .horizontal
+        self.stackView.spacing = 3
+        self.addSubview(self.stackView)
+        self.stackView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
+            self.stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
+            self.stackView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: padding),
+            self.stackView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -padding)
+        ])
 
+        textField.delegate = self
         textField.layer.cornerRadius = 3
         textField.text = value
         textField.textAlignment = .center
@@ -376,6 +387,7 @@ class ArgText: ArgContent, UITextFieldDelegate {
         textField.sizeToFit()
         self.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
+        /*
         NSLayoutConstraint.activate(
                 [
                     textField.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
@@ -384,6 +396,7 @@ class ArgText: ArgContent, UITextFieldDelegate {
                     textField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -padding)
                 ]
         )
+        */
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -396,9 +409,31 @@ class ArgText: ArgContent, UITextFieldDelegate {
     }
 
     public func getCodeStr() -> String {
-        return "\"\(self.textField.text ?? "")\""
+        return "\(self.textField.text ?? "")"
+    }
+}
+
+class ArgText: ArgInput {
+    override init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+        super.init(value: value, stackView: stackView, index: index, visualCodeEditorController: visualCodeEditorController)
+
+        let openLabel = UILabel()
+        openLabel.text = "\""
+
+        let closeLabel = UILabel()
+        closeLabel.text = "\""
+
+        self.stackView.insertArrangedSubview(openLabel, at: 0)
+        self.stackView.addArrangedSubview(closeLabel)
     }
 
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    override func getCodeStr() -> String {
+        return "\"\(self.textField.text ?? "")\""
+    }
 }
 
 class ArgBlock: ArgContent {

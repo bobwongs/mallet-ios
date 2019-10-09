@@ -29,13 +29,14 @@ enum BlockType: CaseIterable {
 }
 */
 
-enum BlockType: String, CaseIterable {
+enum BlockCategory: String, CaseIterable {
     case Variable = "Variable"
     case Block = "Block"
 }
 
-enum FuncType {
-    case Func
+enum BlockType {
+    case ArgContent
+    case Block
     case Assign
     case Declare
     case Bracket
@@ -59,7 +60,7 @@ struct BlockContentData {
 
 struct BlockData {
     //let blockType: BlockType
-    let funcType: FuncType
+    let funcType: BlockType
     let funcName: String
     var contents: [BlockContentData]
     var indent: Int
@@ -77,14 +78,23 @@ struct BlockData {
 }
 
 struct DefaultBlocks {
-    static let blocks: [BlockData] = [
-        BlockData(funcType: .Func, funcName: "setUIText", contents: [
-            BlockContentData(value: .Label("Set text of"), order: -1),
-            BlockContentData(value: .Arg([]), order: 0),
-            BlockContentData(value: .Label("to"), order: -1),
-            BlockContentData(value: .Arg([]), order: 1)
-        ], indent: 0)
-    ]
+    static let blocks: [BlockCategory: [BlockData]] =
+            [
+                .Variable: [
+                    BlockData(funcType: .ArgContent, funcName: "", contents: [
+                        BlockContentData(value: .Label("("), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label(")"), order: -1)
+                    ], indent: 0)
+                ],
 
-    static let argBlocks: [BlockData] = []
+                .Block: [
+                    BlockData(funcType: .Block, funcName: "setUIText", contents: [
+                        BlockContentData(value: .Label("Set text of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+                ]
+            ]
 }
