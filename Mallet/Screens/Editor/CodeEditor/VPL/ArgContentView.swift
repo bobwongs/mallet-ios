@@ -98,6 +98,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         if sender.state == .began {
             if self.isOnTable {
+                HapticFeedback.blockFeedback()
 
                 self.isOnTable = false
                 self.delegate?.generateNewArgContent(content: self)
