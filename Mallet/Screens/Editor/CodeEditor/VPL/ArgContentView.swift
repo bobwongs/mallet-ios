@@ -90,12 +90,7 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc func deleteContent(_ sender: UIMenuItem) {
-        if self.stackView != nil {
-            self.floatContent()
-            self.removeBlankView()
-        }
-
-        self.removeFromSuperview()
+        self.removeContent()
     }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
@@ -118,7 +113,9 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         }
 
         if sender.state == .ended {
-            if self.index != -1 {
+            if self.index == -1 {
+                self.removeContent()
+            } else {
                 insertContent()
             }
 
@@ -215,6 +212,19 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         self.currentStackView = self.stackView
         self.currentIndex = self.index
+    }
+
+    override class var layerClass: AnyClass {
+        return super.layerClass
+    }
+
+    func removeContent() {
+        if self.stackView != nil {
+            self.floatContent()
+            self.removeBlankView()
+        }
+
+        self.removeFromSuperview()
     }
 
     func insertContent() {
