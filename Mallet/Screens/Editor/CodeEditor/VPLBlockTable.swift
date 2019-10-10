@@ -208,9 +208,9 @@ private class VPLBlockTableView: UITableView, UITableViewDelegate, UITableViewDa
 
 }
 
-private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate {
 
-    private let fundamentalArgContentHeight: CGFloat = 50
+    private let fundamentalArgContentHeight: CGFloat = 70
 
     private let fundamentalArgContentsCollectionView: UICollectionView
 
@@ -218,14 +218,13 @@ private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollecti
 
     init(frame: CGRect, visualCodeEditorController: VisualCodeEditorController) {
 
-        let fundamentalArgContentsCollectionViewFrame = CGRect(x: frame.origin.x, y: frame.origin.y, width: frame.width, height: fundamentalArgContentHeight)
+        let fundamentalArgContentsCollectionViewFrame = CGRect(x: 0, y: 0, width: frame.width, height: fundamentalArgContentHeight)
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 100, height: fundamentalArgContentHeight)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         self.fundamentalArgContentsCollectionView = UICollectionView(frame: fundamentalArgContentsCollectionViewFrame, collectionViewLayout: layout)
-
 
         self.visualCodeEditorController = visualCodeEditorController
 
@@ -236,9 +235,11 @@ private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollecti
         self.fundamentalArgContentsCollectionView.dataSource = self
         self.fundamentalArgContentsCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 
-        let blockTableViewFrame = CGRect(x: frame.origin.x, y: frame.origin.y + fundamentalArgContentHeight, width: frame.width, height: frame.height - fundamentalArgContentHeight)
+        /*
+        let blockTableViewFrame = CGRect(x: 0, y: 0 + fundamentalArgContentHeight, width: frame.width, height: frame.height - fundamentalArgContentHeight)
         let blockTableView = VPLBlockTableView(frame: blockTableViewFrame, blockCategory: .Variable, visualCodeEditorController: visualCodeEditorController)
         self.addSubview(blockTableView)
+        */
     }
 
     required init?(coder: NSCoder) {
@@ -246,7 +247,7 @@ private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollecti
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -255,16 +256,20 @@ private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollecti
         let argContent: ArgContent!
         switch indexPath.row {
         case 0:
-            argContent = ArgText(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController)
+            argContent = ArgText(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController, isOnTable: true)
         case 1:
-            argContent = ArgInput(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController)
+            argContent = ArgInput(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController, isOnTable: true)
+        case 2:
+            argContent = ArgBlock(blockData: BlockData(funcType: .ArgContent, funcName: "", contents: [
+                BlockContentData(value: .Label("("), order: -1),
+                BlockContentData(value: .Arg([]), order: 0),
+                BlockContentData(value: .Label(")"), order: -1)
+            ], indent: 0), stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController, isOnTable: true)
         default:
             return cell
         }
 
-        cell.addSubview(argContent)
-
-        //TODO:
+        argContent.setArgContentOnTable(cell: cell, superView: self.visualCodeEditorController.view)
 
         return cell
     }

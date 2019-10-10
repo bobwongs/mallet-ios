@@ -93,6 +93,32 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         block.addGestureRecognizer(pan)
     }
 
+    func generateNewArgContent(content: UIView) {
+        var newContent: UIView?
+
+        if content is ArgText {
+            newContent = ArgText(value: "", stackView: nil, index: -1, visualCodeEditorController: self, isOnTable: true)
+
+        } else if content is ArgInput {
+            newContent = ArgInput(value: "", stackView: nil, index: -1, visualCodeEditorController: self, isOnTable: true)
+
+        } else if content is ArgVariable {
+            newContent = ArgVariable(varName: (content as! ArgVariable).varName, stackView: nil, index: -1, visualCodeEditorController: self, isOnTable: true)
+
+        } else if content is ArgBlock {
+            newContent = ArgBlock(blockData: (content as! ArgBlock).initialBlockData, stackView: nil, index: -1, visualCodeEditorController: self, isOnTable: true)
+
+        }
+
+        guard let argContentView = newContent as? ArgContent else {
+            return
+        }
+
+        let cell = content.superview!
+
+        argContentView.setArgContentOnTable(cell: cell, superView: self.view)
+    }
+
     @objc func dragBlock(_ sender: UIPanGestureRecognizer) {
 
         guard let blockView = sender.view as? Block else {

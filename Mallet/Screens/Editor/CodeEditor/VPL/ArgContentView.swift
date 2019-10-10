@@ -22,7 +22,11 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
     private var value: ArgContentType
 
-    init(argContentValue: ArgContentType, stackView: UIStackView?, index: Int) {
+    private var isOnTable: Bool
+
+    private var defaultSuperView: UIView?
+
+    init(argContentValue: ArgContentType, stackView: UIStackView?, index: Int, isOnTable: Bool) {
 
         self.stackView = stackView
 
@@ -30,13 +34,11 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
         self.value = argContentValue
 
+        self.isOnTable = isOnTable
+
         super.init(frame: CGRect())
 
-        self.isUserInteractionEnabled = true
-
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(dragUI(_:)))
-        pan.delegate = self
-        self.addGestureRecognizer(pan)
+        self.setArgContentOnTable()
 
         setContentIndex(index: index)
 
@@ -49,6 +51,28 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
     override var canBecomeFirstResponder: Bool {
         return true
+    }
+
+    func setArgContentOnTable(cell: UIView? = nil, superView: UIView? = nil) {
+        if let cell = cell, let superView = superView {
+            cell.addSubview(self)
+
+            self.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                    [
+                        self.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+                        self.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                    ]
+            )
+
+            self.defaultSuperView = superView
+        }
+
+        self.isUserInteractionEnabled = true
+
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dragUI(_:)))
+        pan.delegate = self
+        self.addGestureRecognizer(pan)
     }
 
     @objc func showMenu(_ sender: UITapGestureRecognizer) {
@@ -75,8 +99,18 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
     }
 
     @objc func dragUI(_ sender: UIPanGestureRecognizer) {
+        self.superview?.bringSubviewToFront(self)
 
         if sender.state == .began {
+            if self.isOnTable {
+
+                self.isOnTable = false
+                self.delegate?.generateNewArgContent(content: self)
+
+                self.center = self.superview?.convert(self.center, to: self.defaultSuperView) ?? CGPoint()
+                self.defaultSuperView?.addSubview(self)
+            }
+
             self.translatesAutoresizingMaskIntoConstraints = true
             if self.index != -1 {
                 floatContent()
@@ -352,9 +386,9 @@ class ArgInput: ArgContent, UITextFieldDelegate {
 
     let stackView = UIStackView()
 
-    init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+    init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController, isOnTable: Bool) {
 
-        super.init(argContentValue: .Text(value), stackView: stackView, index: index)
+        super.init(argContentValue: .Text(value), stackView: stackView, index: index, isOnTable: isOnTable)
 
         self.delegate = visualCodeEditorController
 
@@ -385,18 +419,13 @@ class ArgInput: ArgContent, UITextFieldDelegate {
         textField.textAlignment = .center
         textField.backgroundColor = .clear
         textField.sizeToFit()
-        self.addSubview(textField)
+        self.stackView.addArrangedSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
-        /*
         NSLayoutConstraint.activate(
                 [
-                    textField.topAnchor.constraint(equalTo: self.topAnchor, constant: padding),
-                    textField.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -padding),
-                    textField.leftAnchor.constraint(equalTo: self.leftAnchor, constant: padding),
-                    textField.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -padding)
+                    textField.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
                 ]
         )
-        */
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -414,8 +443,8 @@ class ArgInput: ArgContent, UITextFieldDelegate {
 }
 
 class ArgText: ArgInput {
-    override init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController) {
-        super.init(value: value, stackView: stackView, index: index, visualCodeEditorController: visualCodeEditorController)
+    override init(value: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController, isOnTable: Bool) {
+        super.init(value: value, stackView: stackView, index: index, visualCodeEditorController: visualCodeEditorController, isOnTable: isOnTable)
 
         let openLabel = UILabel()
         openLabel.text = "\""
@@ -438,12 +467,16 @@ class ArgText: ArgInput {
 
 class ArgBlock: ArgContent {
 
+    public let initialBlockData: BlockData
+
     private let blockView: BlockView
 
-    init(blockData: BlockData, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+    init(blockData: BlockData, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController, isOnTable: Bool) {
+        self.initialBlockData = blockData
+
         self.blockView = BlockView(blockData: blockData, visualCodeEditorController: visualCodeEditorController)
 
-        super.init(argContentValue: .Block(blockData), stackView: stackView, index: index)
+        super.init(argContentValue: .Block(blockData), stackView: stackView, index: index, isOnTable: isOnTable)
 
         self.delegate = visualCodeEditorController
 
@@ -477,13 +510,13 @@ class ArgBlock: ArgContent {
 
 class ArgVariable: ArgContent {
 
-    private let varName: String
+    public let varName: String
 
-    init(varName: String, stackView: UIStackView, index: Int, visualCodeEditorController: VisualCodeEditorController) {
+    init(varName: String, stackView: UIStackView?, index: Int, visualCodeEditorController: VisualCodeEditorController, isOnTable: Bool) {
 
         self.varName = varName
 
-        super.init(argContentValue: .Text(varName), stackView: stackView, index: index)
+        super.init(argContentValue: .Text(varName), stackView: stackView, index: index, isOnTable: isOnTable)
 
         self.delegate = visualCodeEditorController
 
@@ -526,4 +559,6 @@ class ArgVariable: ArgContent {
 
 protocol ArgContentViewDelegate {
     func findArgViewStack(argContentView: ArgContent) -> UIStackView?
+
+    func generateNewArgContent(content: UIView)
 }

@@ -55,7 +55,7 @@ class ArgView: UIView {
         for content in contents {
             switch content {
             case .Text(let text):
-                let label = ArgText(value: text, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
+                let label = ArgText(value: text, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
 
                 label.delegate = visualCodeEditorController
 
@@ -63,7 +63,7 @@ class ArgView: UIView {
 
             case .Block(let blockData):
                 //TODO:
-                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
+                let block = ArgBlock(blockData: blockData, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
 
                 block.delegate = visualCodeEditorController
 
@@ -72,7 +72,7 @@ class ArgView: UIView {
                 self.blockViews.append(block)
 
             case .Variable(let varName):
-                let variable = ArgVariable(varName: varName, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController)
+                let variable = ArgVariable(varName: varName, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
 
                 variable.delegate = visualCodeEditorController
 
