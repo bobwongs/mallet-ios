@@ -260,7 +260,7 @@ private class VPLArgBlockTableView: UIView, UICollectionViewDelegate, UICollecti
         case 1:
             argContent = ArgInput(value: "", stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController, isOnTable: true)
         case 2:
-            argContent = ArgBlock(blockData: BlockData(funcType: .ArgContent, funcName: "", contents: [
+            argContent = ArgBlock(blockData: BlockData(funcType: .Block, funcName: "", contents: [
                 BlockContentData(value: .Label("("), order: -1),
                 BlockContentData(value: .Arg([]), order: 0),
                 BlockContentData(value: .Label(")"), order: -1)

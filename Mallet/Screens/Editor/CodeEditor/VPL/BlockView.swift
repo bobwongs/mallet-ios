@@ -190,7 +190,7 @@ class BlockView: UIView, UITextFieldDelegate {
                 blockStackView.addArrangedSubview(label)
 
             case .Arg(let argData):
-                let argView = ArgView(contents: argData, visualCodeEditorController: visualCodeEditorController)
+                let argView = ArgView(contents: argData, visualCodeEditorController: visualCodeEditorController, connectAsString: self.funcName != "")
                 blockStackView.addArrangedSubview(argView)
 
                 self.argViews[content.order] = argView

@@ -16,9 +16,13 @@ class ArgView: UIView {
 
     private let contentsStackView = UIStackView()
 
-    init(contents: [ArgContentType], visualCodeEditorController: VisualCodeEditorController) {
+    private let connectAsString: Bool
+
+    init(contents: [ArgContentType], visualCodeEditorController: VisualCodeEditorController, connectAsString: Bool) {
 
         self.contents = contents
+
+        self.connectAsString = connectAsString
 
         super.init(frame: CGRect())
 
@@ -87,17 +91,17 @@ class ArgView: UIView {
         var codeStr = ""
 
         for (index, content) in self.contentsStackView.arrangedSubviews.enumerated() {
-            if let argText = content as? ArgText {
+            if let argInput = content as? ArgInput {
+                codeStr += argInput.getCodeStr()
+            } else if let argText = content as? ArgText {
                 codeStr += argText.getCodeStr()
-            }
-            if let argBlock = content as? ArgBlock {
+            } else if let argBlock = content as? ArgBlock {
                 codeStr += argBlock.getCodeStr()
-            }
-            if let argVariable = content as? ArgVariable {
+            } else if let argVariable = content as? ArgVariable {
                 codeStr += argVariable.getCodeStr()
             }
 
-            if index + 1 < self.contentsStackView.arrangedSubviews.count {
+            if self.connectAsString && index + 1 < self.contentsStackView.arrangedSubviews.count {
                 codeStr += "~"
             }
         }
