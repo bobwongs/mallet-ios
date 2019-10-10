@@ -16,8 +16,6 @@ class ArgView: UIView {
 
     private let contentsStackView = UIStackView()
 
-    private var blockViews = [ArgBlock]()
-
     init(contents: [ArgContentType], visualCodeEditorController: VisualCodeEditorController) {
 
         self.contents = contents
@@ -69,8 +67,6 @@ class ArgView: UIView {
 
                 contentsStackView.addArrangedSubview(block)
 
-                self.blockViews.append(block)
-
             case .Variable(let varName):
                 let variable = ArgVariable(varName: varName, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
 
@@ -78,7 +74,6 @@ class ArgView: UIView {
 
                 contentsStackView.addArrangedSubview(variable)
             }
-
 
             contentIndex += 1
         }
@@ -113,12 +108,14 @@ class ArgView: UIView {
     func findArgViewStack(argContentView: ArgContent) -> UIStackView? {
         let center = argContentView.superview!.convert(argContentView.center, to: self.contentsStackView)
 
-        for block in self.blockViews {
-            if block.frame.contains(center) {
-                if let stackView = block.findArgViewStack(argContentView: argContentView) {
-                    return stackView
-                } else {
-                    return self.contentsStackView
+        for content in self.contentsStackView.arrangedSubviews {
+            if let block = content as? ArgBlock {
+                if block.frame.contains(center) {
+                    if let stackView = block.findArgViewStack(argContentView: argContentView) {
+                        return stackView
+                    } else {
+                        return self.contentsStackView
+                    }
                 }
             }
         }
