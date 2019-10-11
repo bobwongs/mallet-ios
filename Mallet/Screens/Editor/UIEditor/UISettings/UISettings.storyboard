@@ -16,10 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="HUH-lf-V9m">
-                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </tableView>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6bf-IT-Wjl">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
@@ -35,22 +31,16 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="HUH-lf-V9m" firstAttribute="leading" secondItem="2qa-ec-oks" secondAttribute="leading" id="6gg-lf-jLp"/>
                             <constraint firstItem="6bf-IT-Wjl" firstAttribute="top" secondItem="2qa-ec-oks" secondAttribute="top" id="ACA-i9-ejO"/>
-                            <constraint firstItem="HUH-lf-V9m" firstAttribute="top" secondItem="6bf-IT-Wjl" secondAttribute="bottom" id="Cmj-XJ-TAy"/>
                             <constraint firstItem="6bf-IT-Wjl" firstAttribute="leading" secondItem="cCr-2t-nL5" secondAttribute="leading" id="GOU-0g-brb"/>
                             <constraint firstItem="2qa-ec-oks" firstAttribute="trailing" secondItem="6bf-IT-Wjl" secondAttribute="trailing" id="Kge-zQ-hmt"/>
-                            <constraint firstItem="2qa-ec-oks" firstAttribute="bottom" secondItem="HUH-lf-V9m" secondAttribute="bottom" id="L0N-IV-xKW"/>
-                            <constraint firstItem="2qa-ec-oks" firstAttribute="trailing" secondItem="HUH-lf-V9m" secondAttribute="trailing" id="mqF-OD-jq5"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2qa-ec-oks"/>
                     </view>
                     <navigationItem key="navigationItem" id="5Qc-n3-z8z"/>
                     <connections>
-                        <outlet property="navigationBar" destination="6bf-IT-Wjl" id="gt9-l5-BdV"/>
+                        <outlet property="navigationBar" destination="6bf-IT-Wjl" id="czb-qc-MX0"/>
                         <outlet property="navigationBarItem" destination="ftF-B1-JhU" id="gxb-nb-4dK"/>
-                        <outlet property="settingsTableView" destination="HUH-lf-V9m" id="xf8-7E-rfK"/>
-                        <outlet property="settingsTableViewButtonConstraint" destination="L0N-IV-xKW" id="owg-aM-kLZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zSW-Pi-uBC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
