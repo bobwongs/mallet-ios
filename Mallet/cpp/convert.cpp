@@ -931,11 +931,18 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 //       ^
                 int index = codeIndex + 3;
 
-                while (code[index - 1] != "}")
+                if (code[index] == "}")
                 {
-                    AddPushAddressCode(address, false);
-                    index += ConvertFormula(index, 0, true) + 1;
-                    AddCmdCode(ADD_LIST, 2);
+                    index += 1;
+                }
+                else
+                {
+                    while (code[index - 1] != "}")
+                    {
+                        AddPushAddressCode(address, false);
+                        index += ConvertFormula(index, 0, true) + 1;
+                        AddCmdCode(ADD_LIST, 2);
+                    }
                 }
 
                 codeSize = index - codeIndex;
