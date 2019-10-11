@@ -80,15 +80,15 @@ public struct ButtonUIData: Codable {
     var fontColor: String
     var backgroundColor: String
 
-    var onTap: funcData
+    var code: [CodeType: funcData]
 
-    init(text: String, fontSize: Int, fontColor: String, backgroundColor: String, onTap: funcData) {
+    init(text: String, fontSize: Int, fontColor: String, backgroundColor: String, code: [CodeType: funcData]) {
         self.text = text
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.backgroundColor = backgroundColor
 
-        self.onTap = onTap
+        self.code = code
     }
 
     init() {
@@ -97,9 +97,14 @@ public struct ButtonUIData: Codable {
         self.fontColor = Color.defaultButtonLabelColor.hexString()
         self.backgroundColor = Color.defaultButtonColor.hexString()
 
-        self.onTap = funcData()
+        self.code = [CodeType.OnTap: funcData()]
+    }
+
+    enum CodeType: Int, Codable, CaseIterable {
+        case OnTap
     }
 }
+
 
 public struct TextFieldUIData: Codable {
     var text: String
@@ -107,15 +112,15 @@ public struct TextFieldUIData: Codable {
     var fontColor: String
     var alignment: TextUIAlignment
 
-    var onChange: funcData
+    var code: [CodeType: funcData]
 
-    init(text: String, fontSize: Int, fontColor: String, alignment: TextUIAlignment, onChange: funcData) {
+    init(text: String, fontSize: Int, fontColor: String, alignment: TextUIAlignment, code: [CodeType: funcData]) {
         self.text = text
         self.fontSize = fontSize
         self.fontColor = fontColor
         self.alignment = alignment
 
-        self.onChange = onChange
+        self.code = code
     }
 
     init() {
@@ -124,25 +129,33 @@ public struct TextFieldUIData: Codable {
         self.fontColor = Color.defaultLabelColor.hexString()
         self.alignment = .left
 
-        self.onChange = funcData()
+        self.code = [CodeType.OnChange: funcData()]
+    }
+
+    enum CodeType: Int, Codable, CaseIterable {
+        case OnChange
     }
 }
 
 public struct SwitchUIData: Codable {
     var value: Int
 
-    var onChange: funcData
+    var code: [CodeType: funcData]
 
-    init(value: Int, onChange: funcData) {
+    init(value: Int, code: [CodeType: funcData]) {
         self.value = value
 
-        self.onChange = onChange
+        self.code = code
     }
 
     init() {
         self.value = 1
 
-        self.onChange = funcData()
+        self.code = [CodeType.OnChange: funcData()]
+    }
+
+    enum CodeType: Int, Codable, CaseIterable {
+        case OnChange
     }
 }
 
@@ -152,14 +165,14 @@ public struct SliderUIData: Codable {
     var max: Float
     var min: Float
 
-    var onChange: funcData
+    var code: [CodeType: funcData]
 
-    init(value: Float, max: Float, min: Float, onChange: funcData) {
+    init(value: Float, max: Float, min: Float, code: [CodeType: funcData]) {
         self.value = value
         self.max = max
         self.min = min
 
-        self.onChange = onChange
+        self.code = code
     }
 
     init() {
@@ -167,7 +180,11 @@ public struct SliderUIData: Codable {
         self.max = 1
         self.min = 0
 
-        self.onChange = funcData()
+        self.code = [CodeType.OnChange: funcData()]
+    }
+
+    enum CodeType: Int, Codable, CaseIterable {
+        case OnChange
     }
 }
 

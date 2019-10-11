@@ -55,6 +55,8 @@
 		0EDEDF9E23509C770046F344 /* DefaultUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */; };
 		0EDEDFA023509C8E0046F344 /* ButtonUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */; };
 		0EDEDFA223509C9D0046F344 /* LabelUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */; };
+		0EDEDFA42350AB7D0046F344 /* TableUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */; };
+		0EDEDFA62350B0240046F344 /* TableContentEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */; };
 		0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE32312D56800AD661E /* AppSettingsController.swift */; };
@@ -145,6 +147,8 @@
 		0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUISettingsTableView.swift; sourceTree = "<group>"; };
 		0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonUISettingsTableView.swift; sourceTree = "<group>"; };
 		0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelUISettingsTableView.swift; sourceTree = "<group>"; };
+		0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableUISettingsTableView.swift; sourceTree = "<group>"; };
+		0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentEditorView.swift; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
 		0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettings.storyboard; sourceTree = "<group>"; };
@@ -288,6 +292,8 @@
 				0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */,
 				0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */,
 				0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */,
+				0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */,
+				0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */,
 			);
 			path = UISettings;
 			sourceTree = "<group>";
@@ -759,6 +765,7 @@
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */,
+				0EDEDFA62350B0240046F344 /* TableContentEditorView.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
 				0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */,
@@ -797,6 +804,7 @@
 				0E390D22234F83B30072C5F3 /* Text2VPL.swift in Sources */,
 				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
 				0E8DAEA2231FE660003C5EC7 /* ArgContentView.swift in Sources */,
+				0EDEDFA42350AB7D0046F344 /* TableUISettingsTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

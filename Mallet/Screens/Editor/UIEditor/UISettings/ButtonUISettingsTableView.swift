@@ -18,13 +18,15 @@ class ButtonUISettingsTableView: DefaultUISettingsTableView {
     }
 
     override func numberOfOtherSections() -> Int {
-        return 1
+        return 2
     }
 
     override func titleForHeader(section: Int) -> String {
         switch section {
         case 1:
             return "Button"
+        case 2:
+            return "Code"
         default:
             return ""
         }
@@ -34,49 +36,80 @@ class ButtonUISettingsTableView: DefaultUISettingsTableView {
         switch section {
         case 1:
             return 4
+        case 2:
+            return 1
         default:
             return 0
         }
     }
 
     override func cellForRow(cell: UITableViewCell, indexPath: IndexPath) -> UITableViewCell {
-        let titleLabel = UILabel()
-        let textField = UITextField()
-
-        textField.delegate = self
-
-        textField.autocapitalizationType = .none
-
-        let textFieldEvent: UIControl.Event = .editingDidEnd
-
-        switch indexPath.row {
-        case 0:
-            titleLabel.text = "Text"
-            textField.text = uiData.buttonData?.text ?? ""
-            textField.addTarget(self, action: #selector(self.setButtonText(_:)), for: textFieldEvent)
-
+        switch indexPath.section {
         case 1:
-            titleLabel.text = "Font Size"
-            textField.text = "\(uiData.buttonData?.fontSize ?? 0)"
-            textField.addTarget(self, action: #selector(self.setButtonFontSize(_:)), for: textFieldEvent)
+            let titleLabel = UILabel()
+            let textField = UITextField()
+
+            textField.delegate = self
+
+            textField.autocapitalizationType = .none
+
+            let textFieldEvent: UIControl.Event = .editingDidEnd
+
+            switch indexPath.row {
+            case 0:
+                titleLabel.text = "Text"
+                textField.text = uiData.buttonData?.text ?? ""
+                textField.addTarget(self, action: #selector(self.setButtonText(_:)), for: textFieldEvent)
+
+            case 1:
+                titleLabel.text = "Font Size"
+                textField.text = "\(uiData.buttonData?.fontSize ?? 0)"
+                textField.addTarget(self, action: #selector(self.setButtonFontSize(_:)), for: textFieldEvent)
+
+            case 2:
+                titleLabel.text = "Font Color"
+                textField.text = uiData.buttonData?.fontColor
+                textField.addTarget(self, action: #selector(self.setButtonFontColor(_:)), for: textFieldEvent)
+
+            case 3:
+                titleLabel.text = "Background Color"
+                textField.text = uiData.buttonData?.backgroundColor
+                textField.addTarget(self, action: #selector(self.setButtonBackgroundColor(_:)), for: textFieldEvent)
+
+            default:
+                break
+            }
+
+            setCellWithInput(cell: cell, titleLabel: titleLabel, textField: textField)
 
         case 2:
-            titleLabel.text = "Font Color"
-            textField.text = uiData.buttonData?.fontColor
-            textField.addTarget(self, action: #selector(self.setButtonFontColor(_:)), for: textFieldEvent)
-
-        case 3:
-            titleLabel.text = "Background Color"
-            textField.text = uiData.buttonData?.backgroundColor
-            textField.addTarget(self, action: #selector(self.setButtonBackgroundColor(_:)), for: textFieldEvent)
+            cell.accessoryType = .detailDisclosureButton
+            switch indexPath.row {
+            case 0:
+                cell.textLabel?.text = "Tap"
+            default:
+                break
+            }
 
         default:
             break
         }
 
-        setCellWithInput(cell: cell, titleLabel: titleLabel, textField: textField)
-
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        /*
+        if indexPath.section == 2 {
+            switch indexPath.row {
+            case 0:
+            default:
+                break
+            }
+        }
+        */
     }
 
     @objc private func setButtonText(_ textField: UITextField) {

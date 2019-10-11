@@ -27,7 +27,7 @@ class AppButton: AppUIButton, AppUI {
 
         let buttonData = uiData.buttonData ?? ButtonUIData()
 
-        self.onButtonClickID = buttonData.onTap.funcID
+        self.onButtonClickID = buttonData.code[.OnTap]?.funcID ?? -1
 
         super.init(uiData: uiData)
 

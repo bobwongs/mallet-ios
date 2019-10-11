@@ -438,52 +438,81 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         case .Button:
             if let buttonData = ui.uiData.buttonData {
-                return """
-                       func @\(ui.uiID)_OnTap ()
-                       {
-                       \(buttonData.onTap.code)
-                       }
+                var code = ""
 
-                       """
+                for type in ButtonUIData.CodeType.allCases {
+                    code += """
+                            func @\(ui.uiID)_\(type.rawValue) ()
+                            {
+                            \(buttonData.code[type]?.code ?? "")
+                            }
+
+                            """
+                }
+
+                return code
+
             } else {
                 fatalError()
             }
 
         case .TextField:
             if let textFieldData = ui.uiData.textFieldData {
-                return """
-                       func @\(ui.uiID)_OnChange ()
-                       {
-                       \(textFieldData.onChange.code)
-                       }
+                var code = ""
 
-                       """
+                for type in TextFieldUIData.CodeType.allCases {
+                    code += """
+                            func @\(ui.uiID)_\(type.rawValue) ()
+                            {
+                            \(textFieldData.code[type]?.code ?? "")
+                            }
+
+                            """
+                }
+
+                return code
+
             } else {
                 fatalError()
             }
 
         case .Switch:
             if let switchData = ui.uiData.switchData {
-                return """
-                       func @\(ui.uiID)_OnChange ()
-                       {
-                       \(switchData.onChange.code)
-                       }
+                var code = ""
 
-                       """
+                for type in SwitchUIData.CodeType.allCases {
+                    code += """
+                            func @\(ui.uiID)_\(type.rawValue) ()
+                            {
+                            \(switchData.code[type]?.code ?? "")
+                            }
+
+                            """
+                }
+
+                return code
+
             } else {
                 fatalError()
             }
 
         case .Slider:
             if let sliderData = ui.uiData.sliderData {
-                return """
-                       func @\(ui.uiID)_OnChange ()
-                       {
-                       \(sliderData.onChange.code)
-                       }
 
-                       """
+                var code = ""
+
+                for type in SliderUIData.CodeType.allCases {
+                    code += """
+                            func @\(ui.uiID)_\(type.rawValue) ()
+                            {
+                            \(sliderData.code[type]?.code ?? "")
+                            }
+
+                            """
+                }
+
+                return code
+
             } else {
                 fatalError()
             }
@@ -532,7 +561,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                    """
 
 
-        let sortedUIDictionary = uiDictionary.sorted(by: { $0.key < $1.key })
+        let sortedUIDictionary = uiDictionary.sorted(by: {
+            $0.key < $1.key
+        })
 
         for ui in sortedUIDictionary {
             let ui = ui.value
@@ -551,43 +582,50 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Label:
                 if let labelData = ui.uiData.labelData {
                     uiData.labelData = labelData
-                    funcID += 0
                 } else {
                     fatalError()
                 }
 
             case .Button:
                 if var buttonData = ui.uiData.buttonData {
-                    buttonData.onTap.funcID = funcID
+                    for type in ButtonUIData.CodeType.allCases {
+                        buttonData.code[type]?.funcID ?? -1
+                        funcID += 1
+                    }
                     uiData.buttonData = buttonData
-                    funcID += 1
                 } else {
                     fatalError()
                 }
 
             case .TextField:
                 if var textFieldData = ui.uiData.textFieldData {
-                    textFieldData.onChange.funcID = funcID
+                    for type in TextFieldUIData.CodeType.allCases {
+                        textFieldData.code[type]?.funcID ?? -1
+                        funcID += 1
+                    }
                     uiData.textFieldData = textFieldData
-                    funcID += 1
                 } else {
                     fatalError()
                 }
 
             case .Switch:
                 if var switchData = ui.uiData.switchData {
-                    switchData.onChange.funcID = funcID
+                    for type in SwitchUIData.CodeType.allCases {
+                        switchData.code[type]?.funcID ?? -1
+                        funcID += 1
+                    }
                     uiData.switchData = switchData
-                    funcID += 1
                 } else {
                     fatalError()
                 }
 
             case .Slider:
                 if var sliderData = ui.uiData.sliderData {
-                    sliderData.onChange.funcID = funcID
+                    for type in SliderUIData.CodeType.allCases {
+                        sliderData.code[type]?.funcID ?? -1
+                        funcID += 1
+                    }
                     uiData.sliderData = sliderData
-                    funcID += 1
                 } else {
                     fatalError()
                 }
@@ -595,7 +633,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Table:
                 if let tableData = ui.uiData.tableData {
                     uiData.tableData = tableData
-                    funcID += 0
                 } else {
                     fatalError()
                 }
@@ -631,7 +668,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                    """
 
-        let sortedUIDictionary = uiDictionary.sorted(by: { $0.key < $1.key })
+        let sortedUIDictionary = uiDictionary.sorted(by: {
+            $0.key < $1.key
+        })
 
         for ui in sortedUIDictionary {
             let ui = ui.value
