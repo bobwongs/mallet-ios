@@ -8,11 +8,14 @@
 
 #include "cpp_func_manager.hpp"
 
+#if defined(DEBUG)
 #include "./lib/ui/ui.hpp"
 #include "./lib/time/time.hpp"
+#endif
 
 CppFuncManager::CppFuncManager()
 {
+#if defined(DEBUG)
     //ui.hpp
     addCppFunc(setUIPositionX, "setUIPositionX", 2);
     addCppFunc(setUIPositionY, "setUIPositionY", 2);
@@ -21,6 +24,7 @@ CppFuncManager::CppFuncManager()
 
     //time.hpp
     addCppFunc(sleepForSeconds, "sleep", 1);
+#endif
 }
 
 void CppFuncManager::addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, int argNum)

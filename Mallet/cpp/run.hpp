@@ -13,7 +13,10 @@
 #include "common.hpp"
 #include "cast.hpp"
 #include "cpp_func_manager.hpp"
+
+#if !debugMode
 #include "./lib/db/db.hpp"
+#endif
 
 class Run
 {

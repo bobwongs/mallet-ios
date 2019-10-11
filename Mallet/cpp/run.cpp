@@ -292,7 +292,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     std::string varName = getStringValue(globalVariable[address]);
                     //TODO: out value
                     std::string value = getOutValue(*topStackData[1]);
+#if defined(DEBUG)
                     setAppVariable(varName, value);
+#endif
                     persistentVariables[varName] = value;
                 }
                 break;
@@ -303,7 +305,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     std::string varName = getStringValue(globalVariable[address]);
                     //TODO: out value
                     std::string value = getOutValue(*topStackData[1]);
+#if defined(DEBUG)
                     setCloudVariable(varName, value);
+#endif
                 }
                 break;
 
