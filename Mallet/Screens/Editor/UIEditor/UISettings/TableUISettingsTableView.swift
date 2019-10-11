@@ -96,5 +96,7 @@ class TableUISettingsTableView: DefaultUISettingsTableView, TableContentEditorVi
 
     func updateTable(dataSource: [String]) {
         self.uiData.tableData?.value = dataSource
+
+        self.reload()
     }
 }

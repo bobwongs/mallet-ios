@@ -205,6 +205,8 @@ public class AppUITable: UITableView, UITableViewDataSource {
         self.layer.borderColor = UIColor.gray.cgColor
         self.layer.borderWidth = 1
 
+        self.dataSource = self
+
         if #available(iOS 13, *) {
             self.overrideUserInterfaceStyle = .light
         }
@@ -229,6 +231,7 @@ public class AppUITable: UITableView, UITableViewDataSource {
     func reload() {
         self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
 
+        self.reloadData()
     }
 }
 
@@ -378,6 +381,7 @@ public class EditorUI: UIView {
             }
 
             table.uiData = uiData
+            table.reload()
         }
 
         reloadFrame()
