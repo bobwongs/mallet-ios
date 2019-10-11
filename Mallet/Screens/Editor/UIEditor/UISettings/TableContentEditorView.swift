@@ -43,12 +43,34 @@ class TableContentEditorView: UITableView, UITableViewDelegate, UITableViewDataS
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableDataSource.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            self.updateTableData()
+        }
+    }
+
     func addTableElement() {
         self.tableDataSource.append("")
         self.updateTableData(index: self.tableDataSource.count - 1, value: "")
 
         DispatchQueue.main.async {
             self.scrollToRow(at: IndexPath(row: self.tableDataSource.count - 1, section: 0), at: .top, animated: true)
+        }
+    }
+
+    func updateTableData() {
+        self.tableContentEditorViewDelegate?.updateTable(dataSource: self.tableDataSource)
+
+        self.reloadData()
+
+        DispatchQueue.main.async {
+            self.scrollToRow(at: IndexPath(row: self.tableDataSource.count - 1, section: 0), at: .top, animated: false)
         }
     }
 

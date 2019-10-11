@@ -46,12 +46,11 @@ class TableUISettingsTableView: DefaultUISettingsTableView, TableContentEditorVi
         switch indexPath.section {
         case 1:
             let addButton = UIButton(type: .system)
-            addButton.setTitle("+", for: .normal)
-            /*
             if #available(iOS 13, *) {
                 addButton.setImage(.add, for: .normal)
+            } else {
+                addButton.setTitle("", for: .normal)
             }
-            */
             addButton.addTarget(self, action: #selector(self.addTableElement(_:)), for: .touchUpInside)
 
             cell.addSubview(addButton)
