@@ -290,7 +290,6 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 {
                     int address = getIntValue(*topStackData[0]);
                     std::string varName = getStringValue(globalVariable[address]);
-                    //TODO: out value
                     std::string value = getOutValue(*topStackData[1]);
 #if defined(DEBUG)
                     setAppVariable(varName, value);
@@ -303,7 +302,6 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 {
                     int address = getIntValue(*topStackData[0]);
                     std::string varName = getStringValue(globalVariable[address]);
-                    //TODO: out value
                     std::string value = getOutValue(*topStackData[1]);
 #if defined(DEBUG)
                     setCloudVariable(varName, value);
@@ -320,6 +318,40 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     lists[getIntValue(*topStackData[0])].push_back(*topStackData[1]);
 
                     break;
+
+                case INSERT_LIST:
+                {
+                    int listAddress = getIntValue(*topStackData[0]);
+                    int elementAddress = getIntValue(*topStackData[1]);
+
+                    if (lists[listAddress].size() <= elementAddress)
+                    {
+                        lists[listAddress].push_back(*topStackData[2]);
+                    }
+                    else
+                    {
+                        lists[listAddress].insert(lists[listAddress].begin() + elementAddress, *topStackData[2]);
+                    }
+                }
+
+                break;
+
+                case REMOVE_LIST:
+                {
+                    int listAddress = getIntValue(*topStackData[0]);
+                    int elementAddress = getIntValue(*topStackData[1]);
+
+                    if (lists[listAddress].size() - 1 == elementAddress)
+                    {
+                        lists[listAddress].pop_back();
+                    }
+                    else if (lists[listAddress].size() - 1 > elementAddress)
+                    {
+                        lists[listAddress].erase(lists[listAddress].begin() + elementAddress);
+                    }
+                }
+
+                break;
 
                 case GET_LIST:
                 {

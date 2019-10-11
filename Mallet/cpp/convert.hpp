@@ -38,6 +38,8 @@ public:
 
     std::string ConvertCode(std::string codeStr);
 
+    static std::vector<std::string> SplitCode(std::string codeStr);
+
     std::vector<int> bytecode;
 
 private:
@@ -81,8 +83,6 @@ private:
     void AddPush1Code();
 
     static std::string RemoveComments(std::string codeStr);
-
-    static std::vector<std::string> SplitCode(std::string codeStr);
 
     void ConvertValue(const int firstCodeIndex, const bool convert);
 
@@ -184,7 +184,10 @@ private:
 
     std::map<std::string, std::pair<int, int>> defaultFuncData = {
         {"size", {GET_LIST_SIZE, 1}},
-        {"add", {ADD_LIST, 2}}};
+        {"add", {ADD_LIST, 2}},
+        {"get", {GET_LIST, 2}},
+        {"insert", {INSERT_LIST, 3}},
+        {"remove", {REMOVE_LIST, 2}}};
 };
 
 #endif /* convert_hpp */
