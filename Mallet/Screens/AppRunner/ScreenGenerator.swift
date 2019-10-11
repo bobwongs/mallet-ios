@@ -171,6 +171,31 @@ class AppSlider: AppUISlider, AppUI {
     }
 }
 
+class AppTable: AppUITable, AppUI {
+
+    var cloudVariableName: String?
+
+    override init(uiData: UIData) {
+        super.init(uiData: uiData)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    func getUIData() -> UIData {
+        return self.uiData
+    }
+
+    func reloadUI() {
+        self.reload()
+    }
+
+    func updateTextWithCloudVariable(value: String) {
+
+    }
+}
+
 class ScreenGenerator {
 
     public func generateScreen(appRunner: AppRunner, inputUIData: [UIData], appView: UIView) {
@@ -194,6 +219,7 @@ class ScreenGenerator {
                 ui = AppSlider(uiData: uiData)
 
             case .Table:
+                ui = AppTable(uiData: uiData)
                 break
             }
 

@@ -225,6 +225,11 @@ public class AppUITable: UITableView, UITableViewDataSource {
 
         return cell
     }
+
+    func reload() {
+        self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
+
+    }
 }
 
 public class EditorUI: UIView {
