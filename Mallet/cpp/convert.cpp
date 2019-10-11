@@ -1223,9 +1223,10 @@ void Convert::ListFunction()
             funcID++;
         }
         else if ((code[codeIndex] == "var" && code[codeIndex + 2] == "=") ||
-                 (code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "="))
+                 (code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "=") ||
+                 (code[codeIndex] == "@uiTable" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "="))
         {
-            if (code[codeIndex] == "@ui")
+            if (code[codeIndex] == "@ui" || code[codeIndex] == "@uiTable")
                 codeIndex += 1;
 
             std::string varName = code[codeIndex + 1];
