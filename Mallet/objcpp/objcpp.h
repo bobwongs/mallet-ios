@@ -31,6 +31,8 @@
 
 - (NSString *)ConvertCode:(NSString *)codeStr;
 
+- (NSMutableArray<NSString *> *)SplitCode:(NSString *)codeStr;
+
 - (NSMutableArray<VariableDataObjC *> *)GetGlobalVariables:(NSString *)codeStr;
 
 @end

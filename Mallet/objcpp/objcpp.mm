@@ -66,6 +66,20 @@
     return [NSString stringWithUTF8String:convertedCode.c_str()];
 }
 
+- (NSMutableArray<NSString *> *)SplitCode:(NSString *)codeStr
+{
+    std::string codeStrString = [codeStr UTF8String];
+    std::vector<std::string> splitCodeVector = converter->SplitCode(codeStrString);
+
+    NSMutableArray<NSString *> *splitCode = [[NSMutableArray<NSString *> alloc] init];
+    for (std::string str : splitCodeVector)
+    {
+        [splitCode addObject:[NSString stringWithCString:str.c_str() encoding:NSUTF8StringEncoding]];
+    }
+
+    return splitCode;
+}
+
 - (NSMutableArray<VariableDataObjC *> *)GetGlobalVariables:(NSString *)codeStr
 {
     std::vector<Convert::variableData> variables = Convert::getGlobalVariables([codeStr UTF8String]);
