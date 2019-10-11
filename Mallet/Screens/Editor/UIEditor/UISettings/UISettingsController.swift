@@ -36,6 +36,9 @@ class UISettingsController: UIViewController, UINavigationBarDelegate {
             case .Button:
                 settingsTableView = ButtonUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
 
+            case .Table:
+                settingsTableView = TableUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
+
             default:
                 settingsTableView = DefaultUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
             }
