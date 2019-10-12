@@ -205,66 +205,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         ui.addGestureRecognizer(tap)
     }
 
-    func openCodeEditor(ui: EditorUI) {
-        self.view.endEditing(true)
-
-        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-        guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-            fatalError()
-        }
-
-        /*
-        codeEditorController.appID = self.appData.appID
-
-        codeEditorController.uiEditorController = self
-
-        codeEditorController.ui = ui
-
-        codeEditorController.uiData = ui.uiData
-        */
-
-        /*
-        switch ui.uiData.uiType {
-        case .Label:
-            codeEditorController.codeStr = ""
-
-        case .Button:
-            if let buttonData = ui.uiData.buttonData {
-                codeEditorController.codeStr = buttonData.onTap.code
-            } else {
-                codeEditorController.codeStr = ""
-            }
-
-        case .TextField:
-            if let textFieldData = ui.uiData.textFieldData {
-                codeEditorController.codeStr = textFieldData.onChange.code
-            } else {
-                codeEditorController.codeStr = ""
-            }
-
-        case .Switch:
-            if let switchData = ui.uiData.switchData {
-                codeEditorController.codeStr = switchData.onChange.code
-            } else {
-                codeEditorController.codeStr = ""
-            }
-
-        case .Slider:
-            if let sliderData = ui.uiData.sliderData {
-                codeEditorController.codeStr = sliderData.onChange.code
-            } else {
-                codeEditorController.codeStr = ""
-            }
-
-        case .Table:
-            codeEditorController.codeStr = ""
-        }
-        */
-
-        navigationController?.pushViewController(codeEditorController, animated: true)
-    }
-
     @objc func selectUI(_ sender: UITapGestureRecognizer) {
         guard let senderView = sender.view else {
             return

@@ -276,7 +276,7 @@ public class EditorUI: UIView {
 
         self.bringSubviewToFront(self.wall)
 
-        self.wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showMenu(_:))))
+        self.wall.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.editUI(_:))))
 
         NSLayoutConstraint.activate(
                 [
@@ -292,47 +292,7 @@ public class EditorUI: UIView {
         fatalError()
     }
 
-    @objc func showMenu(_ sender: UITapGestureRecognizer) {
-        if self.uiID < 0 {
-            return
-        }
-
-        becomeFirstResponder()
-
-        self.menu = UIMenuController.shared
-        self.menu.isMenuVisible = true
-        self.menu.arrowDirection = .down
-        self.menu.setTargetRect(self.bounds, in: self)
-
-        let editCodeMenu = UIMenuItem(title: "Code", action: #selector(self.editCode(sender:)))
-        let editUIMenu = UIMenuItem(title: "Edit", action: #selector(self.editUI(sender:)))
-        let menuItems = [editCodeMenu, editUIMenu]
-        self.menu.menuItems = menuItems
-
-        self.menu.setMenuVisible(true, animated: true)
-    }
-
-    public override var canBecomeFirstResponder: Bool {
-        return true
-    }
-
-    public override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(self.editCode(sender:)) {
-            return true
-        }
-
-        if action == #selector(self.editUI(sender:)) {
-            return true
-        }
-
-        return false
-    }
-
-    @objc func editCode(sender: UIMenuItem) {
-        self.delegate?.openCodeEditor(ui: self)
-    }
-
-    @objc func editUI(sender: UIMenuItem) {
+    @objc func editUI(_ sender: UITapGestureRecognizer) {
         self.delegate?.editUI(ui: self)
     }
 
@@ -490,7 +450,5 @@ public class EditorUITable: EditorUI {
 }
 
 protocol EditorUIDelegate {
-    func openCodeEditor(ui: EditorUI)
-
     func editUI(ui: EditorUI)
 }
