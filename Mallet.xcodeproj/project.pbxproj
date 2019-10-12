@@ -31,6 +31,9 @@
 		0E8DAEA2231FE660003C5EC7 /* ArgContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA1231FE660003C5EC7 /* ArgContentView.swift */; };
 		0E8DAEA4231FE670003C5EC7 /* ArgContentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA3231FE670003C5EC7 /* ArgContentData.swift */; };
 		0E8DAEA623200014003C5EC7 /* ArgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA523200014003C5EC7 /* ArgView.swift */; };
+		0E920757235228D100855E3C /* TextFieldUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E920756235228D100855E3C /* TextFieldUISettingsController.swift */; };
+		0E920759235228DE00855E3C /* SwitchUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E920758235228DE00855E3C /* SwitchUISettingsController.swift */; };
+		0E92075B235228EA00855E3C /* SliderUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E92075A235228EA00855E3C /* SliderUISettingsController.swift */; };
 		0E9409182351BFA700A802E0 /* UISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9409172351BFA700A802E0 /* UISettingsController.swift */; };
 		0E94091A2351C41500A802E0 /* ButtonUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */; };
 		0E94091C2351C42300A802E0 /* LabelUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */; };
@@ -118,6 +121,9 @@
 		0E8DAEA1231FE660003C5EC7 /* ArgContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgContentView.swift; sourceTree = "<group>"; };
 		0E8DAEA3231FE670003C5EC7 /* ArgContentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgContentData.swift; sourceTree = "<group>"; };
 		0E8DAEA523200014003C5EC7 /* ArgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgView.swift; sourceTree = "<group>"; };
+		0E920756235228D100855E3C /* TextFieldUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldUISettingsController.swift; sourceTree = "<group>"; };
+		0E920758235228DE00855E3C /* SwitchUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchUISettingsController.swift; sourceTree = "<group>"; };
+		0E92075A235228EA00855E3C /* SliderUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderUISettingsController.swift; sourceTree = "<group>"; };
 		0E9409172351BFA700A802E0 /* UISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsController.swift; sourceTree = "<group>"; };
 		0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonUISettingsController.swift; sourceTree = "<group>"; };
 		0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelUISettingsController.swift; sourceTree = "<group>"; };
@@ -294,6 +300,9 @@
 				0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */,
 				0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */,
 				0E94091D2351C42C00A802E0 /* TableUISettingsController.swift */,
+				0E920756235228D100855E3C /* TextFieldUISettingsController.swift */,
+				0E920758235228DE00855E3C /* SwitchUISettingsController.swift */,
+				0E92075A235228EA00855E3C /* SliderUISettingsController.swift */,
 			);
 			path = UISettings;
 			sourceTree = "<group>";
@@ -775,6 +784,7 @@
 				0EAA0DC522F72C5600F5A051 /* time.mm in Sources */,
 				0E149C06228030DE00952F9C /* AppUI.swift in Sources */,
 				0E4288B922F59D8D005CF2BF /* ui.mm in Sources */,
+				0E920759235228DE00855E3C /* SwitchUISettingsController.swift in Sources */,
 				0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0EA8D2872344B11100270A49 /* db.mm in Sources */,
@@ -786,6 +796,7 @@
 				0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,
 				0E8DAEA4231FE670003C5EC7 /* ArgContentData.swift in Sources */,
+				0E920757235228D100855E3C /* TextFieldUISettingsController.swift in Sources */,
 				0E3ED9632337DFC100C10A72 /* Color.swift in Sources */,
 				0E971B6322D646F000C45B53 /* convert.cpp in Sources */,
 				0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */,
@@ -795,6 +806,7 @@
 				0EF67373234CC3200067B325 /* VPLBlockTable.swift in Sources */,
 				0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
+				0E92075B235228EA00855E3C /* SliderUISettingsController.swift in Sources */,
 				0E94091A2351C41500A802E0 /* ButtonUISettingsController.swift in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				0E73D5E92346223E001385A0 /* CloudVariableController.swift in Sources */,
