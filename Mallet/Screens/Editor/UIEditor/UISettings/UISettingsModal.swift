@@ -46,6 +46,9 @@ class UISettingsModal: UIViewController, UINavigationBarDelegate {
             case .TextField:
                 uiSettingsController = TextFieldUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
 
+            case .Switch:
+                uiSettingsController = SwitchUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+
             case .Table:
                 uiSettingsController = TableUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
 
