@@ -2,67 +2,186 @@
 //  UISettingsController.swift
 //  Mallet
 //
-//  Created by Katsu Matsuda on 2019/09/30.
+//  Created by Katsu Matsuda on 2019/10/12.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
 import UIKit
 
-class UISettingsController: UIViewController, UINavigationBarDelegate {
+class UISettingsController: UITableViewController, UITextFieldDelegate {
 
-    public var ui: EditorUI?
+    public let ui: EditorUI
 
-    public var uiData: UIData?
+    public let uiData: UIData
 
-    public var delegate: UISettingsDelegate?
+    private let uiSettingsDelegate: UISettingsDelegate
 
-    @IBOutlet weak var navigationBar: UINavigationBar!
+    init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
+        self.ui = ui
+        self.uiData = uiData
+        self.uiSettingsDelegate = uiSettingsDelegate
 
-    @IBOutlet weak var navigationBarItem: UINavigationItem!
+        super.init(style: .grouped)
+
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationBar.delegate = self
+        self.navigationItem.title = "Settings"
 
-        navigationBarItem.title = ui?.uiName
+    }
 
-        if let ui = self.ui, let uiData = self.uiData {
-            let settingsTableView: DefaultUISettingsTableView!
-            switch uiData.uiType {
-            case .Label:
-                settingsTableView = LabelUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
 
-            case .Button:
-                settingsTableView = ButtonUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1 + numberOfOtherSections()
+    }
 
-            case .Table:
-                settingsTableView = TableUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return nil
+        }
+
+        return titleForHeader(section: section)
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 5
+        }
+
+        return numberOfRows(section: section)
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+
+        if indexPath.section == 0 {
+            let titleLabel = UILabel()
+            let textField = UITextField()
+
+            textField.delegate = self
+
+            textField.autocapitalizationType = .none
+
+            let textFieldEvent: UIControl.Event = .editingDidEnd
+
+            switch indexPath.row {
+            case 0:
+                titleLabel.text = "Name"
+                textField.text = ui.uiName
+                textField.addTarget(self, action: #selector(self.setUIName(_:)), for: textFieldEvent)
+
+            case 1:
+                titleLabel.text = "Position X"
+                textField.text = "\(uiData.x)"
+                textField.addTarget(self, action: #selector(self.setUIPosX(_:)), for: textFieldEvent)
+
+            case 2:
+                titleLabel.text = "Position Y"
+                textField.text = "\(uiData.y)"
+                textField.addTarget(self, action: #selector(self.setUIPosY(_:)), for: textFieldEvent)
+
+            case 3:
+                titleLabel.text = "Width"
+                textField.text = "\(uiData.width)"
+                textField.addTarget(self, action: #selector(self.setUIWidth(_:)), for: textFieldEvent)
+
+            case 4:
+                titleLabel.text = "Height"
+                textField.text = "\(uiData.height)"
+                textField.addTarget(self, action: #selector(self.setUIHeight(_:)), for: textFieldEvent)
 
             default:
-                settingsTableView = DefaultUISettingsTableView(frame: CGRect(), ui: ui, uiData: uiData, uiSettingsController: self)
+                break
             }
 
-            self.view.addSubview(settingsTableView)
+            setCellWithInput(cell: cell, titleLabel: titleLabel, textField: textField)
 
-            settingsTableView.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate(
-                    [
-                        settingsTableView.topAnchor.constraint(equalTo: self.navigationBar.bottomAnchor),
-                        settingsTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-                        settingsTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-                        settingsTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor)
-                    ]
-            )
+            return cell
         }
+
+        return cellForRow(cell: cell, indexPath: indexPath)
     }
 
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
-        return .top
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
-    @IBAction func doneButton(_ sender: Any) {
-        self.dismiss(animated: true)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
+
+    func numberOfOtherSections() -> Int {
+        return 0
+    }
+
+    func titleForHeader(section: Int) -> String {
+        return ""
+    }
+
+    func numberOfRows(section: Int) -> Int {
+        return 0
+    }
+
+    func cellForRow(cell: UITableViewCell, indexPath: IndexPath) -> UITableViewCell {
+        return cell
+    }
+
+    func setCellWithInput(cell: UITableViewCell, titleLabel: UILabel, textField: UITextField) {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.frame.size = cell.frame.size
+        cell.addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.widthAnchor.constraint(equalTo: cell.widthAnchor).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: cell.frame.height).isActive = true
+
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(textField)
+
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
+
+        textField.delegate = self
+    }
+
+
+    @objc private func setUIName(_ textField: UITextField) {
+        self.ui.uiName = textField.text ?? ""
+        self.reload()
+    }
+
+    @objc private func setUIPosX(_ textField: UITextField) {
+        self.uiData.x = CGFloat(Float(textField.text ?? "") ?? 0)
+        self.reload()
+    }
+
+    @objc private func setUIPosY(_ textField: UITextField) {
+        self.uiData.y = CGFloat(Float(textField.text ?? "") ?? 0)
+        self.reload()
+    }
+
+    @objc private func setUIWidth(_ textField: UITextField) {
+        self.uiData.width = CGFloat(Float(textField.text ?? "") ?? 0)
+        self.reload()
+    }
+
+    @objc private func setUIHeight(_ textField: UITextField) {
+        self.uiData.height = CGFloat(Float(textField.text ?? "") ?? 0)
+        self.reload()
+    }
+
+    func reload() {
+        self.ui.reload(uiData: uiData)
+
+        self.uiSettingsDelegate.saveApp()
     }
 }
 

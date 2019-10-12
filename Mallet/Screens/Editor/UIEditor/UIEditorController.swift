@@ -214,6 +214,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
+        /*
         codeEditorController.appID = self.appData.appID
 
         codeEditorController.uiEditorController = self
@@ -221,7 +222,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         codeEditorController.ui = ui
 
         codeEditorController.uiData = ui.uiData
+        */
 
+        /*
         switch ui.uiData.uiType {
         case .Label:
             codeEditorController.codeStr = ""
@@ -257,6 +260,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         case .Table:
             codeEditorController.codeStr = ""
         }
+        */
 
         navigationController?.pushViewController(codeEditorController, animated: true)
     }
@@ -372,16 +376,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func editUI(ui: EditorUI) {
         let storyBoard = UIStoryboard(name: "UISettings", bundle: nil)
-        guard let uiSettingsController = storyBoard.instantiateInitialViewController() as? UISettingsController else {
+        guard let uiSettingsController = storyBoard.instantiateInitialViewController() as? UISettingsModal else {
             fatalError()
         }
 
         uiSettingsController.ui = ui
         uiSettingsController.uiData = ui.uiData
-        uiSettingsController.delegate = self
+        uiSettingsController.uiSettingsDelegate = self
 
         navigationController?.present(uiSettingsController, animated: true)
-
     }
 
     func setUIText(uiType: UIType, ui: UIView, text: String) {

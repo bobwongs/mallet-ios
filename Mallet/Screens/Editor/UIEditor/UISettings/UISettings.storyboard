@@ -11,7 +11,7 @@
         <!--Settings Controller-->
         <scene sceneID="K1O-xB-Zrt">
             <objects>
-                <viewController id="bag-hH-ZGt" customClass="UISettingsController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bag-hH-ZGt" customClass="UISettingsModal" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cCr-2t-nL5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -1,19 +1,23 @@
 //
-//  TableUISettingsTableView.swift
+//  TableUISettingsController.swift
 //  Mallet
 //
-//  Created by Katsu Matsuda on 2019/10/11.
+//  Created by Katsu Matsuda on 2019/10/12.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
 import UIKit
 
-class TableUISettingsTableView: DefaultUISettingsTableView, TableContentEditorViewDelegate {
+class TableUISettingsController: UISettingsController, TableContentEditorViewDelegate {
 
-    var tableDataSourceEditorView: TableContentEditorView?
+    private var tableDataSourceEditorView: TableContentEditorView?
 
-    override init(frame: CGRect, ui: EditorUI, uiData: UIData, uiSettingsController: UISettingsController) {
-        super.init(frame: frame, ui: ui, uiData: uiData, uiSettingsController: uiSettingsController)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
+        super.init(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
     }
 
     required init?(coder: NSCoder) {

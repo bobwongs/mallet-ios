@@ -1,17 +1,21 @@
 //
-//  LabelUISettingsTableView.swift
+//  LabelUISettingsController.swift
 //  Mallet
 //
-//  Created by Katsu Matsuda on 2019/10/11.
+//  Created by Katsu Matsuda on 2019/10/12.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
 import UIKit
 
-class LabelUISettingsTableView: DefaultUISettingsTableView {
+class LabelUISettingsController: UISettingsController {
 
-    override init(frame: CGRect, ui: EditorUI, uiData: UIData, uiSettingsController: UISettingsController) {
-        super.init(frame: frame, ui: ui, uiData: uiData, uiSettingsController: uiSettingsController)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
+        super.init(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
     }
 
     required init?(coder: NSCoder) {
@@ -121,5 +125,4 @@ class LabelUISettingsTableView: DefaultUISettingsTableView {
         self.uiData.labelData?.alignment = alignment
         self.reload()
     }
-
 }

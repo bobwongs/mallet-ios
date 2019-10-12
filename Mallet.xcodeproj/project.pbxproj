@@ -20,7 +20,7 @@
 		0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */; };
 		0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */; };
 		0E4103CF234105F300839B5F /* UISettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E4103CE234105F300839B5F /* UISettings.storyboard */; };
-		0E4103D12341064000839B5F /* UISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4103D02341064000839B5F /* UISettingsController.swift */; };
+		0E4103D12341064000839B5F /* UISettingsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4103D02341064000839B5F /* UISettingsModal.swift */; };
 		0E4288A922F590E2005CF2BF /* cast.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288A722F590E2005CF2BF /* cast.cpp */; };
 		0E4288B922F59D8D005CF2BF /* ui.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E4288B822F59D8D005CF2BF /* ui.mm */; };
 		0E43716622F876C2004CA2BD /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E43716522F876C2004CA2BD /* UIColorExtension.swift */; };
@@ -31,6 +31,10 @@
 		0E8DAEA2231FE660003C5EC7 /* ArgContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA1231FE660003C5EC7 /* ArgContentView.swift */; };
 		0E8DAEA4231FE670003C5EC7 /* ArgContentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA3231FE670003C5EC7 /* ArgContentData.swift */; };
 		0E8DAEA623200014003C5EC7 /* ArgView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8DAEA523200014003C5EC7 /* ArgView.swift */; };
+		0E9409182351BFA700A802E0 /* UISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9409172351BFA700A802E0 /* UISettingsController.swift */; };
+		0E94091A2351C41500A802E0 /* ButtonUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */; };
+		0E94091C2351C42300A802E0 /* LabelUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */; };
+		0E94091E2351C42C00A802E0 /* TableUISettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E94091D2351C42C00A802E0 /* TableUISettingsController.swift */; };
 		0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */; };
 		0E971B6322D646F000C45B53 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E971B6222D646F000C45B53 /* convert.cpp */; };
 		0E9A958422F96DF900930215 /* BlockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9A958322F96DF900930215 /* BlockData.swift */; };
@@ -52,10 +56,6 @@
 		0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */; };
 		0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC9E82322E37AF700A9D6D9 /* BlockView.swift */; };
 		0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9723324E9C00CD9321 /* Swifter.framework */; };
-		0EDEDF9E23509C770046F344 /* DefaultUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */; };
-		0EDEDFA023509C8E0046F344 /* ButtonUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */; };
-		0EDEDFA223509C9D0046F344 /* LabelUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */; };
-		0EDEDFA42350AB7D0046F344 /* TableUISettingsTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */; };
 		0EDEDFA62350B0240046F344 /* TableContentEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
 		0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */; };
@@ -105,7 +105,7 @@
 		0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCodeEditorController.swift; sourceTree = "<group>"; };
 		0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CodeEditor.storyboard; sourceTree = "<group>"; };
 		0E4103CE234105F300839B5F /* UISettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UISettings.storyboard; sourceTree = "<group>"; };
-		0E4103D02341064000839B5F /* UISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsController.swift; sourceTree = "<group>"; };
+		0E4103D02341064000839B5F /* UISettingsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsModal.swift; sourceTree = "<group>"; };
 		0E4288A722F590E2005CF2BF /* cast.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cast.cpp; sourceTree = "<group>"; };
 		0E4288A822F590E2005CF2BF /* cast.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cast.hpp; sourceTree = "<group>"; };
 		0E4288B422F59D28005CF2BF /* ui.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ui.hpp; sourceTree = "<group>"; };
@@ -118,6 +118,10 @@
 		0E8DAEA1231FE660003C5EC7 /* ArgContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgContentView.swift; sourceTree = "<group>"; };
 		0E8DAEA3231FE670003C5EC7 /* ArgContentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgContentData.swift; sourceTree = "<group>"; };
 		0E8DAEA523200014003C5EC7 /* ArgView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArgView.swift; sourceTree = "<group>"; };
+		0E9409172351BFA700A802E0 /* UISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsController.swift; sourceTree = "<group>"; };
+		0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonUISettingsController.swift; sourceTree = "<group>"; };
+		0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelUISettingsController.swift; sourceTree = "<group>"; };
+		0E94091D2351C42C00A802E0 /* TableUISettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableUISettingsController.swift; sourceTree = "<group>"; };
 		0E971B6022D60E1900C45B53 /* cpp_func_manager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cpp_func_manager.cpp; sourceTree = "<group>"; };
 		0E971B6222D646F000C45B53 /* convert.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = convert.cpp; sourceTree = "<group>"; };
 		0E971B6422D646F600C45B53 /* convert.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = convert.hpp; sourceTree = "<group>"; };
@@ -144,10 +148,6 @@
 		0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualCodeEditorController.swift; sourceTree = "<group>"; };
 		0EC9E82322E37AF700A9D6D9 /* BlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockView.swift; sourceTree = "<group>"; };
 		0ED08D9723324E9C00CD9321 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
-		0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUISettingsTableView.swift; sourceTree = "<group>"; };
-		0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonUISettingsTableView.swift; sourceTree = "<group>"; };
-		0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelUISettingsTableView.swift; sourceTree = "<group>"; };
-		0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableUISettingsTableView.swift; sourceTree = "<group>"; };
 		0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentEditorView.swift; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
@@ -287,13 +287,13 @@
 		0E4103CD234105D700839B5F /* UISettings */ = {
 			isa = PBXGroup;
 			children = (
-				0E4103D02341064000839B5F /* UISettingsController.swift */,
+				0E4103D02341064000839B5F /* UISettingsModal.swift */,
 				0E4103CE234105F300839B5F /* UISettings.storyboard */,
-				0EDEDF9D23509C770046F344 /* DefaultUISettingsTableView.swift */,
-				0EDEDF9F23509C8E0046F344 /* ButtonUISettingsTableView.swift */,
-				0EDEDFA123509C9D0046F344 /* LabelUISettingsTableView.swift */,
-				0EDEDFA32350AB7D0046F344 /* TableUISettingsTableView.swift */,
 				0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */,
+				0E9409172351BFA700A802E0 /* UISettingsController.swift */,
+				0E9409192351C41500A802E0 /* ButtonUISettingsController.swift */,
+				0E94091B2351C42300A802E0 /* LabelUISettingsController.swift */,
+				0E94091D2351C42C00A802E0 /* TableUISettingsController.swift */,
 			);
 			path = UISettings;
 			sourceTree = "<group>";
@@ -760,12 +760,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E43716622F876C2004CA2BD /* UIColorExtension.swift in Sources */,
-				0E4103D12341064000839B5F /* UISettingsController.swift in Sources */,
+				0E4103D12341064000839B5F /* UISettingsModal.swift in Sources */,
 				0E34DBF323438E3200F624A2 /* AppUIController.swift in Sources */,
 				0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */,
 				0EBEB4C42326830F004A25A3 /* HapticFeedback.swift in Sources */,
 				0EC07A912340B3AA0028272F /* VariableSettingsCell.swift in Sources */,
 				0EDEDFA62350B0240046F344 /* TableContentEditorView.swift in Sources */,
+				0E94091C2351C42300A802E0 /* LabelUISettingsController.swift in Sources */,
 				0EC33349226E1174005B968A /* ScreenGenerator.swift in Sources */,
 				0E4288A922F590E2005CF2BF /* cast.cpp in Sources */,
 				0EC9E82422E37AF700A9D6D9 /* BlockView.swift in Sources */,
@@ -777,7 +778,6 @@
 				0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0EA8D2872344B11100270A49 /* db.mm in Sources */,
-				0EDEDFA023509C8E0046F344 /* ButtonUISettingsTableView.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
 				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E9A958422F96DF900930215 /* BlockData.swift in Sources */,
@@ -789,12 +789,13 @@
 				0E3ED9632337DFC100C10A72 /* Color.swift in Sources */,
 				0E971B6322D646F000C45B53 /* convert.cpp in Sources */,
 				0E971B6122D60E1900C45B53 /* cpp_func_manager.cpp in Sources */,
+				0E94091E2351C42C00A802E0 /* TableUISettingsController.swift in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
+				0E9409182351BFA700A802E0 /* UISettingsController.swift in Sources */,
 				0EF67373234CC3200067B325 /* VPLBlockTable.swift in Sources */,
-				0EDEDFA223509C9D0046F344 /* LabelUISettingsTableView.swift in Sources */,
 				0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
-				0EDEDF9E23509C770046F344 /* DefaultUISettingsTableView.swift in Sources */,
+				0E94091A2351C41500A802E0 /* ButtonUISettingsController.swift in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				0E73D5E92346223E001385A0 /* CloudVariableController.swift in Sources */,
 				0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */,
@@ -804,7 +805,6 @@
 				0E390D22234F83B30072C5F3 /* Text2VPL.swift in Sources */,
 				611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */,
 				0E8DAEA2231FE660003C5EC7 /* ArgContentView.swift in Sources */,
-				0EDEDFA42350AB7D0046F344 /* TableUISettingsTableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

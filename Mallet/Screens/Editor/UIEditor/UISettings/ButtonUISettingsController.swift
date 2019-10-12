@@ -1,16 +1,21 @@
 //
-//  ButtonUISettingsTableView.swift
+//  ButtonUISettingsController.swift
 //  Mallet
 //
-//  Created by Katsu Matsuda on 2019/10/11.
+//  Created by Katsu Matsuda on 2019/10/12.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
 import UIKit
 
-class ButtonUISettingsTableView: DefaultUISettingsTableView {
-    override init(frame: CGRect, ui: EditorUI, uiData: UIData, uiSettingsController: UISettingsController) {
-        super.init(frame: frame, ui: ui, uiData: uiData, uiSettingsController: uiSettingsController)
+class ButtonUISettingsController: UISettingsController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
+        super.init(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
     }
 
     required init?(coder: NSCoder) {
@@ -83,7 +88,7 @@ class ButtonUISettingsTableView: DefaultUISettingsTableView {
             setCellWithInput(cell: cell, titleLabel: titleLabel, textField: textField)
 
         case 2:
-            cell.accessoryType = .detailDisclosureButton
+            cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
                 cell.textLabel?.text = "Tap"
@@ -101,15 +106,32 @@ class ButtonUISettingsTableView: DefaultUISettingsTableView {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        /*
         if indexPath.section == 2 {
+            let updateClosure: ((String) -> Void)!
+
             switch indexPath.row {
             case 0:
+                updateClosure = { (code) in
+                    self.uiData.buttonData?.code[.OnTap]?.code = code
+                }
             default:
-                break
+                return
             }
+
+            let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
+
+            guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
+                fatalError()
+            }
+
+            /*
+            codeEditorController.updateClosure = updateClosure
+
+            navigationController?.pushViewController(codeEditorController, animated: true)
+            */
         }
-        */
+
+
     }
 
     @objc private func setButtonText(_ textField: UITextField) {

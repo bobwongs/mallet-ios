@@ -21,6 +21,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     var textCodeEditorController: TextCodeEditorController!
     var visualCodeEditorController: VisualCodeEditorController!
 
+    /*
     var appID: Int!
 
     var ui: UIView!
@@ -28,12 +29,15 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     var uiData: UIData!
 
     var uiEditorController: UIEditorController?
+    */
 
     let initialEditorMode = EditorMode.Visual
 
     var editorMode: EditorMode!
 
     var codeStr = ""
+
+    var updateClosure: ((String) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,14 +61,20 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             codeStr = visualCodeEditorController.vplToCode()
         }
 
+        self.updateCode()
+
+        /*
         if viewController is UIEditorController {
             updateCode()
 
             (viewController as! UIEditorController).saveApp()
         }
+        */
     }
 
     func updateCode() {
+        self.updateClosure?(self.codeStr)
+        /*
         switch uiData.uiType {
         case .Button:
             uiData.buttonData?.onTap.code = codeStr
@@ -81,10 +91,11 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         default:
             break
         }
+        */
     }
 
     func initEditorView() {
-        self.navigationItem.title = uiData.uiName
+        //self.navigationItem.title = uiData.uiName
 
         navigationController?.delegate = self
     }
@@ -163,9 +174,11 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
         updateCode()
 
+        /*
         variableSettingsController.codeStr = self.uiEditorController?.getCodeStr()
 
         variableSettingsController.appID = self.appID
+        */
 
         navigationController?.present(variableSettingsController, animated: true)
     }
