@@ -45,7 +45,6 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        print("Close!")
         self.updateCode()
     }
 
@@ -148,13 +147,12 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     @IBAction func variableSettingsButton(_ sender: Any) {
-        if let appID = self.appID, let codeEditorControllerDelegate = self.codeEditorControllerDelegate {
+        if let codeEditorControllerDelegate = self.codeEditorControllerDelegate {
 
             let storyboard = UIStoryboard(name: "VariableSettings", bundle: nil)
             guard let variableSettingsController = storyboard.instantiateInitialViewController() as? VariableSettingsController else {
                 fatalError()
             }
-
             self.updateCode()
 
             variableSettingsController.codeStr = codeEditorControllerDelegate.getAllCodeStr()
