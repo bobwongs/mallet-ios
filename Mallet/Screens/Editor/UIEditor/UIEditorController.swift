@@ -534,7 +534,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Button:
                 if var buttonData = ui.uiData.buttonData {
                     for type in ButtonUIData.CodeType.allCases {
-                        buttonData.code[type]?.funcID ?? -1
+                        buttonData.code[type]?.funcID = funcID
                         funcID += 1
                     }
                     uiData.buttonData = buttonData
@@ -545,7 +545,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .TextField:
                 if var textFieldData = ui.uiData.textFieldData {
                     for type in TextFieldUIData.CodeType.allCases {
-                        textFieldData.code[type]?.funcID ?? -1
+                        textFieldData.code[type]?.funcID = funcID
                         funcID += 1
                     }
                     uiData.textFieldData = textFieldData
@@ -556,7 +556,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Switch:
                 if var switchData = ui.uiData.switchData {
                     for type in SwitchUIData.CodeType.allCases {
-                        switchData.code[type]?.funcID ?? -1
+                        switchData.code[type]?.funcID = funcID
                         funcID += 1
                     }
                     uiData.switchData = switchData
@@ -567,7 +567,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             case .Slider:
                 if var sliderData = ui.uiData.sliderData {
                     for type in SliderUIData.CodeType.allCases {
-                        sliderData.code[type]?.funcID ?? -1
+                        sliderData.code[type]?.funcID = funcID
                         funcID += 1
                     }
                     uiData.sliderData = sliderData
