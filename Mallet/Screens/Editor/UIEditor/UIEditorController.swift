@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate, UISettingsDelegate {
+class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate, UISettingsDelegate, CodeEditorControllerDelegate {
 
     @IBOutlet var editorView: UIView!
 
@@ -380,9 +380,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             fatalError()
         }
 
+        uiSettingsController.appID = self.appData.appID
         uiSettingsController.ui = ui
         uiSettingsController.uiData = ui.uiData
         uiSettingsController.uiSettingsDelegate = self
+        uiSettingsController.codeEditorControllerDelegate = self
 
         navigationController?.present(uiSettingsController, animated: true)
     }
@@ -652,7 +654,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         return appData
     }
 
-    func getCodeStr() -> String {
+    func getAllCodeStr() -> String {
         var code = """
                    \(getUINameDeclarationCode())
 

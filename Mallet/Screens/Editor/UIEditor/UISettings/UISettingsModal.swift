@@ -10,11 +10,15 @@ import UIKit
 
 class UISettingsModal: UIViewController, UINavigationBarDelegate {
 
+    public var appID: Int?
+
     public var ui: EditorUI?
 
     public var uiData: UIData?
 
     public var uiSettingsDelegate: UISettingsDelegate?
+
+    public var codeEditorControllerDelegate: CodeEditorControllerDelegate?
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
@@ -28,22 +32,22 @@ class UISettingsModal: UIViewController, UINavigationBarDelegate {
         navigationBarItem.title = ui?.uiName
 
 
-        if let ui = self.ui, let uiData = self.uiData, let uiSettingsDelegate = self.uiSettingsDelegate {
+        if let appID = appID, let ui = self.ui, let uiData = self.uiData, let uiSettingsDelegate = self.uiSettingsDelegate, let codeEditorControllerDelegate = self.codeEditorControllerDelegate {
 
             let uiSettingsController: UISettingsController!
 
             switch uiData.uiType {
             case .Label:
-                uiSettingsController = LabelUISettingsController(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+                uiSettingsController = LabelUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
 
             case .Button:
-                uiSettingsController = ButtonUISettingsController(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+                uiSettingsController = ButtonUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
 
             case .Table:
-                uiSettingsController = TableUISettingsController(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+                uiSettingsController = TableUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
 
             default:
-                uiSettingsController = UISettingsController(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+                uiSettingsController = UISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
             }
 
             let childNavigation = UINavigationController(rootViewController: uiSettingsController)

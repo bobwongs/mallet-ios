@@ -10,16 +10,22 @@ import UIKit
 
 class UISettingsController: UITableViewController, UITextFieldDelegate {
 
-    public let ui: EditorUI
+    let appID: Int
 
-    public let uiData: UIData
+    let ui: EditorUI
 
-    private let uiSettingsDelegate: UISettingsDelegate
+    let uiData: UIData
 
-    init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
+    let uiSettingsDelegate: UISettingsDelegate
+
+    let codeEditorControllerDelegate: CodeEditorControllerDelegate
+
+    init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate) {
+        self.appID = appID
         self.ui = ui
         self.uiData = uiData
         self.uiSettingsDelegate = uiSettingsDelegate
+        self.codeEditorControllerDelegate = codeEditorControllerDelegate
 
         super.init(style: .grouped)
 

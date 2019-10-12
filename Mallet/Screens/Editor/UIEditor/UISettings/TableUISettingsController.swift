@@ -16,8 +16,8 @@ class TableUISettingsController: UISettingsController, TableContentEditorViewDel
         super.viewDidLoad()
     }
 
-    override init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
-        super.init(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+    override init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate) {
+        super.init(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
     }
 
     required init?(coder: NSCoder) {

@@ -21,29 +21,32 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     var textCodeEditorController: TextCodeEditorController!
     var visualCodeEditorController: VisualCodeEditorController!
 
-    /*
-    var appID: Int!
+    var codeEditorControllerDelegate: CodeEditorControllerDelegate?
 
-    var ui: UIView!
-
-    var uiData: UIData!
-
-    var uiEditorController: UIEditorController?
-    */
+    var appID: Int?
 
     let initialEditorMode = EditorMode.Visual
 
     var editorMode: EditorMode!
 
+    var codeTitle = ""
+
     var codeStr = ""
 
-    var updateClosure: ((String) -> Void)?
+    var updateCodeClosure: ((String) -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initEditorView()
         initEditor()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        print("Close!")
+        self.updateCode()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -57,45 +60,23 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is UISettingsController {
+            self.updateCode()
+
+            (viewController as! UISettingsController).uiSettingsDelegate.saveApp()
+        }
+    }
+
+    func updateCode() {
         if editorMode == .Visual {
             codeStr = visualCodeEditorController.vplToCode()
         }
 
-        self.updateCode()
-
-        /*
-        if viewController is UIEditorController {
-            updateCode()
-
-            (viewController as! UIEditorController).saveApp()
-        }
-        */
-    }
-
-    func updateCode() {
-        self.updateClosure?(self.codeStr)
-        /*
-        switch uiData.uiType {
-        case .Button:
-            uiData.buttonData?.onTap.code = codeStr
-
-        case .TextField:
-            uiData.textFieldData?.onChange.code = codeStr
-
-        case .Switch:
-            uiData.switchData?.onChange.code = codeStr
-
-        case .Slider:
-            uiData.sliderData?.onChange.code = codeStr
-
-        default:
-            break
-        }
-        */
+        self.updateCodeClosure?(self.codeStr)
     }
 
     func initEditorView() {
-        //self.navigationItem.title = uiData.uiName
+        self.navigationItem.title = self.codeTitle
 
         navigationController?.delegate = self
     }
@@ -167,19 +148,24 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     @IBAction func variableSettingsButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "VariableSettings", bundle: nil)
-        guard let variableSettingsController = storyboard.instantiateInitialViewController() as? VariableSettingsController else {
-            fatalError()
+        if let appID = self.appID, let codeEditorControllerDelegate = self.codeEditorControllerDelegate {
+
+            let storyboard = UIStoryboard(name: "VariableSettings", bundle: nil)
+            guard let variableSettingsController = storyboard.instantiateInitialViewController() as? VariableSettingsController else {
+                fatalError()
+            }
+
+            self.updateCode()
+
+            variableSettingsController.codeStr = codeEditorControllerDelegate.getAllCodeStr()
+
+            variableSettingsController.appID = self.appID
+
+            navigationController?.present(variableSettingsController, animated: true)
         }
-
-        updateCode()
-
-        /*
-        variableSettingsController.codeStr = self.uiEditorController?.getCodeStr()
-
-        variableSettingsController.appID = self.appID
-        */
-
-        navigationController?.present(variableSettingsController, animated: true)
     }
+}
+
+protocol CodeEditorControllerDelegate {
+    func getAllCodeStr() -> String
 }

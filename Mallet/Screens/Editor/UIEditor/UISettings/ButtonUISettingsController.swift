@@ -14,8 +14,8 @@ class ButtonUISettingsController: UISettingsController {
         super.viewDidLoad()
     }
 
-    override init(ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate) {
-        super.init(ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate)
+    override init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate) {
+        super.init(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
     }
 
     required init?(coder: NSCoder) {
@@ -107,13 +107,18 @@ class ButtonUISettingsController: UISettingsController {
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath.section == 2 {
-            let updateClosure: ((String) -> Void)!
+            let updateCodeClosure: ((String) -> Void)!
+            let codeStr: String!
+            let codeTitle: String!
 
             switch indexPath.row {
             case 0:
-                updateClosure = { (code) in
+                updateCodeClosure = { (code) in
                     self.uiData.buttonData?.code[.OnTap]?.code = code
                 }
+                codeStr = self.uiData.buttonData?.code[.OnTap]?.code ?? ""
+                codeTitle = "Tap"
+
             default:
                 return
             }
@@ -124,11 +129,17 @@ class ButtonUISettingsController: UISettingsController {
                 fatalError()
             }
 
-            /*
-            codeEditorController.updateClosure = updateClosure
+            codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
+
+            codeEditorController.updateCodeClosure = updateCodeClosure
+
+            codeEditorController.codeStr = codeStr
+
+            codeEditorController.codeTitle = codeTitle
+
+            codeEditorController.appID = self.appID
 
             navigationController?.pushViewController(codeEditorController, animated: true)
-            */
         }
 
 
