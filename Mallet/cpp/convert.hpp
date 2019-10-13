@@ -183,7 +183,7 @@ private:
     std::vector<int> memorySize;
     std::vector<int> listMemorySize;
 
-    std::unordered_map<std::string, int> listAddresses;
+    std::map<std::string, int> listAddresses;
     std::vector<int> listNums;
     int listNum;
 

@@ -1404,8 +1404,8 @@ void Convert::ListFunction()
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            globalVariableNum++;
-            globalVariableAddress[varName] = globalVariableNum;
+            globalListNum++;
+            globalListAddresses[varName] = globalListNum;
 
             if (typeInfo.isCloudVariable || typeInfo.isPersistentVariable)
             {
@@ -1415,7 +1415,7 @@ void Convert::ListFunction()
             }
             else
             {
-                int address = globalVariableAddress[varName];
+                int address = globalListAddresses[varName];
 
                 AddPushAddressCode(address, true);
                 AddCmdCode(INIT_LIST, 1);
@@ -1648,16 +1648,12 @@ void Convert::InitConverter()
 
     variableAddresses.clear();
 
-    /*
-    sharedVariableNum = 0;
-    sharedVariableAddress = std::unordered_map<std::string, int>();
-    isSharedVariable = std::unordered_map<std::string, bool>();
-    */
-
     globalVariableNum = 4;
 
     listNum = 0;
+    globalListNum = 0;
     listAddresses.clear();
+    globalListAddresses.clear();
 }
 
 void Convert::ClearLocalVariable()
@@ -1666,8 +1662,8 @@ void Convert::ClearLocalVariable()
     variableAddresses = globalVariableAddress;
     variableNum = 0;
 
-    listAddresses.clear();
-    listNum = 0;
+    listAddresses = globalListAddresses;
+    listNum = globalListNum;
 }
 
 bool Convert::checkName(const std::string name)

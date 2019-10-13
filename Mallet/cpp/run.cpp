@@ -310,27 +310,53 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 break;
 
                 case INIT_LIST:
-                    lists[getIntValue(*topStackData[0])].clear();
+                {
+                    int address = getIntValue(*topStackData[0]);
+                    if (address <= globalListNum)
+                        globalList[address].clear();
+                    else
+                        lists[address].clear();
+                }
 
-                    break;
+                break;
 
                 case ADD_LIST:
-                    lists[getIntValue(*topStackData[0])].push_back(*topStackData[1]);
+                {
+                    int address = getIntValue(*topStackData[0]);
+                    if (address <= globalListNum)
+                        globalList[address].push_back(*topStackData[1]);
+                    else
+                        lists[address].push_back(*topStackData[1]);
+                }
 
-                    break;
+                break;
 
                 case INSERT_LIST:
                 {
                     int listAddress = getIntValue(*topStackData[0]);
                     int elementAddress = getIntValue(*topStackData[1]);
 
-                    if (lists[listAddress].size() <= elementAddress)
+                    if (listAddress <= globalListNum)
                     {
-                        lists[listAddress].push_back(*topStackData[2]);
+                        if (globalList[listAddress].size() <= elementAddress)
+                        {
+                            globalList[listAddress].push_back(*topStackData[2]);
+                        }
+                        else
+                        {
+                            globalList[listAddress].insert(globalList[listAddress].begin() + elementAddress, *topStackData[2]);
+                        }
                     }
                     else
                     {
-                        lists[listAddress].insert(lists[listAddress].begin() + elementAddress, *topStackData[2]);
+                        if (lists[listAddress].size() <= elementAddress)
+                        {
+                            lists[listAddress].push_back(*topStackData[2]);
+                        }
+                        else
+                        {
+                            lists[listAddress].insert(lists[listAddress].begin() + elementAddress, *topStackData[2]);
+                        }
                     }
                 }
 
@@ -341,13 +367,27 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     int listAddress = getIntValue(*topStackData[0]);
                     int elementAddress = getIntValue(*topStackData[1]);
 
-                    if (lists[listAddress].size() - 1 == elementAddress)
+                    if (listAddress <= globalListNum)
                     {
-                        lists[listAddress].pop_back();
+                        if (globalList[listAddress].size() - 1 == elementAddress)
+                        {
+                            globalList[listAddress].pop_back();
+                        }
+                        else
+                        {
+                            globalList[listAddress].erase(globalList[listAddress].begin() + elementAddress);
+                        }
                     }
-                    else if (lists[listAddress].size() - 1 > elementAddress)
+                    else
                     {
-                        lists[listAddress].erase(lists[listAddress].begin() + elementAddress);
+                        if (lists[listAddress].size() - 1 == elementAddress)
+                        {
+                            lists[listAddress].pop_back();
+                        }
+                        else if (lists[listAddress].size() - 1 > elementAddress)
+                        {
+                            lists[listAddress].erase(lists[listAddress].begin() + elementAddress);
+                        }
                     }
                 }
 
@@ -360,25 +400,48 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                     stackIndex++;
 
-                    if (lists[listAddress].size() <= elementAddress)
+                    if (listAddress <= globalListNum)
                     {
-                        stack[stackIndex] = 0;
+                        if (globalList[listAddress].size() <= elementAddress)
+                        {
+                            stack[stackIndex] = 0;
+                        }
+                        else
+                        {
+                            stack[stackIndex] = globalList[listAddress][elementAddress];
+                        }
                     }
                     else
                     {
-                        stack[stackIndex] = lists[listAddress][elementAddress];
+                        if (lists[listAddress].size() <= elementAddress)
+                        {
+                            stack[stackIndex] = 0;
+                        }
+                        else
+                        {
+                            stack[stackIndex] = lists[listAddress][elementAddress];
+                        }
                     }
                 }
 
                 break;
 
                 case GET_LIST_SIZE:
+                {
+                    int address = getIntValue(*topStackData[0]);
 
                     stackIndex++;
 
-                    stack[stackIndex] = (int)lists[getIntValue(*topStackData[0])].size();
-
-                    break;
+                    if (address <= globalListNum)
+                    {
+                        stack[stackIndex] = (int)globalList[address].size();
+                    }
+                    else
+                    {
+                        stack[stackIndex] = (int)lists[address].size();
+                    }
+                }
+                break;
 
                 case SET_PERSISTENT_LIST:
                 {
