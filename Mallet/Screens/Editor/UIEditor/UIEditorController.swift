@@ -473,10 +473,27 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                    """
 
         for ui in uiDictionary {
-            code += """
-                    @ui var \(ui.value.uiName) = \(ui.value.uiID)
+            if ui.value.uiData.uiType == .Table {
+                var listContent = ""
+                if let tableData = ui.value.uiData.tableData {
+                    for (index, content) in tableData.value.enumerated() {
+                        listContent += "\"\(content)\""
+                        if index < tableData.value.count - 1 {
+                            listContent += ","
+                        }
+                    }
+                }
 
-                    """
+                code += """
+                        list #ui \(ui.value.uiName) = {\(listContent)}:\(ui.value.uiID)
+
+                        """
+            } else {
+                code += """
+                        var #ui \(ui.value.uiName) = \(ui.value.uiID)
+
+                        """
+            }
         }
 
         return code
@@ -489,14 +506,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         var code = """
                    \(getUINameDeclarationCode())
-
-                   var global = 0
-
-                   @cloud var label
-
-                   @cloud var yay
-
-                   @persistent var deviceVar
 
                    func init()
                    {
@@ -597,14 +606,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     func getAllCodeStr() -> String {
         var code = """
                    \(getUINameDeclarationCode())
-
-                   var global = 0
-
-                   @cloud var label 
-
-                   @cloud var yay
-
-                   @persistent var deviceVar
 
                    func init()
                    {
