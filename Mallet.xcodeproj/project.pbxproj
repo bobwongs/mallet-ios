@@ -10,6 +10,7 @@
 		0E07A15522B47FA200A848C2 /* SPEC.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E07A15422B47FA100A848C2 /* SPEC.md */; };
 		0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
+		0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E21029E23537327005DC7FA /* bytecode_to_string.cpp */; };
 		0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */; };
 		0E34DBF323438E3200F624A2 /* AppUIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E34DBF223438E3200F624A2 /* AppUIController.swift */; };
 		0E390D20234F80330072C5F3 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E390D1F234F80330072C5F3 /* StringExtension.swift */; };
@@ -98,6 +99,8 @@
 		0E07A15422B47FA100A848C2 /* SPEC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SPEC.md; sourceTree = "<group>"; };
 		0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
+		0E21029E23537327005DC7FA /* bytecode_to_string.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bytecode_to_string.cpp; sourceTree = "<group>"; };
+		0E21029F23537328005DC7FA /* bytecode_to_string.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bytecode_to_string.hpp; sourceTree = "<group>"; };
 		0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabaseController.swift; sourceTree = "<group>"; };
 		0E34DBF223438E3200F624A2 /* AppUIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUIController.swift; sourceTree = "<group>"; };
 		0E390D1F234F80330072C5F3 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -473,6 +476,8 @@
 				0E9F3DA422F191120013659C /* common.hpp */,
 				0E4288A722F590E2005CF2BF /* cast.cpp */,
 				0E4288A822F590E2005CF2BF /* cast.hpp */,
+				0E21029E23537327005DC7FA /* bytecode_to_string.cpp */,
+				0E21029F23537328005DC7FA /* bytecode_to_string.hpp */,
 			);
 			path = cpp;
 			sourceTree = "<group>";
@@ -792,6 +797,7 @@
 				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E9A958422F96DF900930215 /* BlockData.swift in Sources */,
 				0E829C5B23101B5F008FE529 /* AddShortcut.swift in Sources */,
+				0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,

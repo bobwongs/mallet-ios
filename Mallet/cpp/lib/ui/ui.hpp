@@ -32,4 +32,6 @@ var setUIBackgroundColor(std::vector<var> &args);
 
 var getUIText(std::vector<var> &args);
 
+void setUITable(int uiID, std::vector<var> &list);
+
 #endif /* ui_hpp */

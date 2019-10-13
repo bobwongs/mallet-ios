@@ -324,7 +324,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
                 {
                     int address = getIntValue(*topStackData[0]);
                     if (address <= globalListNum)
+                    {
                         globalList[address].push_back(*topStackData[1]);
+                    }
                     else
                         lists[address].push_back(*topStackData[1]);
                 }
@@ -460,6 +462,17 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     std::string varName = getStringValue(globalVariable[address]);
 
                     //TODO:
+                }
+                break;
+
+                case SET_LIST_UI:
+                {
+                    int appID = getIntValue(*topStackData[0]);
+                    std::vector<var> list = globalList[getIntValue(*topStackData[1])];
+
+#if defined(DEBUG)
+                    setUITable(appID, list);
+#endif
                 }
                 break;
 
@@ -761,7 +774,9 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
     }
 
     for (int i = 0; i < variableInitialValues.size(); i++)
+    {
         globalVariable[i] = variableInitialValues[i];
+    }
 
     globalVariable[1] = true;
     globalVariable[2] = false;

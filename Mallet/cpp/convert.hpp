@@ -11,6 +11,7 @@
 
 #include "common.hpp"
 #include "cpp_func_manager.hpp"
+#include "bytecode_to_string.hpp"
 
 static const std::set<std::string> symbol = {"(", ")", "{", "}", "[", "]", ">", "<", "=", "+", "-", "*", "/", "%", "&", "|", "!", ":", ",", "~", "\""};
 static const std::set<std::string> doubleSymbol = {"==", "!=", ">=", "<=", "&&", "||"};

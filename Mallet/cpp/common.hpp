@@ -62,6 +62,7 @@ enum
     REMOVE_LIST,
     GET_LIST,
     GET_LIST_SIZE,
+    SET_LIST_UI,
 
     PRINT_NUMBER,
     PRINT_STRING,

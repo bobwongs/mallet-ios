@@ -46,3 +46,15 @@ var getUIText(std::vector<var> &args)
 
     return [textString UTF8String];
 }
+
+void setUITable(int uiID, std::vector<var> &list)
+{
+    NSMutableArray *listString = [[NSMutableArray alloc] init];
+
+    for (var element : list)
+    {
+        [listString addObject:[NSString stringWithCString:getOutValue(element).c_str() encoding:NSUTF8StringEncoding]];
+    }
+
+    [AppUIController setUITableWithId:uiID list:listString];
+}

@@ -16,6 +16,7 @@
 
 #if !debugMode
 #include "./lib/db/db.hpp"
+#include "./lib/ui/ui.hpp"
 #endif
 
 class Run

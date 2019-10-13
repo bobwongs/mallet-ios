@@ -228,6 +228,7 @@ void Convert::DeclareConstant(const int firstCodeIndex)
             globalVariableAddress[varName] = globalVariableNum;
 
             globalVariableType[varName] = {true, false, false, false, false, -1, -1};
+            variableType[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 2);
         }
@@ -277,7 +278,6 @@ void Convert::DeclareConstant(const int firstCodeIndex)
             globalVariableAddress[varName] = globalVariableNum;
 
             globalVariableType[varName] = {true, false, false, false, false, -1, -1};
-
             variableType[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = std::stod(code[firstCodeIndex]);
@@ -612,6 +612,11 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             codeSize++;
 
         int argIndex = 0;
+
+        bool setList = false;
+        int listAddress;
+        int listUIid;
+
         while (code[codeIndex] != ")")
         {
             if (isMalletFunc)
@@ -675,6 +680,18 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 
                 codeSize += 2;
                 codeIndex += 1;
+
+                if (argIndex == 0)
+                {
+                    if (funcName == "add" ||
+                        funcName == "insert" ||
+                        funcName == "remove")
+                    {
+                        setList = true;
+                        listAddress = globalListAddresses[varName];
+                        listUIid = globalVariableType[varName].uiID;
+                    }
+                }
             }
             break;
 
@@ -722,6 +739,13 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 
         if (isDefaultFunc)
             AddCmdCode(defaultFuncData[thisFuncData.funcName].first, defaultFuncData[thisFuncData.funcName].second.size());
+
+        if (setList)
+        {
+            AddPushAddressCode(listUIid, true);
+            AddPushAddressCode(listAddress, true);
+            AddCmdCode(SET_LIST_UI, 2);
+        }
     }
 
     return codeSize;
@@ -970,6 +994,13 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                         AddPushAddressCode(address, false);
 
                         AddCmdCode(SET_CLOUD_LIST, 2);
+                    }
+
+                    if (typeInfo.isUI)
+                    {
+                        AddPushAddressCode(typeInfo.uiID, true);
+                        AddPushAddressCode(address, true);
+                        AddCmdCode(SET_LIST_UI, 2);
                     }
                 }
                 else
@@ -1222,6 +1253,8 @@ std::string Convert::ConvertCode(std::string codeStr)
 
     bytecode.resize(bytecodeSize);
 
+    Bytecode2String().ShowBytecodeString(bytecode);
+
     return Code2Str();
 }
 
@@ -1443,8 +1476,13 @@ void Convert::ListFunction()
                 if (typeInfo.isUI)
                 {
                     codeIndex += 1;
-                    typeInfo.uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                    std::string uiIDStr = code[codeIndex].substr(1, code[codeIndex].size() - 1);
+                    typeInfo.uiID = (int)strtol(uiIDStr.c_str(), NULL, 10);
                     codeIndex += 1;
+
+                    AddPushAddressCode(typeInfo.uiID, true);
+                    AddPushAddressCode(address, true);
+                    AddCmdCode(SET_LIST_UI, 2);
                 }
             }
 

@@ -217,12 +217,27 @@ class AppUIController: NSObject {
 
         if let ui = appRunner?.appUI[id] {
             if let labelData = ui.getUIData().labelData {
-                print(labelData.text)
                 return labelData.text
             }
         }
 
         return ""
+    }
+
+    static func setUITable(id: Int, list: NSMutableArray) {
+        DispatchQueue.main.async {
+            let appRunner = AppRunner.topAppRunner()
+
+            if let ui = appRunner?.appUI[id] {
+                var newList = [String]()
+                for element in list {
+                    newList.append((element as? String) ?? "")
+                }
+
+                ui.getUIData().tableData?.value = newList
+                ui.reloadUI()
+            }
+        }
     }
 
 }
