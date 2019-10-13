@@ -201,7 +201,7 @@ int Convert::DeclareString(const std::string str)
 
         globalVariableAddress[str] = globalVariableNum;
 
-        globalVariableType[str] = GLOBAL_VARIABLE;
+        globalVariableType[str] = {true, false, false, false, false, -1, -1};
 
         variableInitialValues[globalVariableNum] = str;
 
@@ -227,7 +227,7 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
             globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableType[varName] = GLOBAL_VARIABLE;
+            globalVariableType[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 2);
         }
@@ -276,9 +276,9 @@ void Convert::DeclareConstant(const int firstCodeIndex)
             globalVariableNum++;
             globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableType[varName] = GLOBAL_VARIABLE;
+            globalVariableType[varName] = {true, false, false, false, false, -1, -1};
 
-            variableType[varName] = GLOBAL_VARIABLE;
+            variableType[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = std::stod(code[firstCodeIndex]);
         }
@@ -308,50 +308,41 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         int address = -1;
 
-        switch (variableType[code[firstCodeIndex]])
+        auto typeInfo = variableType[code[firstCodeIndex]];
+
+        if (typeInfo.isList)
         {
-        case VARIABLE:
-            address = variableAddresses[code[firstCodeIndex]];
+            if (typeInfo.isGlobalVariable)
+            {
+                address = globalListAddresses[code[firstCodeIndex]];
 
-            if (convert)
-                AddPushCode(address, false);
+                if (convert)
+                    AddPushAddressCode(address, true);
+            }
+            else
+            {
+                address = listAddresses[code[firstCodeIndex]];
 
-            break;
+                if (convert)
+                    AddPushAddressCode(address, false);
+            }
+        }
+        else
+        {
+            if (typeInfo.isGlobalVariable)
+            {
+                address = globalVariableAddress[code[firstCodeIndex]];
 
-        case GLOBAL_VARIABLE:
-            address = globalVariableAddress[code[firstCodeIndex]];
+                if (convert)
+                    AddPushGlobalCode(address);
+            }
+            else
+            {
+                address = variableAddresses[code[firstCodeIndex]];
 
-            if (convert)
-                AddPushGlobalCode(address);
-
-            break;
-
-        case PERSISTENT_VARIABLE:
-            address = globalVariableAddress[code[firstCodeIndex]];
-
-            if (convert)
-                AddPushPersistentCode(address);
-
-            break;
-
-        case CLOUD_VARIABLE:
-            address = globalVariableAddress[code[firstCodeIndex]];
-
-            if (convert)
-                AddPushCloudCode(address);
-
-            break;
-
-        case LIST:
-            address = listAddresses[code[firstCodeIndex]];
-
-            if (convert)
-                AddPushAddressCode(address, false);
-
-            break;
-
-        default:
-            break;
+                if (convert)
+                    AddPushCode(address, false);
+            }
         }
     }
 }
@@ -444,7 +435,7 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
                         break;
                 }
 
-                if (funcNames.count(code[i]) > 0 || cppFuncNames.count(code[i]) > 0)
+                if (isFuncExists[code[i]] || isCppFuncExists[code[i]] || defaultFuncNames.count(code[i]) > 0)
                 {
                     i += ConvertFunc(i, false);
                 }
@@ -529,7 +520,7 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
     {
         ConvertListElement(firstCodeIndex, convert);
     }
-    else if (funcNames.count(code[parts[0].first]) > 0 || cppFuncNames.count(code[parts[0].first]) > 0)
+    else if (isFuncExists[code[parts[0].first]] || isCppFuncExists[code[parts[0].first]] || defaultFuncNames.count(code[parts[0].first]) > 0)
     {
         ConvertFunc(firstCodeIndex, convert);
     }
@@ -569,21 +560,28 @@ int Convert::ConvertFormula(const int firstCodeIndex, int operatorNumber, const 
 
 int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
 {
+    std::string funcName = code[firstCodeIndex];
+    if (!isFuncExists[funcName] && !isCppFuncExists[funcName] && defaultFuncNames.count(funcName) == 0)
+    {
+        printf("Error : The function %s is not declared\n", funcName.c_str());
+
+        return 0;
+    }
+
     funcData thisFuncData;
-    thisFuncData.funcName = code[firstCodeIndex];
+    if (isFuncExists[funcName] || defaultFuncNames.count(funcName))
+        thisFuncData = funcDataMap[funcName];
+    if (isCppFuncExists[funcName])
+        thisFuncData = cppFuncDataMap[funcName];
 
     int codeSize = 2; //* funcname(
     int codeIndex = firstCodeIndex + 2;
 
     if (code[codeIndex] == ")")
-        codeSize++;
-
-    int argNum = 0;
+        codeSize += 1;
 
     while (code[codeIndex] != ")")
     {
-        argNum++;
-
         int formulaCodeSize = ConvertFormula(codeIndex, 0, false);
 
         codeSize += formulaCodeSize + 1;
@@ -594,24 +592,15 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             codeIndex++;
     }
 
-    thisFuncData.argNum = argNum;
-
-    if (!isFuncExists[thisFuncData] && !isCppFuncExists[thisFuncData] && defaultFuncNames.count(thisFuncData.funcName) == 0)
-    {
-        printf("Error : The function %s is not declared\n", thisFuncData.funcName.c_str());
-
-        return codeSize;
-    }
-
-    bool isCppFunc = isCppFuncExists[thisFuncData];
-    bool isMalletFunc = isFuncExists[thisFuncData] && (defaultFuncNames.count(thisFuncData.funcName) == 0);
+    bool isCppFunc = isCppFuncExists[thisFuncData.funcName];
+    bool isMalletFunc = isFuncExists[thisFuncData.funcName] && (defaultFuncNames.count(thisFuncData.funcName) == 0);
     bool isDefaultFunc = defaultFuncNames.count(thisFuncData.funcName) > 0;
 
     int funcID;
     if (isCppFunc)
-        funcID = cppFuncIDs[thisFuncData];
+        funcID = cppFuncIDs[thisFuncData.funcName];
     if (isMalletFunc)
-        funcID = funcIDs[thisFuncData];
+        funcID = funcIDs[thisFuncData.funcName];
 
     if (convert)
     {
@@ -628,14 +617,87 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             if (isMalletFunc)
                 AddPushAddressCode(funcArgAddresses[funcID][argIndex], true);
 
-            int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
+            ArgType type = thisFuncData.argType[argIndex];
+
+            switch (type)
+            {
+            case ArgType::VALUE:
+            {
+                int formulaCodeSize = ConvertFormula(codeIndex, 0, true);
+
+                codeSize += formulaCodeSize + 1;
+
+                codeIndex += formulaCodeSize;
+            }
+            break;
+
+            case ArgType::VAR:
+            {
+                std::string varName = code[codeIndex];
+                auto typeInfo = variableType[varName];
+
+                if (!typeInfo.isList)
+                {
+                    int address = variableAddresses[varName];
+
+                    if (typeInfo.isGlobalVariable)
+                    {
+                        AddPushAddressCode(address, true);
+                    }
+                    else
+                    {
+                        AddPushAddressCode(address, false);
+                    }
+
+                    codeSize += 2;
+                    codeIndex += 1;
+                }
+            }
+            break;
+
+            case ArgType::LIST:
+            {
+                std::string varName = code[codeIndex];
+                auto typeInfo = variableType[varName];
+                if (typeInfo.isList)
+                {
+                    int address = listAddresses[varName];
+
+                    if (typeInfo.isGlobalVariable)
+                    {
+                        AddPushAddressCode(address, true);
+                    }
+                    else
+                    {
+                        AddPushAddressCode(address, false);
+                    }
+                }
+
+                codeSize += 2;
+                codeIndex += 1;
+            }
+            break;
+
+            case ArgType::UI:
+            {
+                std::string varName = code[codeIndex];
+                auto typeInfo = variableType[varName];
+                if (typeInfo.isUI)
+                {
+                    AddPushAddressCode(typeInfo.uiID, true);
+                }
+
+                codeSize += 2;
+                codeIndex += 1;
+            }
+            break;
+
+            default:
+                break;
+            }
 
             if (isMalletFunc)
                 AddCmdCode(SET_GLOBAL_VARIABLE, 2);
-
-            codeSize += formulaCodeSize + 1;
-
-            codeIndex += formulaCodeSize;
 
             if (code[codeIndex] == ",")
                 codeIndex++;
@@ -651,7 +713,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             AddPushAddressCode(funcID, true);
 
         if (isCppFunc)
-            AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argNum);
+            AddCmdCode(CALL_CPP_FUNC, 1 + thisFuncData.argType.size());
         if (isMalletFunc)
             AddCmdCode(CALL_MALLET_FUNC, 1);
 
@@ -659,7 +721,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             bytecode[backIndex] = bytecodeIndex;
 
         if (isDefaultFunc)
-            AddCmdCode(defaultFuncData[thisFuncData.funcName].first, defaultFuncData[thisFuncData.funcName].second);
+            AddCmdCode(defaultFuncData[thisFuncData.funcName].first, defaultFuncData[thisFuncData.funcName].second.size());
     }
 
     return codeSize;
@@ -850,7 +912,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
 
             bytecode[firstJumpIndex + 3] = bytecodeIndex;
         }
-        else if (funcNames.count(token) > 0 || cppFuncNames.count(token) > 0)
+        else if (isFuncExists[token] || isCppFuncExists[token] || defaultFuncNames.count(token) > 0)
         {
             codeSize = ConvertFunc(codeIndex, true);
         }
@@ -863,96 +925,122 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 DeclareVariable(varName, false);
             }
 
-            int varType = variableType[varName];
+            auto typeInfo = variableType[varName];
 
-            switch (varType)
+            if (typeInfo.isList)
             {
-            case VARIABLE:
-            {
-                int address = variableAddresses[varName];
-
-                AddPushAddressCode(address, false);
-
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
-
-                AddCmdCode(SET_VARIABLE, 2);
-
-                break;
-            }
-
-            case GLOBAL_VARIABLE:
-            {
-                int address = globalVariableAddress[varName];
-
-                AddPushAddressCode(address, true);
-
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
-
-                AddCmdCode(SET_GLOBAL_VARIABLE, 2);
-
-                break;
-            }
-
-            case PERSISTENT_VARIABLE:
-            {
-                int address = globalVariableAddress[varName];
-
-                AddPushAddressCode(address, true);
-
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
-
-                AddCmdCode(SET_PERSISTENT_VARIABLE, 2);
-
-                break;
-            }
-
-            case CLOUD_VARIABLE:
-            {
-                int address = globalVariableAddress[varName];
-
-                AddPushAddressCode(address, true);
-
-                codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
-
-                AddCmdCode(SET_CLOUD_VARIABLE, 2);
-
-                break;
-            }
-
-            case LIST:
-            {
-                int address = listAddresses[varName];
-
-                AddPushAddressCode(address, false);
-                AddCmdCode(INIT_LIST, 1);
-
-                //       v
-                // a = { 1 , 2 , 8 }
-                //       ^
-                int index = codeIndex + 3;
-
-                if (code[index] == "}")
+                if (typeInfo.isGlobalVariable)
                 {
-                    index += 1;
+                    int address = globalListAddresses[varName];
+
+                    AddPushAddressCode(address, true);
+                    AddCmdCode(INIT_LIST, 1);
+
+                    int index = codeIndex + 3;
+
+                    if (code[index] == "}")
+                    {
+                        index += 1;
+                    }
+                    else
+                    {
+                        while (code[index - 1] != "}")
+                        {
+                            AddPushAddressCode(address, false);
+                            index += ConvertFormula(index, 0, true) + 1;
+                            AddCmdCode(ADD_LIST, 2);
+                        }
+                    }
+
+                    codeSize = index - codeIndex;
+
+                    if (typeInfo.isPersistentVariable)
+                    {
+                        AddPushAddressCode(typeInfo.nameAddress, true);
+
+                        AddPushAddressCode(address, false);
+
+                        AddCmdCode(SET_PERSISTENT_LIST, 2);
+                    }
+
+                    if (typeInfo.isCloudVariable)
+                    {
+                        AddPushAddressCode(typeInfo.nameAddress, true);
+
+                        AddPushAddressCode(address, false);
+
+                        AddCmdCode(SET_CLOUD_LIST, 2);
+                    }
                 }
                 else
                 {
-                    while (code[index - 1] != "}")
+                    int address = listAddresses[varName];
+
+                    AddPushAddressCode(address, false);
+                    AddCmdCode(INIT_LIST, 1);
+
+                    //       v
+                    // a = { 1 , 2 , 8 }
+                    //       ^
+                    int index = codeIndex + 3;
+
+                    if (code[index] == "}")
                     {
-                        AddPushAddressCode(address, false);
-                        index += ConvertFormula(index, 0, true) + 1;
-                        AddCmdCode(ADD_LIST, 2);
+                        index += 1;
+                    }
+                    else
+                    {
+                        while (code[index - 1] != "}")
+                        {
+                            AddPushAddressCode(address, false);
+                            index += ConvertFormula(index, 0, true) + 1;
+                            AddCmdCode(ADD_LIST, 2);
+                        }
+                    }
+
+                    codeSize = index - codeIndex;
+                }
+            }
+            else
+            {
+                if (typeInfo.isGlobalVariable)
+                {
+                    int address = globalVariableAddress[varName];
+
+                    AddPushAddressCode(address, true);
+
+                    codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
+
+                    AddCmdCode(SET_GLOBAL_VARIABLE, 2);
+
+                    if (typeInfo.isPersistentVariable)
+                    {
+                        AddPushAddressCode(typeInfo.nameAddress, true);
+
+                        AddPushGlobalCode(address);
+
+                        AddCmdCode(SET_PERSISTENT_VARIABLE, 2);
+                    }
+
+                    if (typeInfo.isCloudVariable)
+                    {
+                        AddPushAddressCode(typeInfo.nameAddress, true);
+
+                        AddPushGlobalCode(address);
+
+                        AddCmdCode(SET_CLOUD_VARIABLE, 2);
                     }
                 }
+                else
+                {
+                    int address = variableAddresses[varName];
 
-                codeSize = index - codeIndex;
+                    AddPushAddressCode(address, false);
 
-                break;
-            }
+                    codeSize = 2 + ConvertFormula(codeIndex + 2, 0, true);
 
-            default:
-                printf("%s is undefined #%d\n", varName.c_str(), codeIndex);
-                break;
+                    AddCmdCode(SET_VARIABLE, 2);
+                }
             }
         }
 
@@ -1063,9 +1151,9 @@ std::string Convert::Code2Str()
     }
     str += "#LIST_MEMORY_SIZE_END\n";
 
-    str += "#SHARED_LIST_NUM\n";
-    str += std::to_string(sharedListNum) + "\n";
-    str += "#SHARED_LIST_NUM_END\n";
+    str += "#GLOBAL_LIST_NUM\n";
+    str += std::to_string(globalListNum) + "\n";
+    str += "#GLOBAL_LIST_NUM_END\n";
 
     str += "#END\n";
 
@@ -1148,10 +1236,14 @@ void Convert::ListFunction()
     std::unordered_map<std::string, std::string> newVarName;
 
     defaultFuncNames.clear();
-    for (auto funcData : defaultFuncData)
+    for (auto func : defaultFuncData)
     {
-        funcNames.insert(funcData.first);
-        defaultFuncNames.insert(funcData.first);
+        funcData newFuncData;
+        newFuncData.funcName = func.first;
+        newFuncData.argType = func.second.second;
+
+        funcDataMap[func.first] = newFuncData;
+        defaultFuncNames.insert(func.first);
     }
 
     while (codeIndex < code.size())
@@ -1171,6 +1263,11 @@ void Convert::ListFunction()
 
             codeIndex += 3;
 
+            /*
+                       v
+            func yay ( a : UI , b )
+                       ^
+            */
             if (code[codeIndex] == ")")
             {
                 codeIndex += 2;
@@ -1192,10 +1289,24 @@ void Convert::ListFunction()
                     code[codeIndex + 1] = newName;
                     newVarName[name] = newName;
 
-                    codeIndex += 2;
-                }
+                    if (code[codeIndex + 1] == ":")
+                    {
+                        std::string argType = code[codeIndex + 2];
+                        if (argType == "ui")
+                            newFuncData.argType.push_back(ArgType::UI);
+                        if (argType == "var")
+                            newFuncData.argType.push_back(ArgType::VAR);
+                        if (argType == "list")
+                            newFuncData.argType.push_back(ArgType::LIST);
 
-                newFuncData.argNum = argNum;
+                        codeIndex += 4;
+                    }
+                    else
+                    {
+                        newFuncData.argType.push_back(ArgType::VALUE);
+                        codeIndex += 2;
+                    }
+                }
 
                 codeIndex++;
             }
@@ -1211,27 +1322,36 @@ void Convert::ListFunction()
                 codeIndex++;
             }
 
-            if (isFuncExists[newFuncData] || isCppFuncExists[newFuncData] || !checkName(newFuncData.funcName))
+            if (!checkName(newFuncData.funcName))
             {
                 printf("The function %s is already declared\n", newFuncData.funcName.c_str());
                 break;
             }
 
-            funcNames.insert(newFuncData.funcName);
-            funcIDs[newFuncData] = funcID;
-            isFuncExists[newFuncData] = true;
+            funcDataMap[newFuncData.funcName] = newFuncData;
+            funcIDs[newFuncData.funcName] = funcID;
+            isFuncExists[newFuncData.funcName] = true;
             funcID++;
         }
-        else if ((code[codeIndex] == "var" && code[codeIndex + 2] == "=") ||
-                 (code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "=") ||
-                 (code[codeIndex] == "@uiTable" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "="))
+        else if (code[codeIndex] == "var")
         {
-            if (code[codeIndex] == "@ui" || code[codeIndex] == "@uiTable")
+            variableTypeInfo typeInfo = {true, false, false, false, false, -1, -1};
+
+            codeIndex += 1;
+            while (codeIndex < code.size() && code[codeIndex].size() > 0 && code[codeIndex][0] == '#')
+            {
+                std::string str = code[codeIndex];
+
+                typeInfo.isCloudVariable |= str == "#cloud";
+                typeInfo.isPersistentVariable |= str == "#persistent";
+                typeInfo.isUI |= str == "#ui";
+
                 codeIndex += 1;
+            }
 
-            std::string varName = code[codeIndex + 1];
+            std::string varName = code[codeIndex];
 
-            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            if (!checkName(varName))
             {
                 printf("The variable %s is already declared\n", varName.c_str());
             }
@@ -1239,49 +1359,95 @@ void Convert::ListFunction()
             globalVariableNum++;
             globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableType[varName] = GLOBAL_VARIABLE;
+            if (typeInfo.isCloudVariable || typeInfo.isPersistentVariable)
+            {
+                typeInfo.nameAddress = DeclareString(varName);
 
-            codeIndex += 3;
+                codeIndex += 1;
+            }
+            else
+            {
+                codeIndex += 2;
 
-            AddPushAddressCode(globalVariableAddress[varName], true);
+                if (typeInfo.isUI)
+                    typeInfo.uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
 
-            codeIndex += ConvertFormula(codeIndex, 0, true);
+                AddPushAddressCode(globalVariableAddress[varName], true);
 
-            AddCmdCode(SET_GLOBAL_VARIABLE, 2);
+                codeIndex += ConvertFormula(codeIndex, 0, true);
+
+                AddCmdCode(SET_GLOBAL_VARIABLE, 2);
+            }
+
+            globalVariableType[varName] = typeInfo;
         }
-        else if (code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var")
+        else if (code[codeIndex] == "list")
         {
-            std::string varName = code[codeIndex + 2];
+            variableTypeInfo typeInfo = {true, false, false, false, true, -1, -1};
 
-            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            codeIndex += 1;
+            while (codeIndex < code.size() && code[codeIndex].size() > 0 && code[codeIndex][0] == '#')
+            {
+                std::string str = code[codeIndex];
+
+                typeInfo.isCloudVariable |= str == "#cloud";
+                typeInfo.isPersistentVariable |= str == "#persistent";
+                typeInfo.isUI |= str == "#ui";
+
+                codeIndex += 1;
+            }
+
+            std::string varName = code[codeIndex];
+
+            if (!checkName(varName))
             {
                 printf("The variable %s is already declared\n", varName.c_str());
             }
 
-            DeclareString(varName);
+            globalVariableNum++;
+            globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableAddress[varName] = globalVariableAddress[varName];
-
-            globalVariableType[varName] = PERSISTENT_VARIABLE;
-
-            codeIndex += 3;
-        }
-        else if (code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var")
-        {
-            std::string varName = code[codeIndex + 2];
-
-            if (variableType[varName] != 0 || globalVariableType[varName] != 0 || funcNames.count(varName) > 0 || cppFuncNames.count(varName) > 0)
+            if (typeInfo.isCloudVariable || typeInfo.isPersistentVariable)
             {
-                printf("The variable %s is already declared\n", varName.c_str());
+                typeInfo.nameAddress = DeclareString(varName);
+
+                codeIndex += 1;
+            }
+            else
+            {
+                int address = globalVariableAddress[varName];
+
+                AddPushAddressCode(address, true);
+                AddCmdCode(INIT_LIST, 1);
+
+                codeIndex += 3;
+
+                //       v
+                // a = { 1 , 2 , 8 }
+                //       ^
+
+                if (code[codeIndex] == "}")
+                {
+                    codeIndex += 1;
+                }
+                else
+                {
+                    while (code[codeIndex - 1] != "}")
+                    {
+                        AddPushAddressCode(address, true);
+                        codeIndex += ConvertFormula(codeIndex, 0, true) + 1;
+                        AddCmdCode(ADD_LIST, 2);
+                    }
+                }
+
+                if (typeInfo.isUI)
+                {
+                    codeIndex += 1;
+                    typeInfo.uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                }
             }
 
-            DeclareString(varName);
-
-            globalVariableAddress[varName] = globalVariableAddress[varName];
-
-            globalVariableType[varName] = CLOUD_VARIABLE;
-
-            codeIndex += 3;
+            globalVariableType[varName] = typeInfo;
         }
         else
         {
@@ -1298,15 +1464,16 @@ void Convert::ListCppFunction()
 
     for (int funcID = 0; funcID < cppFuncManager.cppFunc.size(); funcID++)
     {
-        cppFuncNames.insert(cppFuncManager.cppFunc[funcID].funcName);
+        auto cppFuncData = cppFuncManager.cppFunc[funcID];
 
         funcData newFuncData;
 
-        newFuncData.funcName = cppFuncManager.cppFunc[funcID].funcName;
-        newFuncData.argNum = cppFuncManager.cppFunc[funcID].argNum;
+        newFuncData.funcName = cppFuncData.funcName;
+        newFuncData.argType = cppFuncData.argType;
 
-        cppFuncIDs[newFuncData] = funcID;
-        isCppFuncExists[newFuncData] = true;
+        cppFuncIDs[newFuncData.funcName] = funcID;
+        isCppFuncExists[newFuncData.funcName] = true;
+        cppFuncDataMap[newFuncData.funcName] = newFuncData;
     }
 }
 
@@ -1320,8 +1487,8 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
 
     if (isGlobal)
     {
-        variableType[name] = GLOBAL_VARIABLE;
-        globalVariableType[name] = GLOBAL_VARIABLE;
+        variableType[name] = {true, false, false, false, false, -1, -1};
+        globalVariableType[name] = {true, false, false, false, false, -1, -1};
 
         globalVariableNum++;
         globalVariableAddress[name] = globalVariableNum;
@@ -1330,7 +1497,7 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
     }
     else
     {
-        variableType[name] = VARIABLE;
+        variableType[name] = {false, false, false, false, false, -1, -1};
 
         variableNum++;
         variableAddresses[name] = variableNum;
@@ -1348,22 +1515,36 @@ int Convert::DeclareList(const std::string name, const bool isGlobal)
     }
 
     if (isGlobal)
-        variableType[name] = GLOBAL_LIST;
+    {
+        globalVariableType[name] = {true, false, false, false, true, -1, -1};
+        variableType[name] = {true, false, false, false, true, -1, -1};
+
+        globalListNum += 1;
+        globalListAddresses[name] = globalListNum;
+
+        return globalListNum;
+    }
     else
-        variableType[name] = LIST;
+    {
+        variableType[name] = {false, false, false, false, true, -1, -1};
 
-    listNum++;
-    listAddresses[name] = listNum;
+        listNum++;
+        listAddresses[name] = listNum;
 
-    return listNum;
+        return listNum;
+    }
+
+    return -1;
 }
 
 bool Convert::checkVariableOrFuncName(const std::string name)
 {
-    return variableType[name] == 0 ||
-           globalVariableType[name] == 0 ||
-           funcNames.count(name) == 0 ||
-           cppFuncNames.count(name) == 0;
+    return variableAddresses[name] == 0 ||
+           listAddresses[name] == 0 ||
+           globalVariableAddress[name] == 0 ||
+           !isFuncExists[name] ||
+           !isCppFuncExists[name] ||
+           defaultFuncNames.count(name) == 0;
 }
 
 bool Convert::isSymbol(const std::string code)
@@ -1490,10 +1671,11 @@ void Convert::ClearLocalVariable()
 
 bool Convert::checkName(const std::string name)
 {
-    if (funcNames.count(name) > 0 ||
-        cppFuncNames.count(name) > 0 ||
+    if (isCppFuncExists[name] ||
+        isFuncExists[name] ||
         defaultFuncNames.count(name) > 0 ||
-        variableType[name] != 0)
+        variableAddresses[name] != 0 ||
+        listAddresses[name] != 0)
         return false;
 
     return true;

@@ -17,18 +17,17 @@ CppFuncManager::CppFuncManager()
 {
 #if defined(DEBUG)
     //ui.hpp
-    addCppFunc(setUIPositionX, "setUIPositionX", 2);
-    addCppFunc(setUIPositionY, "setUIPositionY", 2);
-    addCppFunc(setUIText, "setUIText", 2);
-    addCppFunc(getUIText, "getUIText", 1);
+    addCppFunc(setUIPositionX, "setUIPositionX", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIPositionY, "setUIPositionY", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIText, "setUIText", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(getUIText, "getUIText", {ArgType::UI});
 
     //time.hpp
-    addCppFunc(sleepForSeconds, "sleep", 1);
+    addCppFunc(sleepForSeconds, "sleep", {ArgType::VALUE});
 #endif
 }
 
-void CppFuncManager::addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, int argNum)
+void CppFuncManager::addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, std::vector<ArgType> argType)
 {
-    cppFunc.push_back({func, funcName, argNum});
-    cppFuncID[funcName] = argNum;
+    cppFunc.push_back({func, funcName, argType});
 }

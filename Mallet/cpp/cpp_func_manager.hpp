@@ -21,18 +21,16 @@ public:
 
         std::string funcName;
 
-        int argNum;
+        std::vector<ArgType> argType;
 
     } funcData;
-
-    std::unordered_map<std::string, int> cppFuncID;
 
     std::vector<funcData> cppFunc;
 
     CppFuncManager();
 
 private:
-    void addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, int argNum);
+    void addCppFunc(var (*func)(std::vector<var> &args), std::string funcName, std::vector<ArgType> argType);
 };
 
 #endif /* cpp_func_manager_h */

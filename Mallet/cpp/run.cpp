@@ -380,6 +380,26 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                     break;
 
+                case SET_PERSISTENT_LIST:
+                {
+                    std::vector<var> list = globalList[getIntValue(*topStackData[0])];
+                    int address = getIntValue(*topStackData[1]);
+                    std::string varName = getStringValue(globalVariable[address]);
+
+                    //TODO:
+                }
+                break;
+
+                case SET_CLOUD_LIST:
+                {
+                    std::vector<var> list = globalList[getIntValue(*topStackData[0])];
+                    int address = getIntValue(*topStackData[1]);
+                    std::string varName = getStringValue(globalVariable[address]);
+
+                    //TODO:
+                }
+                break;
+
                 case JUMP:
                     if (getBoolValue(*topStackData[0]))
                     {
@@ -663,9 +683,9 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
 
             index++;
         }
-        else if (type == "#SHARED_LIST_NUM")
+        else if (type == "#GLOBAL_LIST_NUM")
         {
-            sharedListNum = (int)strtol(codeData[index].c_str(), NULL, 10);
+            globalListNum = (int)strtol(codeData[index].c_str(), NULL, 10);
             index += 2;
         }
         else
@@ -684,6 +704,8 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
     globalVariable[2] = false;
     globalVariable[3] = (double)0;
     globalVariable[4] = (double)1;
+
+    globalList = std::vector<list>(globalListNum + 10);
 
     cloudVariables = std::map<std::string, std::string>();
 

@@ -26,6 +26,14 @@ enum class ControlCode
     END_OF_FUNC,
 };
 
+enum class ArgType
+{
+    VALUE,
+    VAR,
+    LIST,
+    UI,
+};
+
 enum
 {
     CODE_BEGIN = -1000000007,
@@ -46,6 +54,8 @@ enum
     SET_CLOUD_VARIABLE,
 
     //List
+    SET_PERSISTENT_LIST,
+    SET_CLOUD_LIST,
     INIT_LIST,
     ADD_LIST,
     INSERT_LIST,

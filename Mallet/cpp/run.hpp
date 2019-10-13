@@ -49,8 +49,8 @@ private:
     int globalVariableNum;
 
     std::vector<int> listMemorySize;
-    std::vector<list> sharedList;
-    int sharedListNum;
+    std::vector<list> globalList;
+    int globalListNum;
 
     std::vector<int> bytecode;
 

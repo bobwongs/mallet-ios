@@ -46,18 +46,47 @@ private:
     struct funcData
     {
         std::string funcName;
-        int argNum;
+        std::vector<ArgType> argType;
 
+        /*
         bool operator<(const funcData &value) const
         {
-            return std::tie(funcName, argNum) < std::tie(value.funcName, value.argNum);
+            return funcName < value.funcName;
         }
+        */
     };
 
     struct formulaData
     {
         int codeSize;
         int type;
+    };
+
+    struct variableTypeInfo
+    {
+        bool isGlobalVariable = false;
+        bool isCloudVariable = false;
+        bool isPersistentVariable = false;
+        bool isUI = false;
+        bool isList = false;
+
+        int nameAddress;
+        int uiID;
+
+        /*
+        variableTypeInfo(
+            bool isGlobalVariable,
+            bool isCloudVariable,
+            bool isPersistentVariable,
+            bool isUI,
+            int nameAddress,
+            int uiID) : isGlobalVariable(isGlobalVariable),
+                        isCloudVariable(isCloudVariable),
+                        isPersistentVariable(isPersistentVariable),
+                        isUI(isUI),
+                        nameAddress(nameAddress),
+                        uiID(uiID) {}
+                        */
     };
 
     void AddCode(int code);
@@ -131,28 +160,25 @@ private:
     std::string Code2Str();
 
     std::set<std::string> typeName = {"void", "number", "string", "bool"};
-    std::set<std::string> funcNames;
-    std::map<funcData, int> funcIDs;
-    std::map<funcData, bool> isFuncExists;
+    std::map<std::string, funcData> funcDataMap;
+    std::map<std::string, int> funcIDs;
+    std::map<std::string, bool> isFuncExists;
     std::vector<std::vector<int>> funcArgTypes;
     std::vector<std::vector<std::string>> funcArgOriginalVariableNames;
 
-    std::set<std::string> cppFuncNames;
-    std::map<funcData, int> cppFuncIDs;
-    std::map<funcData, bool> isCppFuncExists;
+    std::map<std::string, funcData> cppFuncDataMap;
+    std::map<std::string, int> cppFuncIDs;
+    std::map<std::string, bool> isCppFuncExists;
 
-    std::unordered_map<std::string, int> variableType;
+    std::unordered_map<std::string, variableTypeInfo> globalVariableType;
+    std::unordered_map<std::string, variableTypeInfo> variableType;
+
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<int> variableNums;
     int variableNum;
 
-    std::unordered_map<std::string, int> globalVariableType;
     std::unordered_map<std::string, int> globalVariableAddress;
     int globalVariableNum;
-
-    int persistantVariableNum;
-
-    int cloudVariableNum;
 
     std::vector<int> memorySize;
     std::vector<int> listMemorySize;
@@ -160,6 +186,9 @@ private:
     std::unordered_map<std::string, int> listAddresses;
     std::vector<int> listNums;
     int listNum;
+
+    std::map<std::string, int> globalListAddresses;
+    int globalListNum;
 
     std::unordered_map<int, var> variableInitialValues;
 
@@ -176,18 +205,14 @@ private:
 
     std::vector<int> globalVariableDeclarationByteCode;
 
-    int sharedListNum;
-    std::unordered_map<std::string, int> sharedListAddress;
-    std::unordered_map<std::string, bool> isSharedList;
-
     std::set<std::string> defaultFuncNames;
 
-    std::map<std::string, std::pair<int, int>> defaultFuncData = {
-        {"size", {GET_LIST_SIZE, 1}},
-        {"add", {ADD_LIST, 2}},
-        {"get", {GET_LIST, 2}},
-        {"insert", {INSERT_LIST, 3}},
-        {"remove", {REMOVE_LIST, 2}}};
+    std::map<std::string, std::pair<int, std::vector<ArgType>>> defaultFuncData = {
+        {"size", {GET_LIST_SIZE, {ArgType::LIST}}},
+        {"add", {ADD_LIST, {ArgType::LIST, ArgType::VALUE}}},
+        {"get", {GET_LIST, {ArgType::LIST, ArgType::VALUE}}},
+        {"insert", {INSERT_LIST, {ArgType::LIST, ArgType::VALUE, ArgType::VALUE}}},
+        {"remove", {REMOVE_LIST, {ArgType::LIST, ArgType::VALUE}}}};
 };
 
 #endif /* convert_hpp */
