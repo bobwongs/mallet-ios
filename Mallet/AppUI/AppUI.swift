@@ -194,7 +194,7 @@ public class AppUISlider: UISlider {
     }
 }
 
-public class AppUITable: UITableView, UITableViewDataSource {
+public class AppUITable: UITableView, UITableViewDataSource, UITableViewDelegate {
     var uiData: UIData
 
     init(uiData: UIData) {
@@ -205,6 +205,7 @@ public class AppUITable: UITableView, UITableViewDataSource {
         self.layer.borderColor = UIColor.gray.cgColor
         self.layer.borderWidth = 1
 
+        self.delegate = self
         self.dataSource = self
 
         if #available(iOS 13, *) {
@@ -228,10 +229,20 @@ public class AppUITable: UITableView, UITableViewDataSource {
         return cell
     }
 
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+
     func reload() {
         self.frame = CGRect(x: uiData.x, y: uiData.y, width: uiData.width, height: uiData.height)
 
         self.reloadData()
+
+        if self.uiData.tableData?.value.count ?? 0 > 0 {
+            DispatchQueue.main.async {
+                self.scrollToRow(at: IndexPath(row: (self.uiData.tableData?.value.count ?? 1) - 1, section: 0), at: .top, animated: true)
+            }
+        }
     }
 }
 
