@@ -1444,6 +1444,7 @@ void Convert::ListFunction()
                 {
                     codeIndex += 1;
                     typeInfo.uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                    codeIndex += 1;
                 }
             }
 
