@@ -21,6 +21,18 @@
 
 @end
 
+@interface ListDataObjC : NSObject
+
+@property NSString *type;
+
+@property NSString *name;
+
+@property NSMutableArray<NSString *> *value;
+
+@property NSNumber *uiID;
+
+@end
+
 @interface ConverterObjCpp : NSObject
 
 - (NSString *)GetVariableDataObjCType:(VariableDataObjC *)value;
@@ -34,6 +46,8 @@
 - (NSMutableArray<NSString *> *)SplitCode:(NSString *)codeStr;
 
 - (NSMutableArray<VariableDataObjC *> *)GetGlobalVariables:(NSString *)codeStr;
+
+- (NSMutableArray<ListDataObjC *> *)GetGlobalLists:(NSString *)codeStr;
 
 @end
 

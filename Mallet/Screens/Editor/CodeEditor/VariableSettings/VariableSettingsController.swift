@@ -35,12 +35,14 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         var name: String
         var value: [String]
         var isUI: Bool
+        var uiID: Int?
 
-        init(type: VariableType, name: String, value: [String], isUI: Bool) {
+        init(type: VariableType, name: String, value: [String], isUI: Bool, uiID: Int? = nil) {
             self.type = type
             self.name = name
             self.value = value
             self.isUI = isUI
+            self.uiID = uiID
         }
     }
 
@@ -82,10 +84,9 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     func initVariables() {
         if let codeStr = self.codeStr {
             guard let variables = ConverterObjCpp().getGlobalVariables(codeStr) else {
+                print("Error : failed to get global variables")
                 return
             }
-
-            print(codeStr)
 
             self.varList.removeAll()
 
@@ -117,6 +118,44 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         }
 
         variableTableView.reloadData()
+    }
+
+    func initLists() {
+        if let codeStr = self.codeStr {
+            guard  let lists = ConverterObjCpp().getGlobalLists(codeStr) else {
+                print("Error : failed to get global lists")
+                return
+            }
+
+            self.listList.removeAll()
+
+            for list in lists {
+                guard let list = list as? ListDataObjC else {
+                    continue
+                }
+
+                let type: VariableType!
+                switch list.type {
+                case "normal":
+                    type = .normal
+                case "persistent":
+                    type = .persistent
+                case "cloud":
+                    type = .cloud
+                default:
+                    type = .normal
+                }
+
+                var listValue = [String]()
+                for element in list.value {
+                    listValue.append((element as? String) ?? "")
+                }
+
+                self.listList.append(ListData(type: type, name: list.name, value: listValue, isUI: list.uiID != -1, uiID: Int(list.uiID)))
+            }
+        }
+
+        print(self.listList)
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {

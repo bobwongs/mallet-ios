@@ -18,6 +18,10 @@
 
 @end
 
+@implementation ListDataObjC
+
+@end
+
 @implementation ConverterObjCpp
 {
     Convert *converter;
@@ -32,30 +36,6 @@
 
     return self;
 }
-
-/*
-- (NSString *)GetVariableDataObjCType:(VariableDataObjC)value
-{
-    if (value.type == VariableTypeObjC::normal_)
-        return @"normal";
-    if (value.type == VariableTypeObjC::persistent_)
-        return @"persistent";
-    if (value.type == VariableTypeObjC::cloud_)
-        return @"cloud";
-
-    return @"";
-}
-
-- (NSString *)GetVariableDataObjCName:(VariableDataObjC)value
-{
-    return value.name;
-}
-
-- (NSString *)GetVariableDataObjCValue:(VariableDataObjC)value
-{
-    return value.value;
-}
- */
 
 - (NSString *)ConvertCode:(NSString *)codeStr
 {
@@ -103,6 +83,37 @@
     }
 
     return globalVariables;
+}
+
+- (NSMutableArray<ListDataObjC *> *)GetGlobalLists:(NSString *)codeStr
+{
+    std::vector<Convert::listData> lists = Convert::getGlobalLists([codeStr UTF8String]);
+
+    NSMutableArray<ListDataObjC *> *globalLists = [[NSMutableArray<ListDataObjC *> alloc] init];
+
+    for (Convert::listData list : lists)
+    {
+        ListDataObjC *listData = [ListDataObjC alloc];
+        if (list.type == Convert::variableType::normal)
+            listData.type = @"normal";
+        if (list.type == Convert::variableType::persistent)
+            listData.type = @"persistent";
+        if (list.type == Convert::variableType::cloud)
+            listData.type = @"cloud";
+
+        listData.name = [NSString stringWithCString:list.name.c_str() encoding:NSUTF8StringEncoding];
+
+        listData.value = [[NSMutableArray <NSString *> alloc] init];
+
+        for (std::string element : list.value)
+        {
+            [listData.value addObject:[NSString stringWithCString:element.c_str() encoding:NSUTF8StringEncoding]];
+        }
+
+        listData.uiID = @(list.uiID);
+    }
+
+    return globalLists;
 }
 
 @end

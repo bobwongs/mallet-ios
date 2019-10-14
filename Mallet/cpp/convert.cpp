@@ -1731,8 +1731,6 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
 
     std::vector<variableData> variables = std::vector<variableData>();
 
-    std::vector<listData> lists = std::vector<listData>();
-
     int codeIndex = 0;
 
     while (codeIndex < code.size())
@@ -1807,6 +1805,111 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
             {
                 if (varType == variableType::cloud || varType == variableType::persistent)
                 {
+                    codeIndex += 1;
+                }
+                else
+                {
+                    codeIndex += 3;
+
+                    //       v
+                    // a = { 1 , 2 , 8 }
+                    //       ^
+
+                    if (code[codeIndex] == "}")
+                    {
+                        codeIndex += 1;
+                    }
+                    else
+                    {
+                        while (code[codeIndex - 1] != "}")
+                        {
+                            codeIndex += 2;
+                        }
+                    }
+
+                    if (isUI)
+                    {
+                        codeIndex += 1;
+                        codeIndex += 1;
+                    }
+                }
+            }
+        }
+        else
+        {
+            printf("This code is broken #%d\n", codeIndex);
+            return variables;
+            break;
+        }
+    }
+
+    return variables;
+}
+
+std::vector<Convert::listData> Convert::getGlobalLists(const std::string codeStr)
+{
+    std::vector<std::string> code = SplitCode(codeStr);
+
+    std::vector<listData> lists = std::vector<listData>();
+
+    int codeIndex = 0;
+
+    while (codeIndex < code.size())
+    {
+        if (code[codeIndex] == "func")
+        {
+            int bracketStack = 1;
+            while (codeIndex < code.size() && bracketStack > 0)
+            {
+                if (code[codeIndex] == "{")
+                    bracketStack++;
+                if (code[codeIndex] == "}")
+                    bracketStack--;
+
+                codeIndex += 1;
+            }
+        }
+        else if (code[codeIndex] == "var" || code[codeIndex] == "list")
+        {
+            std::string varTypeStr = code[codeIndex];
+
+            codeIndex += 1;
+            variableType varType = variableType::normal;
+            bool isUI = false;
+            while (codeIndex < code.size() && code[codeIndex].size() > 0 && code[codeIndex][0] == '#')
+            {
+                std::string str = code[codeIndex];
+
+                if (str == "#cloud")
+                    varType = variableType::cloud;
+
+                if (str == "#persistent")
+                    varType = variableType::persistent;
+
+                if (str == "#ui")
+                    isUI = true;
+
+                codeIndex += 1;
+            }
+
+            std::string varName = code[codeIndex];
+
+            if (varTypeStr == "var")
+            {
+                if (varType == variableType::cloud || varType == variableType::persistent)
+                {
+                    codeIndex += 1;
+                }
+                else
+                {
+                    codeIndex += 2;
+                    codeIndex += 1;
+                }
+            }
+            else
+            {
+                if (varType == variableType::cloud || varType == variableType::persistent)
+                {
                     lists.push_back(
                         {varType,
                          varName,
@@ -1859,10 +1962,9 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
         else
         {
             printf("This code is broken #%d\n", codeIndex);
-            return variables;
-            break;
+            return lists;
         }
     }
 
-    return variables;
+    return lists;
 }

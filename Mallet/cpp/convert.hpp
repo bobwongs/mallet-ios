@@ -43,8 +43,9 @@ public:
         int uiID;
     };
 
-    static std::vector<variableData>
-    getGlobalVariables(const std::string codeStr);
+    static std::vector<variableData> getGlobalVariables(const std::string codeStr);
+
+    static std::vector<listData> getGlobalLists(const std::string codeStr);
 
     std::string ConvertCode(std::string codeStr);
 
