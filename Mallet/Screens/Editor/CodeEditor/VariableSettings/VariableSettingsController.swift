@@ -270,10 +270,10 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
     func setCloudList(index: Int) {
         if self.listList[index].name == "" {
-
+            return
         }
 
-        //TODO:
+        CloudVariableController.setCloudList(varName: self.listList[index].name, value: self.listList[index].value)
     }
 
     func updateVariableName(index: Int, name: String) {
@@ -301,7 +301,44 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     func updateListType(index: Int, cell: ListSettingsCell) {
-        //TODO:
+        let alert = UIAlertController(title: "Variable Type", message: nil, preferredStyle: .actionSheet)
+
+        let action_normal = UIAlertAction(title: "Normal (Don't save)", style: .default, handler: {
+            (action: UIAlertAction!) in
+            cell.updateListType(type: .normal)
+            self.listList[index].type = .normal
+
+            self.setListUI(index: index)
+        })
+
+        let action_saveToDevice = UIAlertAction(title: "Save to this device", style: .default, handler: {
+            (action: UIAlertAction!) in
+            cell.updateListType(type: .persistent)
+            self.listList[index].type = .persistent
+
+            self.setPersistentList(index: index)
+
+            self.setListUI(index: index)
+        })
+
+        let action_saveToCloud = UIAlertAction(title: "Save to cloud", style: .default, handler: {
+            (action: UIAlertAction!) in
+            cell.updateListType(type: .cloud)
+            self.listList[index].type = .cloud
+
+            self.setCloudList(index: index)
+
+            self.setListUI(index: index)
+        })
+
+        let action_cancel = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(action_normal)
+        alert.addAction(action_saveToDevice)
+        alert.addAction(action_saveToCloud)
+        alert.addAction(action_cancel)
+
+        self.present(alert, animated: true)
     }
 
     func updateListName(index: Int, name: String) {
@@ -334,9 +371,6 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         }
     }
 
-    @objc func closePickerView() {
-    }
-
     @IBAction func closeButton(_ sender: Any) {
         self.dismiss(animated: true)
     }
@@ -347,10 +381,24 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     func updateCloudVariable(variables: [String: Any]) {
-        for i in 0..<self.varList.count {
-            if self.varList[i].type == .cloud {
-                if let value = variables[self.varList[i].name] {
-                    self.varList[i].value = value as? String ?? ""
+        for index in 0..<self.varList.count {
+            if self.varList[index].type == .cloud {
+                if let value = variables[self.varList[index].name] {
+                    self.varList[index].value = value as? String ?? ""
+                }
+            }
+        }
+
+        for index in 0..<self.listList.count {
+            if self.listList[index].type == .cloud {
+                if let value = variables[self.listList[index].name] as? [String] {
+                    self.listList[index].value = value
+
+                    if self.listList[index].isUI {
+                        if let uiID = self.listList[index].uiID {
+                            self.codeEditorControllerDelegate?.setListValue(uiID: uiID, value: value)
+                        }
+                    }
                 }
             }
         }
@@ -380,6 +428,14 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         }
 
         codeEditorControllerDelegate?.setGlobalVariableCode(code: code)
+    }
+
+    func setListUI(index: Int) {
+        if self.listList[index].isUI {
+            if let uiID = self.listList[index].uiID {
+                self.codeEditorControllerDelegate?.setListValue(uiID: uiID, value: self.listList[index].value)
+            }
+        }
     }
 }
 

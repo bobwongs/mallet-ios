@@ -121,4 +121,10 @@ class CloudVariableController: NSObject {
             print(error)
         }
     }
+
+    static func setCloudList(varName: String, value: [String]) {
+        ref.updateData([varName: value]) { error in
+            print(error)
+        }
+    }
 }
