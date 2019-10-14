@@ -69,8 +69,10 @@ class TableContentEditorView: UITableView, UITableViewDelegate, UITableViewDataS
 
         self.reloadData()
 
-        DispatchQueue.main.async {
-            self.scrollToRow(at: IndexPath(row: self.tableDataSource.count - 1, section: 0), at: .top, animated: false)
+        if self.tableDataSource.count > 0 {
+            DispatchQueue.main.async {
+                self.scrollToRow(at: IndexPath(row: self.tableDataSource.count - 1, section: 0), at: .top, animated: false)
+            }
         }
     }
 
