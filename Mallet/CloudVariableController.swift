@@ -8,70 +8,117 @@
 
 import Foundation
 import Firebase
+
 import FirebaseDatabase
 
 @objcMembers
 class CloudVariableController: NSObject {
-    private static var ref = Database.database().reference()
-
     private static let variablePath = "variable"
 
+    private static let db = Firestore.firestore()
+
+    private static var ref = db.collection("variables").document("variables")
+
+    private static var listener: ListenerRegistration?
+
     static func startApp(appRunner: AppRunner) {
-        ref.removeAllObservers()
 
-        ref.child(variablePath).observeSingleEvent(of: .value, with: { snapshot in
-            CloudVariableController.updateCloudVariable(snapshot: snapshot, appRunner: appRunner)
-        })
+        DispatchQueue.global().async {
+            ref.getDocument { (documentSnapshot, error) in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
 
-        ref.child(variablePath).observe(.value, with: { snapshot in
-            CloudVariableController.updateCloudVariable(snapshot: snapshot, appRunner: appRunner)
-        })
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    CloudVariableController.updateCloudVariable(data: data, appRunner: appRunner)
+                }
+            }
+        }
+
+        self.listener = ref.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+
+            CloudVariableController.updateCloudVariable(data: data, appRunner: appRunner)
+        }
     }
 
     static func endApp() {
-        ref.removeAllObservers()
+        self.listener?.remove()
     }
 
     static func startVariableSettings(variableSettingsController: VariableSettingsController) {
-        ref.removeAllObservers()
+        self.listener?.remove()
 
-        ref.child(variablePath).observeSingleEvent(of: .value, with: { snapshot in
-            CloudVariableController.updateCloudVariableInVariableSettings(snapshot: snapshot, variableSettingsController: variableSettingsController)
-        })
+        ref.getDocument { (documentSnapshot, error) in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
 
-        ref.child(variablePath).observe(.value, with: { snapshot in
-            CloudVariableController.updateCloudVariableInVariableSettings(snapshot: snapshot, variableSettingsController: variableSettingsController)
-        })
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+
+            CloudVariableController.updateCloudVariableInVariableSettings(data: data, variableSettingsController: variableSettingsController)
+        }
+
+        self.listener = ref.addSnapshotListener { documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+            }
+
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+
+            CloudVariableController.updateCloudVariableInVariableSettings(data: data, variableSettingsController: variableSettingsController)
+        }
     }
 
     static func endVariableSettings() {
-        ref.removeAllObservers()
+        self.listener?.remove()
     }
 
-    private static func updateCloudVariable(snapshot: DataSnapshot, appRunner: AppRunner) {
-        if let variableDic = snapshot.value as? NSDictionary {
-            var variables = [AppVariable]()
-            for variable in variableDic {
-                variables.append(AppVariable(address: -1, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
+    private static func updateCloudVariable(data: [String: Any], appRunner: AppRunner) {
+        var variables = [AppVariable]()
+//            var lists = []
+        for variable in data {
+            if let str = variable.value as? String {
+                variables.append(AppVariable(address: -1, name: variable.key, value: str))
             }
 
-            appRunner.updateCloudVariables(variables: variables)
+            if let array = variable.value as? Array<String> {
+                print("array-san")
+            }
         }
+
+        appRunner.updateCloudVariables(variables: variables)
     }
 
-    private static func updateCloudVariableInVariableSettings(snapshot: DataSnapshot, variableSettingsController: VariableSettingsController) {
-        if let variableDic = snapshot.value as? NSDictionary {
-            variableSettingsController.updateCloudVariable(variables: variableDic)
-            /*
-            var variables = [VariableSettingsController.VariableData]()
-            for variable in variableDic {
-                variables.append(VariableSettingsController.VariableData(type: .cloud, name: variable.key as? String ?? "", value: variable.value as? String ?? ""))
-            }
-            */
-        }
+    private static func updateCloudVariableInVariableSettings(data: [String: Any], variableSettingsController: VariableSettingsController) {
+        variableSettingsController.updateCloudVariable(variables: data)
     }
 
     static func setCloudVariable(varName: String, value: String) {
-        ref.child(variablePath).updateChildValues([varName: value])
+        ref.updateData([varName: value]) { error in
+            print(error)
+        }
     }
 }

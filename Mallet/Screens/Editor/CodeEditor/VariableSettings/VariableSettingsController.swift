@@ -346,7 +346,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         variableTableView.reloadData()
     }
 
-    func updateCloudVariable(variables: NSDictionary) {
+    func updateCloudVariable(variables: [String: Any]) {
         for i in 0..<self.varList.count {
             if self.varList[i].type == .cloud {
                 if let value = variables[self.varList[i].name] {
