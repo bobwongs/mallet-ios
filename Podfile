@@ -8,6 +8,7 @@ target 'Mallet' do
   # Pods for Mallet
   pod 'Firebase/Analytics'
   pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
 
   target 'MalletTests' do
     inherit! :search_paths
