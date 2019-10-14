@@ -201,7 +201,7 @@ int Convert::DeclareString(const std::string str)
 
         globalVariableAddress[str] = globalVariableNum;
 
-        globalVariableType[str] = {true, false, false, false, false, -1, -1};
+        globalVariableTypes[str] = {true, false, false, false, false, -1, -1};
 
         variableInitialValues[globalVariableNum] = str;
 
@@ -227,8 +227,8 @@ void Convert::DeclareConstant(const int firstCodeIndex)
 
             globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableType[varName] = {true, false, false, false, false, -1, -1};
-            variableType[varName] = {true, false, false, false, false, -1, -1};
+            globalVariableTypes[varName] = {true, false, false, false, false, -1, -1};
+            variableTypes[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = code[firstCodeIndex].substr(1, code[firstCodeIndex].size() - 2);
         }
@@ -277,8 +277,8 @@ void Convert::DeclareConstant(const int firstCodeIndex)
             globalVariableNum++;
             globalVariableAddress[varName] = globalVariableNum;
 
-            globalVariableType[varName] = {true, false, false, false, false, -1, -1};
-            variableType[varName] = {true, false, false, false, false, -1, -1};
+            globalVariableTypes[varName] = {true, false, false, false, false, -1, -1};
+            variableTypes[varName] = {true, false, false, false, false, -1, -1};
 
             variableInitialValues[globalVariableNum] = std::stod(code[firstCodeIndex]);
         }
@@ -308,7 +308,7 @@ void Convert::ConvertValue(const int firstCodeIndex, const bool convert)
 
         int address = -1;
 
-        auto typeInfo = variableType[code[firstCodeIndex]];
+        auto typeInfo = variableTypes[code[firstCodeIndex]];
 
         if (typeInfo.isList)
         {
@@ -639,7 +639,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             case ArgType::VAR:
             {
                 std::string varName = code[codeIndex];
-                auto typeInfo = variableType[varName];
+                auto typeInfo = variableTypes[varName];
 
                 if (!typeInfo.isList)
                 {
@@ -663,7 +663,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             case ArgType::LIST:
             {
                 std::string varName = code[codeIndex];
-                auto typeInfo = variableType[varName];
+                auto typeInfo = variableTypes[varName];
                 if (typeInfo.isList)
                 {
                     int address = listAddresses[varName];
@@ -689,7 +689,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
                     {
                         setList = true;
                         listAddress = globalListAddresses[varName];
-                        listUIid = globalVariableType[varName].uiID;
+                        listUIid = globalVariableTypes[varName].uiID;
                     }
                 }
             }
@@ -698,7 +698,7 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             case ArgType::UI:
             {
                 std::string varName = code[codeIndex];
-                auto typeInfo = variableType[varName];
+                auto typeInfo = variableTypes[varName];
                 if (typeInfo.isUI)
                 {
                     AddPushAddressCode(typeInfo.uiID, true);
@@ -949,7 +949,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                 DeclareVariable(varName, false);
             }
 
-            auto typeInfo = variableType[varName];
+            auto typeInfo = variableTypes[varName];
 
             if (typeInfo.isList)
             {
@@ -1407,12 +1407,15 @@ void Convert::ListFunction()
 
                 AddPushAddressCode(globalVariableAddress[varName], true);
 
-                codeIndex += ConvertFormula(codeIndex, 0, true);
+                //* Only value
+                ConvertValue(codeIndex, true);
+
+                codeIndex += 1;
 
                 AddCmdCode(SET_GLOBAL_VARIABLE, 2);
             }
 
-            globalVariableType[varName] = typeInfo;
+            globalVariableTypes[varName] = typeInfo;
         }
         else if (code[codeIndex] == "list")
         {
@@ -1468,7 +1471,11 @@ void Convert::ListFunction()
                     while (code[codeIndex - 1] != "}")
                     {
                         AddPushAddressCode(address, true);
-                        codeIndex += ConvertFormula(codeIndex, 0, true) + 1;
+
+                        //* Only value
+                        ConvertValue(codeIndex, true);
+                        codeIndex += 2;
+
                         AddCmdCode(ADD_LIST, 2);
                     }
                 }
@@ -1486,7 +1493,7 @@ void Convert::ListFunction()
                 }
             }
 
-            globalVariableType[varName] = typeInfo;
+            globalVariableTypes[varName] = typeInfo;
         }
         else
         {
@@ -1526,8 +1533,8 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
 
     if (isGlobal)
     {
-        variableType[name] = {true, false, false, false, false, -1, -1};
-        globalVariableType[name] = {true, false, false, false, false, -1, -1};
+        variableTypes[name] = {true, false, false, false, false, -1, -1};
+        globalVariableTypes[name] = {true, false, false, false, false, -1, -1};
 
         globalVariableNum++;
         globalVariableAddress[name] = globalVariableNum;
@@ -1536,7 +1543,7 @@ int Convert::DeclareVariable(const std::string name, const bool isGlobal)
     }
     else
     {
-        variableType[name] = {false, false, false, false, false, -1, -1};
+        variableTypes[name] = {false, false, false, false, false, -1, -1};
 
         variableNum++;
         variableAddresses[name] = variableNum;
@@ -1555,8 +1562,8 @@ int Convert::DeclareList(const std::string name, const bool isGlobal)
 
     if (isGlobal)
     {
-        globalVariableType[name] = {true, false, false, false, true, -1, -1};
-        variableType[name] = {true, false, false, false, true, -1, -1};
+        globalVariableTypes[name] = {true, false, false, false, true, -1, -1};
+        variableTypes[name] = {true, false, false, false, true, -1, -1};
 
         globalListNum += 1;
         globalListAddresses[name] = globalListNum;
@@ -1565,7 +1572,7 @@ int Convert::DeclareList(const std::string name, const bool isGlobal)
     }
     else
     {
-        variableType[name] = {false, false, false, false, true, -1, -1};
+        variableTypes[name] = {false, false, false, false, true, -1, -1};
 
         listNum++;
         listAddresses[name] = listNum;
@@ -1681,8 +1688,8 @@ void Convert::InitConverter()
 
     variableInitialValues = std::unordered_map<int, var>();
 
-    variableType.clear();
-    globalVariableType.clear();
+    variableTypes.clear();
+    globalVariableTypes.clear();
 
     variableAddresses.clear();
 
@@ -1696,7 +1703,7 @@ void Convert::InitConverter()
 
 void Convert::ClearLocalVariable()
 {
-    variableType = globalVariableType;
+    variableTypes = globalVariableTypes;
     variableAddresses = globalVariableAddress;
     variableNum = 0;
 
@@ -1722,6 +1729,8 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
 
     std::vector<variableData> variables = std::vector<variableData>();
 
+    std::vector<listData> lists = std::vector<listData>();
+
     int codeIndex = 0;
 
     while (codeIndex < code.size())
@@ -1736,36 +1745,114 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
                 if (code[codeIndex] == "}")
                     bracketStack--;
 
-                codeIndex++;
+                codeIndex += 1;
             }
         }
-        else if (codeIndex + 3 < code.size() && code[codeIndex] == "var" && code[codeIndex + 2] == "=")
+        else if (code[codeIndex] == "var" || code[codeIndex] == "list")
         {
-            variables.push_back({variableType::normal,
-                                 code[codeIndex + 1],
-                                 code[codeIndex + 3]});
+            std::string varTypeStr = code[codeIndex];
 
-            codeIndex += 4;
-        }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@ui" && code[codeIndex + 1] == "var" && code[codeIndex + 3] == "=")
-        {
-            codeIndex += 5;
-        }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@persistent" && code[codeIndex + 1] == "var")
-        {
-            variables.push_back({variableType::persistent,
-                                 code[codeIndex + 2],
-                                 ""});
+            codeIndex += 1;
+            variableType varType = variableType::normal;
+            bool isUI = false;
+            while (codeIndex < code.size() && code[codeIndex].size() > 0 && code[codeIndex][0] == '#')
+            {
+                std::string str = code[codeIndex];
 
-            codeIndex += 3;
-        }
-        else if (codeIndex + 4 < code.size() && code[codeIndex] == "@cloud" && code[codeIndex + 1] == "var")
-        {
-            variables.push_back({variableType::cloud,
-                                 code[codeIndex + 2],
-                                 ""});
+                if (str == "#cloud")
+                    varType = variableType::cloud;
 
-            codeIndex += 3;
+                if (str == "#persistent")
+                    varType = variableType::persistent;
+
+                if (str == "#ui")
+                    isUI = true;
+
+                codeIndex += 1;
+            }
+
+            std::string varName = code[codeIndex];
+
+            if (varTypeStr == "var")
+            {
+                if (varType == variableType::cloud || varType == variableType::persistent)
+                {
+                    variables.push_back(
+                        {varType,
+                         varName,
+                         ""});
+
+                    codeIndex += 1;
+                }
+                else
+                {
+                    codeIndex += 2;
+
+                    std::string value = code[codeIndex];
+                    if (value[0] == '"')
+                        value = value.substr(1, value.size() - 2);
+
+                    if (!isUI)
+                        variables.push_back(
+                            {variableType::normal,
+                             varName,
+                             value});
+
+                    codeIndex += 1;
+                }
+            }
+            else
+            {
+                if (varType == variableType::cloud || varType == variableType::persistent)
+                {
+                    lists.push_back(
+                        {varType,
+                         varName,
+                         {},
+                         -1});
+
+                    codeIndex += 1;
+                }
+                else
+                {
+                    codeIndex += 3;
+
+                    //       v
+                    // a = { 1 , 2 , 8 }
+                    //       ^
+
+                    std::vector<std::string> value = std::vector<std::string>();
+                    if (code[codeIndex] == "}")
+                    {
+                        codeIndex += 1;
+                    }
+                    else
+                    {
+                        while (code[codeIndex - 1] != "}")
+                        {
+                            std::string element = code[codeIndex];
+                            if (element[0] == '"')
+                                element = element.substr(1, element.size() - 2);
+                            value.push_back(element);
+                            codeIndex += 2;
+                        }
+                    }
+
+                    int uiID = -1;
+                    if (isUI)
+                    {
+                        codeIndex += 1;
+                        uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                        codeIndex += 1;
+                    }
+
+                    lists.push_back(
+                        {variableType::normal,
+                         varName,
+                         value,
+                         uiID});
+                }
+            }
         }
         else
         {

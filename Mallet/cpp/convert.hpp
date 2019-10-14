@@ -35,7 +35,16 @@ public:
         std::string value;
     };
 
-    static std::vector<variableData> getGlobalVariables(const std::string codeStr);
+    struct listData
+    {
+        variableType type;
+        std::string name;
+        std::vector<std::string> value;
+        int uiID;
+    };
+
+    static std::vector<variableData>
+    getGlobalVariables(const std::string codeStr);
 
     std::string ConvertCode(std::string codeStr);
 
@@ -171,8 +180,8 @@ private:
     std::map<std::string, int> cppFuncIDs;
     std::map<std::string, bool> isCppFuncExists;
 
-    std::unordered_map<std::string, variableTypeInfo> globalVariableType;
-    std::unordered_map<std::string, variableTypeInfo> variableType;
+    std::unordered_map<std::string, variableTypeInfo> globalVariableTypes;
+    std::unordered_map<std::string, variableTypeInfo> variableTypes;
 
     std::unordered_map<std::string, int> variableAddresses;
     std::vector<int> variableNums;
