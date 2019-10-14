@@ -61,6 +61,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last!)
+
         self.variableTableView.delegate = self
         self.variableTableView.dataSource = self
 
@@ -165,12 +167,16 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
             (action: UIAlertAction!) in
             cell.updateVariableType(type: .persistent)
             self.varList[index].type = .persistent
+
+            self.setPersistentVariable(index: index)
         })
 
         let action_saveToCloud = UIAlertAction(title: "Save to cloud", style: .default, handler: {
             (action: UIAlertAction!) in
             cell.updateVariableType(type: .cloud)
             self.varList[index].type = .cloud
+
+            self.setCloudVariable(index: index)
         })
 
         let action_cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -183,12 +189,46 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         self.present(alert, animated: true)
     }
 
+    func setPersistentVariable(index: Int) {
+        if self.varList[index].name == "" {
+            return
+        }
+
+        if let appID = self.appID {
+            AppDatabaseController.setAppVariable(appID: appID, varName: self.varList[index].name, value: self.varList[index].value)
+        }
+    }
+
+    func setCloudVariable(index: Int) {
+        if self.varList[index].name == "" {
+            return
+        }
+
+        CloudVariableController.setCloudVariable(varName: self.varList[index].name, value: self.varList[index].value)
+    }
+
     func updateVariableName(index: Int, name: String) {
         self.varList[index].name = name
+
+        if (self.varList[index].type == .persistent) {
+            self.setPersistentVariable(index: index)
+        }
+
+        if (self.varList[index].type == .cloud) {
+            self.setCloudVariable(index: index)
+        }
     }
 
     func updateVariableValue(index: Int, value: String) {
         self.varList[index].value = value
+
+        if (self.varList[index].type == .persistent) {
+            self.setPersistentVariable(index: index)
+        }
+
+        if (self.varList[index].type == .cloud) {
+            self.setCloudVariable(index: index)
+        }
     }
 
     @objc func closePickerView() {
@@ -205,8 +245,10 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
     func updateCloudVariable(variables: NSDictionary) {
         for i in 0..<self.varList.count {
-            if let value = variables[self.varList[i].name] {
-                self.varList[i].value = value as? String ?? ""
+            if self.varList[i].type == .cloud {
+                if let value = variables[self.varList[i].name] {
+                    self.varList[i].value = value as? String ?? ""
+                }
             }
         }
 
@@ -217,6 +259,10 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         var code = ""
 
         for variable in varList {
+            if (variable.name == "") {
+                continue
+            }
+
             code += "var "
             switch variable.type {
             case .normal:

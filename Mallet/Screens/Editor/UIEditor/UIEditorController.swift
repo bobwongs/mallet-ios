@@ -621,6 +621,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func setGlobalVariableCode(code: String) {
         self.globalVariablesCode = code
+
+        self.saveApp()
     }
 
     @IBAction func runButton(_: Any) {
