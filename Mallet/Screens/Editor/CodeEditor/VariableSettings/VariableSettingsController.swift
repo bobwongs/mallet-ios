@@ -8,7 +8,7 @@
 
 import UIKit
 
-class VariableSettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, VariableSettingsCellDelegate {
+class VariableSettingsController: UIViewController, UITableViewDelegate, UITableViewDataSource, UINavigationBarDelegate, VariableSettingsCellDelegate, ListSettingsCellDelegate {
 
     enum VariableType {
         case normal
@@ -71,6 +71,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         self.navigationBar.delegate = self
 
         initVariables()
+        initLists()
 
         CloudVariableController.startVariableSettings(variableSettingsController: self)
     }
@@ -129,6 +130,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
             self.listList.removeAll()
 
+            print(lists.count)
+
             for list in lists {
                 guard let list = list as? ListDataObjC else {
                     continue
@@ -163,7 +166,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return varList.count
+        return varList.count + listList.count
     }
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -171,11 +174,20 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = VariableSettingsCell(reuseIdentifier: "Cell", index: indexPath.row, variableData: varList[indexPath.row])
 
-        cell.delegate = self
+        if indexPath.row < varList.count {
+            let cell = VariableSettingsCell(reuseIdentifier: "Cell", index: indexPath.row, variableData: varList[indexPath.row])
 
-        return cell
+            cell.delegate = self
+
+            return cell
+        } else {
+            let index = indexPath.row - varList.count
+
+            let cell = ListSettingsCell(reuseIdentifier: "Cell", index: index, listData: listList[index], delegate: self)
+
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -268,6 +280,18 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         if (self.varList[index].type == .cloud) {
             self.setCloudVariable(index: index)
         }
+    }
+
+    func updateListType(index: Int, cell: ListSettingsCell) {
+        //TODO:
+    }
+
+    func updateListName(index: Int, name: String) {
+        //TODO:
+    }
+
+    func updateListValue(index: Int, value: [String]) {
+        //TODO:
     }
 
     @objc func closePickerView() {

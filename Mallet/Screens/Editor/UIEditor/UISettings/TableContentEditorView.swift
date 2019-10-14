@@ -12,7 +12,7 @@ class TableContentEditorView: UITableView, UITableViewDelegate, UITableViewDataS
 
     var tableContentEditorViewDelegate: TableContentEditorViewDelegate?
 
-    var tableDataSource = ["ABC", "DEF", "YAY"] //[String]()
+    var tableDataSource = [String]()
 
     init(frame: CGRect, tableDataSource: [String]) {
         super.init(frame: frame, style: .plain)

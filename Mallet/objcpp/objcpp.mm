@@ -111,6 +111,8 @@
         }
 
         listData.uiID = @(list.uiID);
+
+        [globalLists addObject:listData];
     }
 
     return globalLists;
