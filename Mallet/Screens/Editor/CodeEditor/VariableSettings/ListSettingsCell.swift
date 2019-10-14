@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
+class ListSettingsCell: UITableViewCell, UITextFieldDelegate, TableContentEditorViewDelegate {
+
 
     let listTypeButton = UIButton(type: .system)
 
@@ -18,6 +19,8 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
 
     private var listValue: [String]
 
+    private let listEditor: TableContentEditorView!
+
     init(reuseIdentifier: String?, index: Int, listData: VariableSettingsController.ListData, delegate: ListSettingsCellDelegate) {
 
         self.delegate = delegate
@@ -25,6 +28,8 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
         self.index = index
 
         self.listValue = listData.value
+
+        self.listEditor = TableContentEditorView(frame: CGRect(), tableDataSource: self.listValue)
 
         super.init(style: .default, reuseIdentifier: reuseIdentifier)
 
@@ -36,7 +41,15 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
         self.addSubview(stackView)
 
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+
+        NSLayoutConstraint.activate(
+                [
+                    stackView.topAnchor.constraint(equalTo: self.topAnchor),
+                    stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                    stackView.leftAnchor.constraint(equalTo: self.leftAnchor),
+                    stackView.rightAnchor.constraint(equalTo: self.rightAnchor),
+                ]
+        )
 
         let topChildStackView = UIStackView()
         topChildStackView.axis = .horizontal
@@ -49,6 +62,7 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
         bottomChildStackView.alignment = .fill
         bottomChildStackView.spacing = 10
         stackView.addArrangedSubview(bottomChildStackView)
+        bottomChildStackView.translatesAutoresizingMaskIntoConstraints = false
 
         topChildStackView.translatesAutoresizingMaskIntoConstraints = false
         topChildStackView.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -67,15 +81,27 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
         listNameTextField.translatesAutoresizingMaskIntoConstraints = false
         listNameTextField.addTarget(self, action: #selector(self.updateListName(_:)), for: .editingDidEnd)
 
+        let addElementButton = UIButton(type: .system)
+        if #available(iOS 13, *) {
+            addElementButton.setImage(.add, for: .normal)
+        } else {
+            addElementButton.setTitle("Add", for: .normal)
+        }
+        addElementButton.addTarget(self, action: #selector(self.addListElement(_:)), for: .touchUpInside)
+        topChildStackView.addArrangedSubview(addElementButton)
+        addElementButton.translatesAutoresizingMaskIntoConstraints = false
+        addElementButton.widthAnchor.constraint(equalTo: topChildStackView.heightAnchor).isActive = true
+        addElementButton.heightAnchor.constraint(equalTo: topChildStackView.heightAnchor).isActive = true
+
         let spaceView = UIView()
         bottomChildStackView.addArrangedSubview(spaceView)
         spaceView.translatesAutoresizingMaskIntoConstraints = false
         spaceView.widthAnchor.constraint(equalTo: topChildStackView.heightAnchor).isActive = true
 
-        let listContentEditor = TableContentEditorView(frame: CGRect(), tableDataSource: listValue)
-        bottomChildStackView.addArrangedSubview(listContentEditor)
-        listContentEditor.translatesAutoresizingMaskIntoConstraints = false
-        listContentEditor.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        bottomChildStackView.addArrangedSubview(listEditor)
+        listEditor.tableContentEditorViewDelegate = self
+        listEditor.translatesAutoresizingMaskIntoConstraints = false
+        listEditor.heightAnchor.constraint(equalToConstant: 200).isActive = true
 
         listNameTextField.delegate = self
     }
@@ -108,6 +134,14 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate {
         case .cloud:
             listTypeButton.setTitle("C", for: .normal)
         }
+    }
+
+    @objc func addListElement(_ sender: UIButton) {
+        self.listEditor.addTableElement()
+    }
+
+    func updateTable(dataSource: [String]) {
+        self.listValue = dataSource
     }
 }
 
