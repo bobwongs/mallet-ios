@@ -73,13 +73,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
     func updateCloudVariables(variables: [AppVariable]) {
         for variable in variables {
-            if runner.updateCloudVariable(variable.name, variable.value) {
-                for (_, ui) in self.appUI {
-                    if ui.cloudVariableName == variable.name {
-                        ui.updateTextWithCloudVariable(value: variable.value)
-                    }
-                }
-            }
+            runner.updateCloudVariable(variable.name, variable.value)
         }
     }
 

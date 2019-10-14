@@ -9,18 +9,12 @@
 import UIKit
 
 public protocol AppUI {
-    var cloudVariableName: String? { get set }
-
     func getUIData() -> UIData
 
     func reloadUI()
-
-    func updateTextWithCloudVariable(value: String)
 }
 
 class AppButton: AppUIButton, AppUI {
-
-    var cloudVariableName: String?
     let onButtonClickID: Int
 
     override init(uiData: UIData) {
@@ -54,21 +48,12 @@ class AppButton: AppUIButton, AppUI {
         self.uiData = uiData
         self.reload()
     }
-
-    func updateTextWithCloudVariable(value: String) {
-        self.uiData.buttonData?.text = value
-        self.reloadUI()
-    }
 }
 
 class AppLabel: AppUILabel, AppUI {
 
-    var cloudVariableName: String?
-
     override init(uiData: UIData) {
         super.init(uiData: uiData)
-
-        cloudVariableName = "label"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,21 +67,12 @@ class AppLabel: AppUILabel, AppUI {
     func reloadUI() {
         self.reload()
     }
-
-    func updateTextWithCloudVariable(value: String) {
-        self.uiData.labelData?.text = value
-        self.reloadUI()
-    }
 }
 
 class AppTextField: AppUITextField, AppUI {
 
-    var cloudVariableName: String?
-
     override init(uiData: UIData) {
         super.init(uiData: uiData)
-
-        cloudVariableName = "textField"
     }
 
     required init?(coder: NSCoder) {
@@ -109,22 +85,14 @@ class AppTextField: AppUITextField, AppUI {
 
     func reloadUI() {
         self.reload()
-    }
-
-    func updateTextWithCloudVariable(value: String) {
-
     }
 }
 
 
 class AppSwitch: AppUISwitch, AppUI {
 
-    var cloudVariableName: String?
-
     override init(uiData: UIData) {
         super.init(uiData: uiData)
-
-        cloudVariableName = "switch"
     }
 
     required init?(coder: NSCoder) {
@@ -137,21 +105,13 @@ class AppSwitch: AppUISwitch, AppUI {
 
     func reloadUI() {
         self.reload()
-    }
-
-    func updateTextWithCloudVariable(value: String) {
-
     }
 }
 
 class AppSlider: AppUISlider, AppUI {
 
-    var cloudVariableName: String?
-
     override init(uiData: UIData) {
         super.init(uiData: uiData)
-
-        cloudVariableName = "slider"
     }
 
     required init?(coder: NSCoder) {
@@ -164,17 +124,11 @@ class AppSlider: AppUISlider, AppUI {
 
     func reloadUI() {
         self.reload()
-    }
-
-    func updateTextWithCloudVariable(value: String) {
-
     }
 }
 
 class AppTable: AppUITable, AppUI {
 
-    var cloudVariableName: String?
-
     override init(uiData: UIData) {
         super.init(uiData: uiData)
     }
@@ -189,10 +143,6 @@ class AppTable: AppUITable, AppUI {
 
     func reloadUI() {
         self.reload()
-    }
-
-    func updateTextWithCloudVariable(value: String) {
-
     }
 }
 
