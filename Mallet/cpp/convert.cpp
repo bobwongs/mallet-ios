@@ -195,13 +195,15 @@ int convertOperator(std::string operatorString)
 
 int Convert::DeclareString(const std::string str)
 {
-    if (checkName(str))
+    std::string varName = "@" + str;
+
+    if (checkName(varName))
     {
         globalVariableNum++;
 
-        globalVariableAddress[str] = globalVariableNum;
+        globalVariableAddress[varName] = globalVariableNum;
 
-        globalVariableTypes[str] = {true, false, false, false, false, -1, -1};
+        globalVariableTypes[varName] = {true, false, false, false, false, -1, -1};
 
         variableInitialValues[globalVariableNum] = str;
 
