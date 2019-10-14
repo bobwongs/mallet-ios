@@ -371,6 +371,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                     if (listAddress <= globalListNum)
                     {
+                        if (globalList[listAddress].size() < 1)
+                            break;
+
                         if (globalList[listAddress].size() - 1 == elementAddress)
                         {
                             globalList[listAddress].pop_back();
@@ -382,6 +385,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     }
                     else
                     {
+                        if (lists[listAddress].size() < 1)
+                            break;
+
                         if (lists[listAddress].size() - 1 == elementAddress)
                         {
                             lists[listAddress].pop_back();
@@ -447,9 +453,9 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                 case SET_PERSISTENT_LIST:
                 {
-                    std::vector<var> list = globalList[getIntValue(*topStackData[0])];
-                    int address = getIntValue(*topStackData[1]);
-                    std::string varName = getStringValue(globalVariable[address]);
+                    int address = getIntValue(*topStackData[0]);
+                    std::string varName = getOutValue(globalVariable[address]);
+                    std::vector<var> list = globalList[getIntValue(*topStackData[1])];
 
                     //TODO:
                 }
@@ -457,21 +463,36 @@ var Run::RunCode(int funcID, std::vector<var> args)
 
                 case SET_CLOUD_LIST:
                 {
-                    std::vector<var> list = globalList[getIntValue(*topStackData[0])];
-                    int address = getIntValue(*topStackData[1]);
-                    std::string varName = getStringValue(globalVariable[address]);
+                    int address = getIntValue(*topStackData[0]);
+                    std::string varName = getOutValue(globalVariable[address]);
+                    std::vector<var> list = globalList[getIntValue(*topStackData[1])];
 
-                    //TODO:
+#if defined(DEBUG)
+                    setCloudList(varName, list);
+#endif
+                }
+                break;
+
+                case ADD_TO_CLOUD_LIST:
+                {
+                    int address = getIntValue(*topStackData[0]);
+                    std::string varName = getOutValue(globalVariable[address]);
+                    std::vector<var> list = globalList[getIntValue(*topStackData[1])];
+                    std::string value = getOutValue(list[list.size() - 1]);
+
+#if defined(DEBUG)
+                    addToCloudList(varName, value);
+#endif
                 }
                 break;
 
                 case SET_LIST_UI:
                 {
-                    int appID = getIntValue(*topStackData[0]);
+                    int uiID = getIntValue(*topStackData[0]);
                     std::vector<var> list = globalList[getIntValue(*topStackData[1])];
 
 #if defined(DEBUG)
-                    setUITable(appID, list);
+                    setUITable(uiID, list);
 #endif
                 }
                 break;
@@ -620,6 +641,8 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
     memorySize.clear();
     globalVariableNum = 0;
 
+    globalVariableData = std::map<std::string, globalVariableInfo>();
+
     std::vector<std::string> codeData;
     int index = 0;
     while (index < codeDataStr.size())
@@ -764,6 +787,22 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
             globalListNum = (int)strtol(codeData[index].c_str(), NULL, 10);
             index += 2;
         }
+        else if (type == "#GLOBAL_VARIABLE_DATA")
+        {
+            while (index < codeData.size() && codeData[index] != endLabel)
+            {
+                std::string varName = codeData[index + 1];
+                int address = (int)strtol(codeData[index + 2].c_str(), NULL, 10);
+                bool isUI = codeData[index + 3] == "1" ? true : false;
+                int uiID = (int)strtol(codeData[index + 4].c_str(), NULL, 10);
+
+                globalVariableData[varName] = {address, isUI, uiID};
+
+                index += 5;
+            }
+
+            index += 1;
+        }
         else
         {
             puts(codeData[index].c_str());
@@ -801,10 +840,27 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
 
 bool Run::UpdateCloudVariable(std::string varName, std::string value)
 {
-    if (cloudVariables[varName] == value)
+    int address = globalVariableData[varName].address;
+    /*
+    if (getStringValue(globalVariable[address]) == value)
         return false;
+    */
 
-    cloudVariables[varName] = value;
+    globalVariable[address] = value;
+    return true;
+}
+
+bool Run::UpdateCloudList(std::string varName, std::vector<std::string> value)
+{
+    int address = globalVariableData[varName].address;
+
+    globalList[address] = std::vector<var>(value.size());
+    for (int index = 0; index < value.size(); index++)
+        globalList[address][index] = value[index];
+
+    if (globalVariableData[varName].isUI)
+        setUITable(globalVariableData[varName].uiID, globalList[address]);
+
     return true;
 }
 

@@ -172,4 +172,8 @@ protocol CodeEditorControllerDelegate {
     func setGlobalVariableCode(code: String)
 
     func setListValue(uiID: Int, value: [String])
+
+    func setListCloudType(uiID: Int, value: Bool)
+
+    func setListPersistentType(uiID: Int, value: Bool)
 }

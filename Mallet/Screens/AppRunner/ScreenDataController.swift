@@ -191,12 +191,19 @@ public struct SliderUIData: Codable {
 public struct tableUIData: Codable {
     var value: [String]
 
-    init(value: [String]) {
+    var isCloud: Bool
+    var isPersistent: Bool
+
+    init(value: [String], isCloud: Bool, isPersistent: Bool) {
         self.value = value
+        self.isCloud = isCloud
+        self.isPersistent = isPersistent
     }
 
     init() {
         self.value = []
+        self.isCloud = false
+        self.isPersistent = false
     }
 }
 

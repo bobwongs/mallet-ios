@@ -166,6 +166,20 @@
     return runner->UpdateCloudVariable([address UTF8String], [value UTF8String]);
 }
 
+- (bool)UpdateCloudList:(NSString *)name :(NSMutableArray<NSString *> *)value
+{
+    std::string varNameStr = [name UTF8String];
+
+    std::vector<std::string> valueStr = std::vector<std::string>(value.count);
+
+    for (int index = 0; index < value.count; index++)
+    {
+        valueStr[index] = [value[index] UTF8String];
+    }
+
+    return runner->UpdateCloudList(varNameStr, valueStr);
+}
+
 - (void)InitPersistentVariable:(NSDictionary<NSString *, NSString *> *)variables
 {
 }

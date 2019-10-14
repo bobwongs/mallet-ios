@@ -309,6 +309,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
             self.listList[index].type = .normal
 
             self.setListUI(index: index)
+
+            self.setListType(index: index)
         })
 
         let action_saveToDevice = UIAlertAction(title: "Save to this device", style: .default, handler: {
@@ -319,6 +321,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
             self.setPersistentList(index: index)
 
             self.setListUI(index: index)
+
+            self.setListType(index: index)
         })
 
         let action_saveToCloud = UIAlertAction(title: "Save to cloud", style: .default, handler: {
@@ -329,6 +333,8 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
             self.setCloudList(index: index)
 
             self.setListUI(index: index)
+
+            self.setListType(index: index)
         })
 
         let action_cancel = UIAlertAction(title: "Cancel", style: .cancel)
@@ -434,6 +440,15 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         if self.listList[index].isUI {
             if let uiID = self.listList[index].uiID {
                 self.codeEditorControllerDelegate?.setListValue(uiID: uiID, value: self.listList[index].value)
+            }
+        }
+    }
+
+    func setListType(index: Int) {
+        if self.listList[index].isUI {
+            if let uiID = self.listList[index].uiID {
+                self.codeEditorControllerDelegate?.setListCloudType(uiID: uiID, value: self.listList[index].type == .cloud)
+                self.codeEditorControllerDelegate?.setListPersistentType(uiID: uiID, value: self.listList[index].type == .persistent)
             }
         }
     }

@@ -61,6 +61,8 @@
 
 - (bool)UpdateCloudVariable:(NSString *)name :(NSString *)value;
 
+- (bool)UpdateCloudList:(NSString *)name :(NSMutableArray<NSString *> *)value;
+
 - (void)InitPersistentVariable:(NSDictionary<NSString *, NSString *> *)variables;
 
 @end

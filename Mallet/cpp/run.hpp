@@ -26,6 +26,8 @@ public:
 
     bool UpdateCloudVariable(std::string varName, std::string value);
 
+    bool UpdateCloudList(std::string varName, std::vector<std::string> value);
+
     void InitRunner(std::string codeDataStr, std::map<std::string, std::string> variables);
 
     void InitPersistentVariables(std::map<std::string, std::string> variables);
@@ -35,6 +37,13 @@ public:
     Run();
 
 private:
+    struct globalVariableInfo
+    {
+        int address;
+        bool isUI;
+        int uiID;
+    };
+
     bool terminate;
 
     static constexpr int pushCodeSize = 5;
@@ -52,6 +61,8 @@ private:
     std::vector<int> listMemorySize;
     std::vector<list> globalList;
     int globalListNum;
+
+    std::map<std::string, globalVariableInfo> globalVariableData;
 
     std::vector<int> bytecode;
 

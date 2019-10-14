@@ -71,9 +71,20 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         return controller as? AppRunner
     }
 
-    func updateCloudVariables(variables: [AppVariable]) {
+    func updateCloudVariables(variables: [String: Any]) {
         for variable in variables {
-            runner.updateCloudVariable(variable.name, variable.value)
+            if let stringValue = variable.value as? String {
+                runner.updateCloudVariable(variable.key, stringValue)
+            }
+
+            if let arrayValue = variable.value as? [String] {
+                var array = NSMutableArray()
+                for element in arrayValue {
+                    array.add(element)
+                }
+
+                runner.updateCloudList(variable.key, array)
+            }
         }
     }
 

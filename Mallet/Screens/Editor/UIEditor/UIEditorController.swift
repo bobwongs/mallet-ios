@@ -480,17 +480,29 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         for ui in uiDictionary {
             if ui.value.uiData.uiType == .Table {
                 var listContent = ""
+                var typeStr = ""
                 if let tableData = ui.value.uiData.tableData {
-                    for (index, content) in tableData.value.enumerated() {
-                        listContent += "\"\(content)\""
-                        if index < tableData.value.count - 1 {
-                            listContent += ","
+
+                    if !(tableData.isCloud || tableData.isPersistent) {
+                        for (index, content) in tableData.value.enumerated() {
+                            listContent += "\"\(content)\""
+                            if index < tableData.value.count - 1 {
+                                listContent += ","
+                            }
                         }
+                    }
+
+                    if tableData.isCloud {
+                        typeStr += "#cloud "
+                    }
+                    if tableData.isPersistent {
+                        typeStr += "#persistent"
                     }
                 }
 
+
                 code += """
-                        list #ui \(ui.value.uiName) = {\(listContent)}:\(ui.value.uiID)
+                        list #ui \(typeStr) \(ui.value.uiName) = {\(listContent)}:\(ui.value.uiID)
 
                         """
             } else {
@@ -788,5 +800,13 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     func setListValue(uiID: Int, value: [String]) {
         self.uiDictionary[uiID]?.uiData.tableData?.value = value
         self.uiDictionary[uiID]?.reload()
+    }
+
+    func setListCloudType(uiID: Int, value: Bool) {
+        self.uiDictionary[uiID]?.uiData.tableData?.isCloud = value
+    }
+
+    func setListPersistentType(uiID: Int, value: Bool) {
+        self.uiDictionary[uiID]?.uiData.tableData?.isPersistent = value
     }
 }

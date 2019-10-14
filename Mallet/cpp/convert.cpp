@@ -616,8 +616,12 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
         int argIndex = 0;
 
         bool setList = false;
+        bool addToList = false;
+        bool isCloudList = false;
+        bool isPersistentList = false;
         int listAddress;
         int listUIid;
+        int listNameAddress;
 
         while (code[codeIndex] != ")")
         {
@@ -692,6 +696,11 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
                         setList = true;
                         listAddress = globalListAddresses[varName];
                         listUIid = globalVariableTypes[varName].uiID;
+                        listNameAddress = globalVariableTypes[varName].nameAddress;
+
+                        isCloudList = globalVariableTypes[varName].isCloudVariable;
+                        isPersistentList = globalVariableTypes[varName].isPersistentVariable;
+                        addToList = funcName == "add";
                     }
                 }
             }
@@ -747,6 +756,25 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             AddPushAddressCode(listUIid, true);
             AddPushAddressCode(listAddress, true);
             AddCmdCode(SET_LIST_UI, 2);
+
+            if (isPersistentList)
+            {
+                AddPushAddressCode(listNameAddress, true);
+                AddPushAddressCode(listAddress, true);
+                AddCmdCode(SET_PERSISTENT_LIST, 2);
+            }
+
+            if (isCloudList)
+            {
+                AddPushAddressCode(listNameAddress, true);
+                AddPushAddressCode(listAddress, true);
+                /*
+                if (addToList)
+                    AddCmdCode(ADD_TO_CLOUD_LIST, 2);
+                else
+                */
+                AddCmdCode(SET_CLOUD_LIST, 2);
+            }
         }
     }
 
@@ -972,7 +1000,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                     {
                         while (code[index - 1] != "}")
                         {
-                            AddPushAddressCode(address, false);
+                            AddPushAddressCode(address, true);
                             index += ConvertFormula(index, 0, true) + 1;
                             AddCmdCode(ADD_LIST, 2);
                         }
@@ -984,7 +1012,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                     {
                         AddPushAddressCode(typeInfo.nameAddress, true);
 
-                        AddPushAddressCode(address, false);
+                        AddPushAddressCode(address, true);
 
                         AddCmdCode(SET_PERSISTENT_LIST, 2);
                     }
@@ -993,7 +1021,7 @@ int Convert::ConvertCodeBlock(const int firstCodeIndex, const int funcID)
                     {
                         AddPushAddressCode(typeInfo.nameAddress, true);
 
-                        AddPushAddressCode(address, false);
+                        AddPushAddressCode(address, true);
 
                         AddCmdCode(SET_CLOUD_LIST, 2);
                     }
@@ -1187,6 +1215,27 @@ std::string Convert::Code2Str()
     str += "#GLOBAL_LIST_NUM\n";
     str += std::to_string(globalListNum) + "\n";
     str += "#GLOBAL_LIST_NUM_END\n";
+
+    str += "#GLOBAL_VARIABLE_DATA\n";
+    for (auto typeInfo : globalVariableTypes)
+    {
+        if (typeInfo.second.isList)
+            str += "LIST\n";
+        else
+            str += "VAR\n";
+
+        str += typeInfo.first + "\n";
+
+        if (typeInfo.second.isList)
+            str += std::to_string(globalListAddresses[typeInfo.first]) + "\n";
+        else
+            str += std::to_string(globalVariableAddress[typeInfo.first]) + "\n";
+
+        str += (typeInfo.second.isUI ? "1" : "0");
+        str += "\n";
+        str += std::to_string(typeInfo.second.uiID) + "\n";
+    }
+    str += "#GLOBAL_VARIABLE_DATA_END\n";
 
     str += "#END\n";
 
@@ -1451,48 +1500,46 @@ void Convert::ListFunction()
 
                 codeIndex += 1;
             }
+
+            int address = globalListAddresses[varName];
+
+            AddPushAddressCode(address, true);
+            AddCmdCode(INIT_LIST, 1);
+
+            codeIndex += 3;
+
+            //       v
+            // a = { 1 , 2 , 8 }
+            //       ^
+
+            if (code[codeIndex] == "}")
+            {
+                codeIndex += 1;
+            }
             else
             {
-                int address = globalListAddresses[varName];
-
-                AddPushAddressCode(address, true);
-                AddCmdCode(INIT_LIST, 1);
-
-                codeIndex += 3;
-
-                //       v
-                // a = { 1 , 2 , 8 }
-                //       ^
-
-                if (code[codeIndex] == "}")
+                while (code[codeIndex - 1] != "}")
                 {
-                    codeIndex += 1;
-                }
-                else
-                {
-                    while (code[codeIndex - 1] != "}")
-                    {
-                        AddPushAddressCode(address, true);
-
-                        //* Only value
-                        ConvertValue(codeIndex, true);
-                        codeIndex += 2;
-
-                        AddCmdCode(ADD_LIST, 2);
-                    }
-                }
-
-                if (typeInfo.isUI)
-                {
-                    codeIndex += 1;
-                    std::string uiIDStr = code[codeIndex].substr(1, code[codeIndex].size() - 1);
-                    typeInfo.uiID = (int)strtol(uiIDStr.c_str(), NULL, 10);
-                    codeIndex += 1;
-
-                    AddPushAddressCode(typeInfo.uiID, true);
                     AddPushAddressCode(address, true);
-                    AddCmdCode(SET_LIST_UI, 2);
+
+                    //* Only value
+                    ConvertValue(codeIndex, true);
+                    codeIndex += 2;
+
+                    AddCmdCode(ADD_LIST, 2);
                 }
+            }
+
+            if (typeInfo.isUI)
+            {
+                codeIndex += 1;
+                std::string uiIDStr = code[codeIndex].substr(1, code[codeIndex].size() - 1);
+                typeInfo.uiID = (int)strtol(uiIDStr.c_str(), NULL, 10);
+                codeIndex += 1;
+
+                AddPushAddressCode(typeInfo.uiID, true);
+                AddPushAddressCode(address, true);
+                AddCmdCode(SET_LIST_UI, 2);
             }
 
             globalVariableTypes[varName] = typeInfo;

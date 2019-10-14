@@ -56,6 +56,7 @@ enum
     //List
     SET_PERSISTENT_LIST,
     SET_CLOUD_LIST,
+    ADD_TO_CLOUD_LIST,
     INIT_LIST,
     ADD_LIST,
     INSERT_LIST,

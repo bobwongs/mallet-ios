@@ -11,7 +11,6 @@ import Firebase
 
 import FirebaseDatabase
 
-@objcMembers
 class CloudVariableController: NSObject {
     private static let variablePath = "variable"
 
@@ -97,26 +96,14 @@ class CloudVariableController: NSObject {
     }
 
     private static func updateCloudVariable(data: [String: Any], appRunner: AppRunner) {
-        var variables = [AppVariable]()
-//            var lists = []
-        for variable in data {
-            if let str = variable.value as? String {
-                variables.append(AppVariable(address: -1, name: variable.key, value: str))
-            }
-
-            if let array = variable.value as? Array<String> {
-                print("array-san")
-            }
-        }
-
-        appRunner.updateCloudVariables(variables: variables)
+        appRunner.updateCloudVariables(variables: data)
     }
 
     private static func updateCloudVariableInVariableSettings(data: [String: Any], variableSettingsController: VariableSettingsController) {
         variableSettingsController.updateCloudVariable(variables: data)
     }
 
-    static func setCloudVariable(varName: String, value: String) {
+    @objc static func setCloudVariable(varName: String, value: String) {
         ref.updateData([varName: value]) { error in
             print(error)
         }
@@ -124,6 +111,22 @@ class CloudVariableController: NSObject {
 
     static func setCloudList(varName: String, value: [String]) {
         ref.updateData([varName: value]) { error in
+            print(error)
+        }
+    }
+
+    @objc static func setCloudList(varName: String, value: NSMutableArray) {
+        var stringValue = [String]()
+        for element in value {
+            stringValue.append((element as? String) ?? "")
+        }
+
+        CloudVariableController.setCloudList(varName: varName, value: stringValue)
+    }
+
+    @objc static func addToCloudList(varName: String, value: String) {
+        print("\(varName) \(value)")
+        ref.updateData([varName: FieldValue.arrayUnion([value])]) { error in
             print(error)
         }
     }

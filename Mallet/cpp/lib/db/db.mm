@@ -35,6 +35,28 @@ void setCloudVariable(std::string varName, std::string value)
     [CloudVariableController setCloudVariableWithVarName:varNameString value:valueString];
 }
 
+void setCloudList(std::string varName, std::vector<var> value)
+{
+    NSString *varNameString = [NSString stringWithCString:varName.c_str() encoding:NSUTF8StringEncoding];
+
+    NSMutableArray *valueArray = [[NSMutableArray alloc] init];
+
+    for (auto element : value)
+    {
+        [valueArray addObject:[NSString stringWithCString:getOutValue(element).c_str() encoding:NSUTF8StringEncoding]];
+    }
+
+    [CloudVariableController setCloudListWithVarName:varNameString value:valueArray];
+}
+
+void addToCloudList(std::string varName, std::string value)
+{
+    NSString *varNameString = [NSString stringWithCString:varName.c_str() encoding:NSUTF8StringEncoding];
+    NSString *valueString = [NSString stringWithCString:value.c_str() encoding:NSUTF8StringEncoding];
+
+    [CloudVariableController addToCloudListWithVarName:varNameString value:valueString];
+}
+
 std::string getCloudVariable(std::string name)
 {
 
