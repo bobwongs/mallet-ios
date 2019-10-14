@@ -20,11 +20,27 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         var type: VariableType
         var name: String
         var value: String
+        var isUI: Bool
 
-        init(type: VariableType, name: String, value: String) {
+        init(type: VariableType, name: String, value: String, isUI: Bool) {
             self.type = type
             self.name = name
             self.value = value
+            self.isUI = isUI
+        }
+    }
+
+    struct ListData {
+        var type: VariableType
+        var name: String
+        var value: [String]
+        var isUI: Bool
+
+        init(type: VariableType, name: String, value: [String], isUI: Bool) {
+            self.type = type
+            self.name = name
+            self.value = value
+            self.isUI = isUI
         }
     }
 
@@ -32,11 +48,15 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
-    public var appID: Int?
+    var codeEditorControllerDelegate: CodeEditorControllerDelegate?
 
-    public var codeStr: String?
+    var appID: Int?
 
-    public var varList = [VariableData]()
+    var codeStr: String?
+
+    var varList = [VariableData]()
+
+    var listList = [ListData]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +69,12 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         initVariables()
 
         CloudVariableController.startVariableSettings(variableSettingsController: self)
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        self.setGlobalVariableCode()
     }
 
     func initVariables() {
@@ -80,7 +106,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
                 //TODO:
 
-                self.varList.append(VariableData(type: type, name: variable.name, value: variable.value))
+                self.varList.append(VariableData(type: type, name: variable.name, value: variable.value, isUI: false))
             }
         }
 
@@ -173,7 +199,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     @IBAction func addVariableButton(_ sender: Any) {
-        self.varList.append(VariableData(type: .normal, name: "", value: ""))
+        self.varList.append(VariableData(type: .normal, name: "", value: "", isUI: false))
         variableTableView.reloadData()
     }
 
@@ -185,6 +211,26 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         }
 
         variableTableView.reloadData()
+    }
+
+    func setGlobalVariableCode() {
+        var code = ""
+
+        for variable in varList {
+            code += "var "
+            switch variable.type {
+            case .normal:
+                code += "\(variable.name) = \"\(variable.value)\""
+            case .persistent:
+                code += "#persistent \(variable.name)"
+            case .cloud:
+                code += "#cloud \(variable.name)"
+            }
+
+            code += "\n"
+        }
+
+        codeEditorControllerDelegate?.setGlobalVariableCode(code: code)
     }
 }
 

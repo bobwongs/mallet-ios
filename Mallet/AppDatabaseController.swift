@@ -14,7 +14,8 @@ class AppModel: RLMObject {
     @objc dynamic var appID = 0
     @objc dynamic var appName = ""
     @objc dynamic var uiDataStr = ""
-    @objc dynamic var code = ""
+    @objc dynamic var bytecode = ""
+    @objc dynamic var globalVariableCode = ""
     @objc dynamic var appVariable = RLMArray<AppVariableModel>(objectClassName: AppVariableModel.className())
 }
 
@@ -45,13 +46,13 @@ class AppDatabaseController: NSObject {
     }
 
     static func createNewApp() -> AppData {
-        return AppDatabaseController.createNewApp(appName: "Untitled App", uiData: [], code: "")
+        return AppDatabaseController.createNewApp(appName: "Untitled App", uiData: [], bytecode: "", globalVariableCode: "")
     }
 
-    static func createNewApp(appName: String, uiData: [UIData], code: String) -> AppData {
+    static func createNewApp(appName: String, uiData: [UIData], bytecode: String, globalVariableCode: String) -> AppData {
         let appID = getMaxAppID() + 1
 
-        let appData = AppData(appName: appName, appID: appID, uiData: uiData, code: code)
+        let appData = AppData(appName: appName, appID: appID, uiData: uiData, bytecode: bytecode, globalVariableCode: globalVariableCode)
 
         do {
             let realm = RLMRealm.default()
@@ -60,7 +61,8 @@ class AppDatabaseController: NSObject {
             appModel.appID = appData.appID
             appModel.appName = appData.appName
             appModel.uiDataStr = getUIDataStr(appData: appData)
-            appModel.code = appData.code
+            appModel.bytecode = appData.bytecode
+            appModel.globalVariableCode = appData.globalVariableCode
 
             realm.beginWriteTransaction()
             realm.add(appModel)
@@ -86,7 +88,8 @@ class AppDatabaseController: NSObject {
 
                     currentAppModel.appName = appData.appName
                     currentAppModel.uiDataStr = getUIDataStr(appData: appData)
-                    currentAppModel.code = appData.code
+                    currentAppModel.bytecode = appData.bytecode
+                    currentAppModel.globalVariableCode = appData.globalVariableCode
 
                     try realm.commitWriteTransaction()
                 } catch let error {
@@ -108,7 +111,7 @@ class AppDatabaseController: NSObject {
 
             let uiData = try JSONDecoder().decode([UIData].self, from: jsonData)
 
-            let appData = AppData(appName: appModel.appName, appID: appModel.appID, uiData: uiData, code: appModel.code)
+            let appData = AppData(appName: appModel.appName, appID: appModel.appID, uiData: uiData, bytecode: appModel.bytecode, globalVariableCode: appModel.globalVariableCode)
 
             return appData
 
@@ -247,9 +250,9 @@ class AppDatabaseController: NSObject {
 
                 if variableModels.count == 0 {
                     setAppVariable(varName: variable.name, value: "")
-                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: ""))
+                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: "", isUI: false))
                 } else {
-                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: variableModels.firstObject()!.value))
+                    newVariableList.append(VariableSettingsController.VariableData(type: .persistent, name: variable.name, value: variableModels.firstObject()!.value, isUI: false))
                 }
             } else {
                 newVariableList.append(variable)

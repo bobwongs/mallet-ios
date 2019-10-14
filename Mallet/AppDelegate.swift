@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             let appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
 
-            let appID = AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, code: appData.code).appID
+            let appID = AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, bytecode: appData.bytecode, globalVariableCode: appData.globalVariableCode).appID
 
             UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
 

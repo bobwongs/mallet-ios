@@ -40,6 +40,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     var initialCode = ""
 
+    var globalVariablesCode = ""
+
     private var activityIndicatorView = UIActivityIndicatorView()
 
     override func viewDidLoad() {
@@ -82,6 +84,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func setupAppData() {
         appName = appData.appName
+        globalVariablesCode = appData.globalVariableCode
+
+        print(globalVariablesCode)
     }
 
     func setupView() {
@@ -505,6 +510,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         var funcID = 1
 
         var code = """
+                   \(self.globalVariablesCode)
+
                    \(getUINameDeclarationCode())
 
                    func init()
@@ -598,33 +605,22 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let codeData = ConverterObjCpp().convertCode(code) ?? ""
 
-        let appData = AppData(appName: appName, appID: self.appData.appID, uiData: uiDataTable, code: codeData)
+        let appData = AppData(appName: appName, appID: self.appData.appID, uiData: uiDataTable, bytecode: codeData, globalVariableCode: self.globalVariablesCode)
 
         return appData
     }
 
-    func getAllCodeStr() -> String {
-        var code = """
-                   \(getUINameDeclarationCode())
+    func getGlobalVariableCode() -> String {
+        return """
+               \(getUINameDeclarationCode())
 
-                   func init()
-                   {
-                   \(initialCode)
-                   }
+               \(globalVariablesCode)
 
-                   """
+               """
+    }
 
-        let sortedUIDictionary = uiDictionary.sorted(by: {
-            $0.key < $1.key
-        })
-
-        for ui in sortedUIDictionary {
-            let ui = ui.value
-
-            code += getUIScript(ui: ui)
-        }
-
-        return code
+    func setGlobalVariableCode(code: String) {
+        self.globalVariablesCode = code
     }
 
     @IBAction func runButton(_: Any) {

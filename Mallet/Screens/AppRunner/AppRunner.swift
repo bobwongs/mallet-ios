@@ -35,12 +35,12 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
 
         GenerateAppScreen()
 
-        print(appData.code)
+        print(appData.bytecode)
 
         CloudVariableController.startApp(appRunner: self)
 
         if let appID = self.appData?.appID {
-            runner.initRunner(appData.code, AppDatabaseController.getAppVariablesDictionary(appID: appID))
+            runner.initRunner(appData.bytecode, AppDatabaseController.getAppVariablesDictionary(appID: appID))
         }
     }
 

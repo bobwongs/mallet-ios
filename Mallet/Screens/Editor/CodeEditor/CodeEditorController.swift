@@ -155,9 +155,11 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
             }
             self.updateCode()
 
-            variableSettingsController.codeStr = codeEditorControllerDelegate.getAllCodeStr()
+            variableSettingsController.codeStr = codeEditorControllerDelegate.getGlobalVariableCode()
 
             variableSettingsController.appID = self.appID
+
+            variableSettingsController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
 
             navigationController?.present(variableSettingsController, animated: true)
         }
@@ -165,5 +167,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 }
 
 protocol CodeEditorControllerDelegate {
-    func getAllCodeStr() -> String
+    func getGlobalVariableCode() -> String
+
+    func setGlobalVariableCode(code: String)
 }
