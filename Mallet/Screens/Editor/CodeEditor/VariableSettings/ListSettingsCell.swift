@@ -123,8 +123,6 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate, TableContentEditor
         self.delegate.updateListName(index: self.index, name: sender.text ?? "")
     }
 
-    //TODO: updateListValue
-
     func updateListType(type: VariableSettingsController.VariableType) {
         switch type {
         case .normal:
@@ -142,6 +140,8 @@ class ListSettingsCell: UITableViewCell, UITextFieldDelegate, TableContentEditor
 
     func updateTable(dataSource: [String]) {
         self.listValue = dataSource
+
+        self.delegate.updateListValue(index: self.index, value: self.listValue)
     }
 }
 

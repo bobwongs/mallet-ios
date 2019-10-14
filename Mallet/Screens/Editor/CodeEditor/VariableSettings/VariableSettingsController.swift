@@ -258,6 +258,24 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         CloudVariableController.setCloudVariable(varName: self.varList[index].name, value: self.varList[index].value)
     }
 
+    func setPersistentList(index: Int) {
+        if self.listList[index].name == "" {
+            return
+        }
+
+        if let appID = self.appID {
+            //TODO:
+        }
+    }
+
+    func setCloudList(index: Int) {
+        if self.listList[index].name == "" {
+
+        }
+
+        //TODO:
+    }
+
     func updateVariableName(index: Int, name: String) {
         self.varList[index].name = name
 
@@ -287,11 +305,33 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
     }
 
     func updateListName(index: Int, name: String) {
-        //TODO:
+        self.listList[index].name = name
+
+        if self.listList[index].type == .persistent {
+            self.setPersistentList(index: index)
+        }
+
+        if self.listList[index].type == .cloud {
+            self.setCloudList(index: index)
+        }
     }
 
     func updateListValue(index: Int, value: [String]) {
-        //TODO:
+        self.listList[index].value = value
+
+        if self.listList[index].type == .persistent {
+            self.setPersistentList(index: index)
+        }
+
+        if self.listList[index].type == .cloud {
+            self.setCloudList(index: index)
+        }
+
+        if self.listList[index].isUI {
+            if let uiID = self.listList[index].uiID {
+                codeEditorControllerDelegate?.setListValue(uiID: uiID, value: value)
+            }
+        }
     }
 
     @objc func closePickerView() {

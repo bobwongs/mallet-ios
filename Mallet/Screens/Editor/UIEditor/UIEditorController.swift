@@ -784,4 +784,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             self.view.layoutIfNeeded()
         })
     }
+
+    func setListValue(uiID: Int, value: [String]) {
+        self.uiDictionary[uiID]?.uiData.tableData?.value = value
+        self.uiDictionary[uiID]?.reload()
+    }
 }

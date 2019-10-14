@@ -170,4 +170,6 @@ protocol CodeEditorControllerDelegate {
     func getGlobalVariableCode() -> String
 
     func setGlobalVariableCode(code: String)
+
+    func setListValue(uiID: Int, value: [String])
 }
