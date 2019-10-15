@@ -36,7 +36,7 @@ int getIntValue(var &variable)
 
     if (std::holds_alternative<double>(variable))
     {
-        return (int)std::get<double>(variable);
+        return (int) std::get<double>(variable);
     }
 
     if (std::holds_alternative<bool>(variable))
@@ -46,7 +46,7 @@ int getIntValue(var &variable)
 
     if (std::holds_alternative<std::string>(variable))
     {
-        return (int)strtol(std::get<std::string>(variable).c_str(), NULL, 10);
+        return (int) strtol(std::get<std::string>(variable).c_str(), NULL, 10);
     }
 
     return 0;
@@ -61,7 +61,7 @@ double getNumberValue(var &variable)
 
     if (std::holds_alternative<int>(variable))
     {
-        return (double)std::get<int>(variable);
+        return (double) std::get<int>(variable);
     }
 
     if (std::holds_alternative<double>(variable))
@@ -71,7 +71,7 @@ double getNumberValue(var &variable)
 
     if (std::holds_alternative<bool>(variable))
     {
-        return (double)std::get<bool>(variable);
+        return (double) std::get<bool>(variable);
     }
 
     if (std::holds_alternative<std::string>(variable))

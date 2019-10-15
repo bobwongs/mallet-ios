@@ -73,6 +73,8 @@ class AppTextField: AppUITextField, AppUI {
 
     override init(uiData: UIData) {
         super.init(uiData: uiData)
+
+        self.addTarget(self, action: #selector(self.changeText(_:)), for: .allEditingEvents)
     }
 
     required init?(coder: NSCoder) {
@@ -85,6 +87,10 @@ class AppTextField: AppUITextField, AppUI {
 
     func reloadUI() {
         self.reload()
+    }
+
+    @objc private func changeText(_ textField: UITextField) {
+        self.uiData.textFieldData?.text = textField.text ?? ""
     }
 }
 

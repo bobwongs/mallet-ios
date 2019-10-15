@@ -13,6 +13,8 @@
 #import "Mallet-Swift.h"
 #include "ui.hpp"
 
+#include <iostream>
+
 var setUIPositionX(std::vector<var> &args)
 {
     double x = getNumberValue(args[1]);
@@ -42,9 +44,9 @@ var setUIText(std::vector<var> &args)
 
 var getUIText(std::vector<var> &args)
 {
-    NSString *textString = [AppUIController getUITextWithId:getIntValue(args[0])];
+    std::string str = [[AppUIController getUITextWithId:getIntValue(args[0])] UTF8String];
 
-    return [textString UTF8String];
+    return str;
 }
 
 void setUITable(int uiID, std::vector<var> &list)
