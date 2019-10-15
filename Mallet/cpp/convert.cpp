@@ -1452,7 +1452,10 @@ void Convert::ListFunction()
                 codeIndex += 2;
 
                 if (typeInfo.isUI)
-                    typeInfo.uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                {
+                    std::string uiIDStr = code[codeIndex].substr(1, code[codeIndex].size() - 1);
+                    typeInfo.uiID = (int)strtol(uiIDStr.c_str(), NULL, 10);
+                }
 
                 AddPushAddressCode(globalVariableAddress[varName], true);
 
