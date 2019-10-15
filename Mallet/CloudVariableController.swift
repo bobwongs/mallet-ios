@@ -20,6 +20,8 @@ class CloudVariableController: NSObject {
 
     private static var listener: ListenerRegistration?
 
+    static let randomPrefixLength = "yyyyMMddHHmmssSSS".count + 5
+
     static func startApp(appRunner: AppRunner) {
 
         DispatchQueue.global().async {
@@ -110,7 +112,14 @@ class CloudVariableController: NSObject {
     }
 
     static func setCloudList(varName: String, value: [String]) {
-        ref.updateData([varName: value]) { error in
+        let randomPrefix = generateRandomPrefix()
+
+        var prefixedValue = [String]()
+        for element in value {
+            prefixedValue.append(randomPrefix + element)
+        }
+
+        ref.updateData([varName: prefixedValue]) { error in
             print(error)
         }
     }
@@ -126,8 +135,16 @@ class CloudVariableController: NSObject {
 
     @objc static func addToCloudList(varName: String, value: String) {
         print("\(varName) \(value)")
-        ref.updateData([varName: FieldValue.arrayUnion([value])]) { error in
+        ref.updateData([varName: FieldValue.arrayUnion([CloudVariableController.generateRandomPrefix() + value])]) { error in
             print(error)
         }
+    }
+
+    private static func generateRandomPrefix() -> String {
+        let format = DateFormatter()
+        format.dateFormat = "yyyyMMddHHmmssSSS"
+        let randomStr = String(format: "%05d", Int.random(in: 0..<99999))
+
+        return format.string(from: Date()) + randomStr
     }
 }

@@ -80,7 +80,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
             if let arrayValue = variable.value as? [String] {
                 var array = NSMutableArray()
                 for element in arrayValue {
-                    array.add(element)
+                    array.add(element.suffix(element.count - CloudVariableController.randomPrefixLength))
                 }
 
                 runner.updateCloudList(variable.key, array)

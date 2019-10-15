@@ -768,12 +768,10 @@ int Convert::ConvertFunc(const int firstCodeIndex, const bool convert)
             {
                 AddPushAddressCode(listNameAddress, true);
                 AddPushAddressCode(listAddress, true);
-                /*
                 if (addToList)
                     AddCmdCode(ADD_TO_CLOUD_LIST, 2);
                 else
-                */
-                AddCmdCode(SET_CLOUD_LIST, 2);
+                    AddCmdCode(SET_CLOUD_LIST, 2);
             }
         }
     }

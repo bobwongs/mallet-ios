@@ -398,7 +398,11 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
         for index in 0..<self.listList.count {
             if self.listList[index].type == .cloud {
                 if let value = variables[self.listList[index].name] as? [String] {
-                    self.listList[index].value = value
+                    var originalValue = value
+                    for index in 0..<value.count {
+                        originalValue[index] = String(value[index].suffix(value[index].count - CloudVariableController.randomPrefixLength))
+                    }
+                    self.listList[index].value = originalValue
 
                     if self.listList[index].isUI {
                         if let uiID = self.listList[index].uiID {
