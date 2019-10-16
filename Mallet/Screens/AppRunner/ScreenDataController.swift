@@ -44,6 +44,18 @@ public class UIData: Codable {
             return .right
         }
     }
+
+    func copy() -> UIData {
+        let uiData = UIData(uiID: self.uiID, uiName: self.uiName, uiType: self.uiType, x: self.x, y: self.y, width: self.width, height: self.height)
+        uiData.labelData = self.labelData
+        uiData.buttonData = self.buttonData
+        uiData.textFieldData = self.textFieldData
+        uiData.switchData = self.switchData
+        uiData.sliderData = self.sliderData
+        uiData.tableData = self.tableData
+
+        return uiData
+    }
 }
 
 public struct LabelUIData: Codable {

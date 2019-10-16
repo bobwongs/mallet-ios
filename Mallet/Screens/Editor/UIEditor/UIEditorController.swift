@@ -238,7 +238,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
             if superView != appScreen {
                 let uiType = uiData.uiType
-                let uiOnTable = generateEditorUI(uiData: uiData)
+                let uiOnTable = generateEditorUI(uiData: uiData.copy())
                 uiOnTable.transform = CGAffineTransform(scaleX: uiScale, y: uiScale)
                 superView.addSubview(uiOnTable)
 
@@ -321,17 +321,17 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func editUI(ui: EditorUI) {
         let storyBoard = UIStoryboard(name: "UISettings", bundle: nil)
-        guard let uiSettingsController = storyBoard.instantiateInitialViewController() as? UISettingsModal else {
+        guard let uiSettingsModal = storyBoard.instantiateInitialViewController() as? UISettingsModal else {
             fatalError()
         }
 
-        uiSettingsController.appID = self.appData.appID
-        uiSettingsController.ui = ui
-        uiSettingsController.uiData = ui.uiData
-        uiSettingsController.uiSettingsDelegate = self
-        uiSettingsController.codeEditorControllerDelegate = self
+        uiSettingsModal.appID = self.appData.appID
+        uiSettingsModal.ui = ui
+        uiSettingsModal.uiData = ui.uiData
+        uiSettingsModal.uiSettingsDelegate = self
+        uiSettingsModal.codeEditorControllerDelegate = self
 
-        navigationController?.present(uiSettingsController, animated: true)
+        navigationController?.present(uiSettingsModal, animated: true)
     }
 
     func getUIScript(ui: EditorUI) -> String {
