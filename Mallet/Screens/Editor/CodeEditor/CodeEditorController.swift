@@ -23,6 +23,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     var codeEditorControllerDelegate: CodeEditorControllerDelegate?
 
+    var uiSettingsDelegate: UISettingsDelegate?
+
     var appID: Int?
 
     let initialEditorMode = EditorMode.Visual
@@ -58,20 +60,14 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         }
     }
 
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController is UISettingsController {
-            self.updateCode()
-
-            (viewController as! UISettingsController).uiSettingsDelegate.saveApp()
-        }
-    }
-
     func updateCode() {
         if editorMode == .Visual {
             codeStr = visualCodeEditorController.vplToCode()
         }
 
         self.updateCodeClosure?(self.codeStr)
+
+        self.uiSettingsDelegate?.saveApp()
     }
 
     func initEditorView() {
