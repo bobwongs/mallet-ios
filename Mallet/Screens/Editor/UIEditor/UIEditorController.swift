@@ -124,10 +124,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             let ui = generateEditorUI(uiData: uiData)
             appScreen.addSubview(ui)
 
-            ui.isUserInteractionEnabled = true
-
-            addGesture(ui: ui)
-
             UINumOfEachType[uiData.uiType]! += 1
             uiDictionary[uiData.uiID] = ui
         }
@@ -184,10 +180,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         ui.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         ui.centerYAnchor.constraint(equalTo: cell.centerYAnchor).isActive = true
 
-        ui.isUserInteractionEnabled = true
-
-        addGesture(ui: ui)
-
         return cell
     }
 
@@ -196,17 +188,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         pan.delegate = self
         ui.addGestureRecognizer(pan)
 
-        /*
-        let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(moveToCode(_:)))
-        doubleTap.delegate = self
-        doubleTap.numberOfTapsRequired = 2
-        ui.addGestureRecognizer(doubleTap)
-        */
-
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectUI(_:)))
         tap.delegate = self
-        //tap.numberOfTapsRequired = 1
-        //tap.require(toFail: doubleTap)
         ui.addGestureRecognizer(tap)
     }
 
@@ -250,7 +233,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 addGesture(ui: uiOnTable)
 
-                ui.uiID = uiNum
+                ui.uiData.uiID = uiNum
                 uiNum += 1
                 UINumOfEachType[uiType]! += 1
 
@@ -262,9 +245,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                 ui.center = center ?? CGPoint()
 
                 let uiName = uiTypeName[uiType]! + String(UINumOfEachType[uiType]!)
-                ui.uiName = uiName
+                ui.uiData.uiName = uiName
 
-                uiDictionary[ui.uiID] = ui
+                uiDictionary[ui.uiData.uiID] = ui
 
                 closeUITable(0)
             }
@@ -316,6 +299,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         ui.delegate = self
 
+        ui.isUserInteractionEnabled = true
+
+        addGesture(ui: ui)
+
         return ui
     }
 
@@ -345,7 +332,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 for type in ButtonUIData.CodeType.allCases {
                     code += """
-                            func @\(ui.uiID)_\(type.rawValue) ()
+                            func @\(ui.uiData.uiID)_\(type.rawValue) ()
                             {
                             \(buttonData.code[type]?.code ?? "")
                             }
@@ -365,7 +352,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 for type in TextFieldUIData.CodeType.allCases {
                     code += """
-                            func @\(ui.uiID)_\(type.rawValue) ()
+                            func @\(ui.uiData.uiID)_\(type.rawValue) ()
                             {
                             \(textFieldData.code[type]?.code ?? "")
                             }
@@ -385,7 +372,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 for type in SwitchUIData.CodeType.allCases {
                     code += """
-                            func @\(ui.uiID)_\(type.rawValue) ()
+                            func @\(ui.uiData.uiID)_\(type.rawValue) ()
                             {
                             \(switchData.code[type]?.code ?? "")
                             }
@@ -406,7 +393,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 for type in SliderUIData.CodeType.allCases {
                     code += """
-                            func @\(ui.uiID)_\(type.rawValue) ()
+                            func @\(ui.uiData.uiID)_\(type.rawValue) ()
                             {
                             \(sliderData.code[type]?.code ?? "")
                             }
@@ -455,12 +442,12 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
 
                 code += """
-                        list #ui \(typeStr) \(ui.value.uiName) = {\(listContent)}:\(ui.value.uiID)
+                        list #ui \(typeStr) \(ui.value.uiData.uiName) = {\(listContent)}:\(ui.value.uiData.uiID)
 
                         """
             } else {
                 code += """
-                        var #ui \(ui.value.uiName) = \(ui.value.uiID)
+                        var #ui \(ui.value.uiData.uiName) = \(ui.value.uiData.uiID)
 
                         """
             }
@@ -495,8 +482,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             let ui = ui.value
 
             let uiData = UIData(
-                    uiID: ui.uiID,
-                    uiName: ui.uiName,
+                    uiID: ui.uiData.uiID,
+                    uiName: ui.uiData.uiName,
                     uiType: ui.uiData.uiType,
                     x: ui.frame.origin.x / uiScale,
                     y: ui.frame.origin.y / uiScale,
@@ -761,5 +748,36 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func setListPersistentType(uiID: Int, value: Bool) {
         self.uiDictionary[uiID]?.uiData.tableData?.isPersistent = value
+    }
+
+    func duplicateUI(uiData: UIData) {
+
+        let newUIData = uiData.copy()
+        let newUI = generateEditorUI(uiData: newUIData)
+
+        let uiID = self.uiNum
+        self.uiNum += 1
+        self.UINumOfEachType[newUIData.uiType]! += 1
+
+        newUIData.uiID = uiID
+        newUIData.uiName = uiTypeName[newUIData.uiType]! + String(UINumOfEachType[newUIData.uiType]!)
+
+        self.uiDictionary[newUIData.uiID] = newUI
+
+        self.appScreen.addSubview(newUI)
+        self.appScreen.bringSubviewToFront(newUI)
+
+        newUI.uiData.x += 20
+        newUI.uiData.y += 20
+        newUI.reload()
+
+        self.saveApp()
+    }
+
+    func deleteUI(uiID: Int) {
+        self.uiDictionary[uiID]?.removeFromSuperview()
+        self.uiDictionary[uiID] = nil
+
+        self.saveApp()
     }
 }

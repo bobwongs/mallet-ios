@@ -27,9 +27,11 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
         self.uiSettingsDelegate = uiSettingsDelegate
         self.codeEditorControllerDelegate = codeEditorControllerDelegate
 
+
         super.init(style: .grouped)
 
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        self.tableView.allowsSelection = true
     }
 
     override func viewDidLoad() {
@@ -87,7 +89,7 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
             switch indexPath.row {
             case 0:
                 titleLabel.text = "Name"
-                textField.text = ui.uiName
+                textField.text = ui.uiData.uiName
                 textField.addTarget(self, action: #selector(self.setUIName(_:)), for: textFieldEvent)
 
             case 1:
@@ -123,12 +125,16 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
             cell.textLabel?.text = "Duplicate"
             cell.textLabel?.textColor = .systemBlue
             cell.textLabel?.textAlignment = .center
+
+            return cell
         }
 
         if indexPath.section == numberOfOtherSections() + 2 {
             cell.textLabel?.text = "Delete"
             cell.textLabel?.textColor = .systemRed
             cell.textLabel?.textAlignment = .center
+
+            return cell
         }
 
         return cellForRow(cell: cell, indexPath: indexPath)
@@ -137,10 +143,20 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
+        print("SELECTED")
+
         if indexPath.section == numberOfOtherSections() + 1 {
+            self.uiSettingsDelegate.duplicateUI(uiData: self.uiData)
+
+            print("DUPLICATE")
+
+            self.dismiss(animated: true)
         }
 
         if indexPath.section == numberOfOtherSections() + 2 {
+            self.uiSettingsDelegate.deleteUI(uiID: self.uiData.uiID)
+
+            self.dismiss(animated: true)
         }
     }
 
@@ -186,7 +202,7 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
 
 
     @objc private func setUIName(_ textField: UITextField) {
-        self.ui.uiName = textField.text ?? ""
+        self.ui.uiData.uiName = textField.text ?? ""
         self.reload()
     }
 
@@ -219,4 +235,8 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
 
 public protocol UISettingsDelegate {
     func saveApp()
+
+    func duplicateUI(uiData: UIData)
+
+    func deleteUI(uiID: Int)
 }

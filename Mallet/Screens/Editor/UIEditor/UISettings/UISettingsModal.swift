@@ -29,7 +29,7 @@ class UISettingsModal: UIViewController, UINavigationBarDelegate {
 
         navigationBar.delegate = self
 
-        navigationBarItem.title = ui?.uiName
+        navigationBarItem.title = ui?.uiData.uiName
 
 
         if let appID = appID, let ui = self.ui, let uiData = self.uiData, let uiSettingsDelegate = self.uiSettingsDelegate, let codeEditorControllerDelegate = self.codeEditorControllerDelegate {

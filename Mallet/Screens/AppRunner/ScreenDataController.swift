@@ -9,7 +9,7 @@
 import UIKit
 
 public class UIData: Codable {
-    let uiID: Int
+    var uiID: Int
     let uiType: UIType
     var uiName: String
     var x: CGFloat
@@ -46,7 +46,11 @@ public class UIData: Codable {
     }
 
     func copy() -> UIData {
-        let uiData = UIData(uiID: self.uiID, uiName: self.uiName, uiType: self.uiType, x: self.x, y: self.y, width: self.width, height: self.height)
+        return self.copy(uiID: self.uiID)
+    }
+
+    func copy(uiID: Int) -> UIData {
+        let uiData = UIData(uiID: uiID, uiName: self.uiName, uiType: self.uiType, x: self.x, y: self.y, width: self.width, height: self.height)
         uiData.labelData = self.labelData
         uiData.buttonData = self.buttonData
         uiData.textFieldData = self.textFieldData

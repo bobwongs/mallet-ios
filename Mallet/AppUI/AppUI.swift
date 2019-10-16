@@ -250,10 +250,6 @@ public class EditorUI: UIView {
 
     var uiData: UIData
 
-    var uiID: Int
-
-    var uiName: String
-
     var delegate: EditorUIDelegate?
 
     var menu: UIMenuController
@@ -264,10 +260,6 @@ public class EditorUI: UIView {
 
     init(uiData: UIData, ui: UIView) {
         self.uiData = uiData
-
-        self.uiID = uiData.uiID
-
-        self.uiName = uiData.uiName
 
         self.menu = UIMenuController.shared
 
