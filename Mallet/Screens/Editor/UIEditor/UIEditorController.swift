@@ -334,11 +334,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         navigationController?.present(uiSettingsController, animated: true)
     }
 
-    func getUIValue(uiType _: UIType, ui _: UIView) -> Int {
-        // TODO:
-        return 0
-    }
-
     func getUIScript(ui: EditorUI) -> String {
         switch ui.uiData.uiType {
         case .Label:
