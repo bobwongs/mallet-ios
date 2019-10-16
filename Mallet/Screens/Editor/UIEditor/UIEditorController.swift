@@ -334,48 +334,6 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         navigationController?.present(uiSettingsController, animated: true)
     }
 
-    func setUIText(uiType: UIType, ui: UIView, text: String) {
-        switch uiType {
-        case .Label:
-            guard let label = (ui as? EditorUILabel)?.label else {
-                fatalError()
-            }
-
-            label.text = text
-
-        case .Button:
-            guard let button = (ui as? EditorUIButton)?.button else {
-                fatalError()
-            }
-
-            button.setTitle(text, for: .normal)
-
-        default:
-            break
-        }
-    }
-
-    func getUIText(uiType: UIType, ui: UIView) -> String {
-        switch uiType {
-        case .Label:
-            guard let label = (ui as? EditorUILabel)?.label else {
-                fatalError()
-            }
-
-            return label.text ?? ""
-
-        case .Button:
-            guard let button = (ui as? EditorUIButton)?.button else {
-                fatalError()
-            }
-
-            return button.titleLabel?.text ?? ""
-
-        default:
-            return ""
-        }
-    }
-
     func getUIValue(uiType _: UIType, ui _: UIView) -> Int {
         // TODO:
         return 0
