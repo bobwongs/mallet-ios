@@ -44,6 +44,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     private var activityIndicatorView = UIActivityIndicatorView()
 
+    private let bottomBarHeight: CGFloat = 40
+
+    private let uiModalTitleBarHeight: CGFloat = 30
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -67,6 +71,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     func initUIEditor() {
         setupAppData()
         setupView()
+        initBottomBar()
 
         selectedUIID = -1
 
@@ -80,6 +85,18 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         //activityIndicatorView.accessibilityNavigationStyle = .automatic
 
         self.view.addSubview(self.activityIndicatorView)
+    }
+
+    func initBottomBar() {
+        let height = self.view.frame.height
+        let width = self.view.frame.width
+        let bottomBar = UIView(frame: CGRect(x: 0, y: height - self.bottomBarHeight, width: width, height: self.bottomBarHeight))
+        if #available(iOS 13, *) {
+            bottomBar.backgroundColor = .secondarySystemBackground
+        } else {
+
+        }
+        self.view.addSubview(bottomBar)
     }
 
     func setupAppData() {
@@ -249,7 +266,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
                 uiDictionary[ui.uiData.uiID] = ui
 
-                closeUITable(0)
+                closeUITable()
             }
 
             selectedUIID = uiData.uiID
@@ -632,6 +649,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func generateUITableModal() {
         let cornerRadius: CGFloat = 10
+        let titleBarHeight = 30
 
         self.uiTableModal = UIView()
         self.uiTableModal.backgroundColor = Color.uiCollectionBackground
@@ -648,17 +666,21 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiCollection.backgroundColor = .clear
 
         let titleBar = UIView()
+        /*
         let titleLabel = UILabel()
         let doneButton = UIButton(type: .system)
+        */
 
         self.view.addSubview(self.uiTableModal)
         self.uiTableModal.addSubview(self.uiCollection)
         self.uiTableModal.addSubview(titleBar)
+        /*
         titleBar.addSubview(titleLabel)
         titleBar.addSubview(doneButton)
+        */
 
         self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
-        self.uiTableModalPosY = NSLayoutConstraint(item: self.uiTableModal!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0)
+        self.uiTableModalPosY = NSLayoutConstraint(item: self.uiTableModal!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -(self.bottomBarHeight + self.uiModalTitleBarHeight))
         uiTableModalPosY.isActive = true
         NSLayoutConstraint.activate(
                 [
@@ -675,14 +697,43 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                     titleBar.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor),
                     titleBar.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
                     titleBar.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor),
-                    titleBar.heightAnchor.constraint(equalToConstant: 50)
+                    titleBar.heightAnchor.constraint(equalToConstant: self.uiModalTitleBarHeight)
                 ]
         )
 
-        titleBar.backgroundColor = .groupTableViewBackground
+        if #available(iOS 13, *) {
+            titleBar.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+            titleBar.backgroundColor = .gray
+        }
         titleBar.layer.cornerRadius = cornerRadius
         titleBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dragUIModal(_:)))
+        pan.delegate = self
+        titleBar.addGestureRecognizer(pan)
+        titleBar.isUserInteractionEnabled = true
+
+        let bar = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 6))
+        if #available(iOS 13, *) {
+            bar.backgroundColor = .systemGray3
+        } else {
+            bar.backgroundColor = .white
+        }
+        bar.layer.cornerRadius = 3
+        titleBar.addSubview(bar)
+
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+                [
+                    bar.centerXAnchor.constraint(equalTo: titleBar.centerXAnchor),
+                    bar.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor),
+                    bar.widthAnchor.constraint(equalToConstant: 50),
+                    bar.heightAnchor.constraint(equalToConstant: 6)
+                ]
+        )
+
+        /*
         titleLabel.text = "Add UI"
         titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -703,6 +754,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                     doneButton.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
                 ]
         )
+        */
 
         self.uiCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
@@ -715,7 +767,19 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         )
     }
 
-    @IBAction func openUITable(_ sender: Any) {
+    @objc func dragUIModal(_ sender: UIPanGestureRecognizer) {
+        let velocity = sender.velocity(in: self.view)
+
+        if velocity.y > 100 {
+            self.closeUITable()
+        }
+
+        if velocity.y < -100 {
+            self.openUITable()
+        }
+    }
+
+    func openUITable() {
         self.view.layoutIfNeeded()
 
         self.uiTableModalPosY.constant = -250
@@ -727,10 +791,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     }
 
-    @objc func closeUITable(_ sender: Any) {
+    func closeUITable() {
         self.view.layoutIfNeeded()
 
-        self.uiTableModalPosY.constant = 0
+        self.uiTableModalPosY.constant = -(self.bottomBarHeight + self.uiModalTitleBarHeight)
 
         UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
