@@ -649,12 +649,15 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func generateUITableModal() {
         let cornerRadius: CGFloat = 10
-        let titleBarHeight = 30
 
         self.uiTableModal = UIView()
-        self.uiTableModal.backgroundColor = Color.uiCollectionBackground
+        if #available(iOS 13, *) {
+            self.uiTableModal.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+            self.uiTableModal.backgroundColor = Color.uiCollectionBackground
+        }
         self.uiTableModal.layer.cornerRadius = cornerRadius
-        self.uiTableModal.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        self.uiTableModal.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -665,19 +668,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         self.uiCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         self.uiCollection.backgroundColor = .clear
 
-        let titleBar = UIView()
-        /*
-        let titleLabel = UILabel()
-        let doneButton = UIButton(type: .system)
-        */
-
         self.view.addSubview(self.uiTableModal)
         self.uiTableModal.addSubview(self.uiCollection)
-        self.uiTableModal.addSubview(titleBar)
-        /*
-        titleBar.addSubview(titleLabel)
-        titleBar.addSubview(doneButton)
-        */
 
         self.uiTableModal.translatesAutoresizingMaskIntoConstraints = false
         self.uiTableModalPosY = NSLayoutConstraint(item: self.uiTableModal!, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: -(self.bottomBarHeight + self.uiModalTitleBarHeight))
@@ -691,28 +683,10 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         )
         self.view.bringSubviewToFront(self.uiTableModal)
 
-        titleBar.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-                [
-                    titleBar.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor),
-                    titleBar.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor),
-                    titleBar.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor),
-                    titleBar.heightAnchor.constraint(equalToConstant: self.uiModalTitleBarHeight)
-                ]
-        )
-
-        if #available(iOS 13, *) {
-            titleBar.backgroundColor = .secondarySystemGroupedBackground
-        } else {
-            titleBar.backgroundColor = .gray
-        }
-        titleBar.layer.cornerRadius = cornerRadius
-        titleBar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-
         let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dragUIModal(_:)))
         pan.delegate = self
-        titleBar.addGestureRecognizer(pan)
-        titleBar.isUserInteractionEnabled = true
+        self.uiTableModal.addGestureRecognizer(pan)
+        self.uiTableModal.isUserInteractionEnabled = true
 
         let bar = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 6))
         if #available(iOS 13, *) {
@@ -721,45 +695,22 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
             bar.backgroundColor = .white
         }
         bar.layer.cornerRadius = 3
-        titleBar.addSubview(bar)
+        self.uiTableModal.addSubview(bar)
 
         bar.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    bar.centerXAnchor.constraint(equalTo: titleBar.centerXAnchor),
-                    bar.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor),
+                    bar.centerXAnchor.constraint(equalTo: self.uiTableModal.centerXAnchor),
+                    bar.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: self.uiModalTitleBarHeight / 2),
                     bar.widthAnchor.constraint(equalToConstant: 50),
                     bar.heightAnchor.constraint(equalToConstant: 6)
                 ]
         )
 
-        /*
-        titleLabel.text = "Add UI"
-        titleLabel.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-                [
-                    titleLabel.centerXAnchor.constraint(equalTo: titleBar.centerXAnchor),
-                    titleLabel.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
-                ]
-        )
-
-        doneButton.setTitle("Cancel", for: .normal)
-        doneButton.titleLabel?.font = doneButton.titleLabel?.font.withSize(17)
-        doneButton.addTarget(self, action: #selector(closeUITable(_:)), for: .touchUpInside)
-        doneButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-                [
-                    doneButton.leftAnchor.constraint(equalTo: titleBar.leftAnchor, constant: 15),
-                    doneButton.centerYAnchor.constraint(equalTo: titleBar.centerYAnchor)
-                ]
-        )
-        */
-
         self.uiCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    self.uiCollection.topAnchor.constraint(equalTo: titleBar.bottomAnchor, constant: 20),
+                    self.uiCollection.topAnchor.constraint(equalTo: self.uiTableModal.topAnchor, constant: self.uiModalTitleBarHeight + 20),
                     self.uiCollection.bottomAnchor.constraint(equalTo: self.uiTableModal.bottomAnchor),
                     self.uiCollection.leftAnchor.constraint(equalTo: self.uiTableModal.leftAnchor, constant: 20),
                     self.uiCollection.rightAnchor.constraint(equalTo: self.uiTableModal.rightAnchor, constant: -20)
