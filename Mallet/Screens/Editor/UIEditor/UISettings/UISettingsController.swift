@@ -44,7 +44,7 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 + numberOfOtherSections()
+        return 1 + numberOfOtherSections() + 2
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -58,6 +58,14 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 5
+        }
+
+        if section == numberOfOtherSections() + 1 {
+            return 1
+        }
+
+        if section == numberOfOtherSections() + 2 {
+            return 1
         }
 
         return numberOfRows(section: section)
@@ -111,11 +119,29 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
             return cell
         }
 
+        if indexPath.section == numberOfOtherSections() + 1 {
+            cell.textLabel?.text = "Duplicate"
+            cell.textLabel?.textColor = .systemBlue
+            cell.textLabel?.textAlignment = .center
+        }
+
+        if indexPath.section == numberOfOtherSections() + 2 {
+            cell.textLabel?.text = "Delete"
+            cell.textLabel?.textColor = .systemRed
+            cell.textLabel?.textAlignment = .center
+        }
+
         return cellForRow(cell: cell, indexPath: indexPath)
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        if indexPath.section == numberOfOtherSections() + 1 {
+        }
+
+        if indexPath.section == numberOfOtherSections() + 2 {
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
