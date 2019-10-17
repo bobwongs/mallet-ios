@@ -1956,55 +1956,44 @@ std::vector<Convert::listData> Convert::getGlobalLists(const std::string codeStr
             }
             else
             {
-                if (varType == variableType::cloud || varType == variableType::persistent)
-                {
-                    lists.push_back(
-                        {varType,
-                         varName,
-                         {},
-                         -1});
 
+                codeIndex += 3;
+
+                //       v
+                // a = { 1 , 2 , 8 }
+                //       ^
+
+                std::vector<std::string> value = std::vector<std::string>();
+                if (code[codeIndex] == "}")
+                {
                     codeIndex += 1;
                 }
                 else
                 {
-                    codeIndex += 3;
-
-                    //       v
-                    // a = { 1 , 2 , 8 }
-                    //       ^
-
-                    std::vector<std::string> value = std::vector<std::string>();
-                    if (code[codeIndex] == "}")
+                    while (code[codeIndex - 1] != "}")
                     {
-                        codeIndex += 1;
+                        std::string element = code[codeIndex];
+                        if (element[0] == '"')
+                            element = element.substr(1, element.size() - 2);
+                        value.push_back(element);
+                        codeIndex += 2;
                     }
-                    else
-                    {
-                        while (code[codeIndex - 1] != "}")
-                        {
-                            std::string element = code[codeIndex];
-                            if (element[0] == '"')
-                                element = element.substr(1, element.size() - 2);
-                            value.push_back(element);
-                            codeIndex += 2;
-                        }
-                    }
-
-                    int uiID = -1;
-                    if (isUI)
-                    {
-                        codeIndex += 1;
-                        uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
-                        codeIndex += 1;
-                    }
-
-                    lists.push_back(
-                        {variableType::normal,
-                         varName,
-                         value,
-                         uiID});
                 }
+
+                int uiID = -1;
+
+                if (isUI)
+                {
+                    codeIndex += 1;
+                    uiID = (int)strtol(code[codeIndex].c_str(), NULL, 10);
+                    codeIndex += 1;
+                }
+
+                lists.push_back(
+                    {varType,
+                     varName,
+                     value,
+                     uiID});
             }
         }
         else

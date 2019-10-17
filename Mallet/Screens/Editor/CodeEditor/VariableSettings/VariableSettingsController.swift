@@ -130,8 +130,6 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
 
             self.listList.removeAll()
 
-            print(lists.count)
-
             for list in lists {
                 guard let list = list as? ListDataObjC else {
                     continue
@@ -157,8 +155,6 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
                 self.listList.append(ListData(type: type, name: list.name, value: listValue, isUI: list.uiID != -1, uiID: Int(list.uiID)))
             }
         }
-
-        print(self.listList)
     }
 
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -405,9 +401,7 @@ class VariableSettingsController: UIViewController, UITableViewDelegate, UITable
                     self.listList[index].value = originalValue
 
                     if self.listList[index].isUI {
-                        if let uiID = self.listList[index].uiID {
-                            self.codeEditorControllerDelegate?.setListValue(uiID: uiID, value: value)
-                        }
+                        self.setListUI(index: index)
                     }
                 }
             }
