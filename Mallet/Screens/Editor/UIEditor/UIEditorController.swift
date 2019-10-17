@@ -603,7 +603,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         appRunner.appData = generateAppData()
 
-        navigationController?.pushViewController(appRunner, animated: true)
+        let navigationController = UINavigationController(rootViewController: appRunner)
+
+        navigationController.modalPresentationStyle = .fullScreen
+
+        self.present(navigationController, animated: true)
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

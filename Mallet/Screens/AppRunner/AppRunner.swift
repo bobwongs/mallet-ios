@@ -31,7 +31,20 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
             fatalError()
         }
 
+        if #available(iOS 13, *) {
+            self.overrideUserInterfaceStyle = .light
+            self.navigationController?.overrideUserInterfaceStyle = .light
+        }
+
         navigationItem.title = appData.appName
+
+        if #available(iOS 13, *) {
+            let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(quitApp))
+            navigationItem.leftBarButtonItem = closeButton
+        } else {
+            let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(quitApp))
+            navigationItem.leftBarButtonItem = closeButton
+        }
 
         GenerateAppScreen()
 
@@ -88,14 +101,11 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
         }
     }
 
-    func quitApp() {
+    @objc func quitApp() {
         CloudVariableController.endApp()
-        runner.terminateRunner()
-    }
 
-    func navigationController(_: UINavigationController, willShow viewController: UIViewController, animated _: Bool) {
-        if !(viewController is AppRunner) {
-            quitApp()
-        }
+        runner.terminateRunner()
+
+        self.dismiss(animated: true)
     }
 }

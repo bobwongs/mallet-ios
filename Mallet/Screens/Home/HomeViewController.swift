@@ -56,7 +56,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         appRunner.appData = AppDatabaseController.getApp(appID: appID)
 
-        navigationController?.pushViewController(appRunner, animated: animated)
+        let navigationController = UINavigationController(rootViewController: appRunner)
+
+        navigationController.modalPresentationStyle = .fullScreen
+
+        self.present(navigationController, animated: animated)
     }
 
     @IBAction func addAppButton(_ sender: Any) {
