@@ -247,6 +247,9 @@ class BlockView: UIView, UITextFieldDelegate {
         case .Bracket:
             fallthrough
 
+        case .ArgContent:
+            fallthrough
+
         case .Block:
             codeStr = "\(self.funcName)("
 

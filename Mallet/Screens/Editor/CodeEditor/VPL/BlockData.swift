@@ -31,7 +31,9 @@ enum BlockType: CaseIterable {
 
 enum BlockCategory: String, CaseIterable {
     case Variable = "Variable"
-    case Block = "Block"
+    case Control = "Control"
+    case UI = "UI"
+    case Debug = "Debug"
 }
 
 enum BlockType {
@@ -85,16 +87,101 @@ struct DefaultBlocks {
                         BlockContentData(value: .Label("("), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                         BlockContentData(value: .Label(")"), order: -1)
-                    ], indent: 0)
+                    ], indent: 0),
+
+                    BlockData(funcType: .Assign, funcName: "", contents: [
+                        BlockContentData(value: .Label("Set"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "add", contents: [
+                        BlockContentData(value: .Label("Add"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0)
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "get", contents: [
+                        BlockContentData(value: .Arg([]), order: 1),
+                        BlockContentData(value: .Label("th item of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "size", contents: [
+                        BlockContentData(value: .Label("Size of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "insert", contents: [
+                        BlockContentData(value: .Label("Insert"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1),
+                        BlockContentData(value: .Label("at"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 2),
+                        BlockContentData(value: .Label("of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "remove", contents: [
+                        BlockContentData(value: .Label("Remove item at"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1),
+                        BlockContentData(value: .Label("in"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0)
+                    ], indent: 0),
                 ],
 
-                .Block: [
+                .Control: [
+                    BlockData(funcType: .Bracket, funcName: "repeat", contents: [
+                        BlockContentData(value: .Label("Repeat"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("times"), order: -1),
+                    ], indent: 0),
+
+
+                    BlockData(funcType: .Bracket, funcName: "while", contents: [
+                        BlockContentData(value: .Label("While"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+
+
+                    BlockData(funcType: .Bracket, funcName: "if", contents: [
+                        BlockContentData(value: .Label("If"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+
+
+                    BlockData(funcType: .Bracket, funcName: "else", contents: [
+                        BlockContentData(value: .Label("Else"), order: -1),
+                    ], indent: 0),
+
+                    BlockData(funcType: .Bracket, funcName: "sleep", contents: [
+                        BlockContentData(value: .Label("Wait"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("seconds"), order: -1),
+                    ], indent: 0),
+                ],
+
+                .UI: [
                     BlockData(funcType: .Block, funcName: "setUIText", contents: [
                         BlockContentData(value: .Label("Set text of"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                         BlockContentData(value: .Label("to"), order: -1),
                         BlockContentData(value: .Arg([]), order: 1)
                     ], indent: 0),
+
+                    BlockData(funcType: .ArgContent, funcName: "getUIText", contents: [
+                        BlockContentData(value: .Label("Text of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+                ],
+
+                .Debug: [
+                    BlockData(funcType: .Block, funcName: "print", contents: [
+                        BlockContentData(value: .Label("Print"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0)
                 ]
+
             ]
 }

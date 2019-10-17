@@ -33,7 +33,7 @@ class VPLBlockTable: UIView, BlockCategoryCollectionViewDelegate, UIGestureRecog
         self.addSubview(titleBar)
         self.addSubview(blockTypeCollectionView)
 
-        self.setBlockCategory(blockCategory: .Block)
+        self.setBlockCategory(blockCategory: .Variable)
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(moveView(_:)))
         pan.delegate = self
@@ -197,10 +197,17 @@ private class VPLBlockTableView: UITableView, UITableViewDelegate, UITableViewDa
 
         let blockData = self.blockDataList[indexPath.row]
 
-        let block = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self.visualCodeEditorController)
-        cell.addSubview(block)
+        if blockData.funcType == .ArgContent {
+            let argContent = ArgBlock(blockData: blockData, stackView: nil, index: -1, visualCodeEditorController: self.visualCodeEditorController, isOnTable: true)
+            cell.addSubview(argContent)
 
-        visualCodeEditorController.setBlockOnTable(block: block, cell: cell)
+            argContent.setArgContentOnTable(cell: cell, superView: self.visualCodeEditorController.view)
+        } else {
+            let block = Block(blockData: blockData, index: 0, isOnTable: true, visualCodeEditorController: self.visualCodeEditorController)
+            cell.addSubview(block)
+
+            visualCodeEditorController.setBlockOnTable(block: block, cell: cell)
+        }
 
         return cell
     }
