@@ -143,12 +143,8 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        print("SELECTED")
-
         if indexPath.section == numberOfOtherSections() + 1 {
             self.uiSettingsDelegate.duplicateUI(uiData: self.uiData)
-
-            print("DUPLICATE")
 
             self.dismiss(animated: true)
         }

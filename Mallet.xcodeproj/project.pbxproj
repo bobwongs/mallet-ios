@@ -72,7 +72,7 @@
 		0EF478BE226B78CE007315DB /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478BD226B78CE007315DB /* MalletTests.swift */; };
 		0EF478C9226B78CE007315DB /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478C8226B78CE007315DB /* MalletUITests.swift */; };
 		0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478D9226B7ABE007315DB /* objcpp.mm */; };
-		0EF67373234CC3200067B325 /* VPLBlockTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF67372234CC3200067B325 /* VPLBlockTable.swift */; };
+		0EF67373234CC3200067B325 /* VPLSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF67372234CC3200067B325 /* VPLSelectionView.swift */; };
 		25D32591042F1B7F5246D54C /* Pods_Mallet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEF8562C22F8A746C496AB61 /* Pods_Mallet.framework */; };
 		52F0F63DD1723716318E9CBC /* Pods_MalletTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FB6E03529E492A6691548A9 /* Pods_MalletTests.framework */; };
 		611ACCB50EFB6D9ECB45FD51 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACBE81FD0A5217407B85C /* AppData.swift */; };
@@ -180,7 +180,7 @@
 		0EF478D9226B7ABE007315DB /* objcpp.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0EF478DB226B7AD8007315DB /* objcpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
 		0EF478DD226B7AEB007315DB /* cpp.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = cpp.hpp; sourceTree = "<group>"; };
-		0EF67372234CC3200067B325 /* VPLBlockTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPLBlockTable.swift; sourceTree = "<group>"; };
+		0EF67372234CC3200067B325 /* VPLSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VPLSelectionView.swift; sourceTree = "<group>"; };
 		1766A6FDF1DF21B51ABCB44D /* Pods-Mallet-MalletUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mallet-MalletUITests.debug.xcconfig"; path = "Target Support Files/Pods-Mallet-MalletUITests/Pods-Mallet-MalletUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		18103B2B1349297D73D0D196 /* Pods-MalletTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MalletTests.debug.xcconfig"; path = "Target Support Files/Pods-MalletTests/Pods-MalletTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3FB6E03529E492A6691548A9 /* Pods_MalletTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MalletTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,7 +269,7 @@
 				0EC9E81D22E36A1400A9D6D9 /* CodeEditorController.swift */,
 				0E3FDD7E226CB9BF00F20326 /* TextCodeEditorController.swift */,
 				0EC9E82022E36ACA00A9D6D9 /* VisualCodeEditorController.swift */,
-				0EF67372234CC3200067B325 /* VPLBlockTable.swift */,
+				0EF67372234CC3200067B325 /* VPLSelectionView.swift */,
 				0E3FDD80226CB9F000F20326 /* CodeEditor.storyboard */,
 			);
 			path = CodeEditor;
@@ -813,7 +813,7 @@
 				0E94091E2351C42C00A802E0 /* TableUISettingsController.swift in Sources */,
 				0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */,
 				0E9409182351BFA700A802E0 /* UISettingsController.swift in Sources */,
-				0EF67373234CC3200067B325 /* VPLBlockTable.swift in Sources */,
+				0EF67373234CC3200067B325 /* VPLSelectionView.swift in Sources */,
 				0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
 				0E92075B235228EA00855E3C /* SliderUISettingsController.swift in Sources */,

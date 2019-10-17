@@ -83,12 +83,6 @@ struct DefaultBlocks {
     static let blocks: [BlockCategory: [BlockData]] =
             [
                 .Variable: [
-                    BlockData(funcType: .ArgContent, funcName: "", contents: [
-                        BlockContentData(value: .Label("("), order: -1),
-                        BlockContentData(value: .Arg([]), order: 0),
-                        BlockContentData(value: .Label(")"), order: -1)
-                    ], indent: 0),
-
                     BlockData(funcType: .Assign, funcName: "", contents: [
                         BlockContentData(value: .Label("Set"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),

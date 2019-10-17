@@ -26,6 +26,10 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
 
     private var defaultSuperView: UIView?
 
+    var cellInTableView: UIView?
+
+    var cellInStack: UIView?
+
     init(argContentValue: ArgContentType, stackView: UIStackView?, index: Int, isOnTable: Bool) {
 
         self.stackView = stackView
@@ -53,18 +57,36 @@ class ArgContent: UIView, UIGestureRecognizerDelegate {
         return true
     }
 
-    func setArgContentOnTable(cell: UIView? = nil, superView: UIView? = nil) {
-        if let cell = cell, let superView = superView {
+    func setArgContentOnTable(cellInTableView: UIView? = nil, cellInStackView: UIView? = nil, superView: UIView? = nil) {
+        if let cell = cellInTableView {
+            cell.addSubview(self)
+
+            self.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                    [
+                        self.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: VisualCodeEditorController.blockDefaultIndentSize),
+                        self.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                    ]
+            )
+
+            self.cellInTableView = cell
+
+        } else if let cell = cellInStackView {
             cell.addSubview(self)
 
             self.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate(
                     [
                         self.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
-                        self.centerYAnchor.constraint(equalTo: cell.centerYAnchor),
+                        self.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
                     ]
             )
 
+            self.cellInStack = cell
+
+        }
+
+        if let superView = superView {
             self.defaultSuperView = superView
         }
 
@@ -571,5 +593,5 @@ class ArgVariable: ArgContent {
 protocol ArgContentViewDelegate {
     func findArgViewStack(argContentView: ArgContent) -> UIStackView?
 
-    func generateNewArgContent(content: UIView)
+    func generateNewArgContent(content: ArgContent)
 }

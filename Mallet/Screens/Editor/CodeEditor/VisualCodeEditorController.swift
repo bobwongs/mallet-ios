@@ -17,7 +17,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     static var codeArea: UIView = UIScrollView()
 
-    let blockDefaultIndentSize: CGFloat = 10
+    static let blockDefaultIndentSize: CGFloat = 10
 
     var movingBlockState: MovingBlockState = .notMoving
 
@@ -25,7 +25,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
     var blockViews = [Block]()
 
-    var vplBlockTable: VPLBlockTable!
+    var vplBlockTable: VPLSelectionView!
     var vplBlockTableBottomConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
@@ -55,11 +55,11 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         NSLayoutConstraint.activate([
             codeStackView.topAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.topAnchor, constant: 20),
             codeStackView.bottomAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.bottomAnchor),
-            codeStackView.leftAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.leftAnchor, constant: blockDefaultIndentSize),
+            codeStackView.leftAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.leftAnchor, constant: VisualCodeEditorController.blockDefaultIndentSize),
             codeStackView.rightAnchor.constraint(equalTo: VisualCodeEditorController.codeArea.rightAnchor)
         ])
 
-        vplBlockTable = VPLBlockTable(visualCodeEditorController: self)
+        vplBlockTable = VPLSelectionView(visualCodeEditorController: self)
         self.view.addSubview(vplBlockTable)
 
         vplBlockTable.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +80,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         block.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(
                 [
-                    block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: self.blockDefaultIndentSize),
+                    block.leftAnchor.constraint(equalTo: cell.leftAnchor, constant: VisualCodeEditorController.blockDefaultIndentSize),
                     block.topAnchor.constraint(equalTo: cell.topAnchor, constant: 10),
                     block.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -10),
                 ]
@@ -93,7 +93,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         block.addGestureRecognizer(pan)
     }
 
-    func generateNewArgContent(content: UIView) {
+    func generateNewArgContent(content: ArgContent) {
         var newContent: UIView?
 
         if content is ArgText {
@@ -114,9 +114,11 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             return
         }
 
-        let cell = content.superview!
-
-        argContentView.setArgContentOnTable(cell: cell, superView: self.view)
+        if let cell = content.cellInTableView {
+            argContentView.setArgContentOnTable(cellInTableView: cell, superView: self.view)
+        } else if let cell = content.cellInStack {
+            argContentView.setArgContentOnTable(cellInStackView: cell, superView: self.view)
+        }
     }
 
     @objc func dragBlock(_ sender: UIPanGestureRecognizer) {
