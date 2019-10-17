@@ -22,48 +22,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        if url.host == "run" {
-            let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
 
-            guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
-                fatalError()
-            }
+        let appData: AppData!
 
+        switch url.host {
+
+        case "run":
             guard let appID = Int(url.path.suffix(url.path.count - 1)) else {
                 return true
             }
 
-            appRunner.appData = AppDatabaseController.getApp(appID: appID)
+            appData = AppDatabaseController.getApp(appID: appID)
 
-            self.window?.rootViewController = appRunner
-        }
-
-        if url.host == "i" {
-            if let appRunner = AppRunner.topAppRunner() {
-                appRunner.quitApp()
-            }
+        case "i":
 
             let base64Str = String(url.path.suffix(url.path.count - 1))
             print(base64Str)
 
-            let appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
+            appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
 
-            let appID = AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, bytecode: appData.bytecode, globalVariableCode: appData.globalVariableCode).appID
+            AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, bytecode: appData.bytecode, globalVariableCode: appData.globalVariableCode).appID
 
-            UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+        default:
+            return true
 
-            let storyboard = UIStoryboard(name: "Home", bundle: nil)
-
-            guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController else {
-                fatalError()
-            }
-
-            let navigationController = self.window!.rootViewController as! UINavigationController
-
-            navigationController.pushViewController(homeViewController, animated: false)
-
-            homeViewController.runApp(appID: appID, animated: false)
         }
+
+        let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
+
+        guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
+            fatalError()
+        }
+
+        appRunner.appData = appData
+
+        let navigationController = UINavigationController(rootViewController: appRunner)
+
+        navigationController.modalPresentationStyle = .fullScreen
+
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+
+        UIApplication.shared.keyWindow?.rootViewController?.present(navigationController, animated: false)
 
         self.window?.makeKeyAndVisible()
 
