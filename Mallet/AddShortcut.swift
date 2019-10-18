@@ -12,17 +12,25 @@ import SafariServices
 
 class AddShortcut {
 
-    static let localServer = HttpServer()
+    var localServer: HttpServer?
 
-    static func showShortcutScreen(appID: Int, appName: String) {
+    init() {
+
+    }
+
+    func showShortcutScreen(appID: Int, appName: String) {
+
+        self.localServer = HttpServer()
 
         let urlStr = "mallet-shortcut://run/\(appID)"
 
-        guard let shortcutURL = URL(string: "http://localhost:52133/shortcut") else {
+        let port = UInt16.random(in: 49152...65535)
+
+        guard let shortcutURL = URL(string: "http://localhost:\(port)/shortcut") else {
             return
         }
 
-        let html = generateHTML(icon: "", title: appName, url: urlStr)
+        let html = self.generateHTML(icon: "", title: appName, url: urlStr)
 
         print(html)
 
@@ -30,19 +38,16 @@ class AddShortcut {
             return
         }
 
-        localServer["/shortcut"] = { request in
+        self.localServer?["/shortcut"] = { request in
             return .movedPermanently("data:text/html;base64,\(base64)")
         }
 
-        do {
-            try localServer.start(52133)
-        } catch {
-            print("Error")
-        }
+        try? self.localServer?.start(port)
+
         UIApplication.shared.open(shortcutURL)
     }
 
-    static func generateHTML(icon: String, title: String, url: String) -> String {
+    private func generateHTML(icon: String, title: String, url: String) -> String {
         return """
                <html>
                  <head>

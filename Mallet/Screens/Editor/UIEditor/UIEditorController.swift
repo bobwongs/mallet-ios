@@ -644,7 +644,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func addToHomeScreen() {
-        AddShortcut.showShortcutScreen(appID: self.appData.appID, appName: self.appData.appName)
+        AddShortcut().showShortcutScreen(appID: self.appData.appID, appName: self.appName)
     }
 
     func copyShareLink() {
