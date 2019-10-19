@@ -131,6 +131,8 @@ class ButtonUISettingsController: UISettingsController {
 
             codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
 
+            codeEditorController.uiSettingsDelegate = self.uiSettingsDelegate
+
             codeEditorController.updateCodeClosure = updateCodeClosure
 
             codeEditorController.codeStr = codeStr
