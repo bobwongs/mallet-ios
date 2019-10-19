@@ -8,14 +8,14 @@
 
 #include "cpp_func_manager.hpp"
 
-#if defined(DEBUG)
+#ifndef TEST
 #include "./lib/ui/ui.hpp"
 #include "./lib/time/time.hpp"
 #endif
 
 CppFuncManager::CppFuncManager()
 {
-#if defined(DEBUG)
+#ifndef TEST
     //ui.hpp
     addCppFunc(setUIPositionX, "setUIPositionX", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIPositionY, "setUIPositionY", {ArgType::UI, ArgType::VALUE});

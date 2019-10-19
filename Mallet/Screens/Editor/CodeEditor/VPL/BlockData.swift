@@ -97,13 +97,13 @@ struct DefaultBlocks {
                         BlockContentData(value: .Arg([]), order: 0)
                     ], indent: 0),
 
-                    BlockData(funcType: .Block, funcName: "get", contents: [
+                    BlockData(funcType: .ArgContent, funcName: "get", contents: [
                         BlockContentData(value: .Arg([]), order: 1),
                         BlockContentData(value: .Label("th item of"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                     ], indent: 0),
 
-                    BlockData(funcType: .Block, funcName: "size", contents: [
+                    BlockData(funcType: .ArgContent, funcName: "size", contents: [
                         BlockContentData(value: .Label("Size of"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                     ], indent: 0),

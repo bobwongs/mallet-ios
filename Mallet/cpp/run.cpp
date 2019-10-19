@@ -291,7 +291,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     int address = getIntValue(*topStackData[0]);
                     std::string varName = getStringValue(globalVariable[address]);
                     std::string value = getOutValue(*topStackData[1]);
-#if defined(DEBUG)
+#ifndef TEST
                     setAppVariable(varName, value);
 #endif
                     persistentVariables[varName] = value;
@@ -303,7 +303,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     int address = getIntValue(*topStackData[0]);
                     std::string varName = getStringValue(globalVariable[address]);
                     std::string value = getOutValue(*topStackData[1]);
-#if defined(DEBUG)
+#ifndef TEST
                     setCloudVariable(varName, value);
 #endif
                 }
@@ -467,7 +467,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     std::string varName = getOutValue(globalVariable[address]);
                     std::vector<var> list = globalList[getIntValue(*topStackData[1])];
 
-#if defined(DEBUG)
+#ifndef TEST
                     setCloudList(varName, list);
 #endif
                 }
@@ -480,7 +480,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     std::vector<var> list = globalList[getIntValue(*topStackData[1])];
                     std::string value = getOutValue(list[list.size() - 1]);
 
-#if defined(DEBUG)
+#ifndef TEST
                     addToCloudList(varName, value);
 #endif
                 }
@@ -491,7 +491,7 @@ var Run::RunCode(int funcID, std::vector<var> args)
                     int uiID = getIntValue(*topStackData[0]);
                     std::vector<var> list = globalList[getIntValue(*topStackData[1])];
 
-#if defined(DEBUG)
+#ifndef TEST
                     setUITable(uiID, list);
 #endif
                 }
@@ -858,8 +858,10 @@ bool Run::UpdateCloudList(std::string varName, std::vector<std::string> value)
     for (int index = 0; index < value.size(); index++)
         globalList[address][index] = value[index];
 
+#ifndef TEST
     if (globalVariableData[varName].isUI)
         setUITable(globalVariableData[varName].uiID, globalList[address]);
+#endif
 
     return true;
 }

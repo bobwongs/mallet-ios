@@ -14,7 +14,7 @@
 #include "cast.hpp"
 #include "cpp_func_manager.hpp"
 
-#if !debugMode
+#ifndef TEST
 #include "./lib/db/db.hpp"
 #include "./lib/ui/ui.hpp"
 #endif

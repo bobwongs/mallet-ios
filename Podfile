@@ -6,8 +6,6 @@ target 'Mallet' do
   use_frameworks!
 
   # Pods for Mallet
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Database'
   pod 'Firebase/Core'
   pod 'Firebase/Firestore'
 
