@@ -56,6 +56,13 @@ class ArgView: UIView {
         var contentIndex = 0
         for content in contents {
             switch content {
+            case .Input(let text):
+                let label = ArgInput(value: text, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
+
+                label.delegate = visualCodeEditorController
+
+                contentsStackView.addArrangedSubview(label)
+
             case .Text(let text):
                 let label = ArgText(value: text, stackView: self.contentsStackView, index: contentIndex, visualCodeEditorController: visualCodeEditorController, isOnTable: false)
 

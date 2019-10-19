@@ -50,6 +50,7 @@ enum BlockContentType {
 }
 
 enum ArgContentType {
+    case Input(String)
     case Text(String)
     case Block(BlockData)
     case Variable(String)
