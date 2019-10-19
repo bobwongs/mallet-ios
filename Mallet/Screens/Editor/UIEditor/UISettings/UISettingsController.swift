@@ -141,6 +141,7 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("### \(indexPath)")
         tableView.deselectRow(at: indexPath, animated: true)
 
         if indexPath.section == numberOfOtherSections() + 1 {

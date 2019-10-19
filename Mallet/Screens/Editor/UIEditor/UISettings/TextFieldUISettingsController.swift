@@ -114,7 +114,7 @@ class TextFieldUISettingsController: UISettingsController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        super.tableView(tableView, didSelectRowAt: indexPath)
 
         if indexPath.section == 2 {
             let updateCodeClosure: ((String) -> Void)!
