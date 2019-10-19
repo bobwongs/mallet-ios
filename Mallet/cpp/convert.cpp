@@ -1231,6 +1231,10 @@ std::string Convert::Code2Str()
 
         str += (typeInfo.second.isUI ? "1" : "0");
         str += "\n";
+        str += (typeInfo.second.isCloudVariable ? "1" : "0");
+        str += "\n";
+        str += (typeInfo.second.isPersistentVariable ? "1" : "0");
+        str += "\n";
         str += std::to_string(typeInfo.second.uiID) + "\n";
     }
     str += "#GLOBAL_VARIABLE_DATA_END\n";

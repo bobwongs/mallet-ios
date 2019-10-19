@@ -39,9 +39,11 @@ public:
 private:
     struct globalVariableInfo
     {
-        int address;
-        bool isUI;
-        int uiID;
+        int address = -1;
+        bool isUI = false;
+        bool isCloud = false;
+        bool isPersistent = false;
+        int uiID = -1;
     };
 
     bool terminate;

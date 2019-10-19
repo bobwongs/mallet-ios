@@ -794,11 +794,13 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
                 std::string varName = codeData[index + 1];
                 int address = (int)strtol(codeData[index + 2].c_str(), NULL, 10);
                 bool isUI = codeData[index + 3] == "1" ? true : false;
-                int uiID = (int)strtol(codeData[index + 4].c_str(), NULL, 10);
+                bool isCloud = codeData[index + 4] == "1" ? true : false;
+                bool isPersistent = codeData[index + 5] == "1" ? true : false;
+                int uiID = (int)strtol(codeData[index + 6].c_str(), NULL, 10);
 
-                globalVariableData[varName] = {address, isUI, uiID};
+                globalVariableData[varName] = {address, isUI, isCloud, isPersistent, uiID};
 
-                index += 5;
+                index += 7;
             }
 
             index += 1;
@@ -840,7 +842,12 @@ void Run::InitRunner(std::string codeDataStr, std::map<std::string, std::string>
 
 bool Run::UpdateCloudVariable(std::string varName, std::string value)
 {
-    int address = globalVariableData[varName].address;
+    auto variableData = globalVariableData[varName];
+
+    if (!variableData.isCloud)
+        return false;
+
+    int address = variableData.address;
     /*
     if (getStringValue(globalVariable[address]) == value)
         return false;
@@ -852,7 +859,14 @@ bool Run::UpdateCloudVariable(std::string varName, std::string value)
 
 bool Run::UpdateCloudList(std::string varName, std::vector<std::string> value)
 {
-    int address = globalVariableData[varName].address;
+    auto variableData = globalVariableData[varName];
+
+    if (!variableData.isCloud)
+    {
+        return false;
+    }
+
+    int address = variableData.address;
 
     globalList[address] = std::vector<var>(value.size());
     for (int index = 0; index < value.size(); index++)
