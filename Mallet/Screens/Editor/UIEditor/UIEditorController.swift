@@ -652,8 +652,8 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         AddShortcut().showShortcutScreen(appID: self.appData.appID, appName: self.appName)
     }
 
-    func copyShareLink() {
-        AppDatabaseController.generateAppShortcutURL(appData: generateAppData())
+    func generateShareLink() -> String {
+        return AppDatabaseController.generateAppShortcutURL(appData: generateAppData())
     }
 
     func generateUITableModal() {
@@ -815,5 +815,5 @@ protocol EditorDelegate {
 
     func addToHomeScreen()
 
-    func copyShareLink()
+    func generateShareLink() -> String
 }

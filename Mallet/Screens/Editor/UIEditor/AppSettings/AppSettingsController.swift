@@ -85,7 +85,7 @@ class AppSettingsController: UITableViewController, UITextFieldDelegate {
             }
 
         case sectionType.getShareLink.rawValue:
-            cell.textLabel?.text = "Copy share link"
+            cell.textLabel?.text = "Share app"
             cell.textLabel?.textAlignment = .center
             if #available(iOS 13, *) {
                 cell.textLabel?.textColor = .systemBlue
@@ -108,7 +108,7 @@ class AppSettingsController: UITableViewController, UITextFieldDelegate {
             self.editorDelegate.addToHomeScreen()
 
         case sectionType.getShareLink.rawValue:
-            self.editorDelegate.copyShareLink()
+            self.share(text: editorDelegate.generateShareLink())
 
         default:
             break
@@ -122,5 +122,13 @@ class AppSettingsController: UITableViewController, UITextFieldDelegate {
 
     @objc func setAppName(_ textField: UITextField) {
         self.editorDelegate.setAppName(appName: textField.text)
+    }
+
+    func share(text: String) {
+        let activityItems = [text]
+
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+
+        self.present(activityViewController, animated: true)
     }
 }

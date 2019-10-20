@@ -328,7 +328,7 @@ class AppDatabaseController: NSObject {
 
         let url = "mallet-shortcut://i/\(base64Str ?? "")"
 
-        UIPasteboard.general.string = url
+        //UIPasteboard.general.string = url
 
         return url
     }
