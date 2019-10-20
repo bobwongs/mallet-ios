@@ -51,6 +51,7 @@ class AddShortcut {
         return """
                <html>
                  <head>
+                   <meta charset="UTF-8">
                    <meta name="apple-mobile-web-app-capable" content="yes" />
                    <meta name="apple-mobile-web-app-status-bar-style" content="white" />
                    <link
@@ -80,7 +81,7 @@ class AddShortcut {
                          space1.style.height = "30px";
 
                          var appName = document.createElement("p");
-                         appName.textContent = "Untitled App";
+                         appName.textContent = "\(title)";
                          appName.style.fontSize = "50px";
 
                          var space2 = document.createElement("div");
