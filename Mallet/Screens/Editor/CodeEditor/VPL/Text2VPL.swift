@@ -50,6 +50,8 @@ class Text2VPL {
 
         ConvertCodeBlock(codeFirstIndex: 0, indent: 0)
 
+        print(blockData)
+
         return blockData
     }
 
@@ -102,7 +104,7 @@ class Text2VPL {
                     ], indent: 0)
 
                     thisBlockData.contents[1] = BlockContentData(value: .Arg([.Variable(varName)]), order: 0)
-                    thisBlockData.contents[3] = BlockContentData(value: .Arg(value), order: 0)
+                    thisBlockData.contents[3] = BlockContentData(value: .Arg(value), order: 1)
 
                     thisBlockData.indent = indent
 
