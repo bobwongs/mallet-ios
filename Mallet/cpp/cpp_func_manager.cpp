@@ -23,7 +23,7 @@ CppFuncManager::CppFuncManager()
     addCppFunc(setUIHeight, "setUIHeight", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIFontColor, "setUIFontColor", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIFontSize, "setUIFontSize", {ArgType::UI, ArgType::VALUE});
-    addCppFunc(setUIPositionY, "setUITextAlignment", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUITextAlignment, "setUITextAlignment", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIText, "setUIText", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIValue, "setUIValue", {ArgType::UI, ArgType::VALUE});
     addCppFunc(getUIValue, "getUIValue", {ArgType::UI});
