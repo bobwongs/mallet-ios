@@ -94,10 +94,12 @@ class Text2VPL {
                     thisBlockData.contents[1] = BlockContentData(value: .Arg([.Variable(varName)]), order: 0)
                     thisBlockData.contents[3] = BlockContentData(value: .Arg(value), order: 0)
 
+                    thisBlockData.indent = indent
+
                     self.blockData.append(thisBlockData)
 
                 } else {
-                    guard let convertedFuncData = self.ConvertFunc(codeFirstIndex: codeIndex) else {
+                    guard let convertedFuncData = self.ConvertFunc(codeFirstIndex: codeIndex, indent: indent) else {
                         return nil
                     }
 
@@ -140,7 +142,7 @@ class Text2VPL {
     }
 
 
-    private func ConvertFunc(codeFirstIndex: Int) -> ConvertedFuncData? {
+    private func ConvertFunc(codeFirstIndex: Int, indent: Int? = nil) -> ConvertedFuncData? {
         if var thisBlockData = self.blockDataDictionary[self.code[codeFirstIndex]] {
 
             var args = [[ArgContentType]]()
@@ -186,6 +188,8 @@ class Text2VPL {
                 }
 
             }
+
+            thisBlockData.indent = indent ?? 0
 
             return ConvertedFuncData(blockData: thisBlockData, codeSize: codeIndex - codeFirstIndex)
         } else {
