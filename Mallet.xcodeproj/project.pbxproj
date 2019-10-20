@@ -12,6 +12,7 @@
 		0E0CE580235C20D50051F016 /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE57F235C20D50051F016 /* AppSettingsController.swift */; };
 		0E0CE582235C249B0051F016 /* AppSettingsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */; };
 		0E0CE586235C2B430051F016 /* AppSettingsModal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */; };
+		0E0CE58A235C7BD30051F016 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE589235C7BD30051F016 /* UIApplicationExtension.swift */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E21029E23537327005DC7FA /* bytecode_to_string.cpp */; };
 		0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */; };
@@ -103,6 +104,7 @@
 		0E0CE57F235C20D50051F016 /* AppSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsController.swift; sourceTree = "<group>"; };
 		0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModalView.swift; sourceTree = "<group>"; };
 		0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettingsModal.storyboard; sourceTree = "<group>"; };
+		0E0CE589235C7BD30051F016 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E21029E23537327005DC7FA /* bytecode_to_string.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bytecode_to_string.cpp; sourceTree = "<group>"; };
 		0E21029F23537328005DC7FA /* bytecode_to_string.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bytecode_to_string.hpp; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				0E149C04228030C800952F9C /* AppUI */,
 				0E33E2CB22799AF800352BDB /* Screens */,
 				0EF478A8226B78CD007315DB /* AppDelegate.swift */,
+				0E0CE589235C7BD30051F016 /* UIApplicationExtension.swift */,
 				611ACBE81FD0A5217407B85C /* AppData.swift */,
 				0E829C5A23101B5F008FE529 /* AddShortcut.swift */,
 				0E43716522F876C2004CA2BD /* UIColorExtension.swift */,
@@ -799,6 +802,7 @@
 				0EC07A8F2340B2CA0028272F /* VariableSettingsController.swift in Sources */,
 				0EC9E82122E36ACA00A9D6D9 /* VisualCodeEditorController.swift in Sources */,
 				0EA8D2872344B11100270A49 /* db.mm in Sources */,
+				0E0CE58A235C7BD30051F016 /* UIApplicationExtension.swift in Sources */,
 				0EF478DA226B7ABE007315DB /* objcpp.mm in Sources */,
 				0E3FDD7F226CB9BF00F20326 /* TextCodeEditorController.swift in Sources */,
 				0E9A958422F96DF900930215 /* BlockData.swift in Sources */,

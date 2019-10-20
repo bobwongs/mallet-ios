@@ -60,11 +60,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         navigationController.modalPresentationStyle = .fullScreen
 
-        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false)
+        guard let topViewController = UIApplication.topViewController() else {
+            return true
+        }
 
-        UIApplication.shared.keyWindow?.rootViewController?.present(navigationController, animated: false)
+        if let appRunner = topViewController as? AppRunner {
+            if appData.appID == appRunner.appData?.appID {
+                return true
+            }
+        }
 
-        self.window?.makeKeyAndVisible()
+        topViewController.modalPresentationStyle = .fullScreen
+
+        topViewController.present(navigationController, animated: false)
 
         return true
     }
