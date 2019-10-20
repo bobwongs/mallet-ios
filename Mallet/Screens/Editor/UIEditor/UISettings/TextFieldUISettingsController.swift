@@ -42,7 +42,7 @@ class TextFieldUISettingsController: UISettingsController {
         case 1:
             return 4
         case 2:
-            return 1
+            return TextFieldUIData.CodeType.allCases.count
         default:
             return 0
         }
@@ -101,7 +101,7 @@ class TextFieldUISettingsController: UISettingsController {
             cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Changed"
+                cell.textLabel?.text = "When text changed"
             default:
                 break
             }
@@ -127,29 +127,13 @@ class TextFieldUISettingsController: UISettingsController {
                     self.uiData.textFieldData?.code[.OnChange]?.code = code
                 }
                 codeStr = self.uiData.textFieldData?.code[.OnChange]?.code ?? ""
-                codeTitle = "Changed"
+                codeTitle = "When text changed"
 
             default:
                 return
             }
 
-            let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-            guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-                fatalError()
-            }
-
-            codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
-
-            codeEditorController.updateCodeClosure = updateCodeClosure
-
-            codeEditorController.codeStr = codeStr
-
-            codeEditorController.codeTitle = codeTitle
-
-            codeEditorController.appID = self.appID
-
-            navigationController?.pushViewController(codeEditorController, animated: true)
+            self.openCodeEditor(updateCodeClosure: updateCodeClosure, codeStr: codeStr, codeTitle: codeTitle)
         }
     }
 

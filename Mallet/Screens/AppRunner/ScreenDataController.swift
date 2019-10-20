@@ -196,11 +196,13 @@ public struct SliderUIData: Codable {
         self.max = 1
         self.min = 0
 
-        self.code = [CodeType.OnChange: funcData()]
+        self.code = [CodeType.OnChange: funcData(), CodeType.OnStart: funcData(), CodeType.OnEnd: funcData()]
     }
 
     enum CodeType: Int, Codable, CaseIterable {
+        case OnStart
         case OnChange
+        case OnEnd
     }
 }
 

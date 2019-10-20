@@ -42,7 +42,7 @@ class SwitchUISettingsController: UISettingsController {
         case 1:
             return 1
         case 2:
-            return 1
+            return SwitchUIData.CodeType.allCases.count
         default:
             return 0
         }
@@ -76,7 +76,7 @@ class SwitchUISettingsController: UISettingsController {
             cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Changed"
+                cell.textLabel?.text = "When changed"
             default:
                 break
             }
@@ -102,29 +102,13 @@ class SwitchUISettingsController: UISettingsController {
                     self.uiData.switchData?.code[.OnChange]?.code = code
                 }
                 codeStr = self.uiData.switchData?.code[.OnChange]?.code ?? ""
-                codeTitle = "Changed"
+                codeTitle = "When changed"
 
             default:
                 return
             }
 
-            let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-            guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-                fatalError()
-            }
-
-            codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
-
-            codeEditorController.updateCodeClosure = updateCodeClosure
-
-            codeEditorController.codeStr = codeStr
-
-            codeEditorController.codeTitle = codeTitle
-
-            codeEditorController.appID = self.appID
-
-            navigationController?.pushViewController(codeEditorController, animated: true)
+            self.openCodeEditor(updateCodeClosure: updateCodeClosure, codeStr: codeStr, codeTitle: codeTitle)
         }
 
 

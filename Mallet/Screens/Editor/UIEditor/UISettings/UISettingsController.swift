@@ -230,6 +230,26 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
 
         self.editorDelegate.saveApp()
     }
+
+    func openCodeEditor(updateCodeClosure: @escaping ((String) -> Void), codeStr: String, codeTitle: String) {
+        let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
+
+        guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
+            fatalError()
+        }
+
+        codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
+
+        codeEditorController.updateCodeClosure = updateCodeClosure
+
+        codeEditorController.codeStr = codeStr
+
+        codeEditorController.codeTitle = codeTitle
+
+        codeEditorController.appID = self.appID
+
+        navigationController?.pushViewController(codeEditorController, animated: true)
+    }
 }
 
 public protocol UISettingsDelegate {

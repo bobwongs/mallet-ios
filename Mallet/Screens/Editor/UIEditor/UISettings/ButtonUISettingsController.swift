@@ -42,7 +42,7 @@ class ButtonUISettingsController: UISettingsController {
         case 1:
             return 4
         case 2:
-            return 1
+            return ButtonUIData.CodeType.allCases.count
         default:
             return 0
         }
@@ -91,7 +91,7 @@ class ButtonUISettingsController: UISettingsController {
             cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Tap"
+                cell.textLabel?.text = "When tapped"
             default:
                 break
             }
@@ -123,25 +123,7 @@ class ButtonUISettingsController: UISettingsController {
                 return
             }
 
-            let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-            guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-                fatalError()
-            }
-
-            codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
-
-            codeEditorController.editorDelegate = self.editorDelegate
-
-            codeEditorController.updateCodeClosure = updateCodeClosure
-
-            codeEditorController.codeStr = codeStr
-
-            codeEditorController.codeTitle = codeTitle
-
-            codeEditorController.appID = self.appID
-
-            navigationController?.pushViewController(codeEditorController, animated: true)
+            self.openCodeEditor(updateCodeClosure: updateCodeClosure, codeStr: codeStr, codeTitle: codeTitle)
         }
 
 

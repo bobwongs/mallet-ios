@@ -15,15 +15,18 @@ public protocol AppUI {
 }
 
 class AppButton: AppUIButton, AppUI {
-    let onButtonClickID: Int
+
+    var onButtonClickID: Int?
 
     override init(uiData: UIData) {
 
+        super.init(uiData: uiData)
+
         let buttonData = uiData.buttonData ?? ButtonUIData()
 
-        self.onButtonClickID = buttonData.code[.OnTap]?.funcID ?? -1
-
-        super.init(uiData: uiData)
+        if let funcID = buttonData.code[.OnTap]?.funcID {
+            self.onButtonClickID = funcID
+        }
 
         self.addTarget(self, action: #selector(onButtonClick(_:)), for: .touchUpInside)
     }
@@ -33,10 +36,14 @@ class AppButton: AppUIButton, AppUI {
     }
 
     @objc func onButtonClick(_ sender: UIButton) {
+        guard let funcID = self.onButtonClickID else {
+            return
+        }
+
         let appRunner = AppRunner.topAppRunner()
 
         DispatchQueue.global(qos: .default).async() {
-            appRunner?.CallFunc(id: self.onButtonClickID)
+            appRunner?.CallFunc(id: funcID)
         }
     }
 
@@ -71,10 +78,20 @@ class AppLabel: AppUILabel, AppUI {
 
 class AppTextField: AppUITextField, AppUI {
 
+    var onTextFieldChangedID: Int?
+
     override init(uiData: UIData) {
+
         super.init(uiData: uiData)
 
+        let textFieldData = uiData.textFieldData ?? TextFieldUIData()
+
+        if let funcID = textFieldData.code[.OnChange]?.funcID {
+            self.onTextFieldChangedID = funcID
+        }
+
         self.addTarget(self, action: #selector(self.changeText(_:)), for: .allEditingEvents)
+        self.addTarget(self, action: #selector(self.onTextFieldChanged(_:)), for: .editingDidEnd)
     }
 
     required init?(coder: NSCoder) {
@@ -89,16 +106,36 @@ class AppTextField: AppUITextField, AppUI {
         self.reload()
     }
 
-    @objc private func changeText(_ textField: UITextField) {
-        self.uiData.textFieldData?.text = textField.text ?? ""
+    @objc private func changeText(_ sender: UITextField) {
+        self.uiData.textFieldData?.text = sender.text ?? ""
+    }
+
+    @objc private func onTextFieldChanged(_ sender: UITextField) {
+        guard let funcID = self.onTextFieldChangedID else {
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async() {
+            AppRunner.topAppRunner()?.CallFunc(id: funcID)
+        }
     }
 }
 
 
 class AppSwitch: AppUISwitch, AppUI {
 
+    var onSwitchChangedID: Int?
+
     override init(uiData: UIData) {
         super.init(uiData: uiData)
+
+        let switchData = uiData.switchData ?? SwitchUIData()
+
+        if let funcID = switchData.code[.OnChange]?.funcID {
+            self.onSwitchChangedID = funcID
+        }
+
+        self.addTarget(self, action: #selector(self.onSwitchChanged(_:)), for: .valueChanged)
     }
 
     required init?(coder: NSCoder) {
@@ -111,13 +148,47 @@ class AppSwitch: AppUISwitch, AppUI {
 
     func reloadUI() {
         self.reload()
+    }
+
+    @objc private func onSwitchChanged(_ sender: UISwitch) {
+        guard let funcID = self.onSwitchChangedID else {
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async() {
+            AppRunner.topAppRunner()?.CallFunc(id: funcID)
+        }
     }
 }
 
 class AppSlider: AppUISlider, AppUI {
 
+    var onSliderChangedID: Int?
+
+    var onSliderStartedID: Int?
+
+    var onSliderEndedID: Int?
+
     override init(uiData: UIData) {
         super.init(uiData: uiData)
+
+        let sliderData = uiData.sliderData ?? SliderUIData()
+
+        if let funcID = sliderData.code[.OnChange]?.funcID {
+            self.onSliderChangedID = funcID
+        }
+
+        if let funcID = sliderData.code[.OnStart]?.funcID {
+            self.onSliderStartedID = funcID
+        }
+
+        if let funcID = sliderData.code[.OnEnd]?.funcID {
+            self.onSliderEndedID = funcID
+        }
+
+        self.addTarget(self, action: #selector(self.onSliderChanged(_:)), for: .valueChanged)
+        self.addTarget(self, action: #selector(self.onSliderStarted(_:)), for: .touchDown)
+        self.addTarget(self, action: #selector(self.onSliderEnded(_:)), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -130,6 +201,38 @@ class AppSlider: AppUISlider, AppUI {
 
     func reloadUI() {
         self.reload()
+    }
+
+    @objc func onSliderChanged(_ sender: UISlider) {
+        guard let funcID = self.onSliderChangedID else {
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async() {
+            AppRunner.topAppRunner()?.CallFunc(id: funcID)
+        }
+    }
+
+
+    @objc func onSliderStarted(_ sender: UISlider) {
+        guard let funcID = self.onSliderStartedID else {
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async() {
+            AppRunner.topAppRunner()?.CallFunc(id: funcID)
+        }
+    }
+
+
+    @objc func onSliderEnded(_ sender: UISlider) {
+        guard let funcID = self.onSliderEndedID else {
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async() {
+            AppRunner.topAppRunner()?.CallFunc(id: funcID)
+        }
     }
 }
 

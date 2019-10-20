@@ -42,7 +42,7 @@ class SliderUISettingsController: UISettingsController {
         case 1:
             return 3
         case 2:
-            return 1
+            return SliderUIData.CodeType.allCases.count
         default:
             return 0
         }
@@ -86,7 +86,11 @@ class SliderUISettingsController: UISettingsController {
             cell.accessoryType = .disclosureIndicator
             switch indexPath.row {
             case 0:
-                cell.textLabel?.text = "Changed"
+                cell.textLabel?.text = "When started"
+            case 1:
+                cell.textLabel?.text = "When changed"
+            case 2:
+                cell.textLabel?.text = "When ended"
             default:
                 break
             }
@@ -109,32 +113,31 @@ class SliderUISettingsController: UISettingsController {
             switch indexPath.row {
             case 0:
                 updateCodeClosure = { (code) in
+                    self.uiData.sliderData?.code[.OnStart]?.code = code
+                }
+                codeStr = self.uiData.sliderData?.code[.OnStart]?.code ?? ""
+                codeTitle = "When started"
+
+            case 1:
+                updateCodeClosure = { (code) in
                     self.uiData.sliderData?.code[.OnChange]?.code = code
                 }
                 codeStr = self.uiData.sliderData?.code[.OnChange]?.code ?? ""
-                codeTitle = "Changed"
+                codeTitle = "When changed"
+
+            case 2:
+                updateCodeClosure = { (code) in
+                    self.uiData.sliderData?.code[.OnEnd]?.code = code
+                }
+                codeStr = self.uiData.sliderData?.code[.OnEnd]?.code ?? ""
+                codeTitle = "When ended"
+
 
             default:
                 return
             }
 
-            let storyboard = UIStoryboard(name: "CodeEditor", bundle: nil)
-
-            guard let codeEditorController = storyboard.instantiateInitialViewController() as? CodeEditorController else {
-                fatalError()
-            }
-
-            codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
-
-            codeEditorController.updateCodeClosure = updateCodeClosure
-
-            codeEditorController.codeStr = codeStr
-
-            codeEditorController.codeTitle = codeTitle
-
-            codeEditorController.appID = self.appID
-
-            navigationController?.pushViewController(codeEditorController, animated: true)
+            self.openCodeEditor(updateCodeClosure: updateCodeClosure, codeStr: codeStr, codeTitle: codeTitle)
         }
 
 
