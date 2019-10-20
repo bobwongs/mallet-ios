@@ -48,9 +48,7 @@ class Text2VPL {
 
         self.BlockData2Dictionary()
 
-        self.variables.insert("foo")
-
-        print(ConvertCodeBlock(codeFirstIndex: 0, indent: 0))
+        ConvertCodeBlock(codeFirstIndex: 0, indent: 0)
 
         return blockData
     }
@@ -96,9 +94,12 @@ class Text2VPL {
 
                     let value = convertedArgData.argData
 
-                    guard var thisBlockData = self.blockDataDictionary[""] else {
-                        return nil
-                    }
+                    var thisBlockData = BlockData(funcType: .Assign, funcName: "", contents: [
+                        BlockContentData(value: .Label("Set"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0)
 
                     thisBlockData.contents[1] = BlockContentData(value: .Arg([.Variable(varName)]), order: 0)
                     thisBlockData.contents[3] = BlockContentData(value: .Arg(value), order: 0)
@@ -302,7 +303,8 @@ class Text2VPL {
                 while codeIndex < self.code.count &&
                               !self.variables.contains(self.code[codeIndex]) &&
                               self.blockDataDictionary[self.code[codeIndex]]?.funcType != .ArgContent &&
-                              self.code[codeIndex] != "(" && self.code[codeIndex] != ")" {
+                              self.code[codeIndex] != "(" && self.code[codeIndex] != ")" &&
+                              !(codeFirstIndex < codeIndex && !self.operators.contains(self.code[codeIndex]) && !self.operators.contains(self.code[codeIndex - 1])) {
                     inputText += self.code[codeIndex]
                     codeIndex += 1
                 }
@@ -310,7 +312,7 @@ class Text2VPL {
                 argContents.append(.Input(inputText))
             }
 
-            if self.code[codeIndex] == ")" {
+            if codeIndex >= self.code.count || self.code[codeIndex] == ")" || (!self.operators.contains(self.code[codeIndex]) && !self.operators.contains(self.code[codeIndex - 1])) {
                 break
             }
         }
