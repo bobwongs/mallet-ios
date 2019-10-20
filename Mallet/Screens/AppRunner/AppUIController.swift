@@ -97,6 +97,43 @@ class AppUIController: NSObject {
         }
     }
 
+    static func setUIValue(id: Int, value: String) {
+        DispatchQueue.main.async {
+            let appRunner = AppRunner.topAppRunner()
+
+            if let ui = appRunner?.appUI[id] {
+
+                let uiData = ui.getUIData()
+
+                switch uiData.uiType {
+                case .Label:
+                    uiData.labelData?.text = value
+
+                case .Button:
+                    uiData.buttonData?.text = value
+
+                case .TextField:
+                    uiData.textFieldData?.text = value
+
+                case .Switch:
+                    if value == "1" {
+                        uiData.switchData?.value = 1
+                    } else {
+                        uiData.switchData?.value = 0
+                    }
+
+                case .Slider:
+                    uiData.sliderData?.value = Float(value) ?? 0
+
+                default:
+                    break
+                }
+
+                ui.reloadUI()
+            }
+        }
+    }
+
     static func SetUIFontColor(id: Int, color: String) {
         DispatchQueue.main.async {
             let appRunner = AppRunner.topAppRunner()
@@ -222,6 +259,34 @@ class AppUIController: NSObject {
 
             if let textFieldData = ui.getUIData().textFieldData {
                 return NSString(string: textFieldData.text)
+            }
+        }
+
+        return ""
+    }
+
+    static func getUIValue(id: Int) -> NSString {
+        let appRunner = AppRunner.topAppRunner()
+
+        if let ui = appRunner?.appUI[id] {
+            if let labelData = ui.getUIData().labelData {
+                return NSString(string: labelData.text)
+            }
+
+            if let buttonData = ui.getUIData().buttonData {
+                return NSString(string: buttonData.text)
+            }
+
+            if let textFieldData = ui.getUIData().textFieldData {
+                return NSString(string: textFieldData.text)
+            }
+
+            if let switchData = ui.getUIData().switchData {
+                return NSString(string: String(switchData.value))
+            }
+
+            if let sliderData = ui.getUIData().sliderData {
+                return NSString(string: String(sliderData.value))
             }
         }
 

@@ -20,6 +20,8 @@ var setUIWidth(std::vector<var> &args);
 
 var setUIHeight(std::vector<var> &args);
 
+var setUIValue(std::vector<var> &args);
+
 var setUIText(std::vector<var> &args);
 
 var setUIFontColor(std::vector<var> &args);
@@ -30,7 +32,7 @@ var setUITextAlignment(std::vector<var> &args);
 
 var setUIBackgroundColor(std::vector<var> &args);
 
-var getUIText(std::vector<var> &args);
+var getUIValue(std::vector<var> &args);
 
 void setUITable(int uiID, std::vector<var> &list);
 

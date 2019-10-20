@@ -151,6 +151,13 @@ class AppSwitch: AppUISwitch, AppUI {
     }
 
     @objc private func onSwitchChanged(_ sender: UISwitch) {
+        if sender.isOn {
+            self.uiData.switchData?.value = 1
+
+        } else {
+            self.uiData.switchData?.value = 0
+        }
+
         guard let funcID = self.onSwitchChangedID else {
             return
         }
@@ -204,6 +211,8 @@ class AppSlider: AppUISlider, AppUI {
     }
 
     @objc func onSliderChanged(_ sender: UISlider) {
+        self.uiData.sliderData?.value = sender.value
+
         guard let funcID = self.onSliderChangedID else {
             return
         }

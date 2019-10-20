@@ -19,8 +19,14 @@ CppFuncManager::CppFuncManager()
     //ui.hpp
     addCppFunc(setUIPositionX, "setUIPositionX", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIPositionY, "setUIPositionY", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIWidth, "setUIWidth", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIHeight, "setUIHeight", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIFontColor, "setUIFontColor", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIFontSize, "setUIFontSize", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(setUIPositionY, "setUITextAlignment", {ArgType::UI, ArgType::VALUE});
     addCppFunc(setUIText, "setUIText", {ArgType::UI, ArgType::VALUE});
-    addCppFunc(getUIText, "getUIText", {ArgType::UI});
+    addCppFunc(setUIValue, "setUIValue", {ArgType::UI, ArgType::VALUE});
+    addCppFunc(getUIValue, "getUIValue", {ArgType::UI});
 
     //time.hpp
     addCppFunc(sleepForSeconds, "sleep", {ArgType::VALUE});

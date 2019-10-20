@@ -96,9 +96,7 @@ class AppRunner: UIViewController, UINavigationControllerDelegate {
                     array.add(element.suffix(element.count - CloudVariableController.randomPrefixLength))
                 }
 
-                print("### \(variable.key)")
                 runner.updateCloudList(variable.key, array)
-                print("successful")
             }
         }
     }

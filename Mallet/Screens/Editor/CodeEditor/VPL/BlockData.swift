@@ -158,6 +158,13 @@ struct DefaultBlocks {
                 ],
 
                 .UI: [
+                    BlockData(funcType: .Block, funcName: "setUIValue", contents: [
+                        BlockContentData(value: .Label("Set value of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
                     BlockData(funcType: .Block, funcName: "setUIText", contents: [
                         BlockContentData(value: .Label("Set text of"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
@@ -165,10 +172,48 @@ struct DefaultBlocks {
                         BlockContentData(value: .Arg([]), order: 1)
                     ], indent: 0),
 
-                    BlockData(funcType: .ArgContent, funcName: "getUIText", contents: [
-                        BlockContentData(value: .Label("Text of"), order: -1),
+                    BlockData(funcType: .ArgContent, funcName: "getUIValue", contents: [
+                        BlockContentData(value: .Label("Value of"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                     ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "setUIWidth", contents: [
+                        BlockContentData(value: .Label("Set width of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "setUIHeight", contents: [
+                        BlockContentData(value: .Label("Set height of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
+                    BlockData(funcType: .Block, funcName: "setUIVFontColor", contents: [
+                        BlockContentData(value: .Label("Set font color of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
+
+                    BlockData(funcType: .Block, funcName: "setUIFontSize", contents: [
+                        BlockContentData(value: .Label("Set font size of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
+
+                    BlockData(funcType: .Block, funcName: "setUITextAlignment", contents: [
+                        BlockContentData(value: .Label("Set text alignment of"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                        BlockContentData(value: .Label("to"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 1)
+                    ], indent: 0),
+
                 ],
 
                 .Debug: [

@@ -15,6 +15,7 @@
 
 #include <iostream>
 
+
 var setUIPositionX(std::vector<var> &args)
 {
     double x = getNumberValue(args[1]);
@@ -33,6 +34,33 @@ var setUIPositionY(std::vector<var> &args)
     return 0;
 }
 
+var setUIWidth(std::vector<var> &args)
+{
+    double w = getNumberValue(args[1]);
+
+    [AppUIController SetUIWidthWithId:getIntValue(args[0]) width:w];
+
+    return 0;
+}
+
+var setUIHeight(std::vector<var> &args)
+{
+    double h = getNumberValue(args[1]);
+
+    [AppUIController SetUIHeightWithId:getIntValue(args[0]) height:h];
+
+    return 0;
+}
+
+var setUIValue(std::vector<var> &args)
+{
+    NSString *text = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
+
+    [AppUIController setUIValueWithId:getIntValue(args[0]) value:text];
+
+    return 0;
+}
+
 var setUIText(std::vector<var> &args)
 {
     NSString *text = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
@@ -42,9 +70,45 @@ var setUIText(std::vector<var> &args)
     return 0;
 }
 
-var getUIText(std::vector<var> &args)
+var setUIFontColor(std::vector<var> &args)
 {
-    std::string str = [[AppUIController getUITextWithId:getIntValue(args[0])] UTF8String];
+    NSString *value = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
+
+    [AppUIController SetUIFontColorWithId:getIntValue(args[0]) color:value];
+
+    return 0;
+}
+
+var setUIFontSize(std::vector<var> &args)
+{
+    int value = getIntValue(args[1]);
+
+    [AppUIController SetUIFontSizeWithId:getIntValue(args[0]) size:value];
+
+    return 0;
+}
+
+var setUITextAlignment(std::vector<var> &args)
+{
+    NSString *value = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
+
+    [AppUIController SetUITextAlignmentWithId:getIntValue(args[0]) alignmentStr:value];
+
+    return 0;
+}
+
+var setUIBackgroundColor(std::vector<var> &args)
+{
+    NSString *value = [NSString stringWithCString:getOutValue(args[1]).c_str() encoding:NSUTF8StringEncoding];
+
+    //TODO:
+
+    return 0;
+}
+
+var getUIValue(std::vector<var> &args)
+{
+    std::string str = [[AppUIController getUIValueWithId:getIntValue(args[0])] UTF8String];
 
     return str;
 }
