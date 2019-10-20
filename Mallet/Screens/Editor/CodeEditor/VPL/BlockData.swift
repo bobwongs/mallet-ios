@@ -218,7 +218,7 @@ struct DefaultBlocks {
                 ],
 
                 .Math: [
-                    BlockData(funcType: .Bracket, funcName: "round", contents: [
+                    BlockData(funcType: .ArgContent, funcName: "round", contents: [
                         BlockContentData(value: .Label("Round"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),
                     ], indent: 0),

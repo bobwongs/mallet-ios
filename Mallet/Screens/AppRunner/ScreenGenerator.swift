@@ -196,6 +196,7 @@ class AppSlider: AppUISlider, AppUI {
         self.addTarget(self, action: #selector(self.onSliderChanged(_:)), for: .valueChanged)
         self.addTarget(self, action: #selector(self.onSliderStarted(_:)), for: .touchDown)
         self.addTarget(self, action: #selector(self.onSliderEnded(_:)), for: .touchUpInside)
+        self.addTarget(self, action: #selector(self.onSliderEnded(_:)), for: .touchUpOutside)
     }
 
     required init?(coder: NSCoder) {

@@ -556,6 +556,11 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
                         sliderData.code[type]?.funcID = funcID
                         funcID += 1
                     }
+
+                    if sliderData.code[.OnChange]?.code == "" {
+                        sliderData.code[.OnChange] = nil
+                    }
+
                     uiData.sliderData = sliderData
                 } else {
                     fatalError()

@@ -238,6 +238,8 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
             fatalError()
         }
 
+        codeEditorController.editorDelegate = self.editorDelegate
+
         codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
 
         codeEditorController.updateCodeClosure = updateCodeClosure
