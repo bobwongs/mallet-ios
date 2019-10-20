@@ -46,7 +46,7 @@ class Block: UIStackView {
 
         self.addArrangedSubview(blankView)
 
-        let indentConstraint = NSLayoutConstraint(item: blankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: 50 * CGFloat(indent))
+        let indentConstraint = NSLayoutConstraint(item: blankView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1.0, constant: self.indentSize * CGFloat(indent))
         self.indentConstraint = indentConstraint
         self.addConstraint(indentConstraint)
 
