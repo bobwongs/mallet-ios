@@ -10,7 +10,12 @@ import Foundation
 
 class Text2VPL {
     private struct ConvertedFormulaData {
-        let formulaData: [ArgContentType]
+        let formulaData: ArgContentType
+        let codeSize: Int
+    }
+
+    private struct ConvertedArgData {
+        let argData: [ArgContentType]
         let codeSize: Int
     }
 
@@ -27,6 +32,8 @@ class Text2VPL {
 
     private var blockDataDictionary = [String: BlockData]()
 
+    private let operators: Set = ["==", "!=", ">=", "<=", "&&", "||", ">", "<", "=", "+", "-", "*", "/", "%", "&", "!", "~"]
+
     func Convert(codeStr: String) -> [BlockData] {
         blockData = [BlockData]()
 
@@ -40,6 +47,8 @@ class Text2VPL {
         }
 
         self.BlockData2Dictionary()
+
+        self.variables.insert("foo")
 
         print(ConvertCodeBlock(codeFirstIndex: 0, indent: 0))
 
@@ -79,13 +88,13 @@ class Text2VPL {
 
                     codeIndex += 2
 
-                    guard let convertedFormulaData = ConvertFormula(codeFirstIndex: codeIndex, isInBracket: false) else {
+                    guard let convertedArgData = ConvertArg(codeFirstIndex: codeIndex) else {
                         return nil
                     }
 
-                    codeIndex += convertedFormulaData.codeSize
+                    codeIndex += convertedArgData.codeSize
 
-                    let value = convertedFormulaData.formulaData
+                    let value = convertedArgData.argData
 
                     guard var thisBlockData = self.blockDataDictionary[""] else {
                         return nil
@@ -158,13 +167,13 @@ class Text2VPL {
 
                 while (codeIndex < code.count) {
 
-                    guard let convertedFormulaData = ConvertFormula(codeFirstIndex: codeIndex, isInBracket: false) else {
+                    guard let convertedArgData = ConvertArg(codeFirstIndex: codeIndex) else {
                         return nil
                     }
 
-                    args.append(convertedFormulaData.formulaData)
+                    args.append(convertedArgData.argData)
 
-                    codeIndex += convertedFormulaData.codeSize
+                    codeIndex += convertedArgData.codeSize
 
                     if code[codeIndex] == "," {
                         codeIndex += 1
@@ -197,7 +206,7 @@ class Text2VPL {
         }
     }
 
-    private func ConvertFormula(codeFirstIndex: Int, isInBracket: Bool) -> ConvertedFormulaData? {
+    private func ConvertArg(codeFirstIndex: Int) -> ConvertedArgData? {
 
         var argContents = [ArgContentType]()
 
@@ -207,49 +216,13 @@ class Text2VPL {
             if self.code[codeIndex] == "(" {
                 codeIndex += 1
 
-                var argContentsInBracket = [ArgContentType]()
-
-                while codeIndex < self.code.count {
-                    if self.variables.contains(self.code[codeIndex]) {
-                        argContentsInBracket.append(.Variable(self.code[codeIndex]))
-
-                        codeIndex += 1
-
-                    } else if self.code[codeIndex] == "(" {
-                        codeIndex += 1
-
-                        guard let convertedFormulaData = ConvertFormula(codeFirstIndex: codeIndex, isInBracket: true) else {
-                            return nil
-                        }
-
-                        argContentsInBracket.append(convertedFormulaData.formulaData[0])
-
-                        codeIndex += convertedFormulaData.codeSize + 1
-
-                    } else {
-                        var inputText = ""
-                        while codeIndex < self.code.count && !self.variables.contains(self.code[codeIndex]) && self.code[codeIndex] != "(" && self.code[codeIndex] != ")" {
-                            inputText += self.code[codeIndex]
-                            codeIndex += 1
-                        }
-
-                        argContentsInBracket.append(.Input(inputText))
-                    }
-
-                    if self.code[codeIndex] == ")" {
-                        break
-                    }
+                guard let convertedFormulaData = self.ConvertFormula(codeFirstIndex: codeIndex) else {
+                    return nil
                 }
 
-                let thisBlockData = BlockData(funcType: .Block, funcName: "", contents: [
-                    BlockContentData(value: .Label("("), order: -1),
-                    BlockContentData(value: .Arg(argContentsInBracket), order: 0),
-                    BlockContentData(value: .Label(")"), order: -1)
-                ], indent: 0)
+                argContents.append(convertedFormulaData.formulaData)
 
-                argContents.append(.Block(thisBlockData))
-
-                codeIndex += 1
+                codeIndex += convertedFormulaData.codeSize + 1
 
             } else if self.blockDataDictionary[code[codeIndex]]?.funcType == .ArgContent {
                 guard let convertedFuncData = self.ConvertFunc(codeFirstIndex: codeIndex) else {
@@ -258,32 +231,101 @@ class Text2VPL {
 
                 argContents.append(.Block(convertedFuncData.blockData))
                 codeIndex += convertedFuncData.codeSize
+
             } else if self.variables.contains(self.code[codeIndex]) {
                 argContents.append(.Variable(code[codeIndex]))
                 codeIndex += 1
+
             } else if self.code[codeIndex].count >= 2 && self.code[codeIndex][0] == "\"" && self.code[codeIndex][self.code[codeIndex].count - 1] == "\"" {
                 let str = self.code[codeIndex]
                 argContents.append(.Text(String(str[str.index(str.startIndex, offsetBy: 1)..<str.index(str.endIndex, offsetBy: -1)])))
                 codeIndex += 1
+
             } else {
-                argContents.append(.Input(self.code[codeIndex]))
-                codeIndex += 1
+                guard let convertedFormulaData = self.ConvertFormula(codeFirstIndex: codeFirstIndex) else {
+                    return nil
+                }
+
+                return ConvertedArgData(argData: [convertedFormulaData.formulaData], codeSize: convertedFormulaData.codeSize)
             }
 
-            if isInBracket {
-                if self.code[codeIndex] == ")" {
-                    break
-                }
+            if code[codeIndex] == "~" {
+                codeIndex += 1
             } else {
-                if code[codeIndex] == "~" {
-                    codeIndex += 1
-                } else {
+                if argContents.count >= 2 {
                     break
+                } else {
+                    guard let convertedFormulaData = self.ConvertFormula(codeFirstIndex: codeFirstIndex) else {
+                        return nil
+                    }
+
+                    return ConvertedArgData(argData: [convertedFormulaData.formulaData], codeSize: convertedFormulaData.codeSize)
                 }
             }
         }
 
-        return ConvertedFormulaData(formulaData: argContents, codeSize: codeIndex - codeFirstIndex)
+        return ConvertedArgData(argData: argContents, codeSize: codeIndex - codeFirstIndex)
+    }
+
+    private func ConvertFormula(codeFirstIndex: Int) -> ConvertedFormulaData? {
+
+        var argContents = [ArgContentType]()
+
+        var codeIndex = codeFirstIndex
+
+        while codeIndex < self.code.count {
+            if self.variables.contains(self.code[codeIndex]) {
+                argContents.append(.Variable(self.code[codeIndex]))
+
+                codeIndex += 1
+
+            } else if self.blockDataDictionary[self.code[codeIndex]]?.funcType == .ArgContent {
+                guard let convertedFuncData = self.ConvertFunc(codeFirstIndex: codeIndex) else {
+                    return nil
+                }
+
+                argContents.append(.Block(convertedFuncData.blockData))
+                codeIndex += convertedFuncData.codeSize
+            } else if self.code[codeIndex] == "(" {
+                codeIndex += 1
+
+                guard let convertedFormulaData = ConvertFormula(codeFirstIndex: codeIndex) else {
+                    return nil
+                }
+
+                argContents.append(convertedFormulaData.formulaData)
+
+                codeIndex += convertedFormulaData.codeSize + 1
+
+            } else {
+                var inputText = ""
+                while codeIndex < self.code.count &&
+                              !self.variables.contains(self.code[codeIndex]) &&
+                              self.blockDataDictionary[self.code[codeIndex]]?.funcType != .ArgContent &&
+                              self.code[codeIndex] != "(" && self.code[codeIndex] != ")" {
+                    inputText += self.code[codeIndex]
+                    codeIndex += 1
+                }
+
+                argContents.append(.Input(inputText))
+            }
+
+            if self.code[codeIndex] == ")" {
+                break
+            }
+        }
+
+        if argContents.count == 1 {
+            return ConvertedFormulaData(formulaData: argContents[0], codeSize: codeIndex - codeFirstIndex)
+        } else {
+            let thisBlockData = BlockData(funcType: .Block, funcName: "", contents: [
+                BlockContentData(value: .Label("("), order: -1),
+                BlockContentData(value: .Arg(argContents), order: 0),
+                BlockContentData(value: .Label(")"), order: -1)
+            ], indent: 0)
+
+            return ConvertedFormulaData(formulaData: .Block(thisBlockData), codeSize: codeIndex - codeFirstIndex)
+        }
     }
 
     private func ConvertValue(codeFirstIndex: Int) -> ArgContentType? {
