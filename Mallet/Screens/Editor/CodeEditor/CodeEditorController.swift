@@ -97,6 +97,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
         if mode == .Visual {
             editorMode = .Visual
 
+            visualCodeEditorController.generateBlocks(blockData: Text2VPL().Convert(codeStr: self.codeStr))
+
             hideTextCodeEditorView()
             showVisualCodeEditorView()
 

@@ -88,6 +88,10 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
 
         block.isUserInteractionEnabled = true
 
+        self.addBlockGesture(block: block)
+    }
+
+    private func addBlockGesture(block: UIView) {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(self.dragBlock(_:)))
         pan.delegate = self
         block.addGestureRecognizer(pan)
@@ -118,6 +122,21 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
             argContentView.setArgContentOnTable(cellInTableView: cell, superView: self.view)
         } else if let cell = content.cellInStack {
             argContentView.setArgContentOnTable(cellInStackView: cell, superView: self.view)
+        }
+    }
+
+    func generateBlocks(blockData: [BlockData]) {
+        for blockView in self.codeStackView.arrangedSubviews {
+            self.codeStackView.removeArrangedSubview(blockView)
+            blockView.removeFromSuperview()
+        }
+
+        for (index, block) in blockData.enumerated() {
+            let blockView = Block(blockData: block, index: index, isOnTable: false, visualCodeEditorController: self)
+
+            self.addBlockGesture(block: blockView)
+
+            self.codeStackView.addArrangedSubview(blockView)
         }
     }
 
