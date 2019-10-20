@@ -26,6 +26,7 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
     var blockViews = [Block]()
 
     var vplBlockTable: VPLSelectionView!
+
     var vplBlockTableBottomConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {

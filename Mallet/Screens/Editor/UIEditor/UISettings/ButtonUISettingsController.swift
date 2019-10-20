@@ -14,8 +14,8 @@ class ButtonUISettingsController: UISettingsController {
         super.viewDidLoad()
     }
 
-    override init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate) {
-        super.init(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+    override init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate, editorDelegate: EditorDelegate) {
+        super.init(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
     }
 
     required init?(coder: NSCoder) {
@@ -117,7 +117,7 @@ class ButtonUISettingsController: UISettingsController {
                     self.uiData.buttonData?.code[.OnTap]?.code = code
                 }
                 codeStr = self.uiData.buttonData?.code[.OnTap]?.code ?? ""
-                codeTitle = "Tap"
+                codeTitle = "When tapped"
 
             default:
                 return
@@ -131,7 +131,7 @@ class ButtonUISettingsController: UISettingsController {
 
             codeEditorController.codeEditorControllerDelegate = self.codeEditorControllerDelegate
 
-            codeEditorController.uiSettingsDelegate = self.uiSettingsDelegate
+            codeEditorController.editorDelegate = self.editorDelegate
 
             codeEditorController.updateCodeClosure = updateCodeClosure
 

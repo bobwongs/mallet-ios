@@ -23,7 +23,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
     var codeEditorControllerDelegate: CodeEditorControllerDelegate?
 
-    var uiSettingsDelegate: UISettingsDelegate?
+    var editorDelegate: EditorDelegate?
 
     var appID: Int?
 
@@ -67,7 +67,7 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
 
         self.updateCodeClosure?(self.codeStr)
 
-        self.uiSettingsDelegate?.saveApp()
+        self.editorDelegate?.saveApp()
     }
 
     func initEditorView() {
@@ -83,6 +83,8 @@ class CodeEditorController: UIViewController, UINavigationControllerDelegate {
     }
 
     func switchEditorMode() {
+        self.editorDelegate?.saveApp()
+
         if editorMode == .Text {
             switchEditorModeTo(mode: .Visual)
         } else {

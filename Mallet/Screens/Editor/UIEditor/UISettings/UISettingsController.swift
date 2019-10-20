@@ -20,13 +20,15 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
 
     let codeEditorControllerDelegate: CodeEditorControllerDelegate
 
-    init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate) {
+    let editorDelegate: EditorDelegate
+
+    init(appID: Int, ui: EditorUI, uiData: UIData, uiSettingsDelegate: UISettingsDelegate, codeEditorControllerDelegate: CodeEditorControllerDelegate, editorDelegate: EditorDelegate) {
         self.appID = appID
         self.ui = ui
         self.uiData = uiData
         self.uiSettingsDelegate = uiSettingsDelegate
         self.codeEditorControllerDelegate = codeEditorControllerDelegate
-
+        self.editorDelegate = editorDelegate
 
         super.init(style: .grouped)
 
@@ -226,13 +228,11 @@ class UISettingsController: UITableViewController, UITextFieldDelegate {
     func reload() {
         self.ui.reload(uiData: uiData)
 
-        self.uiSettingsDelegate.saveApp()
+        self.editorDelegate.saveApp()
     }
 }
 
 public protocol UISettingsDelegate {
-    func saveApp()
-
     func duplicateUI(uiData: UIData)
 
     func deleteUI(uiID: Int)

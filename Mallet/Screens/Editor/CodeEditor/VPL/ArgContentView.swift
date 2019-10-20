@@ -452,6 +452,7 @@ class ArgInput: ArgContent, UITextFieldDelegate {
         textField.textAlignment = .center
         textField.backgroundColor = .clear
         textField.sizeToFit()
+        textField.autocapitalizationType = .none
         self.stackView.addArrangedSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate(

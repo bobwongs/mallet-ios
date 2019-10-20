@@ -8,7 +8,7 @@
 
 import UIKit
 
-class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate, UISettingsDelegate, CodeEditorControllerDelegate {
+class UIEditorController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UITextFieldDelegate, UINavigationControllerDelegate, EditorUIDelegate, UISettingsDelegate, CodeEditorControllerDelegate, EditorDelegate {
 
     @IBOutlet var editorView: UIView!
 
@@ -334,6 +334,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         uiSettingsModal.uiData = ui.uiData
         uiSettingsModal.uiSettingsDelegate = self
         uiSettingsModal.codeEditorControllerDelegate = self
+        uiSettingsModal.editorDelegate = self
 
         navigationController?.present(uiSettingsModal, animated: true)
     }
@@ -616,15 +617,19 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     @IBAction func SettingsButton(_ sender: Any) {
-        let storyboard = UIStoryboard(name: "AppSettings", bundle: nil)
+        let storyBoard = UIStoryboard(name: "AppSettingsModal", bundle: nil)
 
-        guard let appSettingsController = storyboard.instantiateInitialViewController() as? AppSettingsController else {
+        guard let appSettingsModalView = storyBoard.instantiateInitialViewController() as? AppSettingsModalView else {
             fatalError()
         }
 
-        appSettingsController.uiEditorController = self
+        appSettingsModalView.editorDelegate = self
 
-        navigationController?.present(appSettingsController, animated: true)
+        navigationController?.present(appSettingsModalView, animated: true)
+    }
+
+    func getAppName() -> String {
+        return self.appName
     }
 
     func setAppName(appName: String?) {
@@ -799,4 +804,16 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         self.saveApp()
     }
+}
+
+protocol EditorDelegate {
+    func saveApp()
+
+    func getAppName() -> String
+
+    func setAppName(appName: String?)
+
+    func addToHomeScreen()
+
+    func copyShareLink()
 }

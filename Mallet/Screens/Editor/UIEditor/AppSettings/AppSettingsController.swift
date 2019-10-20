@@ -1,100 +1,126 @@
 //
-//  AppSettingsController.swift
+//  SettingsController.swift
 //  Mallet
 //
-//  Created by Katsu Matsuda on 2019/08/25.
+//  Created by Katsu Matsuda on 2019/10/20.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
 import UIKit
 
-class AppSettingsController: UIViewController, UINavigationBarDelegate {
-
-    var uiEditorController: UIEditorController!
-
-    var appSettingsTableViewController: AppSettingsTableViewController!
-
-    @IBOutlet weak var navigationBar: UINavigationBar!
-
-    override func viewDidLoad() {
-
-        super.viewDidLoad()
-
-        navigationBar.delegate = self
-
-        appSettingsTableViewController.appNameTextField.text = uiEditorController.appName
-        appSettingsTableViewController.appSettingsController = self
+class AppSettingsController: UITableViewController, UITextFieldDelegate {
+    enum sectionType: Int, CaseIterable {
+        case setAppName = 0
+        case addIconToHome = 1
+        case getShareLink = 2
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let appSettingsTableViewController = segue.destination as? AppSettingsTableViewController {
-            self.appSettingsTableViewController = appSettingsTableViewController
+    let editorDelegate: EditorDelegate
+
+    init(editorDelegate: EditorDelegate) {
+        self.editorDelegate = editorDelegate
+
+        super.init(style: .grouped)
+
+        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "Cell")
+
+        switch indexPath.section {
+        case sectionType.setAppName.rawValue:
+            let titleLabel = UILabel()
+            let textField = UITextField()
+
+            titleLabel.text = "App Name"
+            textField.text = self.editorDelegate.getAppName()
+            textField.addTarget(self, action: #selector(self.setAppName(_:)), for: .editingDidEnd)
+            textField.delegate = self
+
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            cell.addSubview(stackView)
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate(
+                    [
+                        stackView.widthAnchor.constraint(equalTo: cell.widthAnchor, multiplier: 0.95),
+                        stackView.heightAnchor.constraint(equalToConstant: cell.frame.height),
+                        stackView.centerXAnchor.constraint(equalTo: cell.centerXAnchor),
+                        stackView.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
+                    ]
+            )
+
+            stackView.addArrangedSubview(titleLabel)
+            stackView.addArrangedSubview(textField)
+
+            titleLabel.translatesAutoresizingMaskIntoConstraints = false
+            titleLabel.widthAnchor.constraint(equalTo: stackView.widthAnchor, multiplier: 0.4).isActive = true
+
+            break
+
+        case sectionType.addIconToHome.rawValue:
+            cell.textLabel?.text = "Add icon to home screen"
+            cell.textLabel?.textAlignment = .center
+            if #available(iOS 13, *) {
+                cell.textLabel?.textColor = .systemBlue
+            } else {
+                cell.textLabel?.textColor = .blue
+            }
+
+        case sectionType.getShareLink.rawValue:
+            cell.textLabel?.text = "Copy share link"
+            cell.textLabel?.textAlignment = .center
+            if #available(iOS 13, *) {
+                cell.textLabel?.textColor = .systemBlue
+            } else {
+                cell.textLabel?.textColor = .blue
+            }
+
+        default:
+            break
         }
-    }
 
-    func position(for bar: UIBarPositioning) -> UIBarPosition {
-        return .topAttached
-    }
-
-    @IBAction func DoneButton(_ sender: Any) {
-        uiEditorController.setAppName(appName: appSettingsTableViewController.appNameTextField.text)
-
-        self.view.endEditing(true)
-
-        self.dismiss(animated: true)
-    }
-
-    func save() {
-        uiEditorController.setAppName(appName: appSettingsTableViewController.appNameTextField.text)
-
-        uiEditorController.saveApp()
-    }
-
-    func addToHomeScreen() {
-        uiEditorController.setAppName(appName: appSettingsTableViewController.appNameTextField.text)
-
-        uiEditorController.addToHomeScreen()
-    }
-
-    func copyShareLink() {
-        uiEditorController.copyShareLink()
-    }
-}
-
-class AppSettingsTableViewController: UITableViewController, UITextFieldDelegate {
-
-    @IBOutlet weak var appNameTextField: UITextField!
-
-    var appSettingsController: AppSettingsController!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        appNameTextField.delegate = self
+        return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        switch tableView.cellForRow(at: indexPath)?.reuseIdentifier ?? "" {
-        case "copyShareLink":
-            appSettingsController.copyShareLink()
+        switch indexPath.section {
+        case sectionType.addIconToHome.rawValue:
+            self.editorDelegate.addToHomeScreen()
 
-        case "addToHomeScreen":
-            appSettingsController.addToHomeScreen()
+        case sectionType.getShareLink.rawValue:
+            self.editorDelegate.copyShareLink()
 
         default:
             break
         }
     }
 
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        appSettingsController.save()
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
         return true
     }
 
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
+    @objc func setAppName(_ textField: UITextField) {
+        self.editorDelegate.setAppName(appName: textField.text)
     }
 }

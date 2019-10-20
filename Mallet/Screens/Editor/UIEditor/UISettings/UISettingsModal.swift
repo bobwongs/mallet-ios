@@ -10,15 +10,17 @@ import UIKit
 
 class UISettingsModal: UIViewController, UINavigationBarDelegate {
 
-    public var appID: Int?
+    var appID: Int?
 
-    public var ui: EditorUI?
+    var ui: EditorUI?
 
-    public var uiData: UIData?
+    var uiData: UIData?
 
-    public var uiSettingsDelegate: UISettingsDelegate?
+    var uiSettingsDelegate: UISettingsDelegate?
 
-    public var codeEditorControllerDelegate: CodeEditorControllerDelegate?
+    var codeEditorControllerDelegate: CodeEditorControllerDelegate?
+
+    var editorDelegate: EditorDelegate?
 
     @IBOutlet weak var navigationBar: UINavigationBar!
 
@@ -32,31 +34,31 @@ class UISettingsModal: UIViewController, UINavigationBarDelegate {
         navigationBarItem.title = ui?.uiData.uiName
 
 
-        if let appID = appID, let ui = self.ui, let uiData = self.uiData, let uiSettingsDelegate = self.uiSettingsDelegate, let codeEditorControllerDelegate = self.codeEditorControllerDelegate {
+        if let appID = appID, let ui = self.ui, let uiData = self.uiData, let uiSettingsDelegate = self.uiSettingsDelegate, let codeEditorControllerDelegate = self.codeEditorControllerDelegate, let editorDelegate = self.editorDelegate {
 
             let uiSettingsController: UISettingsController!
 
             switch uiData.uiType {
             case .Label:
-                uiSettingsController = LabelUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = LabelUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             case .Button:
-                uiSettingsController = ButtonUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = ButtonUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             case .TextField:
-                uiSettingsController = TextFieldUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = TextFieldUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             case .Switch:
-                uiSettingsController = SwitchUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = SwitchUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             case .Slider:
-                uiSettingsController = SliderUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = SliderUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             case .Table:
-                uiSettingsController = TableUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = TableUISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
 
             default:
-                uiSettingsController = UISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate)
+                uiSettingsController = UISettingsController(appID: appID, ui: ui, uiData: uiData, uiSettingsDelegate: uiSettingsDelegate, codeEditorControllerDelegate: codeEditorControllerDelegate, editorDelegate: editorDelegate)
             }
 
             let childNavigation = UINavigationController(rootViewController: uiSettingsController)

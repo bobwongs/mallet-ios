@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		0E07A15522B47FA200A848C2 /* SPEC.md in Resources */ = {isa = PBXBuildFile; fileRef = 0E07A15422B47FA100A848C2 /* SPEC.md */; };
 		0E07D7DF233FA2D400DBBF76 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */; };
+		0E0CE580235C20D50051F016 /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE57F235C20D50051F016 /* AppSettingsController.swift */; };
+		0E0CE582235C249B0051F016 /* AppSettingsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */; };
+		0E0CE586235C2B430051F016 /* AppSettingsModal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E21029E23537327005DC7FA /* bytecode_to_string.cpp */; };
 		0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */; };
@@ -63,8 +66,6 @@
 		0ED08D9823324E9C00CD9321 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0ED08D9723324E9C00CD9321 /* Swifter.framework */; };
 		0EDEDFA62350B0240046F344 /* TableContentEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */; };
 		0EE5638422C3981A00F3F88C /* run.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EE5638322C3981A00F3F88C /* run.cpp */; };
-		0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */; };
-		0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3CDE32312D56800AD661E /* AppSettingsController.swift */; };
 		0EF478A9226B78CD007315DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478A8226B78CD007315DB /* AppDelegate.swift */; };
 		0EF478AB226B78CD007315DB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF478AA226B78CD007315DB /* HomeViewController.swift */; };
 		0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EF478AF226B78CE007315DB /* Assets.xcassets */; };
@@ -99,6 +100,9 @@
 /* Begin PBXFileReference section */
 		0E07A15422B47FA100A848C2 /* SPEC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SPEC.md; sourceTree = "<group>"; };
 		0E07D7DE233FA2D400DBBF76 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
+		0E0CE57F235C20D50051F016 /* AppSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsController.swift; sourceTree = "<group>"; };
+		0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModalView.swift; sourceTree = "<group>"; };
+		0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettingsModal.storyboard; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E21029E23537327005DC7FA /* bytecode_to_string.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bytecode_to_string.cpp; sourceTree = "<group>"; };
 		0E21029F23537328005DC7FA /* bytecode_to_string.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bytecode_to_string.hpp; sourceTree = "<group>"; };
@@ -162,8 +166,6 @@
 		0EDEDFA52350B0240046F344 /* TableContentEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableContentEditorView.swift; sourceTree = "<group>"; };
 		0EE5638222C3981100F3F88C /* run.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = run.hpp; sourceTree = "<group>"; };
 		0EE5638322C3981A00F3F88C /* run.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = run.cpp; sourceTree = "<group>"; };
-		0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettings.storyboard; sourceTree = "<group>"; };
-		0EF3CDE32312D56800AD661E /* AppSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsController.swift; sourceTree = "<group>"; };
 		0EF478A5226B78CD007315DB /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EF478A8226B78CD007315DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0EF478AA226B78CD007315DB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; wrapsLines = 0; };
@@ -255,8 +257,9 @@
 		0E3ED9602337C1D400C10A72 /* AppSettings */ = {
 			isa = PBXGroup;
 			children = (
-				0EF3CDE32312D56800AD661E /* AppSettingsController.swift */,
-				0EF3CDE12312D0AF00AD661E /* AppSettings.storyboard */,
+				0E0CE57F235C20D50051F016 /* AppSettingsController.swift */,
+				0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */,
+				0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -625,10 +628,10 @@
 				0EF478B0226B78CE007315DB /* Assets.xcassets in Resources */,
 				0E73D5EF23462809001385A0 /* GoogleService-Info.plist in Resources */,
 				0EC07A8D2340B1480028272F /* VariableSettings.storyboard in Resources */,
+				0E0CE586235C2B430051F016 /* AppSettingsModal.storyboard in Resources */,
 				0E3ED95D2337956100C10A72 /* AppCell.xib in Resources */,
 				0E8B783422AFF807002336A2 /* UIEditor.storyboard in Resources */,
 				0E3FDD81226CB9F000F20326 /* CodeEditor.storyboard in Resources */,
-				0EF3CDE22312D0AF00AD661E /* AppSettings.storyboard in Resources */,
 				0E4103CF234105F300839B5F /* UISettings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -803,7 +806,6 @@
 				0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */,
 				0E56BE47235446120063AD3C /* ListSettingsCell.swift in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
-				0EF3CDE42312D56800AD661E /* AppSettingsController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,
 				0E8DAEA4231FE670003C5EC7 /* ArgContentData.swift in Sources */,
 				0E920757235228D100855E3C /* TextFieldUISettingsController.swift in Sources */,
@@ -816,7 +818,9 @@
 				0EF67373234CC3200067B325 /* VPLSelectionView.swift in Sources */,
 				0E3ED95C2337956100C10A72 /* AppCell.swift in Sources */,
 				0EA9DF56227F216A00584C0B /* UIEditorController.swift in Sources */,
+				0E0CE580235C20D50051F016 /* AppSettingsController.swift in Sources */,
 				0E92075B235228EA00855E3C /* SliderUISettingsController.swift in Sources */,
+				0E0CE582235C249B0051F016 /* AppSettingsModalView.swift in Sources */,
 				0E94091A2351C41500A802E0 /* ButtonUISettingsController.swift in Sources */,
 				0EC3334B226E1226005B968A /* ScreenDataController.swift in Sources */,
 				0E73D5E92346223E001385A0 /* CloudVariableController.swift in Sources */,
