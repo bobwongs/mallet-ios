@@ -13,6 +13,7 @@
 		0E0CE582235C249B0051F016 /* AppSettingsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */; };
 		0E0CE586235C2B430051F016 /* AppSettingsModal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */; };
 		0E0CE58A235C7BD30051F016 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE589235C7BD30051F016 /* UIApplicationExtension.swift */; };
+		0E0CE58E235CA1CD0051F016 /* math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E0CE58C235CA1CD0051F016 /* math.cpp */; };
 		0E149C06228030DE00952F9C /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E149C05228030DE00952F9C /* AppUI.swift */; };
 		0E2102A023537328005DC7FA /* bytecode_to_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E21029E23537327005DC7FA /* bytecode_to_string.cpp */; };
 		0E24CF0C231578BE00D5D5C2 /* AppDatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E24CF0B231578BE00D5D5C2 /* AppDatabaseController.swift */; };
@@ -105,6 +106,8 @@
 		0E0CE581235C249B0051F016 /* AppSettingsModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsModalView.swift; sourceTree = "<group>"; };
 		0E0CE585235C2B430051F016 /* AppSettingsModal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppSettingsModal.storyboard; sourceTree = "<group>"; };
 		0E0CE589235C7BD30051F016 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
+		0E0CE58C235CA1CD0051F016 /* math.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = math.cpp; sourceTree = "<group>"; };
+		0E0CE58D235CA1CD0051F016 /* math.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = math.hpp; sourceTree = "<group>"; };
 		0E149C05228030DE00952F9C /* AppUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E21029E23537327005DC7FA /* bytecode_to_string.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bytecode_to_string.cpp; sourceTree = "<group>"; };
 		0E21029F23537328005DC7FA /* bytecode_to_string.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = bytecode_to_string.hpp; sourceTree = "<group>"; };
@@ -227,6 +230,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E0CE58B235CA1B10051F016 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				0E0CE58C235CA1CD0051F016 /* math.cpp */,
+				0E0CE58D235CA1CD0051F016 /* math.hpp */,
+			);
+			path = math;
+			sourceTree = "<group>";
+		};
 		0E149C04228030C800952F9C /* AppUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,6 +332,7 @@
 		0E4288B022F59CEA005CF2BF /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				0E0CE58B235CA1B10051F016 /* math */,
 				0EA8D2852344B0F000270A49 /* db */,
 				0EAA0DBD22F6F91300F5A051 /* time */,
 				0E4288B722F59D36005CF2BF /* ui */,
@@ -811,6 +824,7 @@
 				0E56BE47235446120063AD3C /* ListSettingsCell.swift in Sources */,
 				0EC9E81E22E36A1400A9D6D9 /* CodeEditorController.swift in Sources */,
 				0EC33345226E0B7F005B968A /* AppRunner.swift in Sources */,
+				0E0CE58E235CA1CD0051F016 /* math.cpp in Sources */,
 				0E8DAEA4231FE670003C5EC7 /* ArgContentData.swift in Sources */,
 				0E920757235228D100855E3C /* TextFieldUISettingsController.swift in Sources */,
 				0E3ED9632337DFC100C10A72 /* Color.swift in Sources */,

@@ -33,6 +33,7 @@ enum BlockCategory: String, CaseIterable {
     case Variable = "Variable"
     case Control = "Control"
     case UI = "UI"
+    case Math = "Math"
     case Debug = "Debug"
 }
 
@@ -216,7 +217,15 @@ struct DefaultBlocks {
 
                 ],
 
-                .Debug: [
+                .Math: [
+                    BlockData(funcType: .Bracket, funcName: "round", contents: [
+                        BlockContentData(value: .Label("Round"), order: -1),
+                        BlockContentData(value: .Arg([]), order: 0),
+                    ], indent: 0),
+                ],
+
+                .Debug
+                : [
                     BlockData(funcType: .Block, funcName: "print", contents: [
                         BlockContentData(value: .Label("Print"), order: -1),
                         BlockContentData(value: .Arg([]), order: 0),

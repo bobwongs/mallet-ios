@@ -11,6 +11,7 @@
 #ifndef TEST
 #include "./lib/ui/ui.hpp"
 #include "./lib/time/time.hpp"
+#include "./lib/math/math.hpp"
 #endif
 
 CppFuncManager::CppFuncManager()
@@ -30,6 +31,9 @@ CppFuncManager::CppFuncManager()
 
     //time.hpp
     addCppFunc(sleepForSeconds, "sleep", {ArgType::VALUE});
+
+    //math.hpp
+    addCppFunc(round, "round", {ArgType::VALUE});
 #endif
 }
 
