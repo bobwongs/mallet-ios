@@ -134,6 +134,8 @@ class VisualCodeEditorController: UIViewController, UIGestureRecognizerDelegate,
         for (index, block) in blockData.enumerated() {
             let blockView = Block(blockData: block, index: index, isOnTable: false, visualCodeEditorController: self)
 
+            blockView.delegate = self
+
             self.addBlockGesture(block: blockView)
 
             self.codeStackView.addArrangedSubview(blockView)
