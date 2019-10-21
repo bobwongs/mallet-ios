@@ -136,13 +136,21 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
     func generateScreen() {
         uiNum = appData.uiData.count
+        self.uiNum = 0
 
         for uiData in appData.uiData {
             let ui = generateEditorUI(uiData: uiData)
+
+            if uiData.uiName.count - uiTypeName[uiData.uiType]!.count > 0 {
+                if let uiNameNumber = Int(uiData.uiName.suffix(uiData.uiName.count - uiTypeName[uiData.uiType]!.count)) {
+                    UINumOfEachType[uiData.uiType]! = max(UINumOfEachType[uiData.uiType]!, uiNameNumber)
+                }
+            }
             appScreen.addSubview(ui)
 
-            UINumOfEachType[uiData.uiType]! += 1
             uiDictionary[uiData.uiID] = ui
+
+            self.uiNum = max(self.uiNum, uiData.uiID + 1)
         }
     }
 
