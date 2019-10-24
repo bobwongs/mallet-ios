@@ -9,8 +9,6 @@
 import Foundation
 import Firebase
 
-import FirebaseDatabase
-
 class CloudVariableController: NSObject {
     private static let variablePath = "variable"
 

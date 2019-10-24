@@ -1855,12 +1855,6 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
             }
             else
             {
-                if (varType == variableType::cloud || varType == variableType::persistent)
-                {
-                    codeIndex += 1;
-                }
-                else
-                {
                     codeIndex += 3;
 
                     //       v
@@ -1885,7 +1879,6 @@ std::vector<Convert::variableData> Convert::getGlobalVariables(const std::string
                         codeIndex += 1;
                     }
                 }
-            }
         }
         else
         {
