@@ -7,21 +7,24 @@
 //
 
 import Foundation
-import Firebase
+//import Firebase
 
 class CloudVariableController: NSObject {
     private static let variablePath = "variable"
 
+    /*
     private static let db = Firestore.firestore()
 
     private static var ref = db.collection("variables").document("variables")
 
     private static var listener: ListenerRegistration?
+    */
 
     static let randomPrefixLength = "yyyyMMddHHmmssSSS".count + 5
 
     static func startApp(appRunner: AppRunner) {
 
+        /*
         DispatchQueue.global().async {
             ref.getDocument { (documentSnapshot, error) in
                 guard let document = documentSnapshot else {
@@ -53,13 +56,15 @@ class CloudVariableController: NSObject {
 
             CloudVariableController.updateCloudVariable(data: data, appRunner: appRunner)
         }
+        */
     }
 
     static func endApp() {
-        self.listener?.remove()
+        //self.listener?.remove()
     }
 
     static func startVariableSettings(variableSettingsController: VariableSettingsController) {
+        /*
         self.listener?.remove()
 
         ref.getDocument { (documentSnapshot, error) in
@@ -89,27 +94,31 @@ class CloudVariableController: NSObject {
 
             CloudVariableController.updateCloudVariableInVariableSettings(data: data, variableSettingsController: variableSettingsController)
         }
+        */
     }
 
     static func endVariableSettings() {
-        self.listener?.remove()
+        //self.listener?.remove()
     }
 
     private static func updateCloudVariable(data: [String: Any], appRunner: AppRunner) {
-        appRunner.updateCloudVariables(variables: data)
+        //appRunner.updateCloudVariables(variables: data)
     }
 
     private static func updateCloudVariableInVariableSettings(data: [String: Any], variableSettingsController: VariableSettingsController) {
-        variableSettingsController.updateCloudVariable(variables: data)
+        //variableSettingsController.updateCloudVariable(variables: data)
     }
 
     @objc static func setCloudVariable(varName: String, value: String) {
+        /*
         ref.updateData([varName: value]) { error in
             print(error)
         }
+        */
     }
 
     static func setCloudList(varName: String, value: [String]) {
+        /*
         let randomPrefix = generateRandomPrefix()
 
         var prefixedValue = [String]()
@@ -120,22 +129,27 @@ class CloudVariableController: NSObject {
         ref.updateData([varName: prefixedValue]) { error in
             print(error)
         }
+        */
     }
 
     @objc static func setCloudList(varName: String, value: NSMutableArray) {
+        /*
         var stringValue = [String]()
         for element in value {
             stringValue.append((element as? String) ?? "")
         }
 
         CloudVariableController.setCloudList(varName: varName, value: stringValue)
+        */
     }
 
     @objc static func addToCloudList(varName: String, value: String) {
+        /*
         print("\(varName) \(value)")
         ref.updateData([varName: FieldValue.arrayUnion([CloudVariableController.generateRandomPrefix() + value])]) { error in
             print(error)
         }
+        */
     }
 
     private static func generateRandomPrefix() -> String {

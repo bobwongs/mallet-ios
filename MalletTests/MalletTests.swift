@@ -2,7 +2,7 @@
 //  MalletTests.swift
 //  MalletTests
 //
-//  Created by Katsu Matsuda on 2019/04/21.
+//  Created by Katsu Matsuda on 2019/10/27.
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
