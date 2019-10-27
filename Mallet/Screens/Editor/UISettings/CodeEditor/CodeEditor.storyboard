@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kGm-ie-ZMa">
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="PhQ-Ly-SLF">
+            <objects>
+                <navigationController id="IsP-cq-zCf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="mjN-oh-Ctb">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="kGm-ie-ZMa" kind="relationship" relationship="rootViewController" id="PQ6-Pn-ajc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vb-83-nGQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-234" y="168"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="sfj-0k-qiA">
+            <objects>
+                <viewController id="kGm-ie-ZMa" customClass="CodeEditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NRm-FY-EAT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ghb-NC-th5">
+                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="ClP-Yb-hn7" kind="embed" id="peP-wk-Ra1"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4ug-UL-LSO">
+                                <rect key="frame" x="0.0" y="198" width="375" height="724"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="R8l-3i-TeF" kind="embed" id="wGW-7v-rYS"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="4Nd-Y1-dgR"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="IvC-uY-bgk">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Mode" image="text.justifyleft" catalog="system" id="Eb2-37-0Ta">
+                                <connections>
+                                    <action selector="switchModeButton:" destination="kGm-ie-ZMa" id="oPY-0B-BBl"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Variables" id="prb-Dp-FHp">
+                                <connections>
+                                    <action selector="variableSettingsButton:" destination="kGm-ie-ZMa" id="CeF-6q-sZe"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="TextCodeEditorView" destination="ghb-NC-th5" id="jUV-Uy-K6h"/>
+                        <outlet property="VisualCodeEditorView" destination="4ug-UL-LSO" id="C4D-QQ-k7I"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CJV-wB-OFq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="692" y="168.4729064039409"/>
+        </scene>
+        <!--Text Code Editor Controller-->
+        <scene sceneID="S65-cZ-hSU">
+            <objects>
+                <viewController id="ClP-Yb-hn7" customClass="TextCodeEditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZgE-oC-abk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="var a a = 0 repeat(10) {     print(a)     a = a + 1 }" translatesAutoresizingMaskIntoConstraints="NO" id="PQO-40-cUl">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartQuotesType="no"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="PQO-40-cUl" secondAttribute="trailing" id="659-5P-UBj"/>
+                            <constraint firstItem="PQO-40-cUl" firstAttribute="leading" secondItem="ZgE-oC-abk" secondAttribute="leading" id="eKS-3d-wvG"/>
+                            <constraint firstItem="PQO-40-cUl" firstAttribute="top" secondItem="ZgE-oC-abk" secondAttribute="top" id="qG6-cl-Qec"/>
+                            <constraint firstAttribute="bottom" secondItem="PQO-40-cUl" secondAttribute="bottom" id="rgr-nK-Bw4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="KwJ-XY-OdM"/>
+                    </view>
+                    <connections>
+                        <outlet property="editorArea" destination="PQO-40-cUl" id="daO-3H-cYq"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bte-M8-NoI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1614" y="194"/>
+        </scene>
+        <!--Visual Code Editor Controller-->
+        <scene sceneID="p6e-BN-zVe">
+            <objects>
+                <viewController id="R8l-3i-TeF" customClass="VisualCodeEditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZUz-ta-hnr">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                        <viewLayoutGuide key="safeArea" id="yhd-TG-Mpy"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OJS-Mh-NcT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2480.8000000000002" y="193.5960591133005"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="text.justifyleft" catalog="system" width="64" height="50"/>
+    </resources>
+</document>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bag-hH-ZGt">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings Controller-->
+        <scene sceneID="K1O-xB-Zrt">
+            <objects>
+                <viewController id="bag-hH-ZGt" customClass="UISettingsModal" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cCr-2t-nL5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6bf-IT-Wjl">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="UI Settings" id="ftF-B1-JhU">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="iXQ-aB-9Qc">
+                                            <connections>
+                                                <action selector="doneButton:" destination="bag-hH-ZGt" id="TBo-zC-3VS"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6bf-IT-Wjl" firstAttribute="top" secondItem="2qa-ec-oks" secondAttribute="top" id="ACA-i9-ejO"/>
+                            <constraint firstItem="6bf-IT-Wjl" firstAttribute="leading" secondItem="cCr-2t-nL5" secondAttribute="leading" id="GOU-0g-brb"/>
+                            <constraint firstItem="2qa-ec-oks" firstAttribute="trailing" secondItem="6bf-IT-Wjl" secondAttribute="trailing" id="Kge-zQ-hmt"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2qa-ec-oks"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Qc-n3-z8z"/>
+                    <connections>
+                        <outlet property="navigationBar" destination="6bf-IT-Wjl" id="czb-qc-MX0"/>
+                        <outlet property="navigationBarItem" destination="ftF-B1-JhU" id="gxb-nb-4dK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zSW-Pi-uBC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-120.28985507246378" y="47.544642857142854"/>
+        </scene>
+    </scenes>
+</document>

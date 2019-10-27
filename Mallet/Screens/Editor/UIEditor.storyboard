@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="AIj-Sb-75T">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="cHW-Pd-hYe">
+            <objects>
+                <navigationController id="NnO-v6-fVb" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="M3M-NQ-a2v">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="AIj-Sb-75T" kind="relationship" relationship="rootViewController" id="56h-ot-e6w"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Eq4-F9-Tda" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-880" y="129"/>
+        </scene>
+        <!--Editor-->
+        <scene sceneID="Nbf-D2-Ppe">
+            <objects>
+                <viewController id="AIj-Sb-75T" customClass="UIEditorController" customModule="Mallet" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3nJ-QC-Cba">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzo-hg-iV2">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="qzo-hg-iV2" firstAttribute="leading" secondItem="MeI-G7-vY6" secondAttribute="leading" id="AFN-o6-2uE"/>
+                            <constraint firstAttribute="bottom" secondItem="qzo-hg-iV2" secondAttribute="bottom" id="OKF-NF-X7k"/>
+                            <constraint firstItem="qzo-hg-iV2" firstAttribute="top" secondItem="MeI-G7-vY6" secondAttribute="top" id="Uec-Vn-q4l"/>
+                            <constraint firstItem="MeI-G7-vY6" firstAttribute="trailing" secondItem="qzo-hg-iV2" secondAttribute="trailing" id="xZC-zN-sgA"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="MeI-G7-vY6"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Editor" id="Tes-Qs-ZTT">
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="play" id="uu5-Gh-qyl">
+                                <connections>
+                                    <action selector="runButton:" destination="AIj-Sb-75T" id="6Nn-8q-fEo"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="action" id="vta-zd-nO2">
+                                <connections>
+                                    <action selector="SettingsButton:" destination="AIj-Sb-75T" id="w2k-DO-xcU"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editorView" destination="qzo-hg-iV2" id="TNW-zh-dEQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dcs-x9-5LS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="82.608695652173921" y="128.57142857142856"/>
+        </scene>
+    </scenes>
+</document>
