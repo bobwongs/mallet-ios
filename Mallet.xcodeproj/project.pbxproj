@@ -80,6 +80,7 @@
 		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E9F848E2365B5AA00994789 /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F848D2365B5AA00994789 /* objcpp.mm */; };
+		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,7 @@
 		0E9F848C2365B5AA00994789 /* objcpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
 		0E9F848D2365B5AA00994789 /* objcpp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
+		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 				0E9F840423659EB500994789 /* AppCell.xib */,
 				0E9F840523659EB500994789 /* Home.storyboard */,
 				0E9F840223659EB500994789 /* HomeViewController.swift */,
+				0EEE6D7F23672AFA00691783 /* HomeView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				0E9F843123659F2500994789 /* cpp_func_manager.cpp in Sources */,
 				0E9F83D023659E6E00994789 /* ArgContentData.swift in Sources */,
 				0E9F83F223659EA300994789 /* TextFieldUISettingsController.swift in Sources */,
+				0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */,
 				0E9F843423659F2500994789 /* cast.cpp in Sources */,
 				0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */,
 				0E9F843D23659FA100994789 /* ui.mm in Sources */,
