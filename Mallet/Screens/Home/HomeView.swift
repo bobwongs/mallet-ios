@@ -41,6 +41,8 @@ struct HomeView: View {
                 ScrollView {
                     VStack {
                         HomeAppCell()
+                        HomeAppCell()
+
                     }
                         .padding(10)
                         .padding(.top, 20)
@@ -49,7 +51,7 @@ struct HomeView: View {
                     .navigationBarItems(trailing:
                             HStack {
                                 Button(action: {
-                                    print(114514)
+                                    print("Add app")
                                 }) {
                                     Image(systemName: "plus")
                                 }
@@ -57,6 +59,7 @@ struct HomeView: View {
                     )
             }
         }
+            .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -65,9 +68,19 @@ struct HomeView_Previews: PreviewProvider {
         Group {
             HomeView()
                 .colorScheme(.dark)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
 
             HomeView()
                 .colorScheme(.light)
+                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
+
+            HomeView()
+                .colorScheme(.dark)
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
+
+            HomeView()
+                .colorScheme(.light)
+                .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
         }
     }
 }
