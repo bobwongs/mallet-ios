@@ -16,7 +16,7 @@
 		0E9F837F23659A2E00994789 /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F837E23659A2E00994789 /* MalletTests.swift */; };
 		0E9F838A23659A2E00994789 /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F838923659A2E00994789 /* MalletUITests.swift */; };
 		0E9F83AE23659E4300994789 /* UIApplicationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A523659E4200994789 /* UIApplicationExtension.swift */; };
-		0E9F83AF23659E4300994789 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A623659E4200994789 /* Color.swift */; };
+		0E9F83AF23659E4300994789 /* CustomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A623659E4200994789 /* CustomColor.swift */; };
 		0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A723659E4200994789 /* HapticFeedback.swift */; };
 		0E9F83B123659E4300994789 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A823659E4200994789 /* AppData.swift */; };
 		0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A923659E4200994789 /* RLMSupport.swift */; };
@@ -131,7 +131,7 @@
 		0E9F838923659A2E00994789 /* MalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletUITests.swift; sourceTree = "<group>"; };
 		0E9F838B23659A2E00994789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E9F83A523659E4200994789 /* UIApplicationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIApplicationExtension.swift; sourceTree = "<group>"; };
-		0E9F83A623659E4200994789 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		0E9F83A623659E4200994789 /* CustomColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomColor.swift; sourceTree = "<group>"; };
 		0E9F83A723659E4200994789 /* HapticFeedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		0E9F83A823659E4200994789 /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		0E9F83A923659E4200994789 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
@@ -276,7 +276,7 @@
 				0E9F83A823659E4200994789 /* AppData.swift */,
 				0E9F83AA23659E4200994789 /* AppDatabaseController.swift */,
 				0E9F83AB23659E4200994789 /* CloudVariableController.swift */,
-				0E9F83A623659E4200994789 /* Color.swift */,
+				0E9F83A623659E4200994789 /* CustomColor.swift */,
 				0E9F83A723659E4200994789 /* HapticFeedback.swift */,
 				0E9F83A923659E4200994789 /* RLMSupport.swift */,
 				0E9F83A523659E4200994789 /* UIApplicationExtension.swift */,
@@ -721,7 +721,7 @@
 				0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */,
 				0E9F83CD23659E6E00994789 /* ArgData.swift in Sources */,
 				0E9F83F523659EA300994789 /* SwitchUISettingsController.swift in Sources */,
-				0E9F83AF23659E4300994789 /* Color.swift in Sources */,
+				0E9F83AF23659E4300994789 /* CustomColor.swift in Sources */,
 				0E9F842F23659F2500994789 /* bytecode_to_string.cpp in Sources */,
 				0E9F836C23659A2C00994789 /* ContentView.swift in Sources */,
 				0E9F83B523659E4300994789 /* UIColorExtension.swift in Sources */,

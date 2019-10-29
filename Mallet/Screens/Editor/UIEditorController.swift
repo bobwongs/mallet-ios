@@ -162,9 +162,9 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
 
-        cell.backgroundColor = Color.uiCollectionCellBackground
+        cell.backgroundColor = CustomColor.uiCollectionCellBackground
         cell.layer.borderWidth = 1
-        cell.layer.borderColor = Color.uiCollectionCellBorder.cgColor
+        cell.layer.borderColor = CustomColor.uiCollectionCellBorder.cgColor
 
         let uiData: UIData
         switch indexPath.row {
@@ -676,7 +676,7 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
         if #available(iOS 13, *) {
             self.uiTableModal.backgroundColor = .secondarySystemGroupedBackground
         } else {
-            self.uiTableModal.backgroundColor = Color.uiCollectionBackground
+            self.uiTableModal.backgroundColor = CustomColor.uiCollectionBackground
         }
         self.uiTableModal.layer.cornerRadius = cornerRadius
         self.uiTableModal.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

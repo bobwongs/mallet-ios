@@ -79,7 +79,7 @@ public struct LabelUIData: Codable {
     init() {
         self.text = "Label"
         self.fontSize = 20
-        self.fontColor = Color.defaultLabelColor.hexString()
+        self.fontColor = CustomColor.defaultLabelColor.hexString()
         self.alignment = .left
     }
 }
@@ -110,8 +110,8 @@ public struct ButtonUIData: Codable {
     init() {
         self.text = "Button"
         self.fontSize = 17
-        self.fontColor = Color.defaultButtonLabelColor.hexString()
-        self.backgroundColor = Color.defaultButtonColor.hexString()
+        self.fontColor = CustomColor.defaultButtonLabelColor.hexString()
+        self.backgroundColor = CustomColor.defaultButtonColor.hexString()
 
         self.code = [CodeType.OnTap: funcData()]
     }
@@ -142,7 +142,7 @@ public struct TextFieldUIData: Codable {
     init() {
         self.text = "Input"
         self.fontSize = 17
-        self.fontColor = Color.defaultLabelColor.hexString()
+        self.fontColor = CustomColor.defaultLabelColor.hexString()
         self.alignment = .left
 
         self.code = [CodeType.OnChange: funcData()]

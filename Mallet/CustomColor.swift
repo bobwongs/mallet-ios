@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Color {
+class CustomColor {
     static let uiCollectionBackground = UIColor(hex: "F5F5F5")
     static let uiCollectionCellBackground = UIColor(hex: "EAEAEA")
     static let uiCollectionCellBorder = UIColor(hex: "E0E0E0")
