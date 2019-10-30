@@ -80,6 +80,7 @@
 		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E9F848E2365B5AA00994789 /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F848D2365B5AA00994789 /* objcpp.mm */; };
+		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
@@ -207,6 +208,7 @@
 		0E9F848C2365B5AA00994789 /* objcpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
 		0E9F848D2365B5AA00994789 /* objcpp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
+		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -343,6 +345,7 @@
 				0E9F83E423659E9800994789 /* UIEditorController.swift */,
 				0E9F839E23659B1300994789 /* UISettings */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
+				0EDC9CD32369D80500AD490B /* EditorView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				0E9F83C223659E6000994789 /* ScreenDataController.swift in Sources */,
 				0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */,
 				0E9F83F923659EA300994789 /* UISettingsModal.swift in Sources */,
+				0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */,
 				0E9F843123659F2500994789 /* cpp_func_manager.cpp in Sources */,
 				0E9F83D023659E6E00994789 /* ArgContentData.swift in Sources */,
 				0E9F83F223659EA300994789 /* TextFieldUISettingsController.swift in Sources */,
