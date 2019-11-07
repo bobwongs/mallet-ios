@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
 		0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836723659A2C00994789 /* AppDelegate.swift */; };
 		0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836923659A2C00994789 /* SceneDelegate.swift */; };
 		0E9F836C23659A2C00994789 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836B23659A2C00994789 /* ContentView.swift */; };
@@ -117,6 +118,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		0E9F836423659A2C00994789 /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E9F836723659A2C00994789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E9F836923659A2C00994789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -381,6 +383,7 @@
 				0E9F83FE23659EAB00994789 /* AppSettingsController.swift */,
 				0E9F83FC23659EAB00994789 /* AppSettingsModal.storyboard */,
 				0E9F83FD23659EAB00994789 /* AppSettingsModalView.swift */,
+				0E2295B62374587E003DB56D /* AppSettingsView.swift */,
 			);
 			path = AppSettings;
 			sourceTree = "<group>";
@@ -698,6 +701,7 @@
 				0E9F83D023659E6E00994789 /* ArgContentData.swift in Sources */,
 				0E9F83F223659EA300994789 /* TextFieldUISettingsController.swift in Sources */,
 				0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */,
+				0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */,
 				0E9F843423659F2500994789 /* cast.cpp in Sources */,
 				0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */,
 				0E9F843D23659FA100994789 /* ui.mm in Sources */,
