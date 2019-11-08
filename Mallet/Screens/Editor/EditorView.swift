@@ -9,6 +9,8 @@
 import SwiftUI
 
 struct EditorView: View {
+    @State var showingAppSettingsView = false
+
     var body: some View {
         VStack {
             Spacer()
@@ -17,10 +19,14 @@ struct EditorView: View {
             .navigationBarItems(trailing:
                     HStack {
                         Button(action: {
-                            print("Settings")
+                            self.showingAppSettingsView = true
                         }) {
                             Image(systemName: "square.and.arrow.up")
                         }
+                            .sheet(isPresented: self.$showingAppSettingsView) {
+                                AppSettingsView()
+                        }
+
                         Button(action: {
                             print("Run")
                         }) {
