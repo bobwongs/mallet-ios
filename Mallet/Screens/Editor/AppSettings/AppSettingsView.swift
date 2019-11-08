@@ -10,59 +10,62 @@ import SwiftUI
 
 struct AppSettingsView: View {
 
+    @Environment(\.presentationMode) var presentationMode
+
     @State var appName: String = "Untitled App"
 
     var body: some View {
-        List {
-            Section {
-                HStack {
-                    Text("App Name")
-                    TextField("App Name", text: $appName)
+        NavigationView {
+            List {
+                Section {
+                    HStack {
+                        Text("App Name")
+                        TextField("App Name", text: $appName)
+                    }
+                }
+
+                Section {
+                    Text("Add icon to home screen")
+                }
+
+                Section {
+                    Text("Copy share link")
                 }
             }
-
-            Section {
-                Text("Add icon to home screen")
-            }
-
-            Section {
-                Text("Copy share link")
-            }
+                .listStyle(GroupedListStyle())
+                .navigationBarTitle("App Settings", displayMode: .inline)
+                .navigationBarItems(trailing: Button(action: {
+                        self.presentationMode.wrappedValue.dismiss()
+                })
+                    {
+                        Text("Done")
+                            .fontWeight(.semibold)
+                    }
+                )
         }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitle("App Settings", displayMode: .inline)
-
     }
 }
 
 struct AppSettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            NavigationView {
-                AppSettingsView()
-            }
+            AppSettingsView()
                 .colorScheme(.dark)
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
                 .navigationViewStyle(StackNavigationViewStyle())
 
 
-            NavigationView {
-                AppSettingsView()
-            }
+            AppSettingsView()
                 .colorScheme(.light)
                 .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
                 .navigationViewStyle(StackNavigationViewStyle())
 
-            NavigationView {
-                AppSettingsView()
-            }
+            AppSettingsView()
                 .colorScheme(.dark)
                 .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
                 .navigationViewStyle(StackNavigationViewStyle())
 
-            NavigationView {
-                AppSettingsView()
-            }
+            AppSettingsView()
                 .colorScheme(.light)
                 .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
                 .navigationViewStyle(StackNavigationViewStyle())
