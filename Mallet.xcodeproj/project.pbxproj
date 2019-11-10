@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E1ADF8C237842B900B7E643 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1ADF8B237842B900B7E643 /* UISettingsView.swift */; };
 		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
 		0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836723659A2C00994789 /* AppDelegate.swift */; };
 		0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836923659A2C00994789 /* SceneDelegate.swift */; };
@@ -118,6 +119,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E1ADF8B237842B900B7E643 /* UISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsView.swift; sourceTree = "<group>"; };
 		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		0E9F836423659A2C00994789 /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E9F836723659A2C00994789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 		0E9F839E23659B1300994789 /* UISettings */ = {
 			isa = PBXGroup;
 			children = (
+				0E1ADF8B237842B900B7E643 /* UISettingsView.swift */,
 				0E9F83F123659EA300994789 /* ButtonUISettingsController.swift */,
 				0E9F83EA23659EA300994789 /* LabelUISettingsController.swift */,
 				0E9F83F023659EA300994789 /* SliderUISettingsController.swift */,
@@ -730,6 +733,7 @@
 				0E9F83CD23659E6E00994789 /* ArgData.swift in Sources */,
 				0E9F83F523659EA300994789 /* SwitchUISettingsController.swift in Sources */,
 				0E9F83AF23659E4300994789 /* CustomColor.swift in Sources */,
+				0E1ADF8C237842B900B7E643 /* UISettingsView.swift in Sources */,
 				0E9F842F23659F2500994789 /* bytecode_to_string.cpp in Sources */,
 				0E9F836C23659A2C00994789 /* ContentView.swift in Sources */,
 				0E9F83B523659E4300994789 /* UIColorExtension.swift in Sources */,
