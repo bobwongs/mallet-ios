@@ -83,6 +83,7 @@
 		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E9F848E2365B5AA00994789 /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F848D2365B5AA00994789 /* objcpp.mm */; };
+		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 /* End PBXBuildFile section */
@@ -214,6 +215,7 @@
 		0E9F848C2365B5AA00994789 /* objcpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = objcpp.h; sourceTree = "<group>"; };
 		0E9F848D2365B5AA00994789 /* objcpp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
+		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
 		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -441,6 +443,7 @@
 			children = (
 				0E9F840A23659EBC00994789 /* AppUI.swift */,
 				0E3659FE237EECE200294A40 /* MUI.swift */,
+				0ED5BC2023816A0A0080CABD /* MUIView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -721,6 +724,7 @@
 				0E9F83D923659E8100994789 /* CodeEditorController.swift in Sources */,
 				0E9F83FB23659EA300994789 /* ButtonUISettingsController.swift in Sources */,
 				0E9F83E623659E9900994789 /* UIEditorController.swift in Sources */,
+				0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */,
 				0E9F844323659FAB00994789 /* math.cpp in Sources */,
 				0E9F83F423659EA300994789 /* LabelUISettingsController.swift in Sources */,
 				0E9F83E223659E8B00994789 /* ListSettingsCell.swift in Sources */,
