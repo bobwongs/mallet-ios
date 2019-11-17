@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E1ADF8C237842B900B7E643 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1ADF8B237842B900B7E643 /* UISettingsView.swift */; };
 		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
+		0E3659FF237EECE200294A40 /* MUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3659FE237EECE200294A40 /* MUI.swift */; };
 		0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836723659A2C00994789 /* AppDelegate.swift */; };
 		0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836923659A2C00994789 /* SceneDelegate.swift */; };
 		0E9F836C23659A2C00994789 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836B23659A2C00994789 /* ContentView.swift */; };
@@ -121,6 +122,7 @@
 /* Begin PBXFileReference section */
 		0E1ADF8B237842B900B7E643 /* UISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISettingsView.swift; sourceTree = "<group>"; };
 		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
+		0E3659FE237EECE200294A40 /* MUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUI.swift; sourceTree = "<group>"; };
 		0E9F836423659A2C00994789 /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E9F836723659A2C00994789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E9F836923659A2C00994789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				0E9F840A23659EBC00994789 /* AppUI.swift */,
+				0E3659FE237EECE200294A40 /* MUI.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -696,6 +699,7 @@
 				0E9F83B623659E4300994789 /* AddShortcut.swift in Sources */,
 				0E9F83D723659E8100994789 /* VPLSelectionView.swift in Sources */,
 				0E9F83C023659E6000994789 /* AppUIController.swift in Sources */,
+				0E3659FF237EECE200294A40 /* MUI.swift in Sources */,
 				0E9F83C223659E6000994789 /* ScreenDataController.swift in Sources */,
 				0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */,
 				0E9F83F923659EA300994789 /* UISettingsModal.swift in Sources */,
