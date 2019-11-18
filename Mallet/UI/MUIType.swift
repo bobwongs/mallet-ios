@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum MUIType {
+enum MUIType: Int, Codable {
 
     case Text
 
