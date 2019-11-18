@@ -9,12 +9,42 @@
 import SwiftUI
 
 struct EditorView: View {
+
     @State var showingAppSettingsView = false
 
+    @State var initialDragAmount: CGFloat = 0.0
+
+    @State var dragAmount: CGFloat = 0.0
+
     var body: some View {
-        VStack {
-            Spacer()
+        ZStack (alignment: .bottom) {
+            ZStack {
+                Spacer()
+            }
+                .background(Color.white)
+
+            VStack {
+                Spacer()
+                VStack {
+                    VStack {
+                        Color(.systemBackground)
+                    }
+                        .cornerRadius(20)
+                        .gesture(DragGesture(coordinateSpace: .global)
+                                .onChanged({ value in
+                                    self.dragAmount = self.initialDragAmount + value.translation.height
+                                })
+                                .onEnded({
+                                    value in
+                                    self.initialDragAmount = self.dragAmount
+                                })
+                        )
+                }
+                    .frame(maxHeight: 300)
+                    .offset(x: 0, y: dragAmount)
+            }
         }
+            .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitle("App Title", displayMode: .inline)
             .navigationBarItems(trailing:
                     HStack {
