@@ -10,11 +10,17 @@ import SwiftUI
 
 struct EditorView: View {
 
-    @State var showingAppSettingsView = false
+    @State private var showingAppSettingsView = false
 
-    @State var initialDragAmount: CGFloat = 250
+    @State private var initialDragAmount: CGFloat = 250
 
-    @State var dragAmount: CGFloat = 250
+    @State private var dragAmount: CGFloat = 250
+
+    private let uiTableModalHeight: CGFloat = 300
+
+    private let uiTableModalMaxVisibleHeight: CGFloat = 250
+
+    private let uiTableModalMinVisibleHeight: CGFloat = 50
 
     var body: some View {
         ZStack (alignment: .bottom) {
@@ -35,7 +41,7 @@ struct EditorView: View {
                             .shadow(radius: 5)
                             .gesture(DragGesture(coordinateSpace: .global)
                                     .onChanged({ value in
-                                        self.dragAmount = self.initialDragAmount + value.translation.height
+                                        self.dragAmount = max(self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight, min(self.uiTableModalHeight - self.uiTableModalMinVisibleHeight, self.initialDragAmount + value.translation.height))
                                     })
                                     .onEnded({
                                         value in
@@ -43,7 +49,7 @@ struct EditorView: View {
                                     })
                             )
                     }
-                        .frame(maxHeight: 300)
+                        .frame(maxHeight: self.uiTableModalHeight)
                         .offset(x: 0, y: self.dragAmount - geo.safeAreaInsets.bottom)
                 }
             }
