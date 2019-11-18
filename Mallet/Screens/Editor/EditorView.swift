@@ -12,9 +12,9 @@ struct EditorView: View {
 
     @State var showingAppSettingsView = false
 
-    @State var initialDragAmount: CGFloat = 0.0
+    @State var initialDragAmount: CGFloat = 250
 
-    @State var dragAmount: CGFloat = 0.0
+    @State var dragAmount: CGFloat = 250
 
     var body: some View {
         ZStack (alignment: .bottom) {
@@ -23,25 +23,29 @@ struct EditorView: View {
             }
                 .background(Color.white)
 
-            VStack {
-                Spacer()
+            GeometryReader { geo in
                 VStack {
+                    Spacer()
                     VStack {
-                        Color(.systemBackground)
+                        VStack {
+                            Color.clear
+                        }
+                            .background(Color(.systemBackground))
+                            .cornerRadius(20)
+                            .shadow(radius: 5)
+                            .gesture(DragGesture(coordinateSpace: .global)
+                                    .onChanged({ value in
+                                        self.dragAmount = self.initialDragAmount + value.translation.height
+                                    })
+                                    .onEnded({
+                                        value in
+                                        self.initialDragAmount = self.dragAmount
+                                    })
+                            )
                     }
-                        .cornerRadius(20)
-                        .gesture(DragGesture(coordinateSpace: .global)
-                                .onChanged({ value in
-                                    self.dragAmount = self.initialDragAmount + value.translation.height
-                                })
-                                .onEnded({
-                                    value in
-                                    self.initialDragAmount = self.dragAmount
-                                })
-                        )
+                        .frame(maxHeight: 300)
+                        .offset(x: 0, y: self.dragAmount - geo.safeAreaInsets.bottom)
                 }
-                    .frame(maxHeight: 300)
-                    .offset(x: 0, y: dragAmount)
             }
         }
             .edgesIgnoringSafeArea(.bottom)
