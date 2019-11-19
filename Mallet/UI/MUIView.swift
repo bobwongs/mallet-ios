@@ -8,12 +8,6 @@
 
 import SwiftUI
 
-struct MUIView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
 struct MUITextView: View {
     var body: some View {
         Text("Label")
@@ -33,7 +27,6 @@ struct MUIInputView: View {
 
     var body: some View {
         TextField("", text: $text)
-            .frame(width: 100)
     }
 }
 
@@ -43,7 +36,6 @@ struct MUISliderView: View {
 
     var body: some View {
         Slider(value: $value)
-            .frame(width: 100)
     }
 }
 
@@ -65,8 +57,10 @@ struct MUIView_Previews: PreviewProvider {
             MUIButtonView()
 
             MUIInputView()
+                .frame(width: 100)
 
             MUISliderView()
+                .frame(width: 100)
 
             MUIToggleView()
         }
