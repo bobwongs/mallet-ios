@@ -10,14 +10,14 @@ import Foundation
 
 enum MUIType: Int, Codable {
 
-    case Text
+    case text
 
-    case Button
+    case button
 
-    case Input
+    case input
 
-    case Slider
+    case slider
 
-    case Toggle
+    case toggle
 
 }
