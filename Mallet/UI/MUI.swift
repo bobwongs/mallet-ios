@@ -14,6 +14,8 @@ struct MUI: Codable {
 
     let uiName: String
 
+    let uiType: MUIType
+
     let x: Float
 
     let y: Float
