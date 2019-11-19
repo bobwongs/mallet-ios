@@ -9,17 +9,22 @@
 import SwiftUI
 
 struct AppView: View {
+
+    let appName: String
+
     var body: some View {
-        ZStack {
-            Spacer()
+        NavigationView {
+            ZStack {
+                Text("Text")
+            }
+                .navigationBarTitle(Text(appName), displayMode: .inline)
         }
+            .colorScheme(.light)
     }
 }
 
 struct AppView_Previews: PreviewProvider {
     static var previews: some View {
-        DefaultPreview {
-            AppView()
-        }
+        AppView(appName: "App")
     }
 }
