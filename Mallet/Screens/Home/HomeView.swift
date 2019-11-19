@@ -94,22 +94,8 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
+        DefaultPreview {
             HomeView()
-                .colorScheme(.dark)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
-
-            HomeView()
-                .colorScheme(.light)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
-
-            HomeView()
-                .colorScheme(.dark)
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-
-            HomeView()
-                .colorScheme(.light)
-                .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
         }
     }
 }

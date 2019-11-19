@@ -75,39 +75,16 @@ struct EditorView: View {
                 }
             )
     }
+
+    private func generateUI() -> some View {
+        return Text("UI")
+    }
 }
 
 struct EditorView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            NavigationView {
-                EditorView()
-            }
-                .colorScheme(.dark)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
-                .navigationViewStyle(StackNavigationViewStyle())
-
-
-            NavigationView {
-                EditorView()
-            }
-                .colorScheme(.light)
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
-                .navigationViewStyle(StackNavigationViewStyle())
-
-            NavigationView {
-                EditorView()
-            }
-                .colorScheme(.dark)
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE"))
-                .navigationViewStyle(StackNavigationViewStyle())
-
-            NavigationView {
-                EditorView()
-            }
-                .colorScheme(.light)
-                .previewDevice(PreviewDevice(rawValue: "iPad Pro (11-inch)"))
-                .navigationViewStyle(StackNavigationViewStyle())
+        DefaultPreview {
+            EditorView()
         }
     }
 }
