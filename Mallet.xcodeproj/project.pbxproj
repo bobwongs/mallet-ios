@@ -87,6 +87,7 @@
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
+		0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A5D23841ECC00710FEA /* AppView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -220,6 +221,7 @@
 		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
 		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,6 +365,7 @@
 		0E9F839A23659AA100994789 /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				0EFA0A5D23841ECC00710FEA /* AppView.swift */,
 				0E9F83BC23659E6000994789 /* AppRunner.storyboard */,
 				0E9F83BA23659E6000994789 /* AppRunner.swift */,
 				0E9F83BB23659E6000994789 /* AppUIController.swift */,
@@ -729,6 +732,7 @@
 				0E9F83E623659E9900994789 /* UIEditorController.swift in Sources */,
 				0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */,
 				0E9F844323659FAB00994789 /* math.cpp in Sources */,
+				0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */,
 				0E9F83F423659EA300994789 /* LabelUISettingsController.swift in Sources */,
 				0E9F83E223659E8B00994789 /* ListSettingsCell.swift in Sources */,
 				0E9F83CB23659E6E00994789 /* BlockData.swift in Sources */,
