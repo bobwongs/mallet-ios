@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DefaultPreview<Content>: View where Content: View {
-    
+
     let content: () -> Content
 
     init(@ViewBuilder content: @escaping () -> Content) {
