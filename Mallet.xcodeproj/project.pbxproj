@@ -13,7 +13,6 @@
 		0E9C5ED62382E883001AECA7 /* MUIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C5ED52382E883001AECA7 /* MUIType.swift */; };
 		0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836723659A2C00994789 /* AppDelegate.swift */; };
 		0E9F836A23659A2C00994789 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836923659A2C00994789 /* SceneDelegate.swift */; };
-		0E9F836C23659A2C00994789 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836B23659A2C00994789 /* ContentView.swift */; };
 		0E9F836E23659A2E00994789 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F836D23659A2E00994789 /* Assets.xcassets */; };
 		0E9F837123659A2E00994789 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F837023659A2E00994789 /* Preview Assets.xcassets */; };
 		0E9F837423659A2E00994789 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F837223659A2E00994789 /* LaunchScreen.storyboard */; };
@@ -131,7 +130,6 @@
 		0E9F836423659A2C00994789 /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E9F836723659A2C00994789 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0E9F836923659A2C00994789 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0E9F836B23659A2C00994789 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0E9F836D23659A2E00994789 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0E9F837023659A2E00994789 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0E9F837323659A2E00994789 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -284,7 +282,6 @@
 				0E9F839723659A6500994789 /* Screens */,
 				0E9F836723659A2C00994789 /* AppDelegate.swift */,
 				0E9F836923659A2C00994789 /* SceneDelegate.swift */,
-				0E9F836B23659A2C00994789 /* ContentView.swift */,
 				0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */,
 				0E9F836D23659A2E00994789 /* Assets.xcassets */,
 				0E9F837223659A2E00994789 /* LaunchScreen.storyboard */,
@@ -755,7 +752,6 @@
 				0E9F83AF23659E4300994789 /* CustomColor.swift in Sources */,
 				0E1ADF8C237842B900B7E643 /* UISettingsView.swift in Sources */,
 				0E9F842F23659F2500994789 /* bytecode_to_string.cpp in Sources */,
-				0E9F836C23659A2C00994789 /* ContentView.swift in Sources */,
 				0E9F83B523659E4300994789 /* UIColorExtension.swift in Sources */,
 				0E9F83CE23659E6E00994789 /* BlockView.swift in Sources */,
 				0E9F840B23659EBC00994789 /* AppUI.swift in Sources */,
