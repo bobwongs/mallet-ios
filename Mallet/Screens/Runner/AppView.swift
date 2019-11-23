@@ -12,28 +12,48 @@ struct AppView: View {
 
     let appName: String
 
-    @State var uiData: [MUI] = [MUI(uiID: 0, uiName: "Text1", uiType: .text, x: 100, y: 100, width: 100, height: 50)]
+    @State var uiData: [MUI] = []
 
     var body: some View {
         NavigationView {
             ZStack {
-                ForEach(0..<uiData.count, content: { (index: Int) -> AnyView in
-
-                    let mui = self.uiData[index]
-
-                    switch mui.uiType {
-
-                    case .text:
-                        return AnyView(MUITextView())
-
-                    default:
-                        fatalError()
-                    }
-                })
+                ForEach(0..<uiData.count) { index in
+                    self.generateUI(index: index)
+                }
             }
                 .navigationBarTitle(Text(appName), displayMode: .inline)
         }
             .colorScheme(.light)
+    }
+
+    func generateUI(index: Int) -> some View {
+        let ui = uiData[index]
+
+        let uiType = ui.uiType
+
+        return Group {
+            if uiType == .text {
+                MUITextView()
+            }
+            else if uiType == .button {
+                MUIButtonView()
+            }
+            else if uiType == .input {
+                MUIInputView()
+            }
+            else if uiType == .slider {
+                MUISliderView()
+            }
+            else if uiType == .toggle {
+                MUIToggleView()
+            }
+            else {
+                fatalError()
+            }
+        }
+            .frame(width: CGFloat(ui.width), height: CGFloat(ui.height))
+            .background(Color.pink)
+            .position(x: CGFloat(ui.x), y: CGFloat(ui.y))
     }
 }
 
