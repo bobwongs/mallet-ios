@@ -56,6 +56,8 @@ struct HomeView: View {
 
     @State var appData = [app]()
 
+    @State var runningApp = false
+
     var body: some View {
         NavigationView {
             VStack {
@@ -85,6 +87,13 @@ struct HomeView: View {
             .onAppear(perform: {
                 self.reloadAppData()
             })
+            .overlay(
+                Group {
+                    if self.runningApp {
+                        AppView(appName: "App")
+                    }
+                }
+            )
     }
 
     func reloadAppData() {
@@ -94,7 +103,10 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        DefaultPreview {
+        Group {
+            HomeView()
+                .colorScheme(.dark)
+
             HomeView()
         }
     }
