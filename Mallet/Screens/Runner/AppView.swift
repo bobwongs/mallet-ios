@@ -24,6 +24,8 @@ struct AppView: View {
                 }
             }
                 .navigationBarTitle(Text(appName), displayMode: .inline)
+                .navigationBarItems(leading:
+                        Button(action: { self.runningApp = false }) { Image(systemName: "xmark") })
         }
             .colorScheme(.light)
     }
