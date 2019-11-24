@@ -12,6 +12,8 @@ struct AppView: View {
 
     let appName: String
 
+    @Binding var runningApp: Bool
+
     @State var uiData: [MUI] = []
 
     var body: some View {
@@ -58,7 +60,8 @@ struct AppView: View {
 }
 
 struct AppView_Previews: PreviewProvider {
+
     static var previews: some View {
-        AppView(appName: "App")
+        AppView(appName: "App", runningApp: .constant(true))
     }
 }

@@ -14,9 +14,11 @@ struct HomeAppCell: View {
 
     var appName: String
 
+    let runApp: (Int) -> Void
+
     var body: some View {
         Button(action: {
-            print("Run App")
+            self.runApp(self.appID)
         }) {
             VStack {
                 HStack {
@@ -64,7 +66,7 @@ struct HomeView: View {
                 ScrollView {
                     VStack {
                         ForEach(self.appData, id: \.appID) { appData in
-                            HomeAppCell(appID: appData.appID, appName: appData.appName)
+                            HomeAppCell(appID: appData.appID, appName: appData.appName, runApp: self.runApp)
                         }
                     }
 
@@ -91,7 +93,7 @@ struct HomeView: View {
             .overlay(
                 Group {
                     if self.runningApp {
-                        AppView(appName: "App")
+                        AppView(appName: "App", runningApp: $runningApp)
                     }
                 }
             )
@@ -99,6 +101,10 @@ struct HomeView: View {
 
     func reloadAppData() {
         self.appData = [app(appID: 0, appName: "Awesome App"), app(appID: 1, appName: "Cool App")]
+    }
+
+    func runApp(appID: Int) {
+        runningApp = true
     }
 }
 
