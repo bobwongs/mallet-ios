@@ -66,8 +66,9 @@ struct HomeView: View {
                         ForEach(self.appData, id: \.appID) { appData in
                             HomeAppCell(appID: appData.appID, appName: appData.appName)
                         }
-
                     }
+
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .padding(10)
                         .padding(.top, 20)
                 }
