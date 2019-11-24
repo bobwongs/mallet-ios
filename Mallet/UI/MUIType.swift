@@ -20,4 +20,6 @@ enum MUIType: Int, Codable {
 
     case toggle
 
+    case table
+
 }
