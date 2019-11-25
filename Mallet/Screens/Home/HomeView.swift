@@ -92,8 +92,11 @@ struct HomeView: View {
             })
             .overlay(
                 Group {
-                    if self.runningApp {
-                        AppView(appName: "App", runningApp: $runningApp)
+                    VStack {
+                        if self.runningApp {
+                            AppView(appName: "App", runningApp: $runningApp)
+                                .transition(.move(edge: .bottom))
+                        }
                     }
                 }
             )
@@ -104,7 +107,9 @@ struct HomeView: View {
     }
 
     func runApp(appID: Int) {
-        runningApp = true
+        withAnimation {
+            runningApp.toggle()
+        }
     }
 }
 
