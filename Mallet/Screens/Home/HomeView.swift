@@ -107,7 +107,7 @@ struct HomeView: View {
     }
 
     func runApp(appID: Int) {
-        withAnimation {
+        withAnimation(.easeOut(duration: 0.2)) {
             runningApp = true
         }
     }
