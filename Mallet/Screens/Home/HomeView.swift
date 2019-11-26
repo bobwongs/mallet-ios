@@ -108,7 +108,7 @@ struct HomeView: View {
 
     func runApp(appID: Int) {
         withAnimation {
-            runningApp.toggle()
+            runningApp = true
         }
     }
 }
