@@ -58,48 +58,33 @@ struct HomeView: View {
 
     @State var appData = [app]()
 
-    @State var runningApp = false
-
     var body: some View {
-        NavigationView {
-            VStack {
-                ScrollView {
-                    VStack {
-                        ForEach(self.appData, id: \.appID) { appData in
-                            HomeAppCell(appID: appData.appID, appName: appData.appName, runApp: self.runApp)
-                        }
+        VStack {
+            ScrollView {
+                VStack {
+                    ForEach(self.appData, id: \.appID) { appData in
+                        HomeAppCell(appID: appData.appID, appName: appData.appName, runApp: self.runApp)
                     }
-
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .padding(10)
-                        .padding(.top, 20)
                 }
-                    .navigationBarTitle("My Apps", displayMode: .large)
-                    .navigationBarItems(trailing:
-                            HStack {
-                                Button(action: {
-                                    print("Add app")
-                                }) {
-                                    Image(systemName: "plus")
-                                }
-                        }
-                    )
+
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(10)
+                    .padding(.top, 20)
             }
+                .navigationBarTitle("My Apps", displayMode: .large)
+                .navigationBarItems(trailing:
+                        HStack {
+                            Button(action: {
+                                print("Add app")
+                            }) {
+                                Image(systemName: "plus")
+                            }
+                    }
+                )
         }
-            .navigationViewStyle(StackNavigationViewStyle())
             .onAppear(perform: {
                 self.reloadAppData()
             })
-            .overlay(
-                Group {
-                    VStack {
-                        if self.runningApp {
-                            AppView(appName: "App", runningApp: $runningApp)
-                                .transition(.move(edge: .bottom))
-                        }
-                    }
-                }
-            )
     }
 
     func reloadAppData() {
@@ -107,19 +92,20 @@ struct HomeView: View {
     }
 
     func runApp(appID: Int) {
-        withAnimation(.easeOut(duration: 0.2)) {
-            runningApp = true
-        }
     }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            HomeView()
+            NavigationView {
+                HomeView()
+            }
                 .colorScheme(.dark)
 
-            HomeView()
+            NavigationView {
+                HomeView()
+            }
         }
     }
 }
