@@ -12,8 +12,6 @@ struct AppView: View {
 
     let appName: String
 
-    @Binding var runningApp: Bool
-
     @State var uiData: [MUI] = []
 
     var body: some View {
@@ -25,7 +23,7 @@ struct AppView: View {
             }
                 .navigationBarTitle(Text(appName), displayMode: .inline)
                 .navigationBarItems(leading:
-                        Button(action: { self.runningApp = false }) { Image(systemName: "xmark") })
+                        Button(action: { print("Quit App") }) { Image(systemName: "xmark") })
         }
             .colorScheme(.light)
     }
@@ -64,6 +62,6 @@ struct AppView: View {
 struct AppView_Previews: PreviewProvider {
 
     static var previews: some View {
-        AppView(appName: "App", runningApp: .constant(true))
+        AppView(appName: "App")
     }
 }
