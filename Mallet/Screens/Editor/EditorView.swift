@@ -45,6 +45,15 @@ struct EditorView: View {
                                     })
                                     .onEnded({
                                         value in
+                                        withAnimation(.easeOut(duration: 0.2)) {
+                                            if value.translation.height < 0 {
+                                                self.dragAmount = self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight
+                                            }
+                                            else {
+                                                self.dragAmount = self.uiTableModalHeight - self.uiTableModalMinVisibleHeight
+                                            }
+                                        }
+
                                         self.initialDragAmount = self.dragAmount
                                     })
                             )
