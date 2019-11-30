@@ -63,10 +63,6 @@
 		0E9F83FF23659EAB00994789 /* AppSettingsModal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F83FC23659EAB00994789 /* AppSettingsModal.storyboard */; };
 		0E9F840023659EAB00994789 /* AppSettingsModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83FD23659EAB00994789 /* AppSettingsModalView.swift */; };
 		0E9F840123659EAB00994789 /* AppSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83FE23659EAB00994789 /* AppSettingsController.swift */; };
-		0E9F840623659EB500994789 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F840223659EB500994789 /* HomeViewController.swift */; };
-		0E9F840723659EB500994789 /* AppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F840323659EB500994789 /* AppCell.swift */; };
-		0E9F840823659EB500994789 /* AppCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F840423659EB500994789 /* AppCell.xib */; };
-		0E9F840923659EB500994789 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E9F840523659EB500994789 /* Home.storyboard */; };
 		0E9F840B23659EBC00994789 /* AppUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F840A23659EBC00994789 /* AppUI.swift */; };
 		0E9F842023659EE800994789 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F841F23659EE800994789 /* StringExtension.swift */; };
 		0E9F842F23659F2500994789 /* bytecode_to_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F842323659F2500994789 /* bytecode_to_string.cpp */; };
@@ -186,10 +182,6 @@
 		0E9F83FC23659EAB00994789 /* AppSettingsModal.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = AppSettingsModal.storyboard; sourceTree = "<group>"; };
 		0E9F83FD23659EAB00994789 /* AppSettingsModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsModalView.swift; sourceTree = "<group>"; };
 		0E9F83FE23659EAB00994789 /* AppSettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettingsController.swift; sourceTree = "<group>"; };
-		0E9F840223659EB500994789 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		0E9F840323659EB500994789 /* AppCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCell.swift; sourceTree = "<group>"; };
-		0E9F840423659EB500994789 /* AppCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppCell.xib; sourceTree = "<group>"; };
-		0E9F840523659EB500994789 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		0E9F840A23659EBC00994789 /* AppUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUI.swift; sourceTree = "<group>"; };
 		0E9F841F23659EE800994789 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mallet-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -344,10 +336,6 @@
 		0E9F839823659A9400994789 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				0E9F840323659EB500994789 /* AppCell.swift */,
-				0E9F840423659EB500994789 /* AppCell.xib */,
-				0E9F840523659EB500994789 /* Home.storyboard */,
-				0E9F840223659EB500994789 /* HomeViewController.swift */,
 				0EEE6D7F23672AFA00691783 /* HomeView.swift */,
 			);
 			path = Home;
@@ -644,10 +632,8 @@
 			files = (
 				0E9F83F723659EA300994789 /* UISettings.storyboard in Resources */,
 				0E9F837423659A2E00994789 /* LaunchScreen.storyboard in Resources */,
-				0E9F840923659EB500994789 /* Home.storyboard in Resources */,
 				0E9F837123659A2E00994789 /* Preview Assets.xcassets in Resources */,
 				0E9F83C123659E6000994789 /* AppRunner.storyboard in Resources */,
-				0E9F840823659EB500994789 /* AppCell.xib in Resources */,
 				0E9F83E123659E8B00994789 /* VariableSettings.storyboard in Resources */,
 				0E9F83DB23659E8100994789 /* CodeEditor.storyboard in Resources */,
 				0E9F83FF23659EAB00994789 /* AppSettingsModal.storyboard in Resources */,
@@ -728,7 +714,6 @@
 				0E9F83C323659E6000994789 /* ScreenGenerator.swift in Sources */,
 				0E9F83B423659E4300994789 /* CloudVariableController.swift in Sources */,
 				0E9F83F823659EA300994789 /* UISettingsController.swift in Sources */,
-				0E9F840623659EB500994789 /* HomeViewController.swift in Sources */,
 				0E9F83DA23659E8100994789 /* TextCodeEditorController.swift in Sources */,
 				0E9F83D923659E8100994789 /* CodeEditorController.swift in Sources */,
 				0E9F83FB23659EA300994789 /* ButtonUISettingsController.swift in Sources */,
@@ -743,7 +728,6 @@
 				0E9F83CB23659E6E00994789 /* BlockData.swift in Sources */,
 				0E9F83E023659E8B00994789 /* VariableSettingsCell.swift in Sources */,
 				0E9F83F323659EA300994789 /* TableContentEditorView.swift in Sources */,
-				0E9F840723659EB500994789 /* AppCell.swift in Sources */,
 				0E9F83E323659E8B00994789 /* VariableSettingsController.swift in Sources */,
 				0E9F83CF23659E6E00994789 /* Text2VPL.swift in Sources */,
 				0E9F848E2365B5AA00994789 /* objcpp.mm in Sources */,
