@@ -82,6 +82,7 @@
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
 		0ED82DC62393A71B0054BC4C /* MEditorUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC52393A71B0054BC4C /* MEditorUIView.swift */; };
 		0ED82DC82393DCB30054BC4C /* EditorAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC72393DCB30054BC4C /* EditorAppView.swift */; };
+		0ED82DCA2393DD060054BC4C /* EditorModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC92393DD050054BC4C /* EditorModalView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
 		0EDE3B14238EC4070035D5C7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDE3B13238EC4070035D5C7 /* ContentView.swift */; };
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
@@ -215,6 +216,7 @@
 		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
 		0ED82DC52393A71B0054BC4C /* MEditorUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MEditorUIView.swift; sourceTree = "<group>"; };
 		0ED82DC72393DCB30054BC4C /* EditorAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAppView.swift; sourceTree = "<group>"; };
+		0ED82DC92393DD050054BC4C /* EditorModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorModalView.swift; sourceTree = "<group>"; };
 		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		0EDE3B13238EC4070035D5C7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 			children = (
 				0EDC9CD32369D80500AD490B /* EditorView.swift */,
 				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
+				0ED82DC92393DD050054BC4C /* EditorModalView.swift */,
 				0E9F83E523659E9900994789 /* UIEditor.storyboard */,
 				0E9F83E423659E9800994789 /* UIEditorController.swift */,
 				0E9F839E23659B1300994789 /* UISettings */,
@@ -706,6 +709,7 @@
 				0E9F83C023659E6000994789 /* AppUIController.swift in Sources */,
 				0E3659FF237EECE200294A40 /* MUI.swift in Sources */,
 				0E9F83C223659E6000994789 /* ScreenDataController.swift in Sources */,
+				0ED82DCA2393DD060054BC4C /* EditorModalView.swift in Sources */,
 				0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */,
 				0E9F83F923659EA300994789 /* UISettingsModal.swift in Sources */,
 				0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */,
