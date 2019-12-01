@@ -8,20 +8,20 @@
 
 import SwiftUI
 
-struct MUITextView: View {
+struct MUIText: View {
     var body: some View {
         Text("Label")
     }
 }
 
-struct MUIButtonView: View {
+struct MUIButton: View {
     var body: some View {
         Button("Button") {
         }
     }
 }
 
-struct MUIInputView: View {
+struct MUIInput: View {
 
     @State var text = "Input"
 
@@ -30,7 +30,7 @@ struct MUIInputView: View {
     }
 }
 
-struct MUISliderView: View {
+struct MUISlider: View {
 
     @State private var value = 1.0
 
@@ -39,7 +39,7 @@ struct MUISliderView: View {
     }
 }
 
-struct MUIToggleView: View {
+struct MUIToggle: View {
 
     @State private var value = true
 
@@ -52,17 +52,17 @@ struct MUIToggleView: View {
 struct MUIView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MUITextView()
+            MUIText()
 
-            MUIButtonView()
+            MUIButton()
 
-            MUIInputView()
+            MUIInput()
                 .frame(width: 100)
 
-            MUISliderView()
+            MUISlider()
                 .frame(width: 100)
 
-            MUIToggleView()
+            MUIToggle()
         }
             .previewLayout(.fixed(width: 200, height: 50))
     }

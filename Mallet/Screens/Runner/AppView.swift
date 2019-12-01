@@ -35,19 +35,19 @@ struct AppView: View {
 
         return Group {
             if uiType == .text {
-                MUITextView()
+                MUIText()
             }
             else if uiType == .button {
-                MUIButtonView()
+                MUIButton()
             }
             else if uiType == .input {
-                MUIInputView()
+                MUIInput()
             }
             else if uiType == .slider {
-                MUISliderView()
+                MUISlider()
             }
             else if uiType == .toggle {
-                MUIToggleView()
+                MUIToggle()
             }
             else {
                 fatalError()
