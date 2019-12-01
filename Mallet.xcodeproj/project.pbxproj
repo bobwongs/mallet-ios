@@ -349,11 +349,11 @@
 			isa = PBXGroup;
 			children = (
 				0EDC9CD32369D80500AD490B /* EditorView.swift */,
+				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
 				0E9F83E523659E9900994789 /* UIEditor.storyboard */,
 				0E9F83E423659E9800994789 /* UIEditorController.swift */,
 				0E9F839E23659B1300994789 /* UISettings */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
-				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
