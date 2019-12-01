@@ -61,11 +61,13 @@ class UIEditorController: UIViewController, UICollectionViewDelegate, UICollecti
     }
 
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        /*
         if viewController is HomeViewController {
             self.saveApp()
 
             (viewController as! HomeViewController).reloadAppTableView()
         }
+        */
     }
 
     func initUIEditor() {
