@@ -10,11 +10,11 @@ import SwiftUI
 
 struct EditorView: View {
 
-    @State private var showingAppSettingsView = false
+    @State var showingAppSettingsView = false
 
-    @State private var initialDragAmount: CGFloat = 250
+    @State var initialDragAmount: CGFloat = 250
 
-    @State private var dragAmount: CGFloat = 250
+    @State var dragAmount: CGFloat = 250
 
     private let uiTableModalHeight: CGFloat = 300
 
@@ -24,10 +24,10 @@ struct EditorView: View {
 
     var body: some View {
         ZStack (alignment: .bottom) {
-            ZStack {
-                Spacer()
-            }
-                .background(Color.white)
+
+            EditorAppView()
+
+            EditorModalView()
 
             GeometryReader { geo in
                 VStack {
