@@ -24,44 +24,9 @@ struct EditorView: View {
 
     var body: some View {
         ZStack (alignment: .bottom) {
-
             EditorAppView()
 
             EditorModalView()
-
-            GeometryReader { geo in
-                VStack {
-                    Spacer()
-                    VStack {
-                        VStack {
-                            Color.clear
-                        }
-                            .background(Color(.systemBackground))
-                            .cornerRadius(20)
-                            .shadow(radius: 5)
-                            .gesture(DragGesture(coordinateSpace: .global)
-                                    .onChanged({ value in
-                                        self.dragAmount = max(self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight, min(self.uiTableModalHeight - self.uiTableModalMinVisibleHeight, self.initialDragAmount + value.translation.height))
-                                    })
-                                    .onEnded({
-                                        value in
-                                        withAnimation(.easeOut(duration: 0.2)) {
-                                            if value.translation.height < 0 {
-                                                self.dragAmount = self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight
-                                            }
-                                            else {
-                                                self.dragAmount = self.uiTableModalHeight - self.uiTableModalMinVisibleHeight
-                                            }
-                                        }
-
-                                        self.initialDragAmount = self.dragAmount
-                                    })
-                            )
-                    }
-                        .frame(maxHeight: self.uiTableModalHeight)
-                        .offset(x: 0, y: self.dragAmount - geo.safeAreaInsets.bottom)
-                }
-            }
         }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitle("App Title", displayMode: .inline)
