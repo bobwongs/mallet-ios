@@ -12,16 +12,6 @@ struct EditorView: View {
 
     @State var showingAppSettingsView = false
 
-    @State var initialDragAmount: CGFloat = 250
-
-    @State var dragAmount: CGFloat = 250
-
-    private let uiTableModalHeight: CGFloat = 300
-
-    private let uiTableModalMaxVisibleHeight: CGFloat = 250
-
-    private let uiTableModalMinVisibleHeight: CGFloat = 50
-
     var body: some View {
         ZStack (alignment: .bottom) {
             EditorAppView()
