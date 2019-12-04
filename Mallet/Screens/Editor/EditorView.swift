@@ -10,11 +10,13 @@ import SwiftUI
 
 struct EditorView: View {
 
+    @State var uiData = [MUI(uiID: 0, uiName: "Text", uiType: .text, x: 100, y: 100, width: 100, height: 30)]
+
     @State var showingAppSettingsView = false
 
     var body: some View {
         ZStack (alignment: .bottom) {
-            EditorAppView()
+            EditorAppView(uiData: $uiData)
 
             EditorModalView()
         }
