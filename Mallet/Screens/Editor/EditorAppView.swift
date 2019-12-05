@@ -48,6 +48,12 @@ struct EditorAppView: View {
                 fatalError()
             }
         }
+            .gesture(DragGesture()
+                    .onChanged { value in
+                        self.uiData[index].x += Float(value.translation.width)
+                        self.uiData[index].y += Float(value.translation.height)
+                }
+            )
             .frame(width: CGFloat(ui.width), height: CGFloat(ui.height))
             .position(x: CGFloat(ui.x), y: CGFloat(ui.y))
     }
