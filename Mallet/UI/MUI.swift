@@ -16,11 +16,12 @@ struct MUI: Codable {
 
     let uiType: MUIType
 
-    let x: Float
+    var x: Float
 
-    let y: Float
+    var y: Float
 
-    let width: Float
+    var width: Float
 
-    let height: Float
+    var height: Float
+    
 }
