@@ -29,8 +29,8 @@ struct EditorModalView: View {
                         Color.clear
                     }
                         .background(Color(.systemBackground))
-                        .cornerRadius(20)
-                        .shadow(radius: 5)
+                        .cornerRadius(10)
+                        .shadow(radius: 2)
                         .gesture(DragGesture(coordinateSpace: .global)
                                 .onChanged({ value in
                                     self.dragAmount = max(self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight, min(self.uiTableModalHeight - self.uiTableModalMinVisibleHeight, self.initialDragAmount + value.translation.height))
