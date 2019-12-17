@@ -8,9 +8,24 @@
 
 import SwiftUI
 
+fileprivate enum FactorValue: CGFloat {
+    case positive = 1
+    case zero = 0
+    case negative = -1
+}
+
+fileprivate struct FrameFactors {
+    let x: FactorValue
+    let y: FactorValue
+    let width: FactorValue
+    let height: FactorValue
+}
+
 fileprivate struct MEditorFrameDot: View {
 
     @Binding var frame: CGRect
+
+    let frameFactors: FrameFactors
 
     private let dotColor = Color.blue
 
@@ -18,6 +33,15 @@ fileprivate struct MEditorFrameDot: View {
         Circle()
             .foregroundColor(self.dotColor)
             .frame(width: 8, height: 8)
+            .gesture(DragGesture()
+                    .onChanged { value in
+                        self.frame.origin.x += self.frameFactors.x.rawValue * value.translation.width
+                        self.frame.origin.y += self.frameFactors.y.rawValue * value.translation.height
+                        self.frame.size.width += self.frameFactors.width.rawValue * value.translation.width
+                        self.frame.size.height += self.frameFactors.height.rawValue * value.translation.height
+
+                }
+            )
     }
 }
 
@@ -43,24 +67,24 @@ struct MEditorFrameView: View {
 
                     ZStack {
                         Group {
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
                                 .position(x: 0, y: 0)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
                                 .position(x: geo.size.width, y: 0)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
                                 .position(x: geo.size.width, y: geo.size.height)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
                                 .position(x: 0, y: geo.size.height)
                         }
 
                         Group {
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
                                 .position(x: geo.size.width / 2, y: 0)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
                                 .position(x: geo.size.width, y: geo.size.height / 2)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
                                 .position(x: geo.size.width / 2, y: geo.size.height)
-                            MEditorFrameDot(frame: self.$frame)
+                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
                                 .position(x: 0, y: geo.size.height / 2)
                         }
                     }
