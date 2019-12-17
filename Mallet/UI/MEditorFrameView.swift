@@ -29,16 +29,20 @@ fileprivate struct MEditorFrameDot: View {
 
     private let dotColor = Color.blue
 
+    private let minWidth: CGFloat = 10
+
+    private let minHeight: CGFloat = 10
+
     var body: some View {
         Circle()
             .foregroundColor(self.dotColor)
             .frame(width: 8, height: 8)
             .gesture(DragGesture()
                     .onChanged { value in
-                        self.frame.origin.x += self.frameFactors.x.rawValue * value.translation.width
-                        self.frame.origin.y += self.frameFactors.y.rawValue * value.translation.height
-                        self.frame.size.width += self.frameFactors.width.rawValue * value.translation.width
-                        self.frame.size.height += self.frameFactors.height.rawValue * value.translation.height
+                        self.frame.origin.x += min(self.frameFactors.x.rawValue * value.translation.width, self.frame.size.width - self.minWidth)
+                        self.frame.origin.y += min(self.frameFactors.y.rawValue * value.translation.height, self.frame.size.height - self.minHeight)
+                        self.frame.size.width = max(self.frame.size.width + self.frameFactors.width.rawValue * value.translation.width, self.minWidth)
+                        self.frame.size.height = max(self.frame.size.height + self.frameFactors.height.rawValue * value.translation.height, self.minHeight)
                 }
             )
     }
