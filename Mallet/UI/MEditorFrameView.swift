@@ -62,6 +62,12 @@ struct MEditorFrameView: View {
                         .border(Color.gray, width: self.borderWidth)
                         .frame(width: geo.size.width + self.borderWidth, height: geo.size.height + self.borderWidth)
                         .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                        .gesture(DragGesture()
+                                .onChanged { value in
+                                    self.frame.origin.x += value.translation.width
+                                    self.frame.origin.y += value.translation.height
+                            }
+                        )
 
                     ZStack {
                         Group {
