@@ -39,7 +39,6 @@ fileprivate struct MEditorFrameDot: View {
                         self.frame.origin.y += self.frameFactors.y.rawValue * value.translation.height
                         self.frame.size.width += self.frameFactors.width.rawValue * value.translation.width
                         self.frame.size.height += self.frameFactors.height.rawValue * value.translation.height
-
                 }
             )
     }
@@ -56,7 +55,6 @@ struct MEditorFrameView: View {
     var body: some View {
         Rectangle()
             .foregroundColor(.clear)
-            .padding()
             .overlay(
                 GeometryReader { geo in
                     Rectangle()
