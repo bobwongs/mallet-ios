@@ -28,34 +28,26 @@ struct EditorAppView: View {
 
         let uiType = ui.uiType
 
-        return Group {
+        return MEditorFrameView (frame: $uiData[index].frame) {
             if uiType == .text {
-                MEditorText()
+                MUIText()
             }
             else if uiType == .button {
-                MEditorButton()
+                MUIButton()
             }
             else if uiType == .input {
-                MEditorInput()
+                MUIInput()
             }
             else if uiType == .slider {
-                MEditorSlider()
+                MUISlider()
             }
             else if uiType == .toggle {
-                MEditorToggle()
+                MUIToggle()
             }
             else {
                 fatalError()
             }
         }
-            .gesture(DragGesture()
-                    .onChanged { value in
-                        self.uiData[index].x += Float(value.translation.width)
-                        self.uiData[index].y += Float(value.translation.height)
-                }
-            )
-            .frame(width: CGFloat(ui.width), height: CGFloat(ui.height))
-            .position(x: CGFloat(ui.x), y: CGFloat(ui.y))
     }
 }
 

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditorView: View {
 
-    @State var uiData = [MUI(uiID: 0, uiName: "Text", uiType: .text, x: 100, y: 100, width: 100, height: 30)]
+    @State var uiData = [MUI(uiID: 0, uiName: "Text", uiType: .text, frame: MRect(x: 100, y: 100, width: 200, height: 100))]
 
     @State var showingAppSettingsView = false
 
