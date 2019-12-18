@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-fileprivate enum FactorValue: CGFloat {
+fileprivate enum FactorValue: Float {
     case positive = 1
     case zero = 0
     case negative = -1
@@ -23,79 +23,93 @@ fileprivate struct FrameFactors {
 
 fileprivate struct MEditorFrameDot: View {
 
-    @Binding var frame: CGRect
+    @Binding var frame: MRect
 
     let frameFactors: FrameFactors
 
     private let dotColor = Color.blue
 
-    private let minWidth: CGFloat = 10
+    private let minWidth: Float = 10
 
-    private let minHeight: CGFloat = 10
+    private let minHeight: Float = 10
 
     var body: some View {
         Circle()
             .foregroundColor(self.dotColor)
-            .frame(width: 8, height: 8)
-            .gesture(DragGesture()
-                    .onChanged { value in
-                        self.frame.origin.x += min(self.frameFactors.x.rawValue * value.translation.width, self.frame.size.width - self.minWidth)
-                        self.frame.origin.y += min(self.frameFactors.y.rawValue * value.translation.height, self.frame.size.height - self.minHeight)
-                        self.frame.size.width = max(self.frame.size.width + self.frameFactors.width.rawValue * value.translation.width, self.minWidth)
-                        self.frame.size.height = max(self.frame.size.height + self.frameFactors.height.rawValue * value.translation.height, self.minHeight)
-                }
+            .frame(width: 12, height: 12)
+            .overlay(
+                Circle()
+                    .foregroundColor(Color.white.opacity(0.001))
+                    .frame(width: 25, height: 25)
+                    .gesture(DragGesture()
+                            .onChanged { value in
+                                self.frame.x += min(self.frameFactors.x.rawValue * Float(value.translation.width), self.frame.width - self.minWidth)
+                                self.frame.y += min(self.frameFactors.y.rawValue * Float(value.translation.height), self.frame.height - self.minHeight)
+                                self.frame.width = max(self.frame.width + self.frameFactors.width.rawValue * Float(value.translation.width), self.minWidth)
+                                self.frame.height = max(self.frame.height + self.frameFactors.height.rawValue * Float(value.translation.height), self.minHeight)
+                        }
+                    )
             )
     }
 }
 
-struct MEditorFrameView: View {
+struct MEditorFrameView<Content>: View where Content: View {
 
-    @Binding var frame: CGRect
+    let content: () -> Content
+
+    @Binding var frame: MRect
 
     private let dotColor = Color.blue
 
-    private let borderWidth: CGFloat = 1
+    private let borderWidth: CGFloat = 2
+
+    init(frame: Binding<MRect>, @ViewBuilder content: @escaping () -> Content) {
+        self._frame = frame
+
+        self.content = content
+    }
+
 
     var body: some View {
-        Rectangle()
-            .foregroundColor(.clear)
+        content()
+            .frame(width: CGFloat(frame.width), height: CGFloat(frame.height))
+            .position(x: CGFloat(frame.midX), y: CGFloat(frame.midY))
             .overlay(
-                GeometryReader { geo in
+                ZStack {
                     Rectangle()
-                        .foregroundColor(.clear)
+                        .foregroundColor(Color.white.opacity(0.001))
                         .border(Color.gray, width: self.borderWidth)
-                        .frame(width: geo.size.width + self.borderWidth, height: geo.size.height + self.borderWidth)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
                         .gesture(DragGesture()
                                 .onChanged { value in
-                                    self.frame.origin.x += value.translation.width
-                                    self.frame.origin.y += value.translation.height
+                                    self.frame.x += Float(value.translation.width)
+                                    self.frame.y += Float(value.translation.height)
                             }
                         )
+                        .frame(width: CGFloat(self.frame.width) + self.borderWidth, height: CGFloat(self.frame.height) + self.borderWidth)
+                        .position(x: CGFloat(self.frame.midX), y: CGFloat(self.frame.midY))
 
-                    ZStack {
-                        Group {
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
-                                .position(x: 0, y: 0)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
-                                .position(x: geo.size.width, y: 0)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
-                                .position(x: geo.size.width, y: geo.size.height)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
-                                .position(x: 0, y: geo.size.height)
-                        }
-
-                        Group {
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
-                                .position(x: geo.size.width / 2, y: 0)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
-                                .position(x: geo.size.width, y: geo.size.height / 2)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
-                                .position(x: geo.size.width / 2, y: geo.size.height)
-                            MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
-                                .position(x: 0, y: geo.size.height / 2)
-                        }
+                    Group {
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
+                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y))
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
+                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y))
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
+                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
+                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
                     }
+
+                    Group {
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
+                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y))
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
+                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
+                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
+                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
+                    }
+
                 }
             )
     }
@@ -103,13 +117,13 @@ struct MEditorFrameView: View {
 
 fileprivate struct Preview: View {
 
-    @State var frame = CGRect(x: 100, y: 100, width: 100, height: 50)
+    @State var frame = MRect(x: 100, y: 100, width: 100, height: 50)
 
     var body: some View {
         ZStack {
-            MEditorFrameView(frame: $frame)
-                .frame(width: frame.width, height: frame.height)
-                .position(x: frame.midX, y: frame.midY)
+            MEditorFrameView(frame: $frame) {
+                Color.gray
+            }
         }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
