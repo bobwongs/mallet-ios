@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct MRect {
+struct MRect: Codable {
 
     var x: Float
 
@@ -14,5 +14,13 @@ struct MRect {
     var width: Float
 
     var height: Float
+
+    var midX: Float {
+        return self.x + self.width / 2
+    }
+
+    var midY: Float {
+        return self.y + self.height / 2
+    }
 
 }
