@@ -16,12 +16,6 @@ struct MUI: Codable {
 
     let uiType: MUIType
 
-    var x: Float
+    var frame: MRect
 
-    var y: Float
-
-    var width: Float
-
-    var height: Float
-    
 }
