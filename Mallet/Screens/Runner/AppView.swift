@@ -53,9 +53,9 @@ struct AppView: View {
                 fatalError()
             }
         }
-            .frame(width: CGFloat(ui.width), height: CGFloat(ui.height))
+            .frame(width: CGFloat(ui.frame.width), height: CGFloat(ui.frame.height))
             .background(Color.pink)
-            .position(x: CGFloat(ui.x), y: CGFloat(ui.y))
+            .position(x: CGFloat(ui.frame.midX), y: CGFloat(ui.frame.midY))
     }
 }
 
