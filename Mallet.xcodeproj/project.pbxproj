@@ -80,7 +80,6 @@
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E9F848E2365B5AA00994789 /* objcpp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F848D2365B5AA00994789 /* objcpp.mm */; };
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
-		0ED82DC62393A71B0054BC4C /* MEditorUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC52393A71B0054BC4C /* MEditorUIView.swift */; };
 		0ED82DC82393DCB30054BC4C /* EditorAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC72393DCB30054BC4C /* EditorAppView.swift */; };
 		0ED82DCA2393DD060054BC4C /* EditorModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC92393DD050054BC4C /* EditorModalView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
@@ -216,7 +215,6 @@
 		0E9F848D2365B5AA00994789 /* objcpp.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = objcpp.mm; sourceTree = "<group>"; };
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
 		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
-		0ED82DC52393A71B0054BC4C /* MEditorUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MEditorUIView.swift; sourceTree = "<group>"; };
 		0ED82DC72393DCB30054BC4C /* EditorAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAppView.swift; sourceTree = "<group>"; };
 		0ED82DC92393DD050054BC4C /* EditorModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorModalView.swift; sourceTree = "<group>"; };
 		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
@@ -453,7 +451,6 @@
 				0E3659FE237EECE200294A40 /* MUI.swift */,
 				0ED5BC2023816A0A0080CABD /* MUIView.swift */,
 				0E9C5ED52382E883001AECA7 /* MUIType.swift */,
-				0ED82DC52393A71B0054BC4C /* MEditorUIView.swift */,
 				0EDD641423A392980044B7DE /* MEditorFrameView.swift */,
 				611AC766B30678BEF162B6DC /* MRect.swift */,
 			);
@@ -730,7 +727,6 @@
 				0E9F843D23659FA100994789 /* ui.mm in Sources */,
 				0E9F83FA23659EA300994789 /* SliderUISettingsController.swift in Sources */,
 				0E9F83C323659E6000994789 /* ScreenGenerator.swift in Sources */,
-				0ED82DC62393A71B0054BC4C /* MEditorUIView.swift in Sources */,
 				0E9F83B423659E4300994789 /* CloudVariableController.swift in Sources */,
 				0E9F83F823659EA300994789 /* UISettingsController.swift in Sources */,
 				0E9F83DA23659E8100994789 /* TextCodeEditorController.swift in Sources */,
