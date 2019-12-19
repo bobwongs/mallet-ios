@@ -80,6 +80,7 @@ struct MEditorFrameView<Content>: View where Content: View {
     var body: some View {
         content()
             .frame(width: CGFloat(frame.width), height: CGFloat(frame.height))
+            .background(Color.black.opacity(0.03))
             .position(x: CGFloat(frame.midX), y: CGFloat(frame.midY))
             .overlay(
                 Group {
