@@ -12,6 +12,8 @@ struct EditorAppView: View {
 
     @Binding var uiData: [MUI]
 
+    @State var selectedUIID: Int?
+
     var body: some View {
         ZStack {
             ForEach(0..<uiData.count) { index in
@@ -20,6 +22,10 @@ struct EditorAppView: View {
         }
             .background(Color.white)
             .colorScheme(.light)
+            .gesture(TapGesture()
+                    .onEnded {
+                        self.selectedUIID = nil
+                })
     }
 
     func generateUI(index: Int) -> some View {
@@ -28,7 +34,7 @@ struct EditorAppView: View {
 
         let uiType = ui.uiType
 
-        return MEditorFrameView (frame: $uiData[index].frame) {
+        return MEditorFrameView (uiData: $uiData[index], selectedUIID: $selectedUIID) {
             if uiType == .text {
                 MUIText()
             }

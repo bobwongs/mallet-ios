@@ -57,75 +57,97 @@ struct MEditorFrameView<Content>: View where Content: View {
 
     let content: () -> Content
 
+    @Binding var uiData: MUI
+
     @Binding var frame: MRect
+
+    @Binding var selectedUIID: Int?
 
     private let dotColor = Color.blue
 
     private let borderWidth: CGFloat = 2
 
-    init(frame: Binding<MRect>, @ViewBuilder content: @escaping () -> Content) {
-        self._frame = frame
+    init(uiData: Binding<MUI>, selectedUIID: Binding<Int?>, @ViewBuilder content: @escaping () -> Content) {
+        self._uiData = uiData
+
+        self._frame = uiData.frame
+
+        self._selectedUIID = selectedUIID
 
         self.content = content
     }
-
 
     var body: some View {
         content()
             .frame(width: CGFloat(frame.width), height: CGFloat(frame.height))
             .position(x: CGFloat(frame.midX), y: CGFloat(frame.midY))
             .overlay(
-                ZStack {
-                    Rectangle()
-                        .foregroundColor(Color.white.opacity(0.001))
-                        .border(Color.gray, width: self.borderWidth)
-                        .gesture(DragGesture()
-                                .onChanged { value in
-                                    self.frame.x += Float(value.translation.width)
-                                    self.frame.y += Float(value.translation.height)
+                Group {
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(Color.white.opacity(0.001))
+                            .gesture(DragGesture()
+                                    .onChanged { value in
+                                        self.frame.x += Float(value.translation.width)
+                                        self.frame.y += Float(value.translation.height)
+                                        self.setSelectedUIID()
+                                })
+                            .frame(width: CGFloat(self.frame.width) + self.borderWidth, height: CGFloat(self.frame.height) + self.borderWidth)
+                            .position(x: CGFloat(self.frame.midX), y: CGFloat(self.frame.midY))
+
+                        Group {
+                            if self.uiData.uiID == self.selectedUIID {
+                                Rectangle()
+                                    .foregroundColor(.clear)
+                                    .border(Color.gray, width: self.borderWidth)
+                                    .frame(width: CGFloat(self.frame.width) + self.borderWidth, height: CGFloat(self.frame.height) + self.borderWidth)
+                                    .position(x: CGFloat(self.frame.midX), y: CGFloat(self.frame.midY))
+
+
+                                Group {
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
+                                        .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y))
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
+                                        .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y))
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
+                                        .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
+                                        .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                                }
+
+                                Group {
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
+                                        .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y))
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
+                                        .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
+                                        .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
+                                        .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
+                                }
                             }
-                        )
-                        .frame(width: CGFloat(self.frame.width) + self.borderWidth, height: CGFloat(self.frame.height) + self.borderWidth)
-                        .position(x: CGFloat(self.frame.midX), y: CGFloat(self.frame.midY))
-
-                    Group {
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
-                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y))
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
-                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y))
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
-                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
-                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
+                        }
                     }
-
-                    Group {
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
-                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y))
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
-                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
-                            .position(x: CGFloat(self.frame.x) + CGFloat(self.frame.width) / 2, y: CGFloat(self.frame.y) + CGFloat(self.frame.height))
-                        MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
-                            .position(x: CGFloat(self.frame.x), y: CGFloat(self.frame.y) + CGFloat(self.frame.height) / 2)
-                    }
-
                 }
+
+                    .gesture(TapGesture()
+                            .onEnded {
+                                self.setSelectedUIID()
+                        }
+                    )
             )
+    }
+
+    private func setSelectedUIID() {
+        selectedUIID = uiData.uiID
     }
 }
 
 fileprivate struct Preview: View {
-
-    @State var frame = MRect(x: 100, y: 100, width: 100, height: 50)
-
     var body: some View {
         ZStack {
-            MEditorFrameView(frame: $frame) {
-                Color.gray
-            }
+            Color.gray
         }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
