@@ -10,15 +10,22 @@ import SwiftUI
 
 struct EditorView: View {
 
-    @State var uiData = [MUI(uiID: 0, uiName: "Text", uiType: .text, frame: MRect(x: 100, y: 100, width: 200, height: 100))]
+    @State var uiData = [MUI(uiID: 0, uiName: "Text", uiType: .text, frame: MRect(x: 100, y: 100, width: 200, height: 100)),
+        MUI(uiID: 1, uiName: "Yay", uiType: .text, frame: MRect(x: 100, y: 200, width: 200, height: 100)),
+        MUI(uiID: 2, uiName: "Button", uiType: .button, frame: MRect(x: 200, y: 200, width: 100, height: 100))
+    ]
 
     @State var showingAppSettingsView = false
 
     var body: some View {
-        ZStack (alignment: .bottom) {
+        ZStack {
             EditorAppView(uiData: $uiData)
 
-            EditorModalView()
+            ZStack {
+                EditorModalView()
+
+                EditorFooterView()
+            }
         }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitle("App Title", displayMode: .inline)
