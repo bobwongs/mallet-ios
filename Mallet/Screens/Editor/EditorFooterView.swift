@@ -24,7 +24,15 @@ struct EditorFooterView: View {
                         .frame(height: geo.safeAreaInsets.bottom)
 
                 }
-                    .background(Color.gray)
+                    .background(Color(.tertiarySystemBackground))
+                    .overlay(
+                        VStack {
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(Color(.systemGray4))
+                            Spacer()
+                        }
+                    )
             }
         }
     }
@@ -32,6 +40,14 @@ struct EditorFooterView: View {
 
 struct EditorFooterView_Previews: PreviewProvider {
     static var previews: some View {
-        EditorFooterView()
+        Group {
+            EditorFooterView()
+                .edgesIgnoringSafeArea(.bottom)
+                .colorScheme(.light)
+
+            EditorFooterView()
+                .edgesIgnoringSafeArea(.bottom)
+                .colorScheme(.dark)
+        }
     }
 }
