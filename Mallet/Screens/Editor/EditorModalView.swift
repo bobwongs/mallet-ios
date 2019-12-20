@@ -10,15 +10,17 @@ import SwiftUI
 
 struct EditorModalView: View {
 
-    @State var initialDragAmount: CGFloat = 250
+    @State var initialDragAmount: CGFloat = 230 // modalHeight - minVisibleHeight
 
-    @State var dragAmount: CGFloat = 250
+    @State var dragAmount: CGFloat = 230
 
-    private let uiTableModalHeight: CGFloat = 300
+    private let modalHeight: CGFloat = 300
 
-    private let uiTableModalMaxVisibleHeight: CGFloat = 250
+    private let maxVisibleHeight: CGFloat = 300
 
-    private let uiTableModalMinVisibleHeight: CGFloat = 50
+    private let minVisibleHeight: CGFloat = 70 //controlBarHeight + 40
+
+    private let controlBarHeight: CGFloat = 30
 
     var body: some View {
         GeometryReader { geo in
@@ -26,23 +28,37 @@ struct EditorModalView: View {
                 Spacer()
                 VStack {
                     VStack {
-                        Color.clear
+                        VStack {
+                            Rectangle()
+                                .frame(width: 40, height: 4)
+                                .cornerRadius(2)
+                                .foregroundColor(Color(.systemGray3))
+                        }
+                            .frame(height: self.controlBarHeight)
+
+                        VStack {
+                            Color.clear
+                        }
                     }
-                        .background(Color(.systemBackground))
+                        .background(Color(.tertiarySystemBackground))
                         .cornerRadius(10)
-                        .shadow(radius: 2)
+                        .shadow(color: Color.black.opacity(0.1), radius: 3)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color(.opaqueSeparator), lineWidth: 0.5)
+                        )
                         .gesture(DragGesture(coordinateSpace: .global)
                                 .onChanged({ value in
-                                    self.dragAmount = max(self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight, min(self.uiTableModalHeight - self.uiTableModalMinVisibleHeight, self.initialDragAmount + value.translation.height))
+                                    self.dragAmount = max(self.modalHeight - self.maxVisibleHeight, min(self.modalHeight - self.minVisibleHeight, self.initialDragAmount + value.translation.height))
                                 })
                                 .onEnded({
                                     value in
                                     withAnimation(.easeOut(duration: 0.2)) {
                                         if value.translation.height < 0 {
-                                            self.dragAmount = self.uiTableModalHeight - self.uiTableModalMaxVisibleHeight
+                                            self.dragAmount = self.modalHeight - self.maxVisibleHeight
                                         }
                                         else {
-                                            self.dragAmount = self.uiTableModalHeight - self.uiTableModalMinVisibleHeight
+                                            self.dragAmount = self.modalHeight - self.minVisibleHeight
                                         }
                                     }
 
@@ -50,8 +66,9 @@ struct EditorModalView: View {
                                 })
                         )
                 }
-                    .frame(maxHeight: self.uiTableModalHeight)
-                    .offset(x: 0, y: self.dragAmount - geo.safeAreaInsets.bottom)
+                    .frame(height: self.modalHeight + geo.safeAreaInsets.bottom)
+                    .offset(x: 0, y: self.dragAmount)
+                    .edgesIgnoringSafeArea(.bottom)
             }
         }
     }
@@ -59,6 +76,12 @@ struct EditorModalView: View {
 
 struct EditorModalView_Previews: PreviewProvider {
     static var previews: some View {
-        EditorModalView()
+        Group {
+            EditorModalView()
+                .colorScheme(.light)
+
+            EditorModalView()
+                .colorScheme(.dark)
+        }
     }
 }
