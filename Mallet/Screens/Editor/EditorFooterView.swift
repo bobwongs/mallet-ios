@@ -73,7 +73,7 @@ struct EditorFooterView: View {
                     .overlay(
                         VStack {
                             Rectangle()
-                                .frame(height: 0.5)
+                                .frame(height: 0.2)
                                 .foregroundColor(Color(.systemGray4))
                             Spacer()
                         }

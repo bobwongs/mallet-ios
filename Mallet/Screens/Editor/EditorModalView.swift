@@ -45,7 +45,7 @@ struct EditorModalView: View {
                         .shadow(color: Color.black.opacity(0.1), radius: 3)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color(.opaqueSeparator), lineWidth: 0.5)
+                                .stroke(Color(.opaqueSeparator), lineWidth: 0.2)
                         )
                         .gesture(DragGesture(coordinateSpace: .global)
                                 .onChanged({ value in
