@@ -15,7 +15,52 @@ struct EditorFooterView: View {
                 Spacer()
                 VStack(spacing: 0) {
                     HStack {
-                        Spacer()
+                        HStack {
+                            Button(action: {
+                                print("undo")
+                            }) {
+                                Image(systemName: "arrow.uturn.left.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+
+                            Spacer()
+                                .frame(width: 40)
+
+
+                            Button(action: {
+                                print("redo")
+                            }) {
+                                Image(systemName: "arrow.uturn.right.circle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+
+                            Spacer()
+
+                            Button(action: {
+                                print("delete")
+                            }) {
+                                Image(systemName: "trash")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+
+                            Spacer()
+                                .frame(width: 40)
+
+                            Button(action: {
+                                print("duplicate")
+                            }) {
+                                Image(systemName: "plus.square.on.square")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                            }
+
+
+                        }
+                            .frame(height: 20)
+                            .padding(20)
                     }
                         .frame(height: 40)
                     HStack {
