@@ -10,12 +10,12 @@ import SwiftUI
 
 struct MUISelectionView: View {
 
-    private let rectSize: CGFloat = 80
+    @Binding var selectedUIType: MUIType
 
-    private let uiTable: [[MUIType]] = [
-        [.text, .button, .input],
-        [.slider, .toggle, .space]
-    ]
+    @Binding var selectedUIFrame: CGRect
+
+    @State private var uiTable: [[MUIType]] = [[.text, .button, .input],
+                                               [.slider, .toggle, .space]]
 
     var body: some View {
         VStack(spacing: 20) {
@@ -23,11 +23,7 @@ struct MUISelectionView: View {
                 HStack {
                     Spacer()
                     ForEach(uiTableRow, id: \.self) { type in
-                        Group {
-                            self.generateUI(type: type)
-                                .frame(width: self.rectSize, height: self.rectSize)
-                            Spacer()
-                        }
+                        self.uiSelectionCell(type: type)
                     }
                 }
             }
@@ -36,7 +32,41 @@ struct MUISelectionView: View {
         }
     }
 
-    func generateUI(type: MUIType?) -> some View {
+    private func uiSelectionCell(type: MUIType) -> some View {
+
+        let width: CGFloat = 80
+        let height: CGFloat = 50
+
+        return Group {
+            if type == .space {
+                Spacer()
+                    .frame(width: width, height: height)
+            } else {
+                GeometryReader { geo in
+                    MUISelectionView.generateUI(type: type)
+                        .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
+                        .gesture(DragGesture()
+                                     .onChanged { value in
+                                         self.selectedUIType = type
+                                         self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
+                                         self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
+                                         self.selectedUIFrame.size = geo.size
+                                     }
+                                     .onEnded { value in
+                                         self.selectedUIType = .space
+                                         self.selectedUIFrame = CGRect.zero
+                                     }
+                        )
+                }
+                    .frame(width: width, height: height)
+                    .background(Color.white)
+            }
+
+            Spacer()
+        }
+    }
+
+    static func generateUI(type: MUIType) -> some View {
         return Group {
             if type == .text {
                 MUIText()
@@ -52,16 +82,18 @@ struct MUISelectionView: View {
                 Spacer()
             }
         }
+            .colorScheme(.light)
+            .overlay(Color.white.opacity(0.001))
     }
 }
 
 struct MUISelectionView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MUISelectionView()
+            MUISelectionView(selectedUIType: .constant(.space), selectedUIFrame: .constant(CGRect.zero))
                 .colorScheme(.light)
 
-            MUISelectionView()
+            MUISelectionView(selectedUIType: .constant(.space), selectedUIFrame: .constant(CGRect.zero))
                 .colorScheme(.dark)
         }
     }
