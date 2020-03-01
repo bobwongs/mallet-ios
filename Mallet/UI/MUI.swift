@@ -6,7 +6,7 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 struct MUI: Codable {
 
@@ -17,5 +17,4 @@ struct MUI: Codable {
     let uiType: MUIType
 
     var frame: MRect
-
 }

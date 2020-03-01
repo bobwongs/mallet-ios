@@ -10,6 +10,8 @@ import Foundation
 
 enum MUIType: Int, Codable {
 
+    case space
+
     case text
 
     case button

@@ -44,8 +44,14 @@ struct MUIToggle: View {
     @State private var value = true
 
     var body: some View {
-        Toggle ("", isOn: $value)
+        Toggle("", isOn: $value)
             .labelsHidden()
+    }
+}
+
+struct MUISpace: View {
+    var body: some View {
+        Spacer()
     }
 }
 
