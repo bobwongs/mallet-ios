@@ -37,7 +37,7 @@ struct EditorModalView: View {
                             .frame(height: self.controlBarHeight)
 
                         VStack {
-                            Color.clear
+                            MUISelectionView()
                         }
                     }
                         .background(Color(.tertiarySystemBackground))
@@ -48,22 +48,21 @@ struct EditorModalView: View {
                                 .stroke(Color(.opaqueSeparator), lineWidth: 0.2)
                         )
                         .gesture(DragGesture(coordinateSpace: .global)
-                                .onChanged({ value in
-                                    self.dragAmount = max(self.modalHeight - self.maxVisibleHeight, min(self.modalHeight - self.minVisibleHeight, self.initialDragAmount + value.translation.height))
-                                })
-                                .onEnded({
-                                    value in
-                                    withAnimation(.easeOut(duration: 0.2)) {
-                                        if value.translation.height < 0 {
-                                            self.dragAmount = self.modalHeight - self.maxVisibleHeight
-                                        }
-                                        else {
-                                            self.dragAmount = self.modalHeight - self.minVisibleHeight
-                                        }
-                                    }
+                                     .onChanged({ value in
+                                         self.dragAmount = max(self.modalHeight - self.maxVisibleHeight, min(self.modalHeight - self.minVisibleHeight, self.initialDragAmount + value.translation.height))
+                                     })
+                                     .onEnded({
+                                         value in
+                                         withAnimation(.easeOut(duration: 0.2)) {
+                                             if value.translation.height < 0 {
+                                                 self.dragAmount = self.modalHeight - self.maxVisibleHeight
+                                             } else {
+                                                 self.dragAmount = self.modalHeight - self.minVisibleHeight
+                                             }
+                                         }
 
-                                    self.initialDragAmount = self.dragAmount
-                                })
+                                         self.initialDragAmount = self.dragAmount
+                                     })
                         )
                 }
                     .frame(height: self.modalHeight + geo.safeAreaInsets.bottom)

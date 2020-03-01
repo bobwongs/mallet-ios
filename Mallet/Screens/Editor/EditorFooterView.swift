@@ -27,7 +27,6 @@ struct EditorFooterView: View {
                             Spacer()
                                 .frame(width: 40)
 
-
                             Button(action: {
                                 print("redo")
                             }) {

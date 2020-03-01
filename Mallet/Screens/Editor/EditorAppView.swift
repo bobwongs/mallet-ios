@@ -23,9 +23,9 @@ struct EditorAppView: View {
             .background(Color.white)
             .colorScheme(.light)
             .gesture(TapGesture()
-                    .onEnded {
-                        self.selectedUIID = nil
-                })
+                         .onEnded {
+                             self.selectedUIID = nil
+                         })
     }
 
     func generateUI(index: Int) -> some View {
@@ -34,23 +34,18 @@ struct EditorAppView: View {
 
         let uiType = ui.uiType
 
-        return MEditorFrameView (uiData: $uiData[index], selectedUIID: $selectedUIID) {
+        return MEditorFrameView(uiData: $uiData[index], selectedUIID: $selectedUIID) {
             if uiType == .text {
                 MUIText()
-            }
-            else if uiType == .button {
+            } else if uiType == .button {
                 MUIButton()
-            }
-            else if uiType == .input {
+            } else if uiType == .input {
                 MUIInput()
-            }
-            else if uiType == .slider {
+            } else if uiType == .slider {
                 MUISlider()
-            }
-            else if uiType == .toggle {
+            } else if uiType == .toggle {
                 MUIToggle()
-            }
-            else {
+            } else {
                 fatalError()
             }
         }

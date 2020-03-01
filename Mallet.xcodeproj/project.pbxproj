@@ -90,6 +90,7 @@
 		0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A5D23841ECC00710FEA /* AppView.swift */; };
 		0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MRect.swift */; };
+		611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,6 +227,7 @@
 		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPreview.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRect.swift; sourceTree = "<group>"; };
+		611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -362,6 +364,7 @@
 				0E9F83E423659E9800994789 /* UIEditorController.swift */,
 				0E9F839E23659B1300994789 /* UISettings */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
+				611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -768,6 +771,7 @@
 				0E9F840023659EAB00994789 /* AppSettingsModalView.swift in Sources */,
 				0E9F83CC23659E6E00994789 /* ArgContentView.swift in Sources */,
 				611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */,
+				611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
