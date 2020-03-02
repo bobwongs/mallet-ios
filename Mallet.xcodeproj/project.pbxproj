@@ -35,6 +35,7 @@
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 		0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A5D23841ECC00710FEA /* AppView.swift */; };
 		0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */; };
+		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MRect.swift */; };
 		611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */; };
 /* End PBXBuildFile section */
@@ -106,6 +107,7 @@
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPreview.swift; sourceTree = "<group>"; };
+		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRect.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -177,6 +179,7 @@
 				0E9F841F23659EE800994789 /* StringExtension.swift */,
 				0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */,
 				0E9F836F23659A2E00994789 /* Preview Content */,
+				611ACC33DF81AB3D2CE17540 /* AppData */,
 			);
 			path = Mallet;
 			sourceTree = "<group>";
@@ -273,6 +276,14 @@
 				0E9F84852365A9BB00994789 /* Swifter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		611ACC33DF81AB3D2CE17540 /* AppData */ = {
+			isa = PBXGroup;
+			children = (
+				611AC3598949E016C699527F /* AppData.swift */,
+			);
+			path = AppData;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,6 +463,7 @@
 				0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */,
 				611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */,
 				611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */,
+				611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
