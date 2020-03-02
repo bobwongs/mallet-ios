@@ -165,7 +165,7 @@
 			children = (
 				0E9F848F2365BB5100994789 /* Mallet.entitlements */,
 				0E9F83A123659B8B00994789 /* UI */,
-				0E9F839723659A6500994789 /* Screens */,
+				0E9F839723659A6500994789 /* View */,
 				0E9F836723659A2C00994789 /* AppDelegate.swift */,
 				0EDE3B13238EC4070035D5C7 /* ContentView.swift */,
 				0E9F836923659A2C00994789 /* SceneDelegate.swift */,
@@ -210,14 +210,14 @@
 			path = MalletUITests;
 			sourceTree = "<group>";
 		};
-		0E9F839723659A6500994789 /* Screens */ = {
+		0E9F839723659A6500994789 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				0E9F839823659A9400994789 /* Home */,
 				0E9F839923659A9A00994789 /* Editor */,
 				0E9F839A23659AA100994789 /* Runner */,
 			);
-			path = Screens;
+			path = View;
 			sourceTree = "<group>";
 		};
 		0E9F839823659A9400994789 /* Home */ = {
