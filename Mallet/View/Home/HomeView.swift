@@ -33,7 +33,10 @@ struct HomeAppCell: View {
                     Spacer()
                     NavigationLink(destination: EditorView().environmentObject(EditorViewModel.testModel)) {
                         Image(systemName: "pencil")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                     }
+                        .frame(width: 25, height: 25)
                 }
 
             }
