@@ -78,7 +78,7 @@ struct MUISelectionView: View {
     }
 
     static func generateUI(type: MUIType) -> some View {
-        return Group {
+        Group {
             if type == .text {
                 MUIText()
             } else if type == .button {
