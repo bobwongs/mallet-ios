@@ -16,6 +16,8 @@ class EditorViewModel: ObservableObject {
 
     @Published var uiData: [MUI]
 
+    private var maxUIID: Int
+
     static var testModel: EditorViewModel {
         EditorViewModel(appName: "Yay",
                         appID: 0,
@@ -29,9 +31,16 @@ class EditorViewModel: ObservableObject {
         self.appName = appName
         self.appID = appID
         self.uiData = uiData
+
+        maxUIID = uiData.max(by: { (l, r) -> Bool in
+            return l.uiID < r.uiID
+        })?.uiID ?? -1
     }
 
     func addUI(type: MUIType, frame: MRect) {
-        uiData.append(MUI(uiID: 0, uiName: "UI", uiType: type, frame: frame))
+        let uiId = maxUIID + 1
+        let uiName = "\(type.rawValue)\(uiId)"
+        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: type, frame: frame))
+        maxUIID += 1
     }
 }
