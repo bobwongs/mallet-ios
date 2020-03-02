@@ -31,7 +31,7 @@ struct HomeAppCell: View {
                 }
                 HStack {
                     Spacer()
-                    NavigationLink(destination: EditorView()) {
+                    NavigationLink(destination: EditorView().environmentObject(EditorViewModel.testModel)) {
                         Image(systemName: "pencil")
                     }
                 }
@@ -73,13 +73,13 @@ struct HomeView: View {
             }
                 .navigationBarTitle("My Apps", displayMode: .large)
                 .navigationBarItems(trailing:
-                        HStack {
-                            Button(action: {
-                                print("Add app")
-                            }) {
-                                Image(systemName: "plus")
-                            }
-                    }
+                                    HStack {
+                                        Button(action: {
+                                            print("Add app")
+                                        }) {
+                                            Image(systemName: "plus")
+                                        }
+                                    }
                 )
         }
             .onAppear(perform: {

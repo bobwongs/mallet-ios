@@ -10,13 +10,13 @@ import SwiftUI
 
 struct EditorAppView: View {
 
-    @Binding var uiData: [MUI]
+    @EnvironmentObject var editorViewModel: EditorViewModel
 
     @State var selectedUIID: Int?
 
     var body: some View {
         ZStack {
-            ForEach(0..<uiData.count) { index in
+            ForEach(0..<editorViewModel.uiData.count) { index in
                 self.generateUI(index: index)
             }
         }
@@ -30,11 +30,11 @@ struct EditorAppView: View {
 
     func generateUI(index: Int) -> some View {
 
-        let ui = uiData[index]
+        let ui = editorViewModel.uiData[index]
 
         let uiType = ui.uiType
 
-        return MEditorFrameView(uiData: $uiData[index], selectedUIID: $selectedUIID) {
+        return MEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $selectedUIID) {
             if uiType == .text {
                 MUIText()
             } else if uiType == .button {
@@ -52,8 +52,10 @@ struct EditorAppView: View {
     }
 }
 
+/*
 struct EditorAppView_Previews: PreviewProvider {
     static var previews: some View {
         EditorAppView(uiData: .constant([]))
     }
 }
+*/
