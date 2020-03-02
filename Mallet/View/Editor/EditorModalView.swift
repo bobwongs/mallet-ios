@@ -12,13 +12,15 @@ struct EditorModalView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @State var initialDragAmount: CGFloat = 230 // modalHeight - minVisibleHeight
+    let editorGeo: GeometryProxy
 
-    @State var dragAmount: CGFloat = 230
+    @State private var initialDragAmount: CGFloat = 230 // modalHeight - minVisibleHeight
 
-    @State var selectedUIType: MUIType = .space
+    @State private var dragAmount: CGFloat = 230
 
-    @State var selectedUIFrame = CGRect.zero
+    @State private var selectedUIType: MUIType = .space
+
+    @State private var selectedUIFrame = CGRect.zero
 
     private var modalHeight: CGFloat {
         300
@@ -66,7 +68,7 @@ struct EditorModalView: View {
                 }
                     .frame(height: self.controlBarHeight)
 
-                MUISelectionView(selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
+                MUISelectionView(editorGeo: self.editorGeo, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
             }
                 .background(Color(.tertiarySystemBackground))
                 .cornerRadius(10)
@@ -99,6 +101,7 @@ struct EditorModalView: View {
     }
 }
 
+/*
 struct EditorModalView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -110,3 +113,4 @@ struct EditorModalView_Previews: PreviewProvider {
         }
     }
 }
+*/

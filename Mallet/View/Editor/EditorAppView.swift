@@ -16,7 +16,7 @@ struct EditorAppView: View {
 
     var body: some View {
         ZStack {
-            ForEach(0..<editorViewModel.uiData.count) { index in
+            ForEach(0..<editorViewModel.uiData.count, id: \.self) { index in
                 self.generateUI(index: index)
             }
         }

@@ -16,14 +16,16 @@ struct EditorView: View {
 
     var body: some View {
         ZStack {
-            EditorAppView()
-                .environmentObject(editorViewModel)
+            GeometryReader { geo in
+                EditorAppView()
+                    .environmentObject(self.editorViewModel)
 
-            ZStack {
-                EditorModalView()
-                    .environmentObject(editorViewModel)
+                ZStack {
+                    EditorModalView(editorGeo: geo)
+                        .environmentObject(self.editorViewModel)
 
-                EditorFooterView()
+                    EditorFooterView()
+                }
             }
         }
             .edgesIgnoringSafeArea(.bottom)

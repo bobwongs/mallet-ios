@@ -31,5 +31,7 @@ class EditorViewModel: ObservableObject {
         self.uiData = uiData
     }
 
-
+    func addUI(type: MUIType, frame: MRect) {
+        uiData.append(MUI(uiID: 0, uiName: "UI", uiType: type, frame: frame))
+    }
 }

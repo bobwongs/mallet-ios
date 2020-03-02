@@ -12,6 +12,8 @@ struct MUISelectionView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
+    let editorGeo: GeometryProxy
+
     @Binding var selectedUIType: MUIType
 
     @Binding var selectedUIFrame: CGRect
@@ -57,6 +59,11 @@ struct MUISelectionView: View {
                                          self.selectedUIFrame.size = geo.size
                                      }
                                      .onEnded { value in
+                                         var frame = MRect(self.selectedUIFrame)
+                                         frame.x -= Float(self.editorGeo.frame(in: .global).origin.x)
+                                         frame.y -= Float(self.editorGeo.frame(in: .global).origin.y)
+
+                                         self.editorViewModel.addUI(type: type, frame: frame)
                                          self.selectedUIType = .space
                                          self.selectedUIFrame = CGRect.zero
                                      }
@@ -91,6 +98,7 @@ struct MUISelectionView: View {
     }
 }
 
+/*
 struct MUISelectionView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -102,3 +110,4 @@ struct MUISelectionView_Previews: PreviewProvider {
         }
     }
 }
+*/
