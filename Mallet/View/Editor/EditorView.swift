@@ -27,32 +27,34 @@ struct EditorView: View {
         }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarTitle("App Title", displayMode: .inline)
-            .navigationBarItems(trailing:
-                                HStack(alignment: .center) {
+            .navigationBarItems(trailing: navigationBarUI())
+    }
 
-                                    Button(action: {
-                                        self.showingAppSettingsView = true
-                                    }) {
-                                        Image(systemName: "square.and.arrow.up")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                    }
-                                        .sheet(isPresented: self.$showingAppSettingsView) {
-                                            AppSettingsView()
-                                        }
+    private func navigationBarUI() -> some View {
+        HStack(alignment: .center) {
 
-                                    Spacer()
-                                        .frame(width: 20)
+            Button(action: {
+                self.showingAppSettingsView = true
+            }) {
+                Image(systemName: "square.and.arrow.up")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+                .sheet(isPresented: self.$showingAppSettingsView) {
+                    AppSettingsView()
+                }
 
-                                    Button(action: {
-                                        print("Run")
-                                    }) {
-                                        Image(systemName: "play.fill")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                    }
-                                }
-            )
+            Spacer()
+                .frame(width: 20)
+
+            Button(action: {
+                print("Run")
+            }) {
+                Image(systemName: "play.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
     }
 
     private func generateUI() -> some View {
