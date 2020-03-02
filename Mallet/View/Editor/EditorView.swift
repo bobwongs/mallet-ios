@@ -43,6 +43,7 @@ struct EditorView: View {
             self.closeEditor()
         }) {
             Text("Done")
+                .padding(7)
         }
     }
 
