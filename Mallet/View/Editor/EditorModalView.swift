@@ -10,6 +10,8 @@ import SwiftUI
 
 struct EditorModalView: View {
 
+    @EnvironmentObject var editorViewModel: EditorViewModel
+
     @State var initialDragAmount: CGFloat = 230 // modalHeight - minVisibleHeight
 
     @State var dragAmount: CGFloat = 230
@@ -18,13 +20,21 @@ struct EditorModalView: View {
 
     @State var selectedUIFrame = CGRect.zero
 
-    private let modalHeight: CGFloat = 300
+    private var modalHeight: CGFloat {
+        300
+    }
 
-    private let maxVisibleHeight: CGFloat = 300
+    private var maxVisibleHeight: CGFloat {
+        300
+    }
 
-    private let minVisibleHeight: CGFloat = 70 //controlBarHeight + 40
+    private var minVisibleHeight: CGFloat {
+        controlBarHeight + 40
+    }
 
-    private let controlBarHeight: CGFloat = 30
+    private var controlBarHeight: CGFloat {
+        30
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -36,6 +46,7 @@ struct EditorModalView: View {
 
                 if self.selectedUIType != .space {
                     MUISelectionView.generateUI(type: self.selectedUIType)
+                        .environmentObject(self.editorViewModel)
                         .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
                         .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
                                   y: self.selectedUIFrame.midY - geo.frame(in: .global).origin.y)

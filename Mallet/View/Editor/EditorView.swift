@@ -21,6 +21,7 @@ struct EditorView: View {
 
             ZStack {
                 EditorModalView()
+                    .environmentObject(editorViewModel)
 
                 EditorFooterView()
             }

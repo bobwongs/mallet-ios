@@ -10,12 +10,16 @@ import SwiftUI
 
 struct MUISelectionView: View {
 
+    @EnvironmentObject var editorViewModel: EditorViewModel
+
     @Binding var selectedUIType: MUIType
 
     @Binding var selectedUIFrame: CGRect
 
-    @State private var uiTable: [[MUIType]] = [[.text, .button, .input],
-                                               [.slider, .toggle, .space]]
+    private var uiTable: [[MUIType]] {
+        [[.text, .button, .input],
+         [.slider, .toggle, .space]]
+    }
 
     var body: some View {
         VStack(spacing: 20) {
