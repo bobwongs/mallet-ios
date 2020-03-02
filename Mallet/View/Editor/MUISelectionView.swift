@@ -60,8 +60,8 @@ struct MUISelectionView: View {
                                      }
                                      .onEnded { value in
                                          var frame = MRect(self.selectedUIFrame)
-                                         frame.x -= Float(self.editorGeo.frame(in: .global).origin.x)
-                                         frame.y -= Float(self.editorGeo.frame(in: .global).origin.y)
+                                         frame.x -= self.editorGeo.frame(in: .global).origin.x
+                                         frame.y -= self.editorGeo.frame(in: .global).origin.y
 
                                          self.editorViewModel.addUI(type: type, frame: frame)
                                          self.selectedUIType = .space

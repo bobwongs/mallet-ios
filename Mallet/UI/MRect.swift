@@ -7,23 +7,23 @@ import UIKit
 
 struct MRect: Codable {
 
-    var x: Float
+    var x: CGFloat
 
-    var y: Float
+    var y: CGFloat
 
-    var width: Float
+    var width: CGFloat
 
-    var height: Float
+    var height: CGFloat
 
-    var midX: Float {
+    var midX: CGFloat {
         return self.x + self.width / 2
     }
 
-    var midY: Float {
+    var midY: CGFloat {
         return self.y + self.height / 2
     }
 
-    init(x: Float, y: Float, width: Float, height: Float) {
+    init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
         self.x = x
         self.y = y
         self.width = width
@@ -31,9 +31,9 @@ struct MRect: Codable {
     }
 
     init(_ frame: CGRect) {
-        self.x = Float(frame.origin.x)
-        self.y = Float(frame.origin.y)
-        self.width = Float(frame.width)
-        self.height = Float(frame.height)
+        self.x = frame.origin.x
+        self.y = frame.origin.y
+        self.width = frame.width
+        self.height = frame.height
     }
 }
