@@ -38,7 +38,7 @@ struct ContentView: View {
     }
 
     private func closeEditor() {
-        withAnimation(.easeOut(duration: 0.3)) {
+        withAnimation(.easeOut(duration: 0.2)) {
             showingEditor = false
         }
     }
