@@ -8,20 +8,20 @@
 
 import Foundation
 
-enum MUIType: Int, Codable {
+enum MUIType: String, Codable {
 
-    case space
+    case space = "Space"
 
-    case text
+    case text = "Text"
 
-    case button
+    case button = "Button"
 
-    case input
+    case input = "Input"
 
-    case slider
+    case slider = "Slider"
 
-    case toggle
+    case toggle = "Toggle"
 
-    case table
+    case table = "Table"
 
 }
