@@ -12,30 +12,42 @@ struct EditorView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @State var showingAppSettingsView = false
+    @State private var showingAppSettingsView = false
+
+    let closeEditor: () -> Void
 
     var body: some View {
-        ZStack {
-            GeometryReader { geo in
-                EditorAppView()
-                    .environmentObject(self.editorViewModel)
-
-                ZStack {
-                    EditorModalView(editorGeo: geo)
+        NavigationView {
+            ZStack {
+                GeometryReader { geo in
+                    EditorAppView()
                         .environmentObject(self.editorViewModel)
 
-                    EditorFooterView()
+                    ZStack {
+                        EditorModalView(editorGeo: geo)
+                            .environmentObject(self.editorViewModel)
+
+                        EditorFooterView()
+                    }
                 }
             }
+                .edgesIgnoringSafeArea(.bottom)
+                .navigationBarBackButtonHidden(true)
+                .navigationBarTitle("App Title", displayMode: .inline)
+                .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
         }
-            .edgesIgnoringSafeArea(.bottom)
-            .navigationBarTitle("App Title", displayMode: .inline)
-            .navigationBarItems(trailing: navigationBarUI())
     }
 
-    private func navigationBarUI() -> some View {
-        HStack(alignment: .center) {
+    private func navigationBarLeadingUI() -> some View {
+        Button(action: {
+            self.closeEditor()
+        }) {
+            Text("Done")
+        }
+    }
 
+    private func navigationBarTrailingUI() -> some View {
+        HStack(alignment: .center) {
             Button(action: {
                 self.showingAppSettingsView = true
             }) {
@@ -68,7 +80,7 @@ struct EditorView: View {
 struct EditorView_Previews: PreviewProvider {
     static var previews: some View {
         DefaultPreview {
-            EditorView()
+            EditorView(closeEditor: {})
         }
     }
 }

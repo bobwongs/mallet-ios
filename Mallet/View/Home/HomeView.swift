@@ -14,11 +14,13 @@ struct HomeAppCell: View {
 
     var appName: String
 
-    let runApp: (Int) -> Void
+    let runApp: () -> Void
+
+    let openEditor: () -> Void
 
     var body: some View {
         Button(action: {
-            self.runApp(self.appID)
+            self.runApp()
         }) {
             VStack {
                 HStack {
@@ -31,7 +33,9 @@ struct HomeAppCell: View {
                 }
                 HStack {
                     Spacer()
-                    NavigationLink(destination: EditorView().environmentObject(EditorViewModel.testModel)) {
+                    Button(action: {
+                        self.openEditor()
+                    }) {
                         Image(systemName: "pencil")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
@@ -59,14 +63,23 @@ struct HomeView: View {
         let appName: String
     }
 
-    @State var appData = [app]()
+    let openEditor: (Int) -> Void
+
+    @State private var appData = [app]()
+
+    @State private var showingEditor = false
 
     var body: some View {
         VStack {
             ScrollView {
                 VStack {
                     ForEach(self.appData, id: \.appID) { appData in
-                        HomeAppCell(appID: appData.appID, appName: appData.appName, runApp: self.runApp)
+                        Group {
+                            HomeAppCell(appID: appData.appID,
+                                        appName: appData.appName,
+                                        runApp: {},
+                                        openEditor: { self.openEditor(appData.appID) })
+                        }
                     }
                 }
 
@@ -90,11 +103,8 @@ struct HomeView: View {
             })
     }
 
-    func reloadAppData() {
+    private func reloadAppData() {
         self.appData = [app(appID: 0, appName: "Awesome App"), app(appID: 1, appName: "Cool App")]
-    }
-
-    func runApp(appID: Int) {
     }
 }
 
@@ -102,12 +112,12 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                HomeView()
+                HomeView(openEditor: { i in })
             }
                 .colorScheme(.dark)
 
             NavigationView {
-                HomeView()
+                HomeView(openEditor: { i in })
             }
         }
     }
