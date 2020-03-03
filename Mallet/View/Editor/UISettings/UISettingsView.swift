@@ -1,40 +1,57 @@
 //
 //  UISettingsView.swift
 //  Mallet
-//
-//  Created by Katsu Matsuda on 2019/11/10.
-//  Copyright © 2019 Katsu Matsuda. All rights reserved.
+//  
+//  Created by Katsu Matsuda on 2020/03/03.
+//  Copyright (c) 2020 Katsu Matsuda. All rights reserved.
 //
 
 import SwiftUI
 
 struct UISettingsView: View {
 
-    @Environment(\.presentationMode) var presentationMode
+    private enum UISettingsMode {
+        case property
+        case code
+    }
+
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    @Binding var uiData: MUI
+
+    @State private var settingsMode = UISettingsMode.property
 
     var body: some View {
         NavigationView {
-            List {
-                Section {
-                    Text("Yay")
-                }
+            VStack {
+                Spacer()
             }
-                .navigationBarTitle("Settings", displayMode: .inline)
-                .navigationBarItems(trailing: Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                })
-                    {
-                        Text("Done")
-                            .fontWeight(.semibold)
-                    }
-                )
+                .navigationBarItems(leading: headerLeading(), trailing: headerTrailing())
         }
     }
-}
 
-struct UISettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        UISettingsView()
-            .colorScheme(.dark)
+    private func headerLeading() -> some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("Done")
+                .fontWeight(.medium)
+        }
+    }
+
+    private func headerTrailing() -> some View {
+        Button(action: {
+            if self.settingsMode == .property {
+                self.settingsMode = .code
+            } else {
+                self.settingsMode = .property
+            }
+        }) {
+            if self.settingsMode == .property {
+                Text("Edit Code")
+            } else {
+                Text("Edit Property")
+            }
+        }
     }
 }

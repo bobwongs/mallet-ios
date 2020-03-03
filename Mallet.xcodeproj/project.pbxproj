@@ -37,9 +37,9 @@
 		611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
+		611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC38EAA2238608BD9F41D /* UISettingsView.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MRect.swift */; };
 		611ACE330837CE075338BECD /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */; };
-		611ACF60AE9F070420907033 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC853BD04BAACF998D7EC /* UISettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,10 +109,10 @@
 		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPreview.swift; sourceTree = "<group>"; };
 		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		611AC38EAA2238608BD9F41D /* UISettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettingsView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRect.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
-		611AC853BD04BAACF998D7EC /* UISettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettingsView.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,7 +242,7 @@
 				0ED82DC92393DD050054BC4C /* EditorModalView.swift */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
 				611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */,
-				611AC853BD04BAACF998D7EC /* UISettingsView.swift */,
+				611AC5A522FB2290C61E7DD3 /* UISettings */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -282,6 +282,14 @@
 				0E9F84852365A9BB00994789 /* Swifter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		611AC5A522FB2290C61E7DD3 /* UISettings */ = {
+			isa = PBXGroup;
+			children = (
+				611AC38EAA2238608BD9F41D /* UISettingsView.swift */,
+			);
+			path = UISettings;
 			sourceTree = "<group>";
 		};
 		611ACC33DF81AB3D2CE17540 /* AppData */ = {
@@ -479,7 +487,7 @@
 				611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */,
 				611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */,
 				611AC50EA2A477228B4622DC /* RootView.swift in Sources */,
-				611ACF60AE9F070420907033 /* UISettingsView.swift in Sources */,
+				611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
