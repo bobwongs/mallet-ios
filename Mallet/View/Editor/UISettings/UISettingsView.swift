@@ -39,7 +39,7 @@ struct UISettingsView: View {
             self.presentationMode.wrappedValue.dismiss()
         }) {
             Text("Done")
-                .fontWeight(.medium)
+                .fontWeight(.semibold)
         }
     }
 
