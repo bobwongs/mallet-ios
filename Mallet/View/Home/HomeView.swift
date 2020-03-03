@@ -63,9 +63,9 @@ struct HomeView: View {
         let appName: String
     }
 
-    let openEditor: (Int) -> Void
-
     @State private var appData = [app]()
+
+    @State private var editorViewModel = EditorViewModel.testModel
 
     @State private var showingEditor = false
 
@@ -78,7 +78,7 @@ struct HomeView: View {
                             HomeAppCell(appID: appData.appID,
                                         appName: appData.appName,
                                         runApp: {},
-                                        openEditor: { self.openEditor(appData.appID) })
+                                        openEditor: { self.openEditor(appID: appData.appID) })
                         }
                     }
                 }
@@ -97,6 +97,10 @@ struct HomeView: View {
                                         }
                                     }
                 )
+
+            NavigationLink(destination: EditorView(closeEditor: { self.closeEditor() }).environmentObject(editorViewModel),
+                           isActive: $showingEditor,
+                           label: { EmptyView() })
         }
             .onAppear(perform: {
                 self.reloadAppData()
@@ -106,18 +110,27 @@ struct HomeView: View {
     private func reloadAppData() {
         self.appData = [app(appID: 0, appName: "Awesome App"), app(appID: 1, appName: "Cool App")]
     }
+
+    private func openEditor(appID: Int) {
+        editorViewModel = .testModel
+        showingEditor = true
+    }
+
+    private func closeEditor() {
+        showingEditor = false
+    }
 }
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                HomeView(openEditor: { i in })
+                HomeView()
             }
                 .colorScheme(.dark)
 
             NavigationView {
-                HomeView(openEditor: { i in })
+                HomeView()
             }
         }
     }

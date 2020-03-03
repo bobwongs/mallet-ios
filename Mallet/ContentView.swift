@@ -16,31 +16,9 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            HomeView(openEditor: { id in self.openEditor(appID: id) })
+            HomeView()
         }
-            .overlay(
-                VStack {
-                    if showingEditor {
-                        EditorView(closeEditor: { self.closeEditor() })
-                            .environmentObject(self.editorViewModel)
-                            .transition(.move(edge: .trailing))
-                    }
-                }
-            )
             .navigationViewStyle(StackNavigationViewStyle())
-    }
-
-    private func openEditor(appID: Int) {
-        editorViewModel = .testModel
-        withAnimation(.easeOut(duration: 0.3)) {
-            showingEditor = true
-        }
-    }
-
-    private func closeEditor() {
-        withAnimation(.easeOut(duration: 0.2)) {
-            showingEditor = false
-        }
     }
 }
 

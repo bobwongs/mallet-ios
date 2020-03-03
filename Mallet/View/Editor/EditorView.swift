@@ -17,25 +17,23 @@ struct EditorView: View {
     let closeEditor: () -> Void
 
     var body: some View {
-        NavigationView {
-            ZStack {
-                GeometryReader { geo in
-                    EditorAppView()
+        ZStack {
+            GeometryReader { geo in
+                EditorAppView()
+                    .environmentObject(self.editorViewModel)
+
+                ZStack {
+                    EditorModalView(editorGeo: geo)
                         .environmentObject(self.editorViewModel)
 
-                    ZStack {
-                        EditorModalView(editorGeo: geo)
-                            .environmentObject(self.editorViewModel)
-
-                        EditorFooterView()
-                    }
+                    EditorFooterView()
                 }
             }
-                .edgesIgnoringSafeArea(.bottom)
-                .navigationBarBackButtonHidden(true)
-                .navigationBarTitle("App Title", displayMode: .inline)
-                .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
         }
+            .edgesIgnoringSafeArea(.bottom)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitle("App Title", displayMode: .inline)
+            .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
     }
 
     private func navigationBarLeadingUI() -> some View {
@@ -43,7 +41,7 @@ struct EditorView: View {
             self.closeEditor()
         }) {
             Text("Done")
-                .padding(7)
+                .padding([.top, .bottom], 7)
         }
     }
 
