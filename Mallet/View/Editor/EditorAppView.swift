@@ -22,10 +22,9 @@ struct EditorAppView: View {
         }
             .background(Color.white)
             .colorScheme(.light)
-            .gesture(TapGesture()
-                         .onEnded {
-                             self.selectedUIID = nil
-                         })
+            .onTapGesture {
+                self.selectedUIID = nil
+            }
     }
 
     func generateUI(index: Int) -> some View {

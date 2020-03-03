@@ -63,6 +63,8 @@ struct MEditorFrameView<Content>: View where Content: View {
 
     @Binding var selectedUIID: Int?
 
+    @State private var showUISettings = false
+
     private let dotColor = Color.blue
 
     private let borderWidth: CGFloat = 2
@@ -130,12 +132,18 @@ struct MEditorFrameView<Content>: View where Content: View {
                         }
                     }
                 }
-
                     .gesture(TapGesture()
                                  .onEnded {
-                                     self.setSelectedUIID()
+                                     if self.selectedUIID == self.uiData.uiID {
+                                         self.showUISettings = true
+                                     } else {
+                                         self.setSelectedUIID()
+                                     }
                                  }
                     )
+                    .sheet(isPresented: $showUISettings) {
+                        UISettingsView()
+                    }
             )
     }
 
