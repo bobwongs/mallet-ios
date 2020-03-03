@@ -49,4 +49,27 @@ class EditorViewModel: ObservableObject {
 
         maxUIID += 1
     }
+
+    func duplicateUI() {
+        guard let ui = uiData.first(where: { $0.uiID == selectedUIID }) else {
+            return
+        }
+
+        let uiId = maxUIID + 1
+        let uiName = "\(ui.uiType.rawValue)\(uiId)"
+        var frame = ui.frame
+        frame.x += 20
+        frame.y += 20
+
+        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: ui.uiType, frame: frame))
+
+        selectedUIID = uiId
+
+        maxUIID += 1
+    }
+
+    func deleteUI() {
+        uiData.removeAll(where: { $0.uiID == selectedUIID })
+        selectedUIID = nil
+    }
 }

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct EditorFooterView: View {
 
+    @EnvironmentObject var editorViewModel: EditorViewModel
+
     @Binding var offset: CGFloat
 
     let height: CGFloat
@@ -43,7 +45,7 @@ struct EditorFooterView: View {
                             Spacer()
 
                             Button(action: {
-                                print("delete")
+                                self.editorViewModel.deleteUI()
                             }) {
                                 Image(systemName: "trash")
                                     .resizable()
@@ -54,7 +56,7 @@ struct EditorFooterView: View {
                                 .frame(width: 40)
 
                             Button(action: {
-                                print("duplicate")
+                                self.editorViewModel.duplicateUI()
                             }) {
                                 Image(systemName: "plus.square.on.square")
                                     .resizable()

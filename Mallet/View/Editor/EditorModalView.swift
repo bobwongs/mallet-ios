@@ -67,6 +67,7 @@ struct EditorModalView: View {
                 }
 
                 EditorFooterView(offset: self.footerViewOffset, height: self.footerViewHeight)
+                    .environmentObject(self.editorViewModel)
 
                 if self.selectedUIType != .space {
                     UISelectionView.generateUI(type: self.selectedUIType)
