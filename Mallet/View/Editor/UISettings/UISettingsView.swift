@@ -24,7 +24,11 @@ struct UISettingsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Spacer()
+                if settingsMode == .property {
+                    UIPropertyEditingView(uiData: $uiData)
+                } else if settingsMode == .code {
+                    Spacer()
+                }
             }
                 .navigationBarItems(leading: headerLeading(), trailing: headerTrailing())
         }
