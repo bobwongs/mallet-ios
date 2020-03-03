@@ -14,24 +14,36 @@ struct EditorModalView: View {
 
     let editorGeo: GeometryProxy
 
-    @State private var initialDragAmount: CGFloat = 230 // modalHeight - minVisibleHeight
+    @State private var modalViewOffset: CGFloat = 0
 
-    @State private var dragAmount: CGFloat = 230
+    @State private var modalViewCurrentOffset: CGFloat = 0
+
+    @State private var dragGestureCurrentTranslationHeight: CGFloat = 0
+
+    @State private var dragGestureDiffHeight: CGFloat = 0
 
     @State private var selectedUIType: MUIType = .space
 
     @State private var selectedUIFrame = CGRect.zero
 
-    private var modalHeight: CGFloat {
+    private var modalViewHeight: CGFloat {
         300
     }
 
-    private var maxVisibleHeight: CGFloat {
-        300
+    private var modalViewMinVisibleHeight: CGFloat {
+        30
     }
 
-    private var minVisibleHeight: CGFloat {
-        controlBarHeight + 40
+    private var modalViewMaxOffset: CGFloat {
+        modalViewHeight - (modalViewMinVisibleHeight + footerViewHeight)
+    }
+
+    private var modalViewMinOffset: CGFloat {
+        20
+    }
+
+    private var footerViewHeight: CGFloat {
+        40
     }
 
     private var controlBarHeight: CGFloat {
@@ -79,25 +91,58 @@ struct EditorModalView: View {
                 )
                 .gesture(DragGesture(coordinateSpace: .global)
                              .onChanged({ value in
-                                 self.dragAmount = max(self.modalHeight - self.maxVisibleHeight, min(self.modalHeight - self.minVisibleHeight, self.initialDragAmount + value.translation.height))
+                                 self.dragGestureDiffHeight = value.translation.height - self.dragGestureCurrentTranslationHeight
+                                 self.dragGestureCurrentTranslationHeight = value.translation.height
+
+                                 self.modalViewOffset =
+                                     max(self.modalViewMinOffset,
+                                         min(self.modalViewMaxOffset, self.modalViewCurrentOffset + value.translation.height))
                              })
-                             .onEnded({
-                                 value in
-                                 withAnimation(.easeOut(duration: 0.2)) {
-                                     if value.translation.height < 0 {
-                                         self.dragAmount = self.modalHeight - self.maxVisibleHeight
+                             .onEnded({ value in
+                                 self.modalViewCurrentOffset = self.modalViewOffset
+
+                                 print(self.dragGestureDiffHeight)
+
+                                 if abs(self.dragGestureDiffHeight) < 2 {
+                                     if self.modalViewOffset < (self.modalViewMaxOffset + self.modalViewMinOffset) / 2 {
+                                         self.openModalView()
                                      } else {
-                                         self.dragAmount = self.modalHeight - self.minVisibleHeight
+                                         self.closeModalView()
                                      }
+                                     return
                                  }
 
-                                 self.initialDragAmount = self.dragAmount
+                                 if self.dragGestureDiffHeight < 0 {
+                                     self.openModalView()
+                                 } else {
+                                     self.closeModalView()
+                                 }
                              })
                 )
         }
-            .frame(height: self.modalHeight + geo.safeAreaInsets.bottom)
-            .offset(x: 0, y: self.dragAmount)
+            .onAppear {
+                self.modalViewOffset = self.modalViewMaxOffset
+                self.modalViewCurrentOffset = self.modalViewOffset
+            }
+            .frame(height: self.modalViewHeight + geo.safeAreaInsets.bottom)
+            .offset(x: 0, y: self.modalViewOffset)
             .edgesIgnoringSafeArea(.bottom)
+    }
+
+    private func openModalView() {
+        withAnimation(.easeOut(duration: 0.2)) {
+            modalViewOffset = modalViewMinOffset
+        }
+
+        modalViewCurrentOffset = modalViewOffset
+    }
+
+    private func closeModalView() {
+        withAnimation(.easeOut(duration: 0.2)) {
+            modalViewOffset = modalViewMaxOffset
+        }
+
+        modalViewCurrentOffset = modalViewOffset
     }
 }
 
