@@ -14,8 +14,16 @@ struct EditorAppView: View {
 
     var body: some View {
         ZStack {
-            ForEach(0..<editorViewModel.uiData.count, id: \.self) { index in
-                self.generateUI(index: index)
+            ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
+                self.generateUI(index: idx)
+            }
+
+            ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
+                Group {
+                    if self.editorViewModel.uiData[idx].uiID == self.editorViewModel.selectedUIID {
+                        UIFrameEditingView(uiData: self.$editorViewModel.uiData[idx])
+                    }
+                }
             }
         }
             .background(Color.white)

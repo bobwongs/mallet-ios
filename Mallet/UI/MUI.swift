@@ -17,4 +17,8 @@ struct MUI: Codable {
     let uiType: MUIType
 
     var frame: MRect
+
+    static var none: MUI {
+        MUI(uiID: -1, uiName: "", uiType: .space, frame: MRect(x: 0, y: 0, width: 0, height: 0))
+    }
 }
