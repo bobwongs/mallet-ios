@@ -26,6 +26,14 @@ struct EditorModalView: View {
 
     @State private var selectedUIFrame = CGRect.zero
 
+    private var footerViewOffset: Binding<CGFloat> {
+        Binding(
+            get: { self.modalViewMaxOffset - self.modalViewOffset },
+            set: { _ in }
+        )
+    }
+
+
     private var modalViewHeight: CGFloat {
         300
     }
@@ -57,6 +65,8 @@ struct EditorModalView: View {
                     Spacer()
                     self.modal(geo: geo)
                 }
+
+                EditorFooterView(offset: self.footerViewOffset, height: self.footerViewHeight)
 
                 if self.selectedUIType != .space {
                     UISelectionView.generateUI(type: self.selectedUIType)

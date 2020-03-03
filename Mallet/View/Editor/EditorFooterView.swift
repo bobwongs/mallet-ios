@@ -9,6 +9,11 @@
 import SwiftUI
 
 struct EditorFooterView: View {
+
+    @Binding var offset: CGFloat
+
+    let height: CGFloat
+
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -61,7 +66,7 @@ struct EditorFooterView: View {
                             .frame(height: 20)
                             .padding(20)
                     }
-                        .frame(height: 40)
+                        .frame(height: self.height)
                     HStack {
                         Spacer()
                     }
@@ -78,10 +83,12 @@ struct EditorFooterView: View {
                         }
                     )
             }
+                .offset(y: self.offset)
         }
     }
 }
 
+/*
 struct EditorFooterView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -95,3 +102,4 @@ struct EditorFooterView_Previews: PreviewProvider {
         }
     }
 }
+*/

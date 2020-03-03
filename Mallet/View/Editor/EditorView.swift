@@ -22,12 +22,8 @@ struct EditorView: View {
                 EditorAppView()
                     .environmentObject(self.editorViewModel)
 
-                ZStack {
-                    EditorModalView(editorGeo: geo)
-                        .environmentObject(self.editorViewModel)
-
-                    EditorFooterView()
-                }
+                EditorModalView(editorGeo: geo)
+                    .environmentObject(self.editorViewModel)
             }
         }
             .edgesIgnoringSafeArea(.bottom)
