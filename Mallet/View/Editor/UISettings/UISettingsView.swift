@@ -27,7 +27,7 @@ struct UISettingsView: View {
                 if settingsMode == .property {
                     UIPropertyEditingView(uiData: $uiData)
                 } else if settingsMode == .code {
-                    Spacer()
+                    CodeEditingView()
                 }
             }
                 .navigationBarItems(leading: headerLeading(), trailing: headerTrailing())

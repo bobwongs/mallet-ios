@@ -36,6 +36,7 @@
 		0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */; };
 		611AC0B9379D048679615D55 /* UIPropertyEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */; };
 		611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */; };
+		611AC0EE11AE918BD9DDF465 /* CodeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC38EAA2238608BD9F41D /* UISettingsView.swift */; };
@@ -116,6 +117,7 @@
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPropertyEditingView.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
+		611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 			children = (
 				611AC38EAA2238608BD9F41D /* UISettingsView.swift */,
 				611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */,
+				611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */,
 			);
 			path = UISettings;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				611AC50EA2A477228B4622DC /* RootView.swift in Sources */,
 				611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */,
 				611AC0B9379D048679615D55 /* UIPropertyEditingView.swift in Sources */,
+				611AC0EE11AE918BD9DDF465 /* CodeEditingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
