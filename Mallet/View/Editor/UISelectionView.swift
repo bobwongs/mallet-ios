@@ -14,6 +14,8 @@ struct UISelectionView: View {
 
     let editorGeo: GeometryProxy
 
+    let closeModalView: () -> Void
+
     @Binding var selectedUIType: MUIType
 
     @Binding var selectedUIFrame: CGRect
@@ -53,6 +55,7 @@ struct UISelectionView: View {
                         .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
                         .gesture(DragGesture()
                                      .onChanged { value in
+                                         self.closeModalView()
                                          self.selectedUIType = type
                                          self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
                                          self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height

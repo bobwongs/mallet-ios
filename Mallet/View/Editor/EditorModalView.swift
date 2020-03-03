@@ -80,7 +80,7 @@ struct EditorModalView: View {
                 }
                     .frame(height: self.controlBarHeight)
 
-                UISelectionView(editorGeo: self.editorGeo, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
+                UISelectionView(editorGeo: self.editorGeo, closeModalView: { self.closeModalView() }, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
             }
                 .background(Color(.tertiarySystemBackground))
                 .cornerRadius(10)
@@ -100,8 +100,6 @@ struct EditorModalView: View {
                              })
                              .onEnded({ value in
                                  self.modalViewCurrentOffset = self.modalViewOffset
-
-                                 print(self.dragGestureDiffHeight)
 
                                  if abs(self.dragGestureDiffHeight) < 2 {
                                      if self.modalViewOffset < (self.modalViewMaxOffset + self.modalViewMinOffset) / 2 {
