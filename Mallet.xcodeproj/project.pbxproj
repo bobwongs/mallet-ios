@@ -38,7 +38,7 @@
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MRect.swift */; };
-		611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */; };
+		611ACE330837CE075338BECD /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +111,7 @@
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MRect.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
-		611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISelectionView.swift; sourceTree = "<group>"; };
+		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,7 +239,7 @@
 				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
 				0ED82DC92393DD050054BC4C /* EditorModalView.swift */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
-				611ACCCCAC1F2D216903CC2D /* MUISelectionView.swift */,
+				611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -472,7 +472,7 @@
 				0E9C5ED62382E883001AECA7 /* MUIType.swift in Sources */,
 				0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */,
 				611ACC8E48EE25B5F7AC09DE /* MRect.swift in Sources */,
-				611ACE330837CE075338BECD /* MUISelectionView.swift in Sources */,
+				611ACE330837CE075338BECD /* UISelectionView.swift in Sources */,
 				611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */,
 				611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */,
 				611AC50EA2A477228B4622DC /* RootView.swift in Sources */,

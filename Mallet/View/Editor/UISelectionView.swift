@@ -1,5 +1,5 @@
 //
-//  MUISelectionView.swift
+//  UISelectionView.swift
 //  Mallet
 //  
 //  Created by Katsu Matsuda on 2020/03/01.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MUISelectionView: View {
+struct UISelectionView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
@@ -49,7 +49,7 @@ struct MUISelectionView: View {
                     .frame(width: width, height: height)
             } else {
                 GeometryReader { geo in
-                    MUISelectionView.generateUI(type: type)
+                    UISelectionView.generateUI(type: type)
                         .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
                         .gesture(DragGesture()
                                      .onChanged { value in

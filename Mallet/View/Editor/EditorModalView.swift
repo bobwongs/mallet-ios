@@ -47,7 +47,7 @@ struct EditorModalView: View {
                 }
 
                 if self.selectedUIType != .space {
-                    MUISelectionView.generateUI(type: self.selectedUIType)
+                    UISelectionView.generateUI(type: self.selectedUIType)
                         .environmentObject(self.editorViewModel)
                         .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
                         .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
@@ -68,7 +68,7 @@ struct EditorModalView: View {
                 }
                     .frame(height: self.controlBarHeight)
 
-                MUISelectionView(editorGeo: self.editorGeo, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
+                UISelectionView(editorGeo: self.editorGeo, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
             }
                 .background(Color(.tertiarySystemBackground))
                 .cornerRadius(10)
