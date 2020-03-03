@@ -9,9 +9,49 @@
 import SwiftUI
 
 struct UISettingsView: View {
+
+    private enum UISettingsMode {
+        case property
+        case code
+    }
+
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+
+    @Binding var uiData: MUI
+
+    @State private var settingsMode = UISettingsMode.property
+
     var body: some View {
-        VStack {
-            Spacer()
+        NavigationView {
+            VStack {
+                Spacer()
+            }
+                .navigationBarItems(leading: headerLeading(), trailing: headerTrailing())
+        }
+    }
+
+    private func headerLeading() -> some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("Done")
+                .fontWeight(.medium)
+        }
+    }
+
+    private func headerTrailing() -> some View {
+        Button(action: {
+            if self.settingsMode == .property {
+                self.settingsMode = .code
+            } else {
+                self.settingsMode = .property
+            }
+        }) {
+            if self.settingsMode == .property {
+                Text("Edit Code")
+            } else {
+                Text("Edit Property")
+            }
         }
     }
 }

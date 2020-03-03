@@ -142,7 +142,7 @@ struct MEditorFrameView<Content>: View where Content: View {
                                  }
                     )
                     .sheet(isPresented: $showUISettings) {
-                        UISettingsView()
+                        UISettingsView(uiData: self.$uiData)
                     }
             )
     }
