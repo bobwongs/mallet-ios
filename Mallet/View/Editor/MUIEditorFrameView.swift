@@ -1,5 +1,5 @@
 //
-//  MEditorFrameView.swift
+//  MUIEditorFrameView.swift
 //  Mallet
 //
 //  Created by Katsu Matsuda on 2019/12/13.
@@ -21,7 +21,7 @@ fileprivate struct FrameFactors {
     let height: FactorValue
 }
 
-fileprivate struct MEditorFrameDot: View {
+fileprivate struct MUIEditorFrameDot: View {
 
     @Binding var frame: MRect
 
@@ -108,24 +108,24 @@ struct MEditorFrameView<Content>: View where Content: View {
 
 
                                 Group {
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
                                         .position(x: self.frame.x, y: self.frame.y)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
                                         .position(x: self.frame.x + self.frame.width, y: self.frame.y)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
                                         .position(x: self.frame.x + self.frame.width, y: self.frame.y + self.frame.height)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
                                         .position(x: self.frame.x, y: self.frame.y + self.frame.height)
                                 }
 
                                 Group {
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
                                         .position(x: self.frame.x + self.frame.width / 2, y: self.frame.y)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
                                         .position(x: self.frame.x + self.frame.width, y: self.frame.y + self.frame.height / 2)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
                                         .position(x: self.frame.x + self.frame.width / 2, y: self.frame.y + self.frame.height)
-                                    MEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
+                                    MUIEditorFrameDot(frame: self.$frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
                                         .position(x: self.frame.x, y: self.frame.y + self.frame.height / 2)
                                 }
                             }
