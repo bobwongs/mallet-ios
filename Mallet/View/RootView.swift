@@ -10,10 +10,6 @@ import SwiftUI
 
 struct RootView: View {
 
-    @State private var showingEditor = false
-
-    @State private var editorViewModel = EditorViewModel.testModel
-
     var body: some View {
         NavigationView {
             HomeView()
