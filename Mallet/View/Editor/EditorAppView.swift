@@ -12,8 +12,6 @@ struct EditorAppView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @State var selectedUIID: Int?
-
     var body: some View {
         ZStack {
             ForEach(0..<editorViewModel.uiData.count, id: \.self) { index in
@@ -23,7 +21,7 @@ struct EditorAppView: View {
             .background(Color.white)
             .colorScheme(.light)
             .onTapGesture {
-                self.selectedUIID = nil
+                self.editorViewModel.selectedUIID = nil
             }
     }
 
@@ -33,7 +31,7 @@ struct EditorAppView: View {
 
         let uiType = ui.uiType
 
-        return MEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $selectedUIID) {
+        return MEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID) {
             if uiType == .text {
                 MUIText()
             } else if uiType == .button {
