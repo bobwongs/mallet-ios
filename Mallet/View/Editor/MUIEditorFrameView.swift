@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct MEditorFrameView<Content>: View where Content: View {
+struct MUIEditorFrameView<Content>: View where Content: View {
 
     let content: () -> Content
 
@@ -17,6 +17,8 @@ struct MEditorFrameView<Content>: View where Content: View {
     @Binding var frame: MRect
 
     @Binding var selectedUIID: Int?
+
+    @State private var showUISettings = false
 
     init(uiData: Binding<MUI>, selectedUIID: Binding<Int?>, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
@@ -35,7 +37,7 @@ struct MEditorFrameView<Content>: View where Content: View {
             .position(x: frame.midX, y: frame.midY)
             .overlay(
                 Rectangle()
-                    .gesture(DragGesture(minimumDistance: 0)
+                    .gesture(DragGesture(minimumDistance: 0.5)
                                  .onChanged { value in
                                      self.frame.x += value.translation.width
                                      self.frame.y += value.translation.height
@@ -43,6 +45,11 @@ struct MEditorFrameView<Content>: View where Content: View {
                                  })
                     .gesture(TapGesture()
                                  .onEnded {
+                                     if self.selectedUIID == self.uiData.uiID {
+                                         self.showUISettings = true
+                                         return
+                                     }
+
                                      self.setSelectedUIID()
                                  }
                     )
@@ -50,6 +57,9 @@ struct MEditorFrameView<Content>: View where Content: View {
                     .frame(width: frame.width, height: frame.height)
                     .position(x: frame.midX, y: frame.midY)
             )
+            .sheet(isPresented: $showUISettings) {
+                UISettingsView(uiData: self.$uiData)
+            }
     }
 
     private func setSelectedUIID() {

@@ -39,7 +39,7 @@ struct EditorAppView: View {
 
         let uiType = ui.uiType
 
-        return MEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID) {
+        return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID) {
             if uiType == .text {
                 MUIText()
             } else if uiType == .button {

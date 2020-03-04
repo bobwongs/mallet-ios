@@ -116,14 +116,6 @@ struct UIFrameEditingView: View {
                         }
                     }
                 }
-                    .gesture(TapGesture()
-                                 .onEnded {
-                                     self.showUISettings = true
-                                 }
-                    )
-                    .sheet(isPresented: $showUISettings) {
-                        UISettingsView(uiData: self.$uiData)
-                    }
             )
     }
 }
