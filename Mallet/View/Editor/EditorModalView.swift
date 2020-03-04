@@ -100,7 +100,7 @@ struct EditorModalView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color(.opaqueSeparator), lineWidth: 0.2)
                 )
-                .gesture(DragGesture(coordinateSpace: .global)
+                .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
                              .onChanged({ value in
                                  self.dragGestureDiffHeight = value.translation.height - self.dragGestureCurrentTranslationHeight
                                  self.dragGestureCurrentTranslationHeight = value.translation.height
