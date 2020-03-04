@@ -35,18 +35,18 @@ struct MEditorFrameView<Content>: View where Content: View {
             .position(x: frame.midX, y: frame.midY)
             .overlay(
                 Rectangle()
-                    .foregroundColor(Color.white.opacity(0.001))
-                    .gesture(TapGesture()
-                                 .onEnded {
-                                     self.setSelectedUIID()
-                                 }
-                    )
-                    .gesture(DragGesture()
+                    .gesture(DragGesture(minimumDistance: 0)
                                  .onChanged { value in
                                      self.frame.x += value.translation.width
                                      self.frame.y += value.translation.height
                                      self.setSelectedUIID()
                                  })
+                    .gesture(TapGesture()
+                                 .onEnded {
+                                     self.setSelectedUIID()
+                                 }
+                    )
+                    .foregroundColor(Color.white.opacity(0.001))
                     .frame(width: frame.width, height: frame.height)
                     .position(x: frame.midX, y: frame.midY)
             )
