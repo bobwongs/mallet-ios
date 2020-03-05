@@ -12,16 +12,29 @@ struct EditorView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @State private var showingAppSettingsView = false
+    @State private var showAppSettingsView = false
+
+    @State private var appViewOffset = CGSize.zero
+
+    @State private var appViewScale: CGFloat = 1
 
     let closeEditor: () -> Void
 
     var body: some View {
         ZStack {
             GeometryReader { geo in
-                EditorAppView()
-                    .environmentObject(self.editorViewModel)
+                EditorAppScrollView(scale: self.$appViewScale) {
+                    EditorAppView(appViewScale: self.$appViewScale)
+                        .environmentObject(self.editorViewModel)
+                        .frame(width: geo.size.width, height: geo.size.height)
+                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                        .scaleEffect(self.appViewScale)
+                }
+                    .frame(width: geo.size.width, height: geo.size.height)
+                    .scaleEffect(self.appViewScale)
+            }
 
+            GeometryReader { geo in
                 EditorModalView(editorGeo: geo)
                     .environmentObject(self.editorViewModel)
             }
@@ -44,13 +57,13 @@ struct EditorView: View {
     private func navigationBarTrailingUI() -> some View {
         HStack(alignment: .center) {
             Button(action: {
-                self.showingAppSettingsView = true
+                self.showAppSettingsView = true
             }) {
                 Image(systemName: "square.and.arrow.up")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }
-                .sheet(isPresented: self.$showingAppSettingsView) {
+                .sheet(isPresented: self.$showAppSettingsView) {
                     AppSettingsView()
                 }
 

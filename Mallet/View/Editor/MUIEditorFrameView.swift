@@ -36,23 +36,28 @@ struct MUIEditorFrameView<Content>: View where Content: View {
             .background(Color.black.opacity(0.05))
             .position(x: frame.midX, y: frame.midY)
             .overlay(
-                Rectangle()
-                    .gesture(DragGesture(minimumDistance: 0.5)
-                                 .onChanged { value in
-                                     self.frame.x += value.translation.width
-                                     self.frame.y += value.translation.height
-                                     self.setSelectedUIID()
-                                 })
-                    .gesture(TapGesture()
-                                 .onEnded {
-                                     if self.selectedUIID == self.uiData.uiID {
-                                         self.showUISettings = true
-                                         return
-                                     }
-
-                                     self.setSelectedUIID()
-                                 }
-                    )
+                Group {
+                    if selectedUIID == uiData.uiID {
+                        Rectangle()
+                            .gesture(DragGesture(minimumDistance: 0.5)
+                                         .onChanged { value in
+                                             self.frame.x += value.translation.width
+                                             self.frame.y += value.translation.height
+                                             self.setSelectedUIID()
+                                         })
+                            .gesture(TapGesture()
+                                         .onEnded {
+                                             self.showUISettings = true
+                                         })
+                    } else {
+                        Rectangle()
+                            .gesture(TapGesture()
+                                         .onEnded {
+                                             self.setSelectedUIID()
+                                         }
+                            )
+                    }
+                }
                     .foregroundColor(Color.white.opacity(0.001))
                     .frame(width: frame.width, height: frame.height)
                     .position(x: frame.midX, y: frame.midY)

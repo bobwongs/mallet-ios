@@ -6,11 +6,14 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
+import Swift
 import SwiftUI
 
 struct EditorAppView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
+
+    @Binding var appViewScale: CGFloat
 
     var body: some View {
         ZStack {
@@ -21,7 +24,7 @@ struct EditorAppView: View {
             ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
                 Group {
                     if self.editorViewModel.uiData[idx].uiID == self.editorViewModel.selectedUIID {
-                        UIFrameEditingView(uiData: self.$editorViewModel.uiData[idx])
+                        UIFrameEditingView(uiData: self.$editorViewModel.uiData[idx], appViewScale: self.$appViewScale)
                     }
                 }
             }

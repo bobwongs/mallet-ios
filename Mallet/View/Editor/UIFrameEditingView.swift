@@ -26,6 +26,8 @@ fileprivate struct UIFrameDot: View {
 
     @Binding var frame: MRect
 
+    @Binding var size: CGFloat
+
     let frameFactors: FrameFactors
 
     private let dotColor = Color.blue
@@ -37,11 +39,11 @@ fileprivate struct UIFrameDot: View {
     var body: some View {
         Circle()
             .foregroundColor(self.dotColor)
-            .frame(width: 12, height: 12)
+            .frame(width: size, height: size)
             .overlay(
                 Circle()
                     .foregroundColor(Color.white.opacity(0.001))
-                    .frame(width: 25, height: 25)
+                    .frame(width: size * 2, height: size * 2)
                     .gesture(DragGesture()
                                  .onChanged { value in
                                      self.frame.x += min(self.frameFactors.x.rawValue * value.translation.width, self.frame.width - self.minWidth)
@@ -58,11 +60,22 @@ struct UIFrameEditingView: View {
 
     @Binding var uiData: MUI
 
+    @Binding var appViewScale: CGFloat
+
     @State private var showUISettings = false
 
     private let dotColor = Color.blue
 
-    private let borderWidth: CGFloat = 2
+    private var dotSize: Binding<CGFloat> {
+        Binding(
+            get: { 12 / self.appViewScale },
+            set: { _ in }
+        )
+    }
+
+    private var borderWidth: CGFloat {
+        2 / self.appViewScale
+    }
 
     var body: some View {
         Rectangle()
@@ -72,18 +85,6 @@ struct UIFrameEditingView: View {
             .overlay(
                 Group {
                     ZStack {
-                        /*
-                        Rectangle()
-                            .foregroundColor(Color.white.opacity(0.001))
-                            .gesture(DragGesture()
-                                         .onChanged { value in
-                                             self.uiData.frame.x += value.translation.width
-                                             self.uiData.frame.y += value.translation.height
-                                         })
-                            .frame(width: uiData.frame.width + self.borderWidth, height: uiData.frame.height + self.borderWidth)
-                            .position(x: uiData.frame.midX, y: uiData.frame.midY)
-                            */
-
                         Group {
                             Rectangle()
                                 .foregroundColor(.clear)
@@ -93,24 +94,24 @@ struct UIFrameEditingView: View {
 
 
                             Group {
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
                                     .position(x: uiData.frame.x, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
                                     .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
                                     .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y + uiData.frame.height)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
                                     .position(x: uiData.frame.x, y: uiData.frame.y + uiData.frame.height)
                             }
 
                             Group {
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
                                     .position(x: uiData.frame.x + uiData.frame.width / 2, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
                                     .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y + uiData.frame.height / 2)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
                                     .position(x: uiData.frame.x + uiData.frame.width / 2, y: uiData.frame.y + uiData.frame.height)
-                                UIFrameDot(frame: $uiData.frame, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
+                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
                                     .position(x: uiData.frame.x, y: uiData.frame.y + uiData.frame.height / 2)
                             }
                         }
