@@ -84,6 +84,7 @@ struct EditorFooterView: View {
                             Spacer()
                         }
                     )
+                    .transition(.move(edge: .bottom))
             }
                 .offset(y: self.offset)
         }

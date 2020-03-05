@@ -12,14 +12,18 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     @Binding var scale: CGFloat
 
+    @Binding var offset: CGPoint
+
     private let content: () -> Content
 
     private let hosting: UIHostingController<Content>
 
     private let scrollView: UIScrollView
 
-    init(scale: Binding<CGFloat>, content: @escaping () -> Content) {
+    init(scale: Binding<CGFloat>, offset: Binding<CGPoint>, content: @escaping () -> Content) {
         self._scale = scale
+
+        self._offset = offset
 
         self.content = content
 
@@ -52,6 +56,7 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollView.minimumZoomScale = 0.7
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
+        scrollView.contentInsetAdjustmentBehavior = .never
 
         scrollView.addSubview(hosting.view)
         hosting.view.translatesAutoresizingMaskIntoConstraints = false
@@ -70,8 +75,13 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
     }
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        scale = scrollView.zoomScale
         updateScrollInset()
+        scale = scrollView.zoomScale
+        offset = scrollView.contentOffset
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        offset = scrollView.contentOffset
     }
 
     private func updateScrollInset() {
@@ -88,16 +98,20 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
 
     @Binding var scale: CGFloat
 
+    @Binding var offset: CGPoint
+
     let content: () -> Content
 
-    init(scale: Binding<CGFloat>, content: @escaping () -> Content) {
+    init(scale: Binding<CGFloat>, offset: Binding<CGPoint>, content: @escaping () -> Content) {
         self._scale = scale
+
+        self._offset = offset
 
         self.content = content
     }
 
     func makeUIViewController(context: Context) -> EditorAppScrollViewController<Content> {
-        return EditorAppScrollViewController(scale: $scale) {
+        return EditorAppScrollViewController(scale: $scale, offset: $offset) {
             self.content()
         }
     }

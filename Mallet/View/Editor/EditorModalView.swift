@@ -12,6 +12,10 @@ struct EditorModalView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
+    @Binding var appViewScale: CGFloat
+
+    @Binding var appViewOffset: CGPoint
+
     let editorGeo: GeometryProxy
 
     @State private var modalViewOffset: CGFloat = 0
@@ -26,13 +30,14 @@ struct EditorModalView: View {
 
     @State private var selectedUIFrame = CGRect.zero
 
+    @State private var showingFooter = true
+
     private var footerViewOffset: Binding<CGFloat> {
         Binding(
             get: { self.modalViewMaxOffset - self.modalViewOffset },
             set: { _ in }
         )
     }
-
 
     private var modalViewHeight: CGFloat {
         300
@@ -64,6 +69,7 @@ struct EditorModalView: View {
                 VStack {
                     Spacer()
                     self.modal(geo: geo)
+                        .transition(.move(edge: .bottom))
                 }
 
                 EditorFooterView(offset: self.footerViewOffset, height: self.footerViewHeight)
@@ -72,6 +78,7 @@ struct EditorModalView: View {
                 if self.selectedUIType != .space {
                     UISelectionView.generateUI(type: self.selectedUIType)
                         .environmentObject(self.editorViewModel)
+                        .scaleEffect(self.appViewScale)
                         .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
                         .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
                                   y: self.selectedUIFrame.midY - geo.frame(in: .global).origin.y)
@@ -91,7 +98,13 @@ struct EditorModalView: View {
                 }
                     .frame(height: self.controlBarHeight)
 
-                UISelectionView(editorGeo: self.editorGeo, closeModalView: { self.closeModalView() }, selectedUIType: self.$selectedUIType, selectedUIFrame: self.$selectedUIFrame)
+                UISelectionView(editorGeo: self.editorGeo,
+                                closeModalView: { self.closeModalView() },
+                                selectedUIType: self.$selectedUIType,
+                                selectedUIFrame: self.$selectedUIFrame,
+                                appViewScale: self.$appViewScale,
+                                appViewOffset: self.$appViewOffset
+                )
             }
                 .background(Color(.tertiarySystemBackground))
                 .cornerRadius(10)
@@ -152,6 +165,16 @@ struct EditorModalView: View {
         }
 
         modalViewCurrentOffset = modalViewOffset
+    }
+
+    private func showFooter() {
+        withAnimation {
+            showingFooter = true
+        }
+    }
+
+    private func hideFooter() {
+        showingFooter = false
     }
 }
 

@@ -20,6 +20,10 @@ struct UISelectionView: View {
 
     @Binding var selectedUIFrame: CGRect
 
+    @Binding var appViewScale: CGFloat
+
+    @Binding var appViewOffset: CGPoint
+
     private var uiTable: [[MUIType]] {
         [[.text, .button, .input],
          [.slider, .toggle, .space]]
@@ -62,9 +66,16 @@ struct UISelectionView: View {
                                          self.selectedUIFrame.size = geo.size
                                      }
                                      .onEnded { value in
+                                         var offset = self.appViewOffset
+                                         offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
+                                         offset.y += self.editorGeo.size.height * (1 - self.appViewScale) / 2
+
                                          var frame = MRect(self.selectedUIFrame)
                                          frame.x -= self.editorGeo.frame(in: .global).origin.x
                                          frame.y -= self.editorGeo.frame(in: .global).origin.y
+
+                                         frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2 //+ self.appViewOffset.x
+                                         frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2 //+ self.appViewOffset.y
 
                                          self.editorViewModel.addUI(type: type, frame: frame)
                                          self.selectedUIType = .space

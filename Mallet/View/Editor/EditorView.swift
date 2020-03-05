@@ -14,7 +14,7 @@ struct EditorView: View {
 
     @State private var showAppSettingsView = false
 
-    @State private var appViewOffset = CGSize.zero
+    @State private var appViewOffset = CGPoint.zero
 
     @State private var appViewScale: CGFloat = 1
 
@@ -23,19 +23,17 @@ struct EditorView: View {
     var body: some View {
         ZStack {
             GeometryReader { geo in
-                EditorAppScrollView(scale: self.$appViewScale) {
+                EditorAppScrollView(scale: self.$appViewScale, offset: self.$appViewOffset) {
                     EditorAppView(appViewScale: self.$appViewScale)
                         .environmentObject(self.editorViewModel)
                         .frame(width: geo.size.width, height: geo.size.height)
                         .position(x: geo.size.width / 2, y: geo.size.height / 2)
-                        .scaleEffect(self.appViewScale)
                 }
                     .frame(width: geo.size.width, height: geo.size.height)
-                    .scaleEffect(self.appViewScale)
             }
 
             GeometryReader { geo in
-                EditorModalView(editorGeo: geo)
+                EditorModalView(appViewScale: self.$appViewScale, appViewOffset: self.$appViewOffset, editorGeo: geo)
                     .environmentObject(self.editorViewModel)
             }
         }
