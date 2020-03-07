@@ -23,50 +23,12 @@ struct EditorToolBar: View {
                 VStack(spacing: 0) {
                     HStack {
                         HStack {
-                            Button(action: {
-                                print("undo")
-                            }) {
-                                Image(systemName: "arrow.uturn.left.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-
+                            self.leadingContent()
                             Spacer()
-                                .frame(width: 40)
-
-                            Button(action: {
-                                print("redo")
-                            }) {
-                                Image(systemName: "arrow.uturn.right.circle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-
-                            Spacer()
-
-                            Button(action: {
-                                self.editorViewModel.deleteUI()
-                            }) {
-                                Image(systemName: "trash")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-
-                            Spacer()
-                                .frame(width: 40)
-
-                            Button(action: {
-                                self.editorViewModel.duplicateUI()
-                            }) {
-                                Image(systemName: "plus.square.on.square")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                            }
-
-
+                            self.trailingContent()
                         }
-                            .frame(height: 20)
-                            .padding(20)
+                            .frame(height: 23)
+                            .padding([.leading, .trailing], 20)
                     }
                         .frame(height: self.height)
 
@@ -88,25 +50,54 @@ struct EditorToolBar: View {
                             Spacer()
                         }
                     )
-                    .transition(.move(edge: .bottom))
             }
                 .offset(y: self.offset)
         }
     }
-}
 
-/*
-struct EditorFooterView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            EditorFooterView()
-                .edgesIgnoringSafeArea(.bottom)
-                .colorScheme(.light)
+    private func leadingContent() -> some View {
+        HStack {
+            Button(action: {
+                print("undo")
+            }) {
+                Image(systemName: "arrow.uturn.left.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
 
-            EditorFooterView()
-                .edgesIgnoringSafeArea(.bottom)
-                .colorScheme(.dark)
+            Spacer()
+                .frame(width: 40)
+
+            Button(action: {
+                print("redo")
+            }) {
+                Image(systemName: "arrow.uturn.right.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+    }
+
+    private func trailingContent() -> some View {
+        HStack {
+            Button(action: {
+                self.editorViewModel.deleteUI()
+            }) {
+                Image(systemName: "trash")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+
+            Spacer()
+                .frame(width: 40)
+
+            Button(action: {
+                self.editorViewModel.duplicateUI()
+            }) {
+                Image(systemName: "plus.square.on.square")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
         }
     }
 }
-*/

@@ -26,10 +26,12 @@ struct EditorFooterView: View {
 
     @State private var showingFooter = true
 
+    private let toolBarHeight: CGFloat = 40
+
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                SemiModalView(height: 200, minHeight: 40, offset: self.$modalOffset) {
+                SemiModalView(height: 200, minHeight: self.toolBarHeight, offset: self.$modalOffset) {
                     UISelectionView(editorGeo: self.editorGeo,
                                     closeModalView: { self.closeModalView() },
                                     selectedUIType: self.$selectedUIType,
@@ -39,7 +41,7 @@ struct EditorFooterView: View {
                     )
                 }
 
-                EditorToolBar(offset: self.$modalOffset, height: 40)
+                EditorToolBar(offset: self.$modalOffset, height: self.toolBarHeight)
                     .environmentObject(self.editorViewModel)
 
                 if self.selectedUIType != .space {
