@@ -115,7 +115,6 @@ struct EditorModalView: View {
                 )
                 .gesture(DragGesture(minimumDistance: 0, coordinateSpace: .global)
                              .onChanged({ value in
-                                 print(value)
                                  self.dragGestureDiffHeight = value.translation.height - self.dragGestureCurrentTranslationHeight
                                  self.dragGestureCurrentTranslationHeight = value.translation.height
 
@@ -124,7 +123,6 @@ struct EditorModalView: View {
                                          min(self.modalViewMaxOffset, self.modalViewCurrentOffset + value.translation.height))
                              })
                              .onEnded({ value in
-                                 print("#END")
                                  self.modalViewCurrentOffset = self.modalViewOffset
 
                                  if abs(self.dragGestureDiffHeight) < 2 {
