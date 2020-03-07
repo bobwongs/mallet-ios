@@ -88,7 +88,7 @@ struct UIFrameEditingView: View {
                         Group {
                             Rectangle()
                                 .foregroundColor(.clear)
-                                .border(Color.gray, width: self.borderWidth)
+                                .border(Color.blue, width: self.borderWidth)
                                 .frame(width: uiData.frame.width + self.borderWidth, height: uiData.frame.height + self.borderWidth)
                                 .position(x: uiData.frame.midX, y: uiData.frame.midY)
 
