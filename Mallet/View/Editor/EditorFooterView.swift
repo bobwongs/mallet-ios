@@ -69,10 +69,14 @@ struct EditorFooterView: View {
                             .padding(20)
                     }
                         .frame(height: self.height)
-                    HStack {
-                        Spacer()
-                    }
+
+                    Color.white
+                        .opacity(0.001)
                         .frame(height: geo.safeAreaInsets.bottom)
+                        .gesture(DragGesture()
+                                     .onChanged { _ in
+
+                                     })
 
                 }
                     .background(Color(.tertiarySystemBackground))
