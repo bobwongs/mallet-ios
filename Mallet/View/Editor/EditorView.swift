@@ -33,13 +33,13 @@ struct EditorView: View {
             }
 
             GeometryReader { geo in
-                EditorModalView(appViewScale: self.$appViewScale, appViewOffset: self.$appViewOffset, editorGeo: geo)
+                EditorFooterView(appViewScale: self.$appViewScale, appViewOffset: self.$appViewOffset, editorGeo: geo)
                     .environmentObject(self.editorViewModel)
             }
         }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
-            .navigationBarTitle("App Title", displayMode: .inline)
+            .navigationBarTitle("Untitled App", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
     }
 
