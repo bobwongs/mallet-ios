@@ -96,7 +96,7 @@ struct EditorView: View {
             self.closeEditor()
         }) {
             Text("Done")
-                .fontWeight(.medium)
+                .fontWeight(.semibold)
                 .padding([.top, .bottom], 7)
         }
     }
