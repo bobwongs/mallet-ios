@@ -31,6 +31,7 @@ struct EditorAppView: View {
                 }
             }
         }
+            .edgesIgnoringSafeArea(.bottom)
             .background(Color.white)
             .colorScheme(.light)
             .onTapGesture {

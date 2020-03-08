@@ -16,25 +16,73 @@ struct EditorView: View {
 
     @State private var appViewOffset = CGPoint.zero
 
-    @State private var appViewScale: CGFloat = 1
+    @State private var appViewScale: CGFloat = 0.8
+
+    @State private var modalOffset: CGFloat = 0
+
+    @State private var selectedUIType: MUIType = .space
+
+    @State private var selectedUIFrame = CGRect.zero
+
+    private let modalControlBarHeight: CGFloat = 30
+
+    private let toolBarHeight: CGFloat = 40
+
+    private let scrollViewMaxInsets = UIEdgeInsets(top: 20, left: 20, bottom: 30, right: 20)
 
     let closeEditor: () -> Void
 
     var body: some View {
         ZStack {
-            GeometryReader { geo in
-                EditorAppScrollView(scale: self.$appViewScale, offset: self.$appViewOffset) {
-                    EditorAppView(appViewScale: self.$appViewScale)
-                        .environmentObject(self.editorViewModel)
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
+            Color.gray
+
+            GeometryReader { screenGeo in
+                VStack(spacing: 0) {
+                    GeometryReader { geo in
+                        EditorAppScrollView(scale: self.$appViewScale,
+                                            offset: self.$appViewOffset,
+                                            scrollViewSize: geo.size,
+                                            contentSize: screenGeo.size,
+                                            maxInsets: self.scrollViewMaxInsets
+                        ) {
+                            EditorAppView(appViewScale: self.$appViewScale)
+                                .environmentObject(self.editorViewModel)
+                                .edgesIgnoringSafeArea(.all)
+                        }
+                    }
+
+                    Spacer()
+                        .frame(height: screenGeo.safeAreaInsets.bottom + self.toolBarHeight + self.modalControlBarHeight - 10)
                 }
-                    .frame(width: geo.size.width, height: geo.size.height)
             }
 
             GeometryReader { geo in
-                EditorFooterView(appViewScale: self.$appViewScale, appViewOffset: self.$appViewOffset, editorGeo: geo)
-                    .environmentObject(self.editorViewModel)
+                ZStack {
+                    SemiModalView(height: 200,
+                                  minHeight: self.toolBarHeight,
+                                  controlBarHeight: self.modalControlBarHeight,
+                                  offset: self.$modalOffset) {
+                        UISelectionView(editorGeo: geo,
+                                        closeModalView: { self.closeModalView() },
+                                        selectedUIType: self.$selectedUIType,
+                                        selectedUIFrame: self.$selectedUIFrame,
+                                        appViewScale: self.$appViewScale,
+                                        appViewOffset: self.$appViewOffset
+                        )
+                    }
+
+                    EditorToolBar(offset: self.$modalOffset, height: self.toolBarHeight)
+                        .environmentObject(self.editorViewModel)
+
+                    if self.selectedUIType != .space {
+                        UISelectionView.generateUI(type: self.selectedUIType)
+                            .environmentObject(self.editorViewModel)
+                            .scaleEffect(self.appViewScale)
+                            .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
+                            .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
+                                      y: self.selectedUIFrame.midY - geo.frame(in: .global).origin.y)
+                    }
+                }
             }
         }
             .edgesIgnoringSafeArea(.bottom)
@@ -81,6 +129,13 @@ struct EditorView: View {
     private func generateUI() -> some View {
         return Text("UI")
     }
+
+    private func closeModalView() {
+        withAnimation(.easeOut(duration: 0.2)) {
+            self.modalOffset = 0
+        }
+    }
+
 }
 
 struct EditorView_Previews: PreviewProvider {

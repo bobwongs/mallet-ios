@@ -28,7 +28,6 @@
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
 		0ED82DC82393DCB30054BC4C /* EditorAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC72393DCB30054BC4C /* EditorAppView.swift */; };
-		0ED82DCA2393DD060054BC4C /* EditorFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC92393DD050054BC4C /* EditorFooterView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 		0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A5D23841ECC00710FEA /* AppView.swift */; };
@@ -107,7 +106,6 @@
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
 		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
 		0ED82DC72393DCB30054BC4C /* EditorAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAppView.swift; sourceTree = "<group>"; };
-		0ED82DC92393DD050054BC4C /* EditorFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorFooterView.swift; sourceTree = "<group>"; };
 		0EDC9CD32369D80500AD490B /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		0EEE6D7F23672AFA00691783 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
@@ -250,7 +248,6 @@
 				0EDC9CD32369D80500AD490B /* EditorView.swift */,
 				0E9F7E4623ABCC7E00C12CF1 /* EditorToolBar.swift */,
 				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
-				0ED82DC92393DD050054BC4C /* EditorFooterView.swift */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
 				611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */,
 				611AC5A522FB2290C61E7DD3 /* UISettings */,
@@ -484,7 +481,6 @@
 				0E9F842023659EE800994789 /* StringExtension.swift in Sources */,
 				0E9F83B623659E4300994789 /* AddShortcut.swift in Sources */,
 				0E3659FF237EECE200294A40 /* MUI.swift in Sources */,
-				0ED82DCA2393DD060054BC4C /* EditorFooterView.swift in Sources */,
 				0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */,
 				0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */,
 				0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */,

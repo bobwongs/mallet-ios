@@ -26,14 +26,15 @@ struct SemiModalView<Content: View>: View {
 
     private let minOffset: CGFloat = 0
 
-    private let controlBarHeight: CGFloat = 30
+    private let controlBarHeight: CGFloat
 
     private let cornerRadius: CGFloat = 10
 
-    init(height: CGFloat, minHeight: CGFloat, offset: Binding<CGFloat> = .constant(0), @ViewBuilder content: @escaping () -> Content) {
+    init(height: CGFloat, minHeight: CGFloat, controlBarHeight: CGFloat = 30, offset: Binding<CGFloat> = .constant(0), @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.height = height + controlBarHeight
         self.minHeight = minHeight + controlBarHeight
+        self.controlBarHeight = controlBarHeight
         self._offset = offset
         self.maxOffset = self.height - self.minHeight
     }
