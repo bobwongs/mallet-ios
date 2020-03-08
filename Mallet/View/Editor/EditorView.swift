@@ -96,6 +96,7 @@ struct EditorView: View {
             self.closeEditor()
         }) {
             Text("Done")
+                .fontWeight(.medium)
                 .padding([.top, .bottom], 7)
         }
     }
@@ -124,6 +125,7 @@ struct EditorView: View {
                     .aspectRatio(contentMode: .fit)
             }
         }
+            .frame(height: 20)
     }
 
     private func generateUI() -> some View {
