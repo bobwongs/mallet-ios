@@ -20,6 +20,10 @@ struct MUIEditorFrameView<Content>: View where Content: View {
 
     @State private var showUISettings = false
 
+    @State private var editingText = false
+
+    @State private var text = "Yay"
+
     init(uiData: Binding<MUI>, selectedUIID: Binding<Int?>, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
 
@@ -31,24 +35,36 @@ struct MUIEditorFrameView<Content>: View where Content: View {
     }
 
     var body: some View {
-        content()
+        Group {
+            if editingText {
+                Spacer()
+            } else {
+                content()
+            }
+        }
             .frame(width: frame.width, height: frame.height)
             .background(Color.black.opacity(0.05))
             .position(x: frame.midX, y: frame.midY)
             .overlay(
                 Group {
                     if selectedUIID == uiData.uiID {
-                        Rectangle()
-                            .gesture(DragGesture(minimumDistance: 0.5)
-                                         .onChanged { value in
-                                             self.frame.x += value.translation.width
-                                             self.frame.y += value.translation.height
-                                             self.setSelectedUIID()
-                                         })
-                            .gesture(TapGesture()
-                                         .onEnded {
-                                             self.showUISettings = true
-                                         })
+                        if (editingText) {
+                            EditorTextView(text: $text)
+                                .gesture(TapGesture())
+                        } else {
+                            Rectangle()
+                                .gesture(DragGesture(minimumDistance: 0.5)
+                                             .onChanged { value in
+                                                 self.frame.x += value.translation.width
+                                                 self.frame.y += value.translation.height
+                                                 self.setSelectedUIID()
+                                             })
+                                .gesture(TapGesture()
+                                             .onEnded {
+                                                 self.editingText = true
+                                                 //self.showUISettings = true
+                                             })
+                        }
                     } else {
                         Rectangle()
                             .gesture(TapGesture()
