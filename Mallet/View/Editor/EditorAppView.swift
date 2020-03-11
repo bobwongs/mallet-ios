@@ -41,21 +41,21 @@ struct EditorAppView: View {
 
     func generateUI(index: Int) -> some View {
 
-        let ui = editorViewModel.uiData[index]
+        let uiData = $editorViewModel.uiData[index]
 
-        let uiType = ui.uiType
+        let uiType = editorViewModel.uiData[index].uiType
 
-        return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID) {
+        return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID, appViewScale: $appViewScale) {
             if uiType == .text {
-                MUIText(textData: self.$editorViewModel.uiData[index].textData)
+                MUIText(uiData: uiData)
             } else if uiType == .button {
-                MUIButton()
+                MUIButton(uiData: uiData)
             } else if uiType == .input {
                 MUIInput()
             } else if uiType == .slider {
                 MUISlider()
             } else if uiType == .toggle {
-                MUIToggle()
+                MUIToggle(uiData: uiData)
             } else {
                 fatalError()
             }

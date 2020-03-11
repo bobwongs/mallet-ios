@@ -16,21 +16,46 @@ struct MUI: Codable {
 
     let uiType: MUIType
 
-    var frame: MRect
+    var frameData: MUIFrame
+
+    var backgroundData = MUIBackGround.disabled
 
     var textData = MUITextData.disabled
 
     static var none: MUI {
-        MUI(uiID: -1, uiName: "", uiType: .space, frame: MRect(x: 0, y: 0, width: 0, height: 0))
+        MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrame(.zero))
     }
 
-    static func defaultValue(uiID: Int, uiName: String, type: MUIType, frame: MRect) -> MUI {
+    static func defaultValue(type: MUIType) -> MUI {
+        return MUI.defaultValue(uiID: 0, uiName: "", type: type, frame: .zero)
+    }
 
-        var uiData = MUI(uiID: uiID, uiName: uiName, uiType: type, frame: frame)
+    static func defaultValue(uiID: Int, uiName: String, type: MUIType, frame: MUIRect) -> MUI {
+
+        var uiData = MUI(uiID: uiID, uiName: uiName, uiType: type, frameData: MUIFrame(frame))
 
         switch type {
         case .text:
+            uiData.backgroundData = .defaultValue
             uiData.textData = .defaultValue
+            break
+
+        case .button:
+            uiData.backgroundData = MUIBackGround(color: MUIColor(r: 0, g: 0, b: 255, a: 255), cornerRadius: 10)
+            uiData.textData = MUITextData(text: "Button", color: .white, size: 17, alignment: .center)
+            break
+
+        case .toggle:
+            uiData.frameData.lockWidth = true
+            uiData.frameData.lockHeight = true
+            break
+
+        case .slider:
+            uiData.frameData.lockHeight = true
+            break
+
+        case .input:
+            uiData.frameData.lockHeight = true
             break
 
         default:
@@ -38,49 +63,6 @@ struct MUI: Codable {
         }
 
         return uiData
-    }
-}
-
-struct MUITextData: Codable {
-
-    var enabled = true
-
-    var text: String
-
-    var color: MUIColor
-
-    var size: CGFloat
-
-    var alignment: MUITextAlignment
-
-    static let disabled = MUITextData(enabled: false, text: "", color: .clear, size: 0, alignment: .center)
-
-    static let defaultValue = MUITextData(enabled: true, text: "Label", color: .black, size: 17, alignment: .center)
-
-}
-
-enum MUITextAlignment: Int, Codable {
-
-    case leading
-
-    case center
-
-    case trailing
-
-    var toTextAlignment: TextAlignment {
-        switch self {
-        case .leading: return .leading
-        case .center: return .center
-        case .trailing: return .trailing
-        }
-    }
-
-    var toNSTextAlignment: NSTextAlignment {
-        switch self {
-        case .leading: return .left
-        case .center: return .center
-        case .trailing: return .right
-        }
     }
 }
 
@@ -98,6 +80,8 @@ struct MUIColor: Codable {
 
     static let black = MUIColor(r: 0, g: 0, b: 0, a: 255)
 
+    static let white = MUIColor(r: 255, g: 255, b: 255, a: 255)
+
     var toColor: Color {
         Color(red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
     }
@@ -105,15 +89,31 @@ struct MUIColor: Codable {
     var toUIColor: UIColor {
         UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
-
 }
 
 struct MUIFrame: Codable {
 
-    var frame: MRect
+    var frame: MUIRect
 
-    var lockHeight: Bool
+    var lockHeight = false
 
-    var lockWidth: Bool
+    var lockWidth = false
+
+    init(_ frame: MUIRect) {
+        self.frame = frame
+    }
+}
+
+struct MUIBackGround: Codable {
+
+    var enabled = true
+
+    var color: MUIColor
+
+    var cornerRadius: CGFloat
+
+    static let disabled = MUIBackGround(color: .clear, cornerRadius: 0)
+
+    static let defaultValue = MUIBackGround(color: .clear, cornerRadius: 0)
 
 }

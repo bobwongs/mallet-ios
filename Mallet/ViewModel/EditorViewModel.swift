@@ -36,7 +36,7 @@ class EditorViewModel: ObservableObject {
         })?.uiID ?? -1
     }
 
-    func addUI(type: MUIType, frame: MRect) {
+    func addUI(type: MUIType, frame: MUIRect) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
@@ -54,11 +54,11 @@ class EditorViewModel: ObservableObject {
 
         let uiId = maxUIID + 1
         let uiName = "\(ui.uiType.rawValue)\(uiId)"
-        var frame = ui.frame
-        frame.x += 20
-        frame.y += 20
+        var frameData = ui.frameData
+        frameData.frame.x += 20
+        frameData.frame.y += 20
 
-        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: ui.uiType, frame: frame))
+        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: ui.uiType, frameData: frameData))
 
         selectedUIID = uiId
 

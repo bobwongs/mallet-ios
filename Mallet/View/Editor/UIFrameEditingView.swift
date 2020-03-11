@@ -24,7 +24,7 @@ fileprivate struct FrameFactors {
 
 fileprivate struct UIFrameDot: View {
 
-    @Binding var frame: MRect
+    @Binding var frame: MUIRect
 
     @Binding var size: CGFloat
 
@@ -68,51 +68,64 @@ struct UIFrameEditingView: View {
 
     private var dotSize: Binding<CGFloat> {
         Binding(
-            get: { 12 / self.appViewScale },
+            get: { 8 / self.appViewScale },
             set: { _ in }
         )
     }
 
     private var borderWidth: CGFloat {
-        2 / self.appViewScale
+        1 / self.appViewScale
     }
 
     var body: some View {
         Rectangle()
-            .frame(width: uiData.frame.width, height: uiData.frame.height)
+            .frame(width: uiData.frameData.frame.width, height: uiData.frameData.frame.height)
             .foregroundColor(.clear)
-            .position(x: uiData.frame.midX, y: uiData.frame.midY)
+            .position(x: uiData.frameData.frame.midX, y: uiData.frameData.frame.midY)
             .overlay(
                 Group {
                     ZStack {
                         Group {
-                            Rectangle()
-                                .foregroundColor(.clear)
-                                .border(Color.blue, width: self.borderWidth)
-                                .frame(width: uiData.frame.width + self.borderWidth, height: uiData.frame.height + self.borderWidth)
-                                .position(x: uiData.frame.midX, y: uiData.frame.midY)
-
-
                             Group {
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
-                                    .position(x: uiData.frame.x, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
-                                    .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
-                                    .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y + uiData.frame.height)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
-                                    .position(x: uiData.frame.x, y: uiData.frame.y + uiData.frame.height)
+                                if !(uiData.frameData.lockHeight || uiData.frameData.lockWidth) {
+                                    // LT
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative))
+                                        .position(x: uiData.frameData.frame.x, y: uiData.frameData.frame.y)
+
+                                    // RT
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative))
+                                        .position(x: uiData.frameData.frame.x + uiData.frameData.frame.width, y: uiData.frameData.frame.y)
+
+                                    // RB
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive))
+                                        .position(x: uiData.frameData.frame.x + uiData.frameData.frame.width, y: uiData.frameData.frame.y + uiData.frameData.frame.height)
+
+                                    // LB
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive))
+                                        .position(x: uiData.frameData.frame.x, y: uiData.frameData.frame.y + uiData.frameData.frame.height)
+                                }
                             }
 
                             Group {
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
-                                    .position(x: uiData.frame.x + uiData.frame.width / 2, y: uiData.frame.y)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
-                                    .position(x: uiData.frame.x + uiData.frame.width, y: uiData.frame.y + uiData.frame.height / 2)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
-                                    .position(x: uiData.frame.x + uiData.frame.width / 2, y: uiData.frame.y + uiData.frame.height)
-                                UIFrameDot(frame: $uiData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
-                                    .position(x: uiData.frame.x, y: uiData.frame.y + uiData.frame.height / 2)
+                                if !uiData.frameData.lockHeight {
+                                    // T
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative))
+                                        .position(x: uiData.frameData.frame.x + uiData.frameData.frame.width / 2, y: uiData.frameData.frame.y)
+
+                                    // B
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive))
+                                        .position(x: uiData.frameData.frame.x + uiData.frameData.frame.width / 2, y: uiData.frameData.frame.y + uiData.frameData.frame.height)
+                                }
+
+                                if !uiData.frameData.lockWidth {
+                                    // R
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero))
+                                        .position(x: uiData.frameData.frame.x + uiData.frameData.frame.width, y: uiData.frameData.frame.y + uiData.frameData.frame.height / 2)
+
+                                    // L
+                                    UIFrameDot(frame: $uiData.frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero))
+                                        .position(x: uiData.frameData.frame.x, y: uiData.frameData.frame.y + uiData.frameData.frame.height / 2)
+                                }
                             }
                         }
                     }

@@ -57,20 +57,23 @@ struct UISelectionView: View {
                 GeometryReader { geo in
                     UISelectionView.generateUI(type: type)
                         .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
+                        .frame(width: width, height: height)
+                        .background(MUI.defaultValue(type: type).backgroundData.color.toColor)
+                        .cornerRadius(MUI.defaultValue(type: type).backgroundData.cornerRadius)
                         .gesture(DragGesture()
                                      .onChanged { value in
                                          self.closeModalView()
                                          self.selectedUIType = type
                                          self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
                                          self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
-                                         self.selectedUIFrame.size = geo.size
+                                         self.selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
                                      }
                                      .onEnded { value in
                                          var offset = self.appViewOffset
                                          offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
                                          offset.y += self.editorGeo.size.height * (1 - self.appViewScale) / 2
 
-                                         var frame = MRect(self.selectedUIFrame)
+                                         var frame = MUIRect(self.selectedUIFrame)
                                          frame.x -= self.editorGeo.frame(in: .global).origin.x
                                          frame.y -= self.editorGeo.frame(in: .global).origin.y
 
@@ -92,17 +95,20 @@ struct UISelectionView: View {
     }
 
     static func generateUI(type: MUIType) -> some View {
-        Group {
+
+        let uiData = MUI.defaultValue(type: type)
+
+        return Group {
             if type == .text {
-                MUIText(textData: .constant(.defaultValue))
+                MUIText(uiData: .constant(uiData))
             } else if type == .button {
-                MUIButton()
+                MUIButton(uiData: .constant(uiData))
             } else if type == .input {
                 MUIInput()
             } else if type == .slider {
                 MUISlider()
             } else if type == .toggle {
-                MUIToggle()
+                MUIToggle(uiData: .constant(uiData))
             } else if type == .space {
                 Spacer()
             }

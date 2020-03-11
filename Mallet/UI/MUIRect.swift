@@ -5,7 +5,7 @@
 
 import UIKit
 
-struct MRect: Codable {
+struct MUIRect: Codable {
 
     var x: CGFloat
 
@@ -37,7 +37,7 @@ struct MRect: Codable {
         self.height = frame.height
     }
 
-    static var zero: MRect {
-        MRect(x: 0, y: 0, width: 0, height: 0)
+    static var zero: MUIRect {
+        MUIRect(x: 0, y: 0, width: 0, height: 0)
     }
 }

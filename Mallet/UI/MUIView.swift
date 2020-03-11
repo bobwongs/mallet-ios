@@ -10,19 +10,28 @@ import SwiftUI
 
 struct MUIText: View {
 
-    @Binding var textData: MUITextData
+    @Binding var uiData: MUI
 
     var body: some View {
-        Text(textData.text)
-            .foregroundColor(textData.color.toColor)
-            .font(.system(size: textData.size))
-            .multilineTextAlignment(textData.alignment.toTextAlignment)
+        Text(uiData.textData.text)
+            .foregroundColor(uiData.textData.color.toColor)
+            .font(.system(size: uiData.textData.size))
+            .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)
     }
 }
 
 struct MUIButton: View {
+
+    @Binding var uiData: MUI
+
     var body: some View {
-        Button("Button") {
+        Button(action: {
+
+        }) {
+            Text(uiData.textData.text)
+                .foregroundColor(uiData.textData.color.toColor)
+                .font(.system(size: uiData.textData.size))
+                .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)
         }
     }
 }
@@ -48,35 +57,19 @@ struct MUISlider: View {
 
 struct MUIToggle: View {
 
+    @Binding var uiData: MUI
+
     @State private var value = true
 
     var body: some View {
-        Toggle("", isOn: $value)
+        Toggle("", isOn: self.$value)
             .labelsHidden()
+            .padding(.trailing, 2)
     }
 }
 
 struct MUISpace: View {
     var body: some View {
         Spacer()
-    }
-}
-
-struct MUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            MUIText(textData: .constant(.defaultValue))
-
-            MUIButton()
-
-            MUIInput()
-                .frame(width: 100)
-
-            MUISlider()
-                .frame(width: 100)
-
-            MUIToggle()
-        }
-            .previewLayout(.fixed(width: 200, height: 50))
     }
 }

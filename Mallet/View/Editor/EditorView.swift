@@ -77,8 +77,10 @@ struct EditorView: View {
                     if self.selectedUIType != .space {
                         UISelectionView.generateUI(type: self.selectedUIType)
                             .environmentObject(self.editorViewModel)
-                            .scaleEffect(self.appViewScale)
                             .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
+                            .background(MUI.defaultValue(type: self.selectedUIType).backgroundData.color.toColor)
+                            .cornerRadius(MUI.defaultValue(type: self.selectedUIType).backgroundData.cornerRadius)
+                            .scaleEffect(self.appViewScale)
                             .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
                                       y: self.selectedUIFrame.midY - geo.frame(in: .global).origin.y)
                     }
