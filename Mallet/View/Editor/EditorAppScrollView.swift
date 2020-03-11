@@ -77,6 +77,12 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         updateScrollInset()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        scrollViewDidZoom(scrollView)
+    }
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return hosting.view
     }
