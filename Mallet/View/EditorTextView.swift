@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditorTextView: UIViewRepresentable {
 
-    @Binding var text: String
+    @Binding var textData: MUITextData
 
     class UIViewWithTextView: UIView {
 
@@ -58,7 +58,10 @@ struct EditorTextView: UIViewRepresentable {
     }
 
     func updateUIView(_ view: UIViewWithTextView, context: Context) {
-        view.textView.text = text
+        view.textView.text = textData.text
+        view.textView.textAlignment = textData.alignment.toNSTextAlignment
+        view.textView.textColor = textData.color.toUIColor
+        view.textView.font = view.textView.font?.withSize(textData.size)
     }
 }
 
@@ -76,7 +79,7 @@ extension EditorTextView {
         }
 
         func textViewDidChange(_ textView: UITextView) {
-            self.textView.text = textView.text
+            self.textView.textData.text = textView.text
         }
     }
 }

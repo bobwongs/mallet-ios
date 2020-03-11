@@ -17,7 +17,7 @@ struct EditorAppView: View {
 
     var body: some View {
         ZStack {
-            Spacer()
+            Color.white
 
             ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
                 self.generateUI(index: idx)
@@ -47,7 +47,7 @@ struct EditorAppView: View {
 
         return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID) {
             if uiType == .text {
-                MUIText()
+                MUIText(textData: self.$editorViewModel.uiData[index].textData)
             } else if uiType == .button {
                 MUIButton()
             } else if uiType == .input {

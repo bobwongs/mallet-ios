@@ -17,17 +17,24 @@ struct AppView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                /*
                 ForEach(0..<uiData.count) { index in
                     self.generateUI(index: index)
                 }
+                */
+
+                Spacer()
             }
                 .navigationBarTitle(Text(appName), displayMode: .inline)
                 .navigationBarItems(leading:
-                        Button(action: { print("Quit App") }) { Image(systemName: "xmark") })
+                                    Button(action: { print("Quit App") }) {
+                                        Image(systemName: "xmark")
+                                    })
         }
             .colorScheme(.light)
     }
 
+    /*
     func generateUI(index: Int) -> some View {
         let ui = uiData[index]
 
@@ -57,6 +64,7 @@ struct AppView: View {
             .background(Color.pink)
             .position(x: CGFloat(ui.frame.midX), y: CGFloat(ui.frame.midY))
     }
+    */
 }
 
 struct AppView_Previews: PreviewProvider {

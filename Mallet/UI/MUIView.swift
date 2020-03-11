@@ -9,8 +9,14 @@
 import SwiftUI
 
 struct MUIText: View {
+
+    @Binding var textData: MUITextData
+
     var body: some View {
-        Text("Label")
+        Text(textData.text)
+            .foregroundColor(textData.color.toColor)
+            .font(.system(size: textData.size))
+            .multilineTextAlignment(textData.alignment.toTextAlignment)
     }
 }
 
@@ -59,7 +65,7 @@ struct MUISpace: View {
 struct MUIView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MUIText()
+            MUIText(textData: .constant(.defaultValue))
 
             MUIButton()
 

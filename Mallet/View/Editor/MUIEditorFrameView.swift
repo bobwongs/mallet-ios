@@ -49,7 +49,7 @@ struct MUIEditorFrameView<Content>: View where Content: View {
                 Group {
                     if selectedUIID == uiData.uiID {
                         if (editingText) {
-                            EditorTextView(text: $text)
+                            EditorTextView(textData: $uiData.textData)
                                 .gesture(TapGesture())
                         } else {
                             Rectangle()

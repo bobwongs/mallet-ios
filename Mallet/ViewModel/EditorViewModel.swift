@@ -23,10 +23,7 @@ class EditorViewModel: ObservableObject {
     static var testModel: EditorViewModel {
         EditorViewModel(appName: "Yay",
                         appID: 0,
-                        uiData: [MUI(uiID: 0, uiName: "Text", uiType: .text, frame: MRect(x: 100, y: 100, width: 200, height: 100)),
-                                 MUI(uiID: 1, uiName: "Yay", uiType: .text, frame: MRect(x: 100, y: 200, width: 200, height: 100)),
-                                 MUI(uiID: 2, uiName: "Button", uiType: .button, frame: MRect(x: 200, y: 200, width: 100, height: 100))
-                        ])
+                        uiData: [])
     }
 
     init(appName: String, appID: Int, uiData: [MUI]) {
@@ -40,12 +37,12 @@ class EditorViewModel: ObservableObject {
     }
 
     func addUI(type: MUIType, frame: MRect) {
-        let uiId = maxUIID + 1
-        let uiName = "\(type.rawValue)\(uiId)"
+        let uiID = maxUIID + 1
+        let uiName = "\(type.rawValue)\(uiID)"
 
-        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: type, frame: frame))
+        uiData.append(.defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame))
 
-        selectedUIID = uiId
+        selectedUIID = uiID
 
         maxUIID += 1
     }

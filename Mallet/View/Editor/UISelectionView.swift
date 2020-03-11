@@ -74,8 +74,8 @@ struct UISelectionView: View {
                                          frame.x -= self.editorGeo.frame(in: .global).origin.x
                                          frame.y -= self.editorGeo.frame(in: .global).origin.y
 
-                                         frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2 //+ self.appViewOffset.x
-                                         frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2 //+ self.appViewOffset.y
+                                         frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2
+                                         frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2
 
                                          self.editorViewModel.addUI(type: type, frame: frame)
                                          self.selectedUIType = .space
@@ -94,7 +94,7 @@ struct UISelectionView: View {
     static func generateUI(type: MUIType) -> some View {
         Group {
             if type == .text {
-                MUIText()
+                MUIText(textData: .constant(.defaultValue))
             } else if type == .button {
                 MUIButton()
             } else if type == .input {

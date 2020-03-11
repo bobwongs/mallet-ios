@@ -36,4 +36,8 @@ struct MRect: Codable {
         self.width = frame.width
         self.height = frame.height
     }
+
+    static var zero: MRect {
+        MRect(x: 0, y: 0, width: 0, height: 0)
+    }
 }
