@@ -10,6 +10,8 @@ import SwiftUI
 
 struct EditorTextView: UIViewRepresentable {
 
+    @Binding var backgroundData: MUIBackGround
+
     @Binding var textData: MUITextData
 
     class UIViewWithTextView: UIView {
@@ -42,6 +44,8 @@ struct EditorTextView: UIViewRepresentable {
         textView.becomeFirstResponder()
 
         let view = UIViewWithTextView(textView)
+        view.backgroundColor = backgroundData.color.toUIColor
+        view.layer.cornerRadius = backgroundData.cornerRadius
         view.addSubview(textView)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
