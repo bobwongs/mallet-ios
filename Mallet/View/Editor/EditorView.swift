@@ -28,6 +28,8 @@ struct EditorView: View {
 
     private let toolBarHeight: CGFloat = 40
 
+    private let appViewPadding: CGFloat = 300
+
     private let scrollViewMaxInsets = UIEdgeInsets(top: 30, left: 30, bottom: 40, right: 30)
 
     private let scrollViewInitialOffset = CGPoint(x: 0, y: 10)
@@ -45,13 +47,14 @@ struct EditorView: View {
                                             offset: self.$appViewOffset,
                                             scrollViewSize: geo.size,
                                             contentSize: CGSize(width: screenGeo.size.width, height: screenGeo.size.height),
-                                            contentPadding: 300,
+                                            contentPadding: self.appViewPadding,
                                             maxInsets: self.scrollViewMaxInsets,
                                             initialOffset: self.scrollViewInitialOffset
                         ) {
                             EditorAppView(appViewScale: self.$appViewScale)
                                 .environmentObject(self.editorViewModel)
                                 .edgesIgnoringSafeArea(.all)
+                                .padding(self.appViewPadding)
                         }
                     }
 

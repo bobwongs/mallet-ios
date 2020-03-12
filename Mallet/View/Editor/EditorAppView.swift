@@ -37,8 +37,8 @@ struct EditorAppView: View {
                 }
             }
         }
-            .padding(300)
-            .background(Color.purple)
+            //.padding(300)
+            .background(Color.clear)
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
