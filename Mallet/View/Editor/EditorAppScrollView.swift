@@ -93,11 +93,6 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         hosting.didMove(toParent: self)
 
         updateScrollInset()
-
-        scrollView.contentOffset.x += initialOffset.x * scrollView.zoomScale
-        scrollView.contentOffset.y += initialOffset.y * scrollView.zoomScale
-
-        setOffset(scrollView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -112,16 +107,13 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         updateScrollInset()
-        scale = scrollView.zoomScale
-        setOffset(scrollView)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateScrollInset()
-        setOffset(scrollView)
     }
 
-    func setOffset(_ scrollView: UIScrollView) {
+    func setOffset() {
         offset = CGPoint(x: scrollView.contentOffset.x - contentPadding * scrollView.zoomScale, y: scrollView.contentOffset.y - contentPadding * scrollView.zoomScale)
     }
 
@@ -129,12 +121,31 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         let widthInset = max((scrollView.frame.width - contentSize.width * scrollView.zoomScale) / 2, 0)
         let heightInset = max((scrollView.frame.height - contentSize.height * scrollView.zoomScale) / 2, 0)
 
-        let topInset = max(heightInset, maxInsets.top) - contentPadding * scrollView.zoomScale
-        let leftInset = max(widthInset, maxInsets.left) - contentPadding * scrollView.zoomScale
-        let bottomInset = max(heightInset, maxInsets.bottom) - contentPadding * scrollView.zoomScale
-        let rightInset = max(widthInset, maxInsets.right) - contentPadding * scrollView.zoomScale
+        var topInset = -contentPadding * scrollView.zoomScale
+        var leftInset = -contentPadding * scrollView.zoomScale
+        var bottomInset = -contentPadding * scrollView.zoomScale
+        var rightInset = -contentPadding * scrollView.zoomScale
+
+        if widthInset == 0 {
+            leftInset += maxInsets.left
+            rightInset += maxInsets.right
+        } else {
+            leftInset += widthInset - initialOffset.x / 2
+            rightInset += widthInset + initialOffset.x / 2
+        }
+
+        if heightInset == 0 {
+            topInset += maxInsets.top
+            bottomInset += maxInsets.bottom
+        } else {
+            topInset += heightInset - initialOffset.y / 2
+            bottomInset += heightInset + initialOffset.y / 2
+        }
 
         scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
+
+        scale = scrollView.zoomScale
+        setOffset()
     }
 }
 
