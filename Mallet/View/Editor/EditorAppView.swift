@@ -37,8 +37,9 @@ struct EditorAppView: View {
                 }
             }
         }
+            .padding(300)
+            .background(Color.purple)
             .edgesIgnoringSafeArea(.bottom)
-            .background(Color.white)
             .colorScheme(.light)
             .onTapGesture {
                 self.editorViewModel.selectedUIID = nil

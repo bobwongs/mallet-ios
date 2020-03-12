@@ -50,12 +50,12 @@ struct EditorUIOverlayView<Content: View>: View {
                                 .gesture(TapGesture())
                         } else {
                             Rectangle()
-                                .gesture(DragGesture(minimumDistance: 0.5)
-                                             .onChanged { value in
-                                                 self.frame.x += value.translation.width
-                                                 self.frame.y += value.translation.height
-                                                 self.setSelectedUIID()
-                                             })
+                                .highPriorityGesture(DragGesture(minimumDistance: 0.5)
+                                                         .onChanged { value in
+                                                             self.frame.x += value.translation.width
+                                                             self.frame.y += value.translation.height
+                                                             self.setSelectedUIID()
+                                                         })
                                 .gesture(TapGesture()
                                              .onEnded {
                                                  if self.uiData.textData.enabled {

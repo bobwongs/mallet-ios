@@ -24,11 +24,22 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     private let contentSize: CGSize
 
+    private let contentPadding: CGFloat
+
     private let maxInsets: UIEdgeInsets
+
+    private let initialOffset: CGPoint
 
     @State private var contentPos: CGPoint = .zero
 
-    init(scale: Binding<CGFloat>, offset: Binding<CGPoint>, scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets = .zero, content: @escaping () -> Content) {
+    init(scale: Binding<CGFloat>,
+         offset: Binding<CGPoint>,
+         scrollViewSize: CGSize,
+         contentSize: CGSize,
+         contentPadding: CGFloat,
+         maxInsets: UIEdgeInsets = .zero,
+         initialOffset: CGPoint = .zero,
+         content: @escaping () -> Content) {
 
         self._scale = scale
 
@@ -44,7 +55,11 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
         self.contentSize = contentSize
 
+        self.contentPadding = contentPadding
+
         self.maxInsets = maxInsets
+
+        self.initialOffset = initialOffset
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -58,23 +73,31 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
         scrollView.delegate = self
         scrollView.frame = CGRect(origin: CGPoint.zero, size: scrollViewSize)
-        scrollView.contentSize = contentSize
+        scrollView.backgroundColor = .clear
         scrollView.maximumZoomScale = 2.0
-        scrollView.minimumZoomScale = 0.7
+        scrollView.minimumZoomScale = 0.8
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
 
-        hosting.view.frame = CGRect(origin: .zero, size: contentSize)
+        hosting.view.frame = CGRect(origin: .zero, size: CGSize(width: contentSize.width + contentPadding * 2, height: contentSize.height + contentPadding * 2))
+        hosting.view.backgroundColor = .clear
 
         scrollView.addSubview(hosting.view)
         view.addSubview(scrollView)
+
+        scrollView.contentSize = CGSize(width: contentSize.width, height: contentSize.height)
 
         scrollView.zoomScale = scale
 
         hosting.didMove(toParent: self)
 
         updateScrollInset()
+
+        scrollView.contentOffset.x += initialOffset.x * scrollView.zoomScale
+        scrollView.contentOffset.y += initialOffset.y * scrollView.zoomScale
+
+        setOffset(scrollView)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -90,22 +113,26 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         updateScrollInset()
         scale = scrollView.zoomScale
-        offset = scrollView.contentOffset
+        setOffset(scrollView)
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         updateScrollInset()
-        offset = scrollView.contentOffset
+        setOffset(scrollView)
+    }
+
+    func setOffset(_ scrollView: UIScrollView) {
+        offset = CGPoint(x: scrollView.contentOffset.x - contentPadding * scrollView.zoomScale, y: scrollView.contentOffset.y - contentPadding * scrollView.zoomScale)
     }
 
     private func updateScrollInset() {
-        let widthInset = max((scrollView.frame.width - hosting.view.frame.width) / 2, 0)
-        let heightInset = max((scrollView.frame.height - hosting.view.frame.height) / 2, 0)
+        let widthInset = max((scrollView.frame.width - contentSize.width * scrollView.zoomScale) / 2, 0)
+        let heightInset = max((scrollView.frame.height - contentSize.height * scrollView.zoomScale) / 2, 0)
 
-        let topInset = max(heightInset, maxInsets.top)
-        let leftInset = max(widthInset, maxInsets.left)
-        let bottomInset = max(heightInset, maxInsets.bottom)
-        let rightInset = max(widthInset, maxInsets.right)
+        let topInset = max(heightInset, maxInsets.top) - contentPadding * scrollView.zoomScale
+        let leftInset = max(widthInset, maxInsets.left) - contentPadding * scrollView.zoomScale
+        let bottomInset = max(heightInset, maxInsets.bottom) - contentPadding * scrollView.zoomScale
+        let rightInset = max(widthInset, maxInsets.right) - contentPadding * scrollView.zoomScale
 
         scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
     }
@@ -121,11 +148,22 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
 
     let contentSize: CGSize
 
+    let contentPadding: CGFloat
+
     let maxInsets: UIEdgeInsets
+
+    let initialOffset: CGPoint
 
     let content: () -> Content
 
-    init(scale: Binding<CGFloat>, offset: Binding<CGPoint>, scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets = .zero, content: @escaping () -> Content) {
+    init(scale: Binding<CGFloat>,
+         offset: Binding<CGPoint>,
+         scrollViewSize: CGSize,
+         contentSize: CGSize,
+         contentPadding: CGFloat,
+         maxInsets: UIEdgeInsets = .zero,
+         initialOffset: CGPoint = .zero,
+         content: @escaping () -> Content) {
         self._scale = scale
 
         self._offset = offset
@@ -134,13 +172,23 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
 
         self.contentSize = contentSize
 
+        self.contentPadding = contentPadding
+
         self.maxInsets = maxInsets
+
+        self.initialOffset = initialOffset
 
         self.content = content
     }
 
     func makeUIViewController(context: Context) -> EditorAppScrollViewController<Content> {
-        return EditorAppScrollViewController(scale: $scale, offset: $offset, scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets) {
+        return EditorAppScrollViewController(scale: $scale,
+                                             offset: $offset,
+                                             scrollViewSize: scrollViewSize,
+                                             contentSize: contentSize,
+                                             contentPadding: contentPadding,
+                                             maxInsets: maxInsets,
+                                             initialOffset: initialOffset) {
             self.content()
         }
     }
