@@ -20,13 +20,19 @@ struct EditorAppView: View {
             Color.white
 
             ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
-                self.generateUI(index: idx)
+                EditorUIOverlayView(uiData: self.$editorViewModel.uiData[idx],
+                                    selectedUIID: self.$editorViewModel.selectedUIID) {
+                    self.generateUI(index: idx)
+                }
             }
 
             ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
                 Group {
                     if self.editorViewModel.uiData[idx].uiID == self.editorViewModel.selectedUIID {
-                        UIFrameEditingView(uiData: self.$editorViewModel.uiData[idx], appViewScale: self.$appViewScale)
+                        UIFrameEditingView(frameData: self.$editorViewModel.uiData[idx].frameData,
+                                           appViewScale: self.$appViewScale) {
+                            self.generateUI(index: idx)
+                        }
                     }
                 }
             }
@@ -45,6 +51,45 @@ struct EditorAppView: View {
 
         let uiType = editorViewModel.uiData[index].uiType
 
+        let frameData = editorViewModel.uiData[index].frameData
+
+        let backgroundData = editorViewModel.uiData[index].backgroundData
+
+        let uiView = Group {
+            if uiType == .text {
+                MUIText(uiData: uiData)
+            } else if uiType == .button {
+                MUIButton(uiData: uiData)
+            } else if uiType == .input {
+                MUIInput()
+            } else if uiType == .slider {
+                MUISlider()
+            } else if uiType == .toggle {
+                MUIToggle(uiData: uiData)
+            } else {
+                fatalError()
+            }
+        }
+
+        return Group {
+            if frameData.lockWidth && frameData.lockHeight {
+                uiView
+            } else if frameData.lockWidth {
+                uiView
+                    .frame(height: frameData.frame.height)
+            } else if frameData.lockHeight {
+                uiView
+                    .frame(width: frameData.frame.width)
+            } else {
+                uiView
+                    .frame(width: frameData.frame.width, height: frameData.frame.height)
+            }
+        }
+            .background(backgroundData.color.toColor)
+            .cornerRadius(backgroundData.cornerRadius)
+
+
+        /*
         return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID, appViewScale: $appViewScale) {
             if uiType == .text {
                 MUIText(uiData: uiData)
@@ -60,6 +105,7 @@ struct EditorAppView: View {
                 fatalError()
             }
         }
+        */
     }
 }
 
