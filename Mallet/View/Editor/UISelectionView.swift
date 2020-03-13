@@ -71,7 +71,8 @@ struct UISelectionView: View {
                                      .onEnded { value in
                                          var offset = self.appViewOffset
                                          offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
-                                         offset.y += self.editorGeo.size.height * (1 - self.appViewScale) / 2
+                                         offset.y += (self.editorGeo.size.height) * (1 - self.appViewScale) / 2
+                                         offset.y += self.editorGeo.safeAreaInsets.top
 
                                          var frame = MUIRect(self.selectedUIFrame)
                                          frame.x -= self.editorGeo.frame(in: .global).origin.x

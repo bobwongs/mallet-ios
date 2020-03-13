@@ -118,24 +118,29 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
     }
 
     private func updateScrollInset() {
-        let widthInset = max((scrollView.frame.width - contentSize.width * scrollView.zoomScale) / 2, 0)
-        let heightInset = max((scrollView.frame.height - contentSize.height * scrollView.zoomScale) / 2, 0)
+        let widthInset = max((scrollView.frame.width - maxInsets.left - maxInsets.right - contentSize.width * scrollView.zoomScale) / 2, 0)
+        let heightInset = max((scrollView.frame.height - maxInsets.top - maxInsets.bottom - contentSize.height * scrollView.zoomScale) / 2, 0)
 
         var topInset = -contentPadding * scrollView.zoomScale
         var leftInset = -contentPadding * scrollView.zoomScale
         var bottomInset = -contentPadding * scrollView.zoomScale
         var rightInset = -contentPadding * scrollView.zoomScale
 
-        if widthInset == 0 || heightInset == 0 {
-            topInset += maxInsets.top
-            bottomInset += maxInsets.bottom
+        if widthInset == 0 {
             leftInset += maxInsets.left
             rightInset += maxInsets.right
         } else {
-            topInset += heightInset - initialOffset.y / 2
-            bottomInset += heightInset + initialOffset.y / 2
-            leftInset += widthInset - initialOffset.x / 2
-            rightInset += widthInset + initialOffset.x / 2
+            leftInset += widthInset + maxInsets.left - initialOffset.x / 2
+            rightInset += widthInset + maxInsets.right + initialOffset.x / 2
+        }
+
+        if heightInset == 0 {
+            topInset += maxInsets.top
+            bottomInset += maxInsets.bottom
+        } else {
+            print(114514)
+            topInset += heightInset + maxInsets.top - initialOffset.y / 2
+            bottomInset += heightInset + maxInsets.bottom + initialOffset.y / 2
         }
 
         scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
