@@ -126,20 +126,16 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         var bottomInset = -contentPadding * scrollView.zoomScale
         var rightInset = -contentPadding * scrollView.zoomScale
 
-        if widthInset == 0 {
+        if widthInset == 0 || heightInset == 0 {
+            topInset += maxInsets.top
+            bottomInset += maxInsets.bottom
             leftInset += maxInsets.left
             rightInset += maxInsets.right
         } else {
-            leftInset += widthInset - initialOffset.x / 2
-            rightInset += widthInset + initialOffset.x / 2
-        }
-
-        if heightInset == 0 {
-            topInset += maxInsets.top
-            bottomInset += maxInsets.bottom
-        } else {
             topInset += heightInset - initialOffset.y / 2
             bottomInset += heightInset + initialOffset.y / 2
+            leftInset += widthInset - initialOffset.x / 2
+            rightInset += widthInset + initialOffset.x / 2
         }
 
         scrollView.contentInset = UIEdgeInsets(top: topInset, left: leftInset, bottom: bottomInset, right: rightInset)
