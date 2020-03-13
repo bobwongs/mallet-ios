@@ -6,7 +6,7 @@
 //  Copyright (c) 2020 Katsu Matsuda. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 class EditorViewModel: ObservableObject {
 
@@ -14,7 +14,9 @@ class EditorViewModel: ObservableObject {
 
     @Published var appID: Int
 
-    @Published var uiData: [MUI]
+    @Published var uiIDs: [Int]
+
+    @Published var uiData: Dictionary<Int, MUI>
 
     @Published var selectedUIID: Int? = nil
 
@@ -23,24 +25,27 @@ class EditorViewModel: ObservableObject {
     static var testModel: EditorViewModel {
         EditorViewModel(appName: "Yay",
                         appID: 0,
-                        uiData: [])
+                        uiIDs: [],
+                        uiData: [:])
     }
 
-    init(appName: String, appID: Int, uiData: [MUI]) {
+    init(appName: String, appID: Int, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
         self.appName = appName
         self.appID = appID
+        self.uiIDs = uiIDs
         self.uiData = uiData
 
-        maxUIID = uiData.max(by: { (l, r) -> Bool in
-            return l.uiID < r.uiID
-        })?.uiID ?? -1
+        maxUIID = uiIDs.max(by: { (l, r) -> Bool in
+            return l < r
+        }) ?? -1
     }
 
     func addUI(type: MUIType, frame: MUIRect) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
-        uiData.append(.defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame))
+        uiIDs.append(uiID)
+        uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
 
         selectedUIID = uiID
 
@@ -48,25 +53,50 @@ class EditorViewModel: ObservableObject {
     }
 
     func duplicateUI() {
-        guard let ui = uiData.first(where: { $0.uiID == selectedUIID }) else {
+        guard  let selectedUIID = self.selectedUIID else {
             return
         }
 
-        let uiId = maxUIID + 1
-        let uiName = "\(ui.uiType.rawValue)\(uiId)"
+        guard let ui = uiData[selectedUIID] else {
+            return
+        }
+
+        let uiID = maxUIID + 1
+        let uiName = "\(ui.uiType.rawValue)\(uiID)"
         var frameData = ui.frameData
         frameData.frame.x += 20
         frameData.frame.y += 20
 
-        uiData.append(MUI(uiID: uiId, uiName: uiName, uiType: ui.uiType, frameData: frameData))
+        uiIDs.append(uiID)
+        uiData[uiID] = MUI(uiID: uiID, uiName: uiName, uiType: ui.uiType, frameData: frameData)
 
-        selectedUIID = uiId
+        self.selectedUIID = uiID
 
         maxUIID += 1
     }
 
     func deleteUI() {
-        uiData.removeAll(where: { $0.uiID == selectedUIID })
-        selectedUIID = nil
+        guard let selectedUIID = self.selectedUIID else {
+            return
+        }
+
+        uiData.removeValue(forKey: selectedUIID)
+        uiIDs.removeAll(where: { $0 == selectedUIID })
+        self.selectedUIID = nil
+    }
+
+    func getUIDataOf(_ id: Int) -> Binding<MUI> {
+        Binding(
+            get: { self.uiData[id] ?? MUI.none },
+            set: { self.uiData[id] = $0 }
+        )
+    }
+
+    func getSelectedUIData() -> Binding<MUI> {
+        if let id = selectedUIID {
+            return getUIDataOf(id)
+        } else {
+            return .constant(.none)
+        }
     }
 }

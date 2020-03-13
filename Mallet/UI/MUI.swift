@@ -12,7 +12,7 @@ struct MUI: Codable {
 
     let uiID: Int
 
-    let uiName: String
+    var uiName: String
 
     let uiType: MUIType
 

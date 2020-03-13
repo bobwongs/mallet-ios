@@ -12,7 +12,9 @@ struct EditorView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @State private var showAppSettingsView = false
+    @State private var showingUIStyleEditorView = false
+
+    @State private var showingAppSettingsView = false
 
     @State private var appViewOffset = CGPoint.zero
 
@@ -78,7 +80,20 @@ struct EditorView: View {
                         )
                     }
 
-                    EditorToolBar(offset: self.$modalOffset, height: self.toolBarHeight)
+                    VStack(spacing: 0) {
+                        Spacer()
+                        if self.showingUIStyleEditorView {
+                            UIStyleEditorView(closeEditor: { self.closeUIStyleEditor() })
+                                .environmentObject(self.editorViewModel)
+                                .frame(height: 400)
+                                .transition(.move(edge: .bottom))
+                        }
+                    }
+
+                    EditorToolBar(offset: self.$modalOffset,
+                                  height: self.toolBarHeight,
+                                  toggleUIStyleEditor: { self.toggleUIStyleEditor() }
+                    )
                         .environmentObject(self.editorViewModel)
 
                     if self.selectedUIType != .space {
@@ -113,13 +128,13 @@ struct EditorView: View {
     private func navigationBarTrailingUI() -> some View {
         HStack(alignment: .center) {
             Button(action: {
-                self.showAppSettingsView = true
+                self.showingAppSettingsView = true
             }) {
                 Image(systemName: "square.and.arrow.up")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }
-                .sheet(isPresented: self.$showAppSettingsView) {
+                .sheet(isPresented: $showingAppSettingsView) {
                     AppSettingsView()
                 }
 
@@ -144,6 +159,18 @@ struct EditorView: View {
     private func closeModalView() {
         withAnimation(.easeOut(duration: 0.2)) {
             self.modalOffset = 0
+        }
+    }
+
+    private func toggleUIStyleEditor() {
+        withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
+            showingUIStyleEditorView.toggle()
+        }
+    }
+
+    private func closeUIStyleEditor() {
+        withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
+            showingUIStyleEditorView = false
         }
     }
 

@@ -6,7 +6,6 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
-import Swift
 import SwiftUI
 
 struct EditorAppView: View {
@@ -19,25 +18,24 @@ struct EditorAppView: View {
         ZStack {
             Color.white
 
-            ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
-                EditorUIOverlayView(uiData: self.$editorViewModel.uiData[idx],
+            ForEach(editorViewModel.uiIDs, id: \.self) { id in
+                EditorUIOverlayView(uiData: self.editorViewModel.getUIDataOf(id),
                                     selectedUIID: self.$editorViewModel.selectedUIID) {
-                    self.generateUI(index: idx)
+                    self.generateUI(id: id)
                 }
             }
 
-            ForEach(0..<editorViewModel.uiData.count, id: \.self) { idx in
+            ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 Group {
-                    if self.editorViewModel.uiData[idx].uiID == self.editorViewModel.selectedUIID {
-                        UIFrameEditingView(frameData: self.$editorViewModel.uiData[idx].frameData,
+                    if id == self.editorViewModel.selectedUIID {
+                        UIFrameEditingView(frameData: self.editorViewModel.getUIDataOf(id).frameData,
                                            appViewScale: self.$appViewScale) {
-                            self.generateUI(index: idx)
+                            self.generateUI(id: id)
                         }
                     }
                 }
             }
         }
-            //.padding(300)
             .background(Color.clear)
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
@@ -46,26 +44,26 @@ struct EditorAppView: View {
             }
     }
 
-    func generateUI(index: Int) -> some View {
+    func generateUI(id: Int) -> some View {
 
-        let uiData = $editorViewModel.uiData[index]
+        let uiData = editorViewModel.getUIDataOf(id)
 
-        let uiType = editorViewModel.uiData[index].uiType
+        let type = uiData.wrappedValue.uiType
 
-        let frameData = editorViewModel.uiData[index].frameData
+        let frameData = uiData.wrappedValue.frameData
 
-        let backgroundData = editorViewModel.uiData[index].backgroundData
+        let backgroundData = uiData.wrappedValue.backgroundData
 
         let uiView = Group {
-            if uiType == .text {
+            if type == .text {
                 MUIText(uiData: uiData)
-            } else if uiType == .button {
+            } else if type == .button {
                 MUIButton(uiData: uiData)
-            } else if uiType == .input {
+            } else if type == .input {
                 MUIInput()
-            } else if uiType == .slider {
+            } else if type == .slider {
                 MUISlider()
-            } else if uiType == .toggle {
+            } else if type == .toggle {
                 MUIToggle(uiData: uiData)
             } else {
                 fatalError()
@@ -88,32 +86,5 @@ struct EditorAppView: View {
         }
             .background(backgroundData.color.toColor)
             .cornerRadius(backgroundData.cornerRadius)
-
-
-        /*
-        return MUIEditorFrameView(uiData: $editorViewModel.uiData[index], selectedUIID: $editorViewModel.selectedUIID, appViewScale: $appViewScale) {
-            if uiType == .text {
-                MUIText(uiData: uiData)
-            } else if uiType == .button {
-                MUIButton(uiData: uiData)
-            } else if uiType == .input {
-                MUIInput()
-            } else if uiType == .slider {
-                MUISlider()
-            } else if uiType == .toggle {
-                MUIToggle(uiData: uiData)
-            } else {
-                fatalError()
-            }
-        }
-        */
     }
 }
-
-/*
-struct EditorAppView_Previews: PreviewProvider {
-    static var previews: some View {
-        EditorAppView(uiData: .constant([]))
-    }
-}
-*/

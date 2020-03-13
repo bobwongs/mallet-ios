@@ -1,5 +1,5 @@
 //
-//  CodeEditor.swift
+//  CodeEditorView.swift
 //  Mallet
 //  
 //  Created by Katsu Matsuda on 2020/03/03.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CodeEditingView: View {
+struct CodeEditorView: View {
 
     var body: some View {
         Text("Tremolo")

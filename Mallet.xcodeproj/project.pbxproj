@@ -32,17 +32,17 @@
 		0EEE6D8023672AFA00691783 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE6D7F23672AFA00691783 /* HomeView.swift */; };
 		0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A5D23841ECC00710FEA /* AppView.swift */; };
 		0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */; };
-		611AC0B9379D048679615D55 /* UIPropertyEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */; };
+		611AC0B9379D048679615D55 /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */; };
 		611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */; };
-		611AC0EE11AE918BD9DDF465 /* CodeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */; };
-		611AC14DBF2A6C623A624950 /* CodeEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4E8B3E75DD153D5C2E4 /* CodeEditingView.swift */; };
+		611AC0EE11AE918BD9DDF465 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */; };
+		611AC14DBF2A6C623A624950 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC3661BDA7A37E69EA3DD /* SemiModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */; };
 		611AC41A8C4B04EF88CA10FC /* EditorAppScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
-		611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC38EAA2238608BD9F41D /* UISettingsView.swift */; };
-		611AC9C0BB43470214DD0F0F /* UIPropertyEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIPropertyEditingView.swift */; };
+		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
+		611AC9C150CA778BB0396569 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB488CDA865681A1829A /* Blur.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
 		611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */; };
@@ -117,19 +117,19 @@
 		611AC016CEEB099431F48803 /* MUITextData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MUITextData.swift; path = Mallet/UI/MUITextData.swift; sourceTree = SOURCE_ROOT; };
 		611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorUIOverlayView.swift; sourceTree = "<group>"; };
 		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
-		611AC38EAA2238608BD9F41D /* UISettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISettingsView.swift; sourceTree = "<group>"; };
 		611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorAppScrollView.swift; sourceTree = "<group>"; };
 		611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFrameEditingView.swift; sourceTree = "<group>"; };
 		611AC448E80C6D66D44BC08D /* EditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
-		611AC4E8B3E75DD153D5C2E4 /* CodeEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditingView.swift; sourceTree = "<group>"; };
-		611AC5F2F836397244B9EE59 /* UIPropertyEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPropertyEditingView.swift; sourceTree = "<group>"; };
+		611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MUIRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIRect.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
-		611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIPropertyEditingView.swift; sourceTree = "<group>"; };
+		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
+		611ACB488CDA865681A1829A /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
-		611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditingView.swift; sourceTree = "<group>"; };
+		611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +238,7 @@
 				0E9F839A23659AA100994789 /* Runner */,
 				611AC61EE3818318051DCD7F /* RootView.swift */,
 				611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */,
+				611ACB488CDA865681A1829A /* Blur.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -258,7 +259,7 @@
 				0ED82DC72393DCB30054BC4C /* EditorAppView.swift */,
 				0E9F839D23659B0C00994789 /* AppSettings */,
 				611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */,
-				611AC5A522FB2290C61E7DD3 /* UISettings */,
+				611AC5A522FB2290C61E7DD3 /* UIEditor */,
 				611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */,
 				611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */,
 				611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */,
@@ -304,16 +305,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		611AC5A522FB2290C61E7DD3 /* UISettings */ = {
+		611AC5A522FB2290C61E7DD3 /* UIEditor */ = {
 			isa = PBXGroup;
 			children = (
-				611AC38EAA2238608BD9F41D /* UISettingsView.swift */,
-				611AC9F3622E3B5D5F218075 /* UIPropertyEditingView.swift */,
-				611ACE6FA4C2824EE7C86EA9 /* CodeEditingView.swift */,
-				611AC4E8B3E75DD153D5C2E4 /* CodeEditingView.swift */,
-				611AC5F2F836397244B9EE59 /* UIPropertyEditingView.swift */,
+				611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */,
+				611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */,
+				611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */,
+				611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */,
 			);
-			path = UISettings;
+			path = UIEditor;
 			sourceTree = "<group>";
 		};
 		611ACC33DF81AB3D2CE17540 /* AppData */ = {
@@ -509,17 +509,17 @@
 				611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */,
 				611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */,
 				611AC50EA2A477228B4622DC /* RootView.swift in Sources */,
-				611AC7FC4DFEC47DCD17B825 /* UISettingsView.swift in Sources */,
-				611AC0B9379D048679615D55 /* UIPropertyEditingView.swift in Sources */,
-				611AC0EE11AE918BD9DDF465 /* CodeEditingView.swift in Sources */,
+				611AC0B9379D048679615D55 /* UIStyleEditorView.swift in Sources */,
+				611AC0EE11AE918BD9DDF465 /* CodeEditorView.swift in Sources */,
 				611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */,
 				611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */,
 				611AC41A8C4B04EF88CA10FC /* EditorAppScrollView.swift in Sources */,
 				611AC3661BDA7A37E69EA3DD /* SemiModalView.swift in Sources */,
 				611ACDE6FB3160FFD4CE0608 /* MUITextData.swift in Sources */,
 				611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */,
-				611AC14DBF2A6C623A624950 /* CodeEditingView.swift in Sources */,
-				611AC9C0BB43470214DD0F0F /* UIPropertyEditingView.swift in Sources */,
+				611AC14DBF2A6C623A624950 /* CodeEditorView.swift in Sources */,
+				611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */,
+				611AC9C150CA778BB0396569 /* Blur.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,8 @@ struct EditorToolBar: View {
 
     let height: CGFloat
 
+    let toggleUIStyleEditor: () -> Void
+
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -24,6 +26,8 @@ struct EditorToolBar: View {
                     HStack {
                         HStack {
                             self.leadingContent()
+                            Spacer()
+                            self.centerContent()
                             Spacer()
                             self.trailingContent()
                         }
@@ -72,6 +76,18 @@ struct EditorToolBar: View {
                 print("redo")
             }) {
                 Image(systemName: "arrow.uturn.right.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+    }
+
+    private func centerContent() -> some View {
+        HStack {
+            Button(action: {
+                self.toggleUIStyleEditor()
+            }) {
+                Image(systemName: "slider.horizontal.3")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }

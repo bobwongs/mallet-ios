@@ -18,8 +18,6 @@ struct EditorUIOverlayView<Content: View>: View {
 
     @Binding var selectedUIID: Int?
 
-    @State private var showUISettings = false
-
     @State private var editingText = false
 
     init(uiData: Binding<MUI>, selectedUIID: Binding<Int?>, @ViewBuilder content: @escaping () -> Content) {
@@ -75,9 +73,6 @@ struct EditorUIOverlayView<Content: View>: View {
                     .foregroundColor(Color.white.opacity(0.001))
             )
             .position(x: frame.midX, y: frame.midY)
-            .sheet(isPresented: $showUISettings) {
-                UISettingsView(uiData: self.$uiData)
-            }
     }
 
     private func setSelectedUIID() {
