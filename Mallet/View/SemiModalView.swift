@@ -56,7 +56,7 @@ struct SemiModalView<Content: View>: View {
 
                 self.content()
             }
-                .background(Color(.tertiarySystemBackground))
+                .background(Blur(style: .systemThickMaterial))
                 .cornerRadius(self.cornerRadius)
                 .shadow(color: Color.black.opacity(0.1), radius: 3)
                 .overlay(

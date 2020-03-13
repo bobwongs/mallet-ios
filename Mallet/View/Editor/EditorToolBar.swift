@@ -45,7 +45,7 @@ struct EditorToolBar: View {
                                      })
 
                 }
-                    .background(Color(.tertiarySystemBackground))
+                    .background(Blur(style: .systemThickMaterial).background(Color(.tertiarySystemBackground)))
                     .overlay(
                         VStack {
                             Rectangle()
