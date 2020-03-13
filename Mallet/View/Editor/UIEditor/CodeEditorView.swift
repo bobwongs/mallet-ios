@@ -1,5 +1,5 @@
 //
-//  CodeEditingView.swift
+//  CodeEditor.swift
 //  Mallet
 //  
 //  Created by Katsu Matsuda on 2020/03/03.
