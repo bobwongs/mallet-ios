@@ -106,7 +106,7 @@ struct UISelectionView: View {
             } else if type == .button {
                 MUIButton(uiData: .constant(uiData))
             } else if type == .input {
-                MUIInput()
+                MUIInput(uiData: .constant(uiData))
             } else if type == .slider {
                 MUISlider(uiData: .constant(uiData))
             } else if type == .toggle {

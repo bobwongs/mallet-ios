@@ -44,6 +44,8 @@ struct MUIButton: View {
 
 struct MUIInput: View {
 
+    @Binding var uiData: MUI
+
     @State var text = "Input"
 
     var body: some View {
