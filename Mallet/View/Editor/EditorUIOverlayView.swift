@@ -39,7 +39,6 @@ struct EditorUIOverlayView<Content: View>: View {
                 content()
             }
         }
-            .background(Color.black.opacity(0.05))
             .overlay(
                 Group {
                     if selectedUIID == uiData.uiID {
@@ -48,12 +47,13 @@ struct EditorUIOverlayView<Content: View>: View {
                                 .gesture(TapGesture())
                         } else {
                             Rectangle()
-                                .highPriorityGesture(DragGesture(minimumDistance: 0.5)
-                                                         .onChanged { value in
-                                                             self.frame.x += value.translation.width
-                                                             self.frame.y += value.translation.height
-                                                             self.setSelectedUIID()
-                                                         })
+                                .gesture(DragGesture(minimumDistance: 0.5)
+                                             .onChanged { value in
+                                                 print(value.translation)
+                                                 self.frame.x += value.translation.width
+                                                 self.frame.y += value.translation.height
+                                                 self.setSelectedUIID()
+                                             })
                                 .gesture(TapGesture()
                                              .onEnded {
                                                  if self.uiData.textData.enabled {
@@ -70,6 +70,7 @@ struct EditorUIOverlayView<Content: View>: View {
                             )
                     }
                 }
+                    .background(Color.black.opacity(0.05))
                     .foregroundColor(Color.white.opacity(0.001))
             )
             .position(x: frame.midX, y: frame.midY)
