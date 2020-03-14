@@ -49,6 +49,7 @@
 		611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */; };
 		611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC66420BF482B34E62B5D /* NumberInputView.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
+		611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC15BA2B6F884AF2DE579 /* MUIColor.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
 		611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */; };
 		611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */; };
@@ -121,6 +122,7 @@
 		0EFA0A5D23841ECC00710FEA /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		0EFA0A6123841FAF00710FEA /* DefaultPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPreview.swift; sourceTree = "<group>"; };
 		611AC016CEEB099431F48803 /* MUITextData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MUITextData.swift; path = Mallet/UI/MUITextData.swift; sourceTree = SOURCE_ROOT; };
+		611AC15BA2B6F884AF2DE579 /* MUIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIColor.swift; sourceTree = "<group>"; };
 		611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorUIOverlayView.swift; sourceTree = "<group>"; };
 		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 				0E9C5ED52382E883001AECA7 /* MUIType.swift */,
 				611AC766B30678BEF162B6DC /* MUIRect.swift */,
 				611AC016CEEB099431F48803 /* MUITextData.swift */,
+				611AC15BA2B6F884AF2DE579 /* MUIColor.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				611AC3DB846FB626A539390E /* FrameStyleEditorView.swift in Sources */,
 				611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */,
 				611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */,
+				611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
