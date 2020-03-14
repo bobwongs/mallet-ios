@@ -23,7 +23,7 @@ struct UIStyleEditorView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             topBar()
 
             List {
@@ -40,7 +40,7 @@ struct UIStyleEditorView: View {
     }
 
     private func topBar() -> some View {
-        HStack {
+        HStack(alignment: .center) {
             Text(uiData.uiName)
                 .fontWeight(.bold)
             Spacer()
