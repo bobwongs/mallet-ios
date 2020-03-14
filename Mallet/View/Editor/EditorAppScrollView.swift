@@ -138,7 +138,6 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
             topInset += maxInsets.top
             bottomInset += maxInsets.bottom
         } else {
-            print(114514)
             topInset += heightInset + maxInsets.top - initialOffset.y / 2
             bottomInset += heightInset + maxInsets.bottom + initialOffset.y / 2
         }
