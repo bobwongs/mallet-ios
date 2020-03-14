@@ -32,6 +32,8 @@ struct UIStyleEditorView: View {
 
                     FrameStyleEditorView(frameData: uiDataBinding.frameData)
 
+                    BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
+
                     TextStyleEditorView(textData: uiDataBinding.textData)
                 }
             }
