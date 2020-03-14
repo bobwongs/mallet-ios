@@ -66,19 +66,6 @@ struct MUI: Codable {
     }
 }
 
-struct MUIFrameData: Codable {
-
-    var frame: MUIRect
-
-    var lockHeight = false
-
-    var lockWidth = false
-
-    init(_ frame: MUIRect) {
-        self.frame = frame
-    }
-}
-
 struct MUIBackGroundData: Codable {
 
     var enabled = true
