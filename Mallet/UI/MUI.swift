@@ -54,16 +54,19 @@ struct MUI: Codable {
         case .input:
             uiData.frameData.lockHeight = true
             uiData.inputData = .defaulValue
+            uiData.backgroundData = .disabled
             break
 
         case .slider:
             uiData.frameData.lockHeight = true
+            uiData.backgroundData = .disabled
             uiData.sliderData = .defaultValue
             break
 
         case .toggle:
             uiData.frameData.lockWidth = true
             uiData.frameData.lockHeight = true
+            uiData.backgroundData = .disabled
             uiData.toggleData = .defaultValue
             break
 
