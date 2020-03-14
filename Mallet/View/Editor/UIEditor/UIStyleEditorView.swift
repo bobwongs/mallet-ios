@@ -43,6 +43,7 @@ struct UIStyleEditorView: View {
                     ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
                 }
             }
+                .id(uiData.uiID)
         }
             .background(Blur(style: .systemThickMaterial))
     }
