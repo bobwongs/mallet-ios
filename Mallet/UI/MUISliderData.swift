@@ -18,7 +18,7 @@ struct MUISliderData: Codable {
 
     var maxValue: Float
 
-    static let disabled = MUISliderData(value: 0, minValue: 0, maxValue: 0)
+    static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0)
 
     static let defaultValue = MUISliderData(value: 0.5, minValue: 0, maxValue: 1)
 
