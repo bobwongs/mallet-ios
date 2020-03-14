@@ -30,6 +30,8 @@ struct UIStyleEditorView: View {
                 if editorViewModel.selectedUIID != nil {
                     generalInfo()
 
+                    FrameStyleEditorView(frameData: uiDataBinding.frameData)
+
                     TextStyleEditorView(textData: uiDataBinding.textData)
                 }
             }
