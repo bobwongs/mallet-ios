@@ -39,6 +39,7 @@
 		611AC14DBF2A6C623A624950 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */; };
 		611AC1AEF1F046D52038CCD4 /* MUIInputData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACC7EE131F14FC15ACF6D /* MUIInputData.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
+		611AC269958FA12716F53954 /* InputStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC55A3032A86A35A595BC /* InputStyleEditorView.swift */; };
 		611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9723E4805003C713975 /* MUIBackgroundData.swift */; };
 		611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE25521581756F57552F /* MUIToggleData.swift */; };
 		611AC3661BDA7A37E69EA3DD /* SemiModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */; };
@@ -136,6 +137,7 @@
 		611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFrameEditingView.swift; sourceTree = "<group>"; };
 		611AC448E80C6D66D44BC08D /* EditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
 		611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		611AC55A3032A86A35A595BC /* InputStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -348,6 +350,7 @@
 				611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */,
 				611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */,
 				611AC66420BF482B34E62B5D /* NumberInputView.swift */,
+				611AC55A3032A86A35A595BC /* InputStyleEditorView.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				611AC13AF8F7ABDFDC7C29B5 /* MUISliderData.swift in Sources */,
 				611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */,
 				611AC1AEF1F046D52038CCD4 /* MUIInputData.swift in Sources */,
+				611AC269958FA12716F53954 /* InputStyleEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

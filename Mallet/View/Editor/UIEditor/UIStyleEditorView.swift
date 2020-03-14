@@ -35,6 +35,8 @@ struct UIStyleEditorView: View {
                     BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
 
                     TextStyleEditorView(textData: uiDataBinding.textData)
+
+                    InputStyleEditorView(inputData: uiDataBinding.inputData)
                 }
             }
         }
