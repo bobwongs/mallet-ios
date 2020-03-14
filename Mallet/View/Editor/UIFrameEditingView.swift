@@ -60,7 +60,7 @@ struct UIFrameEditingView<Content: View>: View {
 
     let content: () -> Content
 
-    @Binding var frameData: MUIFrame
+    @Binding var frameData: MUIFrameData
 
     @Binding var appViewScale: CGFloat
 
@@ -79,7 +79,7 @@ struct UIFrameEditingView<Content: View>: View {
         1 / self.appViewScale
     }
 
-    init(frameData: Binding<MUIFrame>, appViewScale: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
+    init(frameData: Binding<MUIFrameData>, appViewScale: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
         self._frameData = frameData
 
         self._appViewScale = appViewScale

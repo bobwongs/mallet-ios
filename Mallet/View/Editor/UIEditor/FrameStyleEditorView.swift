@@ -10,7 +10,7 @@ import SwiftUI
 
 struct FrameStyleEditorView: View {
 
-    @Binding var frameData: MUIFrame
+    @Binding var frameData: MUIFrameData
 
     var body: some View {
         Group {

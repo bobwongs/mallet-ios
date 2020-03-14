@@ -16,14 +16,14 @@ struct MUI: Codable {
 
     let uiType: MUIType
 
-    var frameData: MUIFrame
+    var frameData: MUIFrameData
 
-    var backgroundData = MUIBackGround.disabled
+    var backgroundData = MUIBackGroundData.disabled
 
     var textData = MUITextData.disabled
 
     static var none: MUI {
-        MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrame(.zero))
+        MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrameData(.zero))
     }
 
     static func defaultValue(type: MUIType) -> MUI {
@@ -32,7 +32,7 @@ struct MUI: Codable {
 
     static func defaultValue(uiID: Int, uiName: String, type: MUIType, frame: MUIRect) -> MUI {
 
-        var uiData = MUI(uiID: uiID, uiName: uiName, uiType: type, frameData: MUIFrame(frame))
+        var uiData = MUI(uiID: uiID, uiName: uiName, uiType: type, frameData: MUIFrameData(frame))
 
         switch type {
         case .text:
@@ -41,7 +41,7 @@ struct MUI: Codable {
             break
 
         case .button:
-            uiData.backgroundData = MUIBackGround(color: MUIColor(r: 0, g: 122, b: 255), cornerRadius: 10)
+            uiData.backgroundData = MUIBackGroundData(color: MUIColor(r: 0, g: 122, b: 255), cornerRadius: 10)
             uiData.textData = MUITextData(text: "Button", color: .white, size: 17, alignment: .center)
             break
 
@@ -114,7 +114,7 @@ struct MUIColor: Codable {
     }
 }
 
-struct MUIFrame: Codable {
+struct MUIFrameData: Codable {
 
     var frame: MUIRect
 
@@ -127,7 +127,7 @@ struct MUIFrame: Codable {
     }
 }
 
-struct MUIBackGround: Codable {
+struct MUIBackGroundData: Codable {
 
     var enabled = true
 
@@ -135,8 +135,8 @@ struct MUIBackGround: Codable {
 
     var cornerRadius: CGFloat
 
-    static let disabled = MUIBackGround(color: .clear, cornerRadius: 0)
+    static let disabled = MUIBackGroundData(color: .clear, cornerRadius: 0)
 
-    static let defaultValue = MUIBackGround(color: .clear, cornerRadius: 0)
+    static let defaultValue = MUIBackGroundData(color: .clear, cornerRadius: 0)
 
 }
