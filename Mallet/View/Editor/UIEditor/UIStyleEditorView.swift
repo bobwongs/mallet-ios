@@ -28,16 +28,10 @@ struct UIStyleEditorView: View {
 
             List {
                 if editorViewModel.selectedUIID != nil {
-                    Group {
-                        HStack {
-                            Text("Name")
-                            TextField("UI Name", text: uiDataBinding.uiName)
-                                .multilineTextAlignment(.trailing)
-                        }
-                    }
-                }
+                    generalInfo()
 
-                TextStyleEditorView(textData: uiDataBinding.textData)
+                    TextStyleEditorView(textData: uiDataBinding.textData)
+                }
             }
         }
             .background(Blur(style: .systemThickMaterial))
@@ -57,6 +51,14 @@ struct UIStyleEditorView: View {
         }
             .frame(height: 40)
             .padding([.leading, .trailing], 15)
+    }
+
+    private func generalInfo() -> some View {
+        HStack {
+            Text("Name")
+            TextField("UI Name", text: uiDataBinding.uiName)
+                .multilineTextAlignment(.trailing)
+        }
     }
 
     private func onCloseEditor() {
