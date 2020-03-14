@@ -24,6 +24,8 @@ struct MUI: Codable {
 
     var sliderData = MUISliderData.disabled
 
+    var toggleData = MUIToggleData.disabled
+
     static var none: MUI {
         MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrameData(.zero))
     }
@@ -50,6 +52,7 @@ struct MUI: Codable {
         case .toggle:
             uiData.frameData.lockWidth = true
             uiData.frameData.lockHeight = true
+            uiData.toggleData = .defaultValue
             break
 
         case .slider:

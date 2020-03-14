@@ -39,6 +39,7 @@
 		611AC14DBF2A6C623A624950 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9723E4805003C713975 /* MUIBackgroundData.swift */; };
+		611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE25521581756F57552F /* MUIToggleData.swift */; };
 		611AC3661BDA7A37E69EA3DD /* SemiModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */; };
 		611AC3DB846FB626A539390E /* FrameStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */; };
 		611AC41A8C4B04EF88CA10FC /* EditorAppScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */; };
@@ -149,6 +150,7 @@
 		611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
 		611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorSectionView.swift; sourceTree = "<group>"; };
+		611ACE25521581756F57552F /* MUIToggleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIToggleData.swift; sourceTree = "<group>"; };
 		611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -317,6 +319,7 @@
 				611AC13337FC1A94FF6A229A /* MUIFrameData.swift */,
 				611AC9723E4805003C713975 /* MUIBackgroundData.swift */,
 				611AC7CDF3C67779B0A44312 /* MUISliderData.swift */,
+				611ACE25521581756F57552F /* MUIToggleData.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -560,6 +563,7 @@
 				611ACED9E7A11665634203A7 /* MUIFrameData.swift in Sources */,
 				611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */,
 				611AC13AF8F7ABDFDC7C29B5 /* MUISliderData.swift in Sources */,
+				611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

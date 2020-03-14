@@ -67,10 +67,8 @@ struct MUIToggle: View {
 
     @Binding var uiData: MUI
 
-    @State private var value = true
-
     var body: some View {
-        Toggle("", isOn: self.$value)
+        Toggle("", isOn: $uiData.toggleData.value)
             .labelsHidden()
             .padding(.trailing, 2)
     }
