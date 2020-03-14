@@ -34,6 +34,14 @@ enum MUITextAlignment: Int, Codable {
 
     case trailing
 
+    var toAlignment: Alignment {
+        switch self {
+        case .leading: return .leading
+        case .center: return .center
+        case .trailing: return .trailing
+        }
+    }
+
     var toTextAlignment: TextAlignment {
         switch self {
         case .leading: return .leading

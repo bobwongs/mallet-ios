@@ -57,7 +57,7 @@ struct UISelectionView: View {
                 GeometryReader { geo in
                     UISelectionView.generateUI(type: type)
                         .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
-                        .frame(width: width, height: height)
+                        //.frame(width: width, height: height)
                         .background(MUI.defaultValue(type: type).backgroundData.color.toColor)
                         .cornerRadius(MUI.defaultValue(type: type).backgroundData.cornerRadius)
                         .gesture(DragGesture()
@@ -97,7 +97,8 @@ struct UISelectionView: View {
 
     static func generateUI(type: MUIType) -> some View {
 
-        let uiData = MUI.defaultValue(type: type)
+        var uiData = MUI.defaultValue(type: type)
+        uiData.frameData.frame = MUIRect(x: 0, y: 0, width: 80, height: 50)
 
         return Group {
             if type == .text {
