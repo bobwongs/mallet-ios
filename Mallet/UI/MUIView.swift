@@ -46,11 +46,12 @@ struct MUIInput: View {
 
     @Binding var uiData: MUI
 
-    @State var text = "Input"
-
     var body: some View {
-        TextField("", text: $text)
+        TextField(uiData.inputData.placeholder, text: $uiData.inputData.text)
             .textFieldStyle(RoundedBorderTextFieldStyle())
+            .foregroundColor(uiData.inputData.color.toColor)
+            .font(.system(size: uiData.inputData.size))
+            .multilineTextAlignment(uiData.inputData.alignment.toTextAlignment)
     }
 }
 

@@ -22,6 +22,8 @@ struct MUI: Codable {
 
     var textData = MUITextData.disabled
 
+    var inputData = MUIInputData.disabled
+
     var sliderData = MUISliderData.disabled
 
     var toggleData = MUIToggleData.disabled
@@ -49,10 +51,9 @@ struct MUI: Codable {
             uiData.textData = MUITextData(text: "Button", color: .white, size: 17, alignment: .center)
             break
 
-        case .toggle:
-            uiData.frameData.lockWidth = true
+        case .input:
             uiData.frameData.lockHeight = true
-            uiData.toggleData = .defaultValue
+            uiData.inputData = .defaulValue
             break
 
         case .slider:
@@ -60,8 +61,10 @@ struct MUI: Codable {
             uiData.sliderData = .defaultValue
             break
 
-        case .input:
+        case .toggle:
+            uiData.frameData.lockWidth = true
             uiData.frameData.lockHeight = true
+            uiData.toggleData = .defaultValue
             break
 
         default:
