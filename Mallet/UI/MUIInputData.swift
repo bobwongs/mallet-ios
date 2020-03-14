@@ -22,7 +22,7 @@ struct MUIInputData: Codable {
 
     var alignment: MUITextAlignment
 
-    static let disabled = MUIInputData(text: "", placeholder: "", color: .clear, size: 0, alignment: .center)
+    static let disabled = MUIInputData(enabled: false, text: "", placeholder: "", color: .clear, size: 0, alignment: .center)
 
     static let defaulValue = MUIInputData(text: "Text", placeholder: "", color: .black, size: 17, alignment: .leading)
 
