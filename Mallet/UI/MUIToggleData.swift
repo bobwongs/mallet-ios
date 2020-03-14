@@ -14,7 +14,7 @@ struct MUIToggleData: Codable {
 
     var value: Bool
 
-    static let disabled = MUIToggleData(value: false)
+    static let disabled = MUIToggleData(enabled: false, value: false)
 
     static let defaultValue = MUIToggleData(value: true)
 
