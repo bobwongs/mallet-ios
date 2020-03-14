@@ -110,7 +110,7 @@ struct EditorView: View {
         }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
-            .navigationBarTitle("Untitled App", displayMode: .inline)
+            .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
     }
 
