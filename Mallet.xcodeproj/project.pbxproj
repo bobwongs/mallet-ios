@@ -48,6 +48,7 @@
 		611AC41A8C4B04EF88CA10FC /* EditorAppScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611AC6813A9FB4781611D2FB /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC73D3ABD27635C3AD11B /* TextInputCell.swift */; };
+		611AC6B89FF903118E206864 /* SliderStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */; };
 		611AC9158620C1D1D648EFFE /* UIStyleEditorSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */; };
@@ -162,6 +163,7 @@
 		611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorSectionView.swift; sourceTree = "<group>"; };
 		611ACE25521581756F57552F /* MUIToggleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIToggleData.swift; sourceTree = "<group>"; };
 		611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SliderStyleEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -360,6 +362,7 @@
 				611AC73D3ABD27635C3AD11B /* TextInputCell.swift */,
 				611ACB7573B722CF6FDCAF2B /* ColorInputCell.swift */,
 				611AC3A4D686ACB302CF205D /* TextAlignmentInputCell.swift */,
+				611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -584,6 +587,7 @@
 				611AC6813A9FB4781611D2FB /* TextInputCell.swift in Sources */,
 				611AC36DF27C8C4332539684 /* ColorInputCell.swift in Sources */,
 				611ACE7420F44E3338EB1C54 /* TextAlignmentInputCell.swift in Sources */,
+				611AC6B89FF903118E206864 /* SliderStyleEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
