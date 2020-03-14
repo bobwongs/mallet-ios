@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EditorTextView: UIViewRepresentable {
 
-    @Binding var backgroundData: MUIBackGroundData
+    @Binding var backgroundData: MUIBackgroundData
 
     @Binding var textData: MUITextData
 

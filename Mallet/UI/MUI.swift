@@ -18,7 +18,7 @@ struct MUI: Codable {
 
     var frameData: MUIFrameData
 
-    var backgroundData = MUIBackGroundData.disabled
+    var backgroundData = MUIBackgroundData.disabled
 
     var textData = MUITextData.disabled
 
@@ -41,7 +41,7 @@ struct MUI: Codable {
             break
 
         case .button:
-            uiData.backgroundData = MUIBackGroundData(color: MUIColor(r: 0, g: 122, b: 255), cornerRadius: 10)
+            uiData.backgroundData = MUIBackgroundData(color: MUIColor(r: 0, g: 122, b: 255), cornerRadius: 10)
             uiData.textData = MUITextData(text: "Button", color: .white, size: 17, alignment: .center)
             break
 
@@ -64,18 +64,4 @@ struct MUI: Codable {
 
         return uiData
     }
-}
-
-struct MUIBackGroundData: Codable {
-
-    var enabled = true
-
-    var color: MUIColor
-
-    var cornerRadius: CGFloat
-
-    static let disabled = MUIBackGroundData(color: .clear, cornerRadius: 0)
-
-    static let defaultValue = MUIBackGroundData(color: .clear, cornerRadius: 0)
-
 }

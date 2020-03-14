@@ -10,7 +10,7 @@ import SwiftUI
 
 struct BackgroundStyleEditorView: View {
 
-    @Binding var backgroundData: MUIBackGroundData
+    @Binding var backgroundData: MUIBackgroundData
 
     var body: some View {
         Group {
