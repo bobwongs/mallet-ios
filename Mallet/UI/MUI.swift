@@ -76,4 +76,15 @@ struct MUI: Codable {
 
         return uiData
     }
+
+    static func copyUIData(uiData: MUI, uiID: Int, uiName: String) -> MUI {
+        var newUIData = MUI(uiID: uiID, uiName: uiName, uiType: uiData.uiType, frameData: uiData.frameData)
+        newUIData.backgroundData = uiData.backgroundData
+        newUIData.textData = uiData.textData
+        newUIData.inputData = uiData.inputData
+        newUIData.sliderData = uiData.sliderData
+        newUIData.toggleData = uiData.toggleData
+
+        return newUIData
+    }
 }

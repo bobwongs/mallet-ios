@@ -63,12 +63,13 @@ class EditorViewModel: ObservableObject {
 
         let uiID = maxUIID + 1
         let uiName = "\(ui.uiType.rawValue)\(uiID)"
-        var frameData = ui.frameData
-        frameData.frame.x += 20
-        frameData.frame.y += 20
+        var newUI = MUI.copyUIData(uiData: ui, uiID: uiID, uiName: uiName)
+
+        newUI.frameData.frame.x += 20
+        newUI.frameData.frame.y += 20
 
         uiIDs.append(uiID)
-        uiData[uiID] = MUI(uiID: uiID, uiName: uiName, uiType: ui.uiType, frameData: frameData)
+        uiData[uiID] = newUI
 
         self.selectedUIID = uiID
 
