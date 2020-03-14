@@ -47,6 +47,7 @@
 		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
 		611AC9C150CA778BB0396569 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB488CDA865681A1829A /* Blur.swift */; };
 		611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */; };
+		611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC66420BF482B34E62B5D /* NumberInputView.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
 		611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */; };
@@ -130,6 +131,7 @@
 		611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		611AC66420BF482B34E62B5D /* NumberInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInputView.swift; sourceTree = "<group>"; };
 		611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MUIRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIRect.swift; sourceTree = "<group>"; };
@@ -327,6 +329,7 @@
 				611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */,
 				611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */,
 				611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */,
+				611AC66420BF482B34E62B5D /* NumberInputView.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */,
 				611AC3DB846FB626A539390E /* FrameStyleEditorView.swift in Sources */,
 				611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */,
+				611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
