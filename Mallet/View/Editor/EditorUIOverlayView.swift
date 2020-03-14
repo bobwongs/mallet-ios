@@ -49,7 +49,6 @@ struct EditorUIOverlayView<Content: View>: View {
                             Rectangle()
                                 .gesture(DragGesture(minimumDistance: 0.5)
                                              .onChanged { value in
-                                                 print(value.translation)
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
                                                  self.setSelectedUIID()
