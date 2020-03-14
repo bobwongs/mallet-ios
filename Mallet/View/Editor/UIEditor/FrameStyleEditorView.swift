@@ -18,11 +18,7 @@ struct FrameStyleEditorView: View {
                 HStack {
                     Text("Width")
                     Spacer()
-                    Stepper(value: self.$frameData.frame.width, in: 0...1000) {
-                        TextField("", value: self.$frameData.frame.width, formatter: FractionalNumberFormatter(0...1000, minimumFractionDigits: 0, maximumFractionDigits: 1))
-                            .keyboardType(.numbersAndPunctuation)
-                            .multilineTextAlignment(.trailing)
-                    }
+                    NumberInputView(value: self.$frameData.frame.width, range: 0...1000)
                 }
             }
 
@@ -30,11 +26,7 @@ struct FrameStyleEditorView: View {
                 HStack {
                     Text("Height")
                     Spacer()
-                    Stepper(value: self.$frameData.frame.height, in: 0...1000) {
-                        TextField("", value: self.$frameData.frame.height, formatter: FractionalNumberFormatter(0...1000, minimumFractionDigits: 0, maximumFractionDigits: 1))
-                            .keyboardType(.numbersAndPunctuation)
-                            .multilineTextAlignment(.trailing)
-                    }
+                    NumberInputView(value: self.$frameData.frame.height, range: 0...1000)
                 }
             }
         }

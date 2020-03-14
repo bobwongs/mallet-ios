@@ -26,11 +26,7 @@ struct BackgroundStyleEditorView: View {
 
                 HStack {
                     Text("Corner Radius")
-                    Stepper(value: $backgroundData.cornerRadius, in: 0...10000, label: {
-                        TextField("", value: self.$backgroundData.cornerRadius, formatter: FractionalNumberFormatter(0...10000, minimumFractionDigits: 0, maximumFractionDigits: 1))
-                            .keyboardType(.numbersAndPunctuation)
-                            .multilineTextAlignment(.trailing)
-                    })
+                    NumberInputView(value: $backgroundData.cornerRadius, range: 0...10000)
                 }
             }
         }

@@ -35,11 +35,7 @@ struct TextStyleEditorView: View {
 
                     HStack {
                         Text("Size")
-                        Stepper(value: self.$textData.size, in: 0.1...100, label: {
-                            TextField("", value: self.$textData.size, formatter: FractionalNumberFormatter(0.1...100, minimumFractionDigits: 0, maximumFractionDigits: 1))
-                                .keyboardType(.numbersAndPunctuation)
-                                .multilineTextAlignment(.trailing)
-                        })
+                        NumberInputView(value: self.$textData.size, range: 0.1...1000)
                     }
 
                     HStack {
