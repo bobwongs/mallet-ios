@@ -276,7 +276,6 @@
 				611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */,
 				611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */,
 				611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */,
-				611AC016CEEB099431F48803 /* MUITextData.swift */,
 				611AC448E80C6D66D44BC08D /* EditorTextView.swift */,
 			);
 			path = Editor;
@@ -305,6 +304,7 @@
 				0ED5BC2023816A0A0080CABD /* MUIView.swift */,
 				0E9C5ED52382E883001AECA7 /* MUIType.swift */,
 				611AC766B30678BEF162B6DC /* MUIRect.swift */,
+				611AC016CEEB099431F48803 /* MUITextData.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
