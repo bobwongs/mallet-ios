@@ -15,19 +15,9 @@ struct BackgroundStyleEditorView: View {
     var body: some View {
         Group {
             if backgroundData.enabled {
-                HStack {
-                    Text("Background Color")
-                    Spacer()
-                    Rectangle()
-                        .background(backgroundData.color.toColor)
-                        .frame(width: 30)
-                        .cornerRadius(5)
-                }
+                ColorInputCell(color: $backgroundData.color, title: "Background Color")
 
-                HStack {
-                    Text("Corner Radius")
-                    NumberInputView(value: $backgroundData.cornerRadius, range: 0...10000)
-                }
+                NumberInputCell(value: $backgroundData.cornerRadius, range: 0...10000, title: "Corner Radius")
             }
         }
     }

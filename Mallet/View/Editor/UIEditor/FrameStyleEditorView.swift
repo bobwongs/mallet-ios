@@ -15,19 +15,11 @@ struct FrameStyleEditorView: View {
     var body: some View {
         Group {
             if !self.frameData.lockWidth {
-                HStack {
-                    Text("Width")
-                    Spacer()
-                    NumberInputView(value: self.$frameData.frame.width, range: 0...1000)
-                }
+                NumberInputCell(value: self.$frameData.frame.width, range: 0...1000, title: "Width")
             }
 
             if !self.frameData.lockHeight {
-                HStack {
-                    Text("Height")
-                    Spacer()
-                    NumberInputView(value: self.$frameData.frame.height, range: 0...1000)
-                }
+                NumberInputCell(value: self.$frameData.frame.height, range: 0...1000, title: "Height")
             }
         }
     }

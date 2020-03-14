@@ -16,15 +16,15 @@ struct InputStyleEditorView: View {
         Group {
             if inputData.enabled {
                 UIStyleEditorSectionView(title: "Text Field") {
-                    TextEditView(text: self.$inputData.text, title: "Text", placeholder: "Text")
+                    TextInputCell(text: self.$inputData.text, title: "Text", placeholder: "Text")
 
-                    TextEditView(text: self.$inputData.placeholder, title: "Placeholder", placeholder: "Placeholder")
+                    TextInputCell(text: self.$inputData.text, title: "Placeholder", placeholder: "Placeholder")
 
-                    ColorEditView(color: self.$inputData.color)
+                    ColorInputCell(color: self.$inputData.color, title: "Color")
 
-                    TextSizeEditView(size: self.$inputData.size)
+                    NumberInputCell(value: self.$inputData.size, range: 0.1...1000, title: "Size")
 
-                    TextAlignmentEditView(alignment: self.$inputData.alignment)
+                    TextAlignmentInputCell(alignment: self.$inputData.alignment, title: "Alignment")
                 }
             }
         }

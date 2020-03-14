@@ -43,16 +43,18 @@
 		611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9723E4805003C713975 /* MUIBackgroundData.swift */; };
 		611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE25521581756F57552F /* MUIToggleData.swift */; };
 		611AC3661BDA7A37E69EA3DD /* SemiModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */; };
+		611AC36DF27C8C4332539684 /* ColorInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB7573B722CF6FDCAF2B /* ColorInputCell.swift */; };
 		611AC3DB846FB626A539390E /* FrameStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */; };
 		611AC41A8C4B04EF88CA10FC /* EditorAppScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */; };
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
+		611AC6813A9FB4781611D2FB /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC73D3ABD27635C3AD11B /* TextInputCell.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */; };
 		611AC9158620C1D1D648EFFE /* UIStyleEditorSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */; };
 		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
 		611AC9C150CA778BB0396569 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB488CDA865681A1829A /* Blur.swift */; };
 		611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */; };
-		611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC66420BF482B34E62B5D /* NumberInputView.swift */; };
+		611ACA640BF4F7290E978274 /* NumberInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC66420BF482B34E62B5D /* NumberInputCell.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
 		611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC15BA2B6F884AF2DE579 /* MUIColor.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
@@ -60,6 +62,7 @@
 		611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */; };
 		611ACDE6FB3160FFD4CE0608 /* MUITextData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC016CEEB099431F48803 /* MUITextData.swift */; };
 		611ACE330837CE075338BECD /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */; };
+		611ACE7420F44E3338EB1C54 /* TextAlignmentInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3A4D686ACB302CF205D /* TextAlignmentInputCell.swift */; };
 		611ACED9E7A11665634203A7 /* MUIFrameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC13337FC1A94FF6A229A /* MUIFrameData.swift */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +136,7 @@
 		611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorUIOverlayView.swift; sourceTree = "<group>"; };
 		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		611AC3A4D686ACB302CF205D /* TextAlignmentInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextAlignmentInputCell.swift; sourceTree = "<group>"; };
 		611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorAppScrollView.swift; sourceTree = "<group>"; };
 		611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFrameEditingView.swift; sourceTree = "<group>"; };
 		611AC448E80C6D66D44BC08D /* EditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
@@ -141,8 +145,9 @@
 		611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-		611AC66420BF482B34E62B5D /* NumberInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInputView.swift; sourceTree = "<group>"; };
+		611AC66420BF482B34E62B5D /* NumberInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberInputCell.swift; sourceTree = "<group>"; };
 		611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
+		611AC73D3ABD27635C3AD11B /* TextInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputCell.swift; sourceTree = "<group>"; };
 		611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MUIRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIRect.swift; sourceTree = "<group>"; };
 		611AC7CDF3C67779B0A44312 /* MUISliderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISliderData.swift; sourceTree = "<group>"; };
@@ -151,6 +156,7 @@
 		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611ACB488CDA865681A1829A /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
+		611ACB7573B722CF6FDCAF2B /* ColorInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorInputCell.swift; sourceTree = "<group>"; };
 		611ACC7EE131F14FC15ACF6D /* MUIInputData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIInputData.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
 		611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorSectionView.swift; sourceTree = "<group>"; };
@@ -349,8 +355,11 @@
 				611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */,
 				611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */,
 				611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */,
-				611AC66420BF482B34E62B5D /* NumberInputView.swift */,
+				611AC66420BF482B34E62B5D /* NumberInputCell.swift */,
 				611AC55A3032A86A35A595BC /* InputStyleEditorView.swift */,
+				611AC73D3ABD27635C3AD11B /* TextInputCell.swift */,
+				611ACB7573B722CF6FDCAF2B /* ColorInputCell.swift */,
+				611AC3A4D686ACB302CF205D /* TextAlignmentInputCell.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -564,7 +573,7 @@
 				611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */,
 				611AC3DB846FB626A539390E /* FrameStyleEditorView.swift in Sources */,
 				611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */,
-				611ACA640BF4F7290E978274 /* NumberInputView.swift in Sources */,
+				611ACA640BF4F7290E978274 /* NumberInputCell.swift in Sources */,
 				611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */,
 				611ACED9E7A11665634203A7 /* MUIFrameData.swift in Sources */,
 				611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */,
@@ -572,6 +581,9 @@
 				611AC30BB8A3FFB2A43A0F20 /* MUIToggleData.swift in Sources */,
 				611AC1AEF1F046D52038CCD4 /* MUIInputData.swift in Sources */,
 				611AC269958FA12716F53954 /* InputStyleEditorView.swift in Sources */,
+				611AC6813A9FB4781611D2FB /* TextInputCell.swift in Sources */,
+				611AC36DF27C8C4332539684 /* ColorInputCell.swift in Sources */,
+				611ACE7420F44E3338EB1C54 /* TextAlignmentInputCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
