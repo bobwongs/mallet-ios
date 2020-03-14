@@ -79,11 +79,13 @@ struct EditorView: View {
 
                     VStack(spacing: 0) {
                         Spacer()
+
                         if self.showingUIStyleEditorView {
                             UIStyleEditorView(closeEditor: { self.closeUIStyleEditor() })
                                 .environmentObject(self.editorViewModel)
                                 .frame(height: 400)
                                 .transition(.move(edge: .bottom))
+                                .offset(y: -(self.toolBarHeight + geo.safeAreaInsets.bottom))
                         }
                     }
 
