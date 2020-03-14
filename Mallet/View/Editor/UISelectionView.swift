@@ -108,7 +108,7 @@ struct UISelectionView: View {
             } else if type == .input {
                 MUIInput()
             } else if type == .slider {
-                MUISlider()
+                MUISlider(uiData: .constant(uiData))
             } else if type == .toggle {
                 MUIToggle(uiData: .constant(uiData))
             } else if type == .space {

@@ -54,10 +54,10 @@ struct MUIInput: View {
 
 struct MUISlider: View {
 
-    @State private var value = 1.0
+    @Binding var uiData: MUI
 
     var body: some View {
-        Slider(value: $value)
+        Slider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue)
     }
 }
 

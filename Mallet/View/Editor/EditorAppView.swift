@@ -62,7 +62,7 @@ struct EditorAppView: View {
             } else if type == .input {
                 MUIInput()
             } else if type == .slider {
-                MUISlider()
+                MUISlider(uiData: uiData)
             } else if type == .toggle {
                 MUIToggle(uiData: uiData)
             } else {

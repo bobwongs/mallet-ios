@@ -35,6 +35,7 @@
 		611AC0B9379D048679615D55 /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */; };
 		611AC0CF3A1826A21F6B697A /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */; };
 		611AC0EE11AE918BD9DDF465 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */; };
+		611AC13AF8F7ABDFDC7C29B5 /* MUISliderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC7CDF3C67779B0A44312 /* MUISliderData.swift */; };
 		611AC14DBF2A6C623A624950 /* CodeEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */; };
 		611AC1DF66BB2397EFD66F35 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC3598949E016C699527F /* AppData.swift */; };
 		611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9723E4805003C713975 /* MUIBackgroundData.swift */; };
@@ -140,6 +141,7 @@
 		611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MUIRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIRect.swift; sourceTree = "<group>"; };
+		611AC7CDF3C67779B0A44312 /* MUISliderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISliderData.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		611AC9723E4805003C713975 /* MUIBackgroundData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
 		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				611AC15BA2B6F884AF2DE579 /* MUIColor.swift */,
 				611AC13337FC1A94FF6A229A /* MUIFrameData.swift */,
 				611AC9723E4805003C713975 /* MUIBackgroundData.swift */,
+				611AC7CDF3C67779B0A44312 /* MUISliderData.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */,
 				611ACED9E7A11665634203A7 /* MUIFrameData.swift in Sources */,
 				611AC295115FC8E44B74F878 /* MUIBackgroundData.swift in Sources */,
+				611AC13AF8F7ABDFDC7C29B5 /* MUISliderData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
