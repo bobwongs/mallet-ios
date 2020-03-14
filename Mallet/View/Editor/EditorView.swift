@@ -135,6 +135,7 @@ struct EditorView: View {
             }
                 .sheet(isPresented: $showingAppSettingsView) {
                     AppSettingsView()
+                        .environmentObject(self.editorViewModel)
                 }
 
             Spacer()

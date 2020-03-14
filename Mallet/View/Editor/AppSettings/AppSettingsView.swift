@@ -12,35 +12,47 @@ struct AppSettingsView: View {
 
     @Environment(\.presentationMode) var presentationMode
 
-    @State var appName: String = "Untitled App"
+    @EnvironmentObject var editorViewModel: EditorViewModel
 
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    HStack {
-                        Text("App Name")
-                        TextField("App Name", text: $appName)
+                Group {
+                    Section {
+                        HStack {
+                            Text("App Name")
+                            TextField("App Name", text: $editorViewModel.appName)
+                                .multilineTextAlignment(.trailing)
+                        }
+                    }
+
+                    Section {
+                        Button(action: {
+                            print("Add icon to home screen")
+                        }) {
+                            Text("Add icon to home screen")
+                        }
+                    }
+
+                    Section {
+                        Button(action: {
+                            print("Copy share link")
+                        }) {
+                            Text("Copy share link")
+                        }
                     }
                 }
-
-                Section {
-                    Text("Add icon to home screen")
-                }
-
-                Section {
-                    Text("Copy share link")
-                }
+                    .listRowBackground(Color(.tertiarySystemFill))
             }
                 .listStyle(GroupedListStyle())
+                .background(Color(.systemGroupedBackground))
                 .navigationBarTitle("App Settings", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
-                        self.presentationMode.wrappedValue.dismiss()
-                })
-                    {
-                        Text("Done")
-                            .fontWeight(.semibold)
-                    }
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Text("Done")
+                        .fontWeight(.semibold)
+                }
                 )
         }
     }
