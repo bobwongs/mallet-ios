@@ -16,7 +16,7 @@ struct MUIBackgroundData: Codable {
 
     var cornerRadius: CGFloat
 
-    static let disabled = MUIBackgroundData(color: .clear, cornerRadius: 0)
+    static let disabled = MUIBackgroundData(enabled: false, color: .clear, cornerRadius: 0)
 
     static let defaultValue = MUIBackgroundData(color: .clear, cornerRadius: 0)
 
