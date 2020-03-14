@@ -42,8 +42,10 @@
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */; };
+		611AC9158620C1D1D648EFFE /* UIStyleEditorSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */; };
 		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
 		611AC9C150CA778BB0396569 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB488CDA865681A1829A /* Blur.swift */; };
+		611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
 		611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */; };
@@ -122,6 +124,7 @@
 		611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFrameEditingView.swift; sourceTree = "<group>"; };
 		611AC448E80C6D66D44BC08D /* EditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
 		611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
+		611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC61EE3818318051DCD7F /* RootView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
@@ -131,6 +134,7 @@
 		611ACB488CDA865681A1829A /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
 		611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UISelectionView.swift; sourceTree = "<group>"; };
+		611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorSectionView.swift; sourceTree = "<group>"; };
 		611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -315,6 +319,8 @@
 				611ACE6FA4C2824EE7C86EA9 /* CodeEditorView.swift */,
 				611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */,
 				611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */,
+				611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */,
+				611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -524,6 +530,8 @@
 				611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */,
 				611AC9C150CA778BB0396569 /* Blur.swift in Sources */,
 				611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */,
+				611AC9158620C1D1D648EFFE /* UIStyleEditorSectionView.swift in Sources */,
+				611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

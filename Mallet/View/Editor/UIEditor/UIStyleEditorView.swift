@@ -36,6 +36,8 @@ struct UIStyleEditorView: View {
                         }
                     }
                 }
+
+                TextStyleEditorView(textData: uiDataBinding.textData)
             }
         }
             .background(Blur(style: .systemThickMaterial))
@@ -55,27 +57,6 @@ struct UIStyleEditorView: View {
         }
             .frame(height: 40)
             .padding([.leading, .trailing], 15)
-    }
-
-    private func textDataEditor() -> some View {
-        Group {
-            if uiData.textData.enabled {
-                Group {
-                    HStack {
-                        Text("Text:")
-                        TextField("Text", text: uiDataBinding.textData.text)
-                            .multilineTextAlignment(.trailing)
-                    }
-
-                    HStack {
-                        Text("Size:")
-                        TextField("17", value: uiDataBinding.textData.size, formatter: NumberFormatter())
-                            .keyboardType(.numbersAndPunctuation)
-                            .multilineTextAlignment(.trailing)
-                    }
-                }
-            }
-        }
     }
 
     private func onCloseEditor() {
