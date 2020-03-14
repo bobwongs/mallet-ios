@@ -39,6 +39,8 @@ struct UIStyleEditorView: View {
                     InputStyleEditorView(inputData: uiDataBinding.inputData)
 
                     SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
+
+                    ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
                 }
             }
         }
