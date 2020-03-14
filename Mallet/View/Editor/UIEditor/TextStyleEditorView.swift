@@ -17,18 +17,85 @@ struct TextStyleEditorView: View {
             if textData.enabled {
                 UIStyleEditorSectionView(title: "Text") {
                     HStack {
-                        Text("Text:")
+                        Text("Text")
                         TextField("Text", text: self.$textData.text)
                             .multilineTextAlignment(.trailing)
                     }
 
                     HStack {
-                        Text("Size:")
+                        Text("Color")
+
+                        Spacer()
+
+                        Rectangle()
+                            .background(self.textData.color.toColor)
+                            .frame(width: 30)
+                            .cornerRadius(5)
+                    }
+
+                    HStack {
+                        Text("Size")
                         Stepper(value: self.$textData.size, in: 0.1...100, label: {
                             TextField("", value: self.$textData.size, formatter: FractionalNumberFormatter(0.1...100, minimumFractionDigits: 0, maximumFractionDigits: 1))
                                 .keyboardType(.numbersAndPunctuation)
                                 .multilineTextAlignment(.trailing)
                         })
+                    }
+
+                    HStack {
+                        Text("Alignment")
+
+                        Spacer()
+
+                        HStack(spacing: 5) {
+                            Group {
+                                Image(systemName: "text.alignleft")
+                                    .onTapGesture {
+                                        self.textData.alignment = .leading
+                                    }
+                                    .padding(10)
+                                    .background(
+                                        Group {
+                                            if self.textData.alignment == .leading {
+                                                Color.blue
+                                            } else {
+                                                Color(.tertiarySystemFill)
+                                            }
+                                        }
+                                    )
+
+                                Image(systemName: "text.aligncenter")
+                                    .onTapGesture {
+                                        self.textData.alignment = .center
+                                    }
+                                    .padding(10)
+                                    .background(
+                                        Group {
+                                            if self.textData.alignment == .center {
+                                                Color.blue
+                                            } else {
+                                                Color(.tertiarySystemFill)
+                                            }
+                                        }
+                                    )
+
+                                Image(systemName: "text.alignright")
+                                    .onTapGesture {
+                                        self.textData.alignment = .trailing
+                                    }
+                                    .padding(10)
+                                    .background(
+                                        Group {
+                                            if self.textData.alignment == .trailing {
+                                                Color.blue
+                                            } else {
+                                                Color(.tertiarySystemFill)
+                                            }
+                                        }
+                                    )
+                            }
+                                .cornerRadius(5)
+                        }
                     }
                 }
             }
