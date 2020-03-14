@@ -12,11 +12,11 @@ struct MUISliderData: Codable {
 
     var enabled = true
 
-    var value: Float
+    var value: CGFloat
 
-    var minValue: Float
+    var minValue: CGFloat
 
-    var maxValue: Float
+    var maxValue: CGFloat
 
     static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0)
 
