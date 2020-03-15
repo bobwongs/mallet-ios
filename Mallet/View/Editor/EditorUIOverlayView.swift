@@ -69,9 +69,9 @@ struct EditorUIOverlayView<Content: View>: View {
                             )
                     }
                 }
-                    .background(Color.black.opacity(0.05))
                     .foregroundColor(Color.white.opacity(0.001))
             )
+            .background(Color.black.opacity(0.05))
             .position(x: frame.midX, y: frame.midY)
     }
 
