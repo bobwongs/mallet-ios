@@ -43,13 +43,8 @@ struct EditorUIOverlayView<Content: View>: View {
                 Group {
                     if editorViewModel.selectedUIID == uiData.uiID {
                         if (editingText) {
-                            if uiData.textData.enabled {
-                                EditorTextView(backgroundData: $uiData.backgroundData, textData: $uiData.textData)
-                                    .gesture(TapGesture())
-                            } else if uiData.textFieldData.enabled {
-                                content()
-                                    .gesture(TapGesture())
-                            }
+                            EditorTextView(backgroundData: $uiData.backgroundData, textData: $uiData.textData)
+                                .gesture(TapGesture())
                         } else {
                             Rectangle()
                                 .gesture(DragGesture(minimumDistance: 0.5)
@@ -60,7 +55,7 @@ struct EditorUIOverlayView<Content: View>: View {
                                              })
                                 .gesture(TapGesture()
                                              .onEnded {
-                                                 if self.uiData.textData.enabled || self.uiData.textFieldData.enabled {
+                                                 if self.uiData.textData.enabled {
                                                      self.editorViewModel.editUIText(id: self.uiData.uiID)
                                                  }
                                              })
@@ -70,9 +65,6 @@ struct EditorUIOverlayView<Content: View>: View {
                             .gesture(TapGesture()
                                          .onEnded {
                                              self.editorViewModel.selectUI(id: self.uiData.uiID)
-                                             if self.uiData.textFieldData.enabled {
-                                                 self.editorViewModel.editUIText(id: self.uiData.uiID)
-                                             }
                                          }
                             )
                     }
