@@ -36,7 +36,7 @@ struct UIStyleEditorView: View {
 
                     TextStyleEditorView(textData: uiDataBinding.textData)
 
-                    InputStyleEditorView(inputData: uiDataBinding.inputData)
+                    TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
 
                     SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 

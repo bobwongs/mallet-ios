@@ -59,8 +59,8 @@ struct EditorAppView: View {
                 MUIText(uiData: uiData)
             } else if type == .button {
                 MUIButton(uiData: uiData)
-            } else if type == .input {
-                MUIInput(uiData: uiData)
+            } else if type == .textField {
+                MUITextField(uiData: uiData)
             } else if type == .slider {
                 MUISlider(uiData: uiData)
             } else if type == .toggle {

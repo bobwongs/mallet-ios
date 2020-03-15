@@ -42,16 +42,16 @@ struct MUIButton: View {
     }
 }
 
-struct MUIInput: View {
+struct MUITextField: View {
 
     @Binding var uiData: MUI
 
     var body: some View {
-        TextField(uiData.inputData.placeholder, text: $uiData.inputData.text)
+        TextField(uiData.textFieldData.placeholder, text: $uiData.textFieldData.text)
             .textFieldStyle(RoundedBorderTextFieldStyle())
-            .foregroundColor(uiData.inputData.color.toColor)
-            .font(.system(size: uiData.inputData.size))
-            .multilineTextAlignment(uiData.inputData.alignment.toTextAlignment)
+            .foregroundColor(uiData.textFieldData.color.toColor)
+            .font(.system(size: uiData.textFieldData.size))
+            .multilineTextAlignment(uiData.textFieldData.alignment.toTextAlignment)
     }
 }
 

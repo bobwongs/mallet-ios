@@ -16,7 +16,7 @@ enum MUIType: String, Codable {
 
     case button = "Button"
 
-    case input = "Input"
+    case textField = "TextField"
 
     case slider = "Slider"
 

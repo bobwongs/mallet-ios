@@ -25,7 +25,7 @@ struct UISelectionView: View {
     @Binding var appViewOffset: CGPoint
 
     private var uiTable: [[MUIType]] {
-        [[.text, .button, .input],
+        [[.text, .button, .textField],
          [.slider, .toggle, .space]]
     }
 
@@ -105,8 +105,8 @@ struct UISelectionView: View {
                 MUIText(uiData: .constant(uiData))
             } else if type == .button {
                 MUIButton(uiData: .constant(uiData))
-            } else if type == .input {
-                MUIInput(uiData: .constant(uiData))
+            } else if type == .textField {
+                MUITextField(uiData: .constant(uiData))
             } else if type == .slider {
                 MUISlider(uiData: .constant(uiData))
             } else if type == .toggle {
