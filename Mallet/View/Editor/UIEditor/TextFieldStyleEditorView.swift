@@ -18,7 +18,7 @@ struct TextFieldStyleEditorView: View {
                 UIStyleEditorSectionView(title: "Text Field") {
                     TextInputCell(text: self.$textFieldData.text, title: "Text", placeholder: "Text")
 
-                    TextInputCell(text: self.$textFieldData.text, title: "Placeholder", placeholder: "Placeholder")
+                    TextInputCell(text: self.$textFieldData.placeholder, title: "Placeholder", placeholder: "Placeholder")
 
                     ColorInputCell(color: self.$textFieldData.color, title: "Color")
 
