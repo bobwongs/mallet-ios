@@ -70,6 +70,9 @@ struct EditorUIOverlayView<Content: View>: View {
                             .gesture(TapGesture()
                                          .onEnded {
                                              self.editorViewModel.selectUI(id: self.uiData.uiID)
+                                             if self.uiData.textFieldData.enabled {
+                                                 self.editorViewModel.editUIText(id: self.uiData.uiID)
+                                             }
                                          }
                             )
                     }
