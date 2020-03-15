@@ -26,7 +26,6 @@ struct ColorInputCell: View {
             Spacer()
             Rectangle()
                 .foregroundColor(color.toColor)
-                //.background(color.toColor)
                 .frame(width: 30)
                 .cornerRadius(5)
         }
