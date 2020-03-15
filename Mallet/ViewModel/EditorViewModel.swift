@@ -20,6 +20,8 @@ class EditorViewModel: ObservableObject {
 
     @Published var selectedUIID: Int? = nil
 
+    @Published var textEditingUIID: Int? = nil
+
     private var maxUIID: Int
 
     static var testModel: EditorViewModel {
@@ -47,7 +49,7 @@ class EditorViewModel: ObservableObject {
         uiIDs.append(uiID)
         uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
 
-        selectedUIID = uiID
+        selectUI(id: uiID)
 
         maxUIID += 1
     }
@@ -71,7 +73,7 @@ class EditorViewModel: ObservableObject {
         uiIDs.append(uiID)
         uiData[uiID] = newUI
 
-        self.selectedUIID = uiID
+        selectUI(id: uiID)
 
         maxUIID += 1
     }
@@ -83,7 +85,8 @@ class EditorViewModel: ObservableObject {
 
         uiData.removeValue(forKey: selectedUIID)
         uiIDs.removeAll(where: { $0 == selectedUIID })
-        self.selectedUIID = nil
+
+        selectUI(id: nil)
     }
 
     func getUIDataOf(_ id: Int) -> Binding<MUI> {
@@ -99,5 +102,18 @@ class EditorViewModel: ObservableObject {
         } else {
             return .constant(.none)
         }
+    }
+
+    func selectUI(id: Int?) {
+        selectedUIID = id
+        textEditingUIID = nil
+    }
+
+    func editUIText(id: Int) {
+        textEditingUIID = id
+    }
+
+    func endEditingUIText() {
+        textEditingUIID = nil
     }
 }

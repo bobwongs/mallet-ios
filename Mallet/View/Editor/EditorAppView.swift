@@ -19,10 +19,10 @@ struct EditorAppView: View {
             Color.white
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
-                EditorUIOverlayView(uiData: self.editorViewModel.getUIDataOf(id),
-                                    selectedUIID: self.$editorViewModel.selectedUIID) {
+                EditorUIOverlayView(uiData: self.editorViewModel.getUIDataOf(id)) {
                     self.generateUI(id: id)
                 }
+                    .environmentObject(self.editorViewModel)
             }
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
@@ -41,13 +41,13 @@ struct EditorAppView: View {
                     .edgesIgnoringSafeArea(.all)
                     .frame(width: 2000, height: 2000)
                     .onTapGesture {
-                        self.editorViewModel.selectedUIID = nil
+                        self.editorViewModel.selectUI(id: nil)
                     }
             )
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
-                self.editorViewModel.selectedUIID = nil
+                self.editorViewModel.selectUI(id: nil)
             }
     }
 

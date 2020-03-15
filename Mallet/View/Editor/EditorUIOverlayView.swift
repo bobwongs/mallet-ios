@@ -12,20 +12,20 @@ struct EditorUIOverlayView<Content: View>: View {
 
     let content: () -> Content
 
+    @EnvironmentObject var editorViewModel: EditorViewModel
+
     @Binding var uiData: MUI
 
     @Binding var frame: MUIRect
 
-    @Binding var selectedUIID: Int?
+    private var editingText: Bool {
+        editorViewModel.textEditingUIID == uiData.uiID
+    }
 
-    @State private var editingText = false
-
-    init(uiData: Binding<MUI>, selectedUIID: Binding<Int?>, @ViewBuilder content: @escaping () -> Content) {
+    init(uiData: Binding<MUI>, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
 
         self._frame = uiData.frameData.frame
-
-        self._selectedUIID = selectedUIID
 
         self.content = content
     }
@@ -41,7 +41,7 @@ struct EditorUIOverlayView<Content: View>: View {
         }
             .overlay(
                 Group {
-                    if selectedUIID == uiData.uiID {
+                    if editorViewModel.selectedUIID == uiData.uiID {
                         if (editingText) {
                             EditorTextView(backgroundData: $uiData.backgroundData, textData: $uiData.textData)
                                 .gesture(TapGesture())
@@ -51,12 +51,12 @@ struct EditorUIOverlayView<Content: View>: View {
                                              .onChanged { value in
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
-                                                 self.setSelectedUIID()
+                                                 self.editorViewModel.selectUI(id: self.uiData.uiID)
                                              })
                                 .gesture(TapGesture()
                                              .onEnded {
                                                  if self.uiData.textData.enabled {
-                                                     self.editingText = true
+                                                     self.editorViewModel.editUIText(id: self.uiData.uiID)
                                                  }
                                              })
                         }
@@ -64,7 +64,7 @@ struct EditorUIOverlayView<Content: View>: View {
                         Rectangle()
                             .gesture(TapGesture()
                                          .onEnded {
-                                             self.setSelectedUIID()
+                                             self.editorViewModel.selectUI(id: self.uiData.uiID)
                                          }
                             )
                     }
@@ -73,9 +73,5 @@ struct EditorUIOverlayView<Content: View>: View {
             )
             .background(Color.black.opacity(0.05))
             .position(x: frame.midX, y: frame.midY)
-    }
-
-    private func setSelectedUIID() {
-        selectedUIID = uiData.uiID
     }
 }
