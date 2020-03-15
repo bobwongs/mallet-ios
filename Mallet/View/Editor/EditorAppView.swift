@@ -36,7 +36,14 @@ struct EditorAppView: View {
                 }
             }
         }
-            .background(Color.clear)
+            .background(
+                Color.white.opacity(0.001)
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: 2000, height: 2000)
+                    .onTapGesture {
+                        self.editorViewModel.selectedUIID = nil
+                    }
+            )
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
