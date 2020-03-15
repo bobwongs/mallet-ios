@@ -24,6 +24,6 @@ struct MUITextFieldData: Codable {
 
     static let disabled = MUITextFieldData(enabled: false, text: "", placeholder: "", color: .clear, size: 0, alignment: .center)
 
-    static let defaulValue = MUITextFieldData(text: "Text", placeholder: "", color: .black, size: 17, alignment: .leading)
+    static let defaulValue = MUITextFieldData(text: "", placeholder: "Text", color: .black, size: 17, alignment: .leading)
 
 }
