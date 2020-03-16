@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UITableView.appearance().backgroundColor = .clear
         UITableViewCell.appearance().backgroundColor = .clear
 
+        addShortcuts(application: application)
+
         return true
     }
 
@@ -93,6 +95,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
 
+    func addShortcuts(application: UIApplication) {
+        let createNewApp = UIMutableApplicationShortcutItem(type: "createNewApp",
+                                                            localizedTitle: "Create New App",
+                                                            localizedSubtitle: "",
+                                                            icon: UIApplicationShortcutIcon(type: .add),
+                                                            userInfo: nil)
+
+        application.shortcutItems = [createNewApp]
+    }
 
 }
 
