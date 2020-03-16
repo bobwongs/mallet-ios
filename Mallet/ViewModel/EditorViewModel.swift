@@ -22,7 +22,7 @@ class EditorViewModel: ObservableObject {
 
     @Published var textEditingUIID: Int? = nil
 
-    @Published var selectedUIGlobalPos: CGPoint? = nil
+    @Published var selectedUIGlobalFrame: CGRect? = nil
 
     private var maxUIID: Int
 
@@ -44,14 +44,14 @@ class EditorViewModel: ObservableObject {
         }) ?? -1
     }
 
-    func addUI(type: MUIType, frame: MUIRect, pos: CGPoint) {
+    func addUI(type: MUIType, frame: MUIRect, globalFrame: CGRect) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
         uiIDs.append(uiID)
         uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
 
-        selectUI(id: uiID, pos: pos)
+        selectUI(id: uiID, frame: globalFrame)
 
         maxUIID += 1
     }
@@ -77,7 +77,10 @@ class EditorViewModel: ObservableObject {
         uiIDs.append(uiID)
         uiData[uiID] = newUI
 
-        selectUI(id: uiID, pos: CGPoint(x: (selectedUIGlobalPos?.x ?? 0) + diff.x, y: (selectedUIGlobalPos?.y ?? 0) + diff.y))
+        selectUI(id: uiID, frame: CGRect(x: (selectedUIGlobalFrame?.origin.x ?? 0) + diff.x,
+                                         y: (selectedUIGlobalFrame?.origin.x ?? 0) + diff.y,
+                                         width: selectedUIGlobalFrame?.width ?? 0,
+                                         height: selectedUIGlobalFrame?.height ?? 0))
 
         maxUIID += 1
     }
@@ -108,16 +111,16 @@ class EditorViewModel: ObservableObject {
         }
     }
 
-    func selectUI(id: Int, pos: CGPoint) {
+    func selectUI(id: Int, frame: CGRect) {
         selectedUIID = id
         textEditingUIID = nil
-        selectedUIGlobalPos = pos
+        selectedUIGlobalFrame = frame
     }
 
     func deselectUI() {
         selectedUIID = nil
         textEditingUIID = nil
-        selectedUIGlobalPos = nil
+        selectedUIGlobalFrame = nil
     }
 
     func editUIText(id: Int) {

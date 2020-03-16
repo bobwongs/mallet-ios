@@ -26,11 +26,17 @@ struct EditorView: View {
 
     @State private var selectedUIFrame = CGRect.zero
 
+    @State private var editorOffset: CGFloat = 0
+
     private let modalControlBarHeight: CGFloat = 30
 
     private let toolBarHeight: CGFloat = 40
 
     private let appViewPadding: CGFloat = 700
+
+    @State private var spacerHeightAboveUIStyleEditor: CGFloat = 250
+
+    @State private var safeAreaTopInset: CGFloat = 0
 
     let closeEditor: () -> Void
 
@@ -55,6 +61,7 @@ struct EditorView: View {
                                 .padding(self.appViewPadding)
                         }
                     }
+                        .offset(y: self.editorOffset)
                         .edgesIgnoringSafeArea(.all)
 
                     Spacer()
@@ -79,15 +86,22 @@ struct EditorView: View {
 
                     VStack(spacing: 0) {
                         Spacer()
+                            .frame(height: self.spacerHeightAboveUIStyleEditor)
 
                         if self.showingUIStyleEditorView {
                             UIStyleEditorView(closeEditor: { self.closeUIStyleEditor() })
                                 .environmentObject(self.editorViewModel)
-                                .frame(height: 400)
                                 .transition(.move(edge: .bottom))
-                                .offset(y: -(self.toolBarHeight + geo.safeAreaInsets.bottom))
                         }
+
+                        Spacer()
+                            .frame(height: self.toolBarHeight + geo.safeAreaInsets.bottom)
                     }
+                        .edgesIgnoringSafeArea(.top)
+                        .onAppear {
+                            self.spacerHeightAboveUIStyleEditor += geo.safeAreaInsets.top
+                            self.safeAreaTopInset = geo.safeAreaInsets.top
+                        }
 
                     EditorToolBar(offset: self.$modalOffset,
                                   height: self.toolBarHeight,
@@ -163,13 +177,35 @@ struct EditorView: View {
     }
 
     private func toggleUIStyleEditor() {
+
+        let newEditorOffset: CGFloat
+
+        if showingUIStyleEditorView {
+            newEditorOffset = 0
+        } else {
+            if let selectedUIGlobalFrame = editorViewModel.selectedUIGlobalFrame {
+                if spacerHeightAboveUIStyleEditor - safeAreaTopInset > selectedUIGlobalFrame.height {
+                    let maxY = spacerHeightAboveUIStyleEditor - 10
+                    newEditorOffset = min(0, maxY - selectedUIGlobalFrame.maxY)
+                } else {
+                    let centerY = (spacerHeightAboveUIStyleEditor + safeAreaTopInset) / 2
+                    newEditorOffset = min(0, centerY - selectedUIGlobalFrame.midY)
+                }
+            } else {
+                newEditorOffset = 0
+            }
+        }
+
         withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
+            editorOffset = newEditorOffset
             showingUIStyleEditorView.toggle()
         }
+
     }
 
     private func closeUIStyleEditor() {
         withAnimation(.spring(response: 0.45, dampingFraction: 1)) {
+            editorOffset = 0
             showingUIStyleEditorView = false
         }
     }

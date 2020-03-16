@@ -156,8 +156,6 @@ struct UIFrameEditingView<Content: View>: View {
     }
 
     private func updateFrame(_ geo: GeometryProxy) {
-        let frame = geo.frame(in: .global)
-        let pos = CGPoint(x: frame.midX, y: frame.midY)
-        editorViewModel.selectUI(id: uiData.uiID, pos: pos)
+        editorViewModel.selectUI(id: uiData.uiID, frame: geo.frame(in: .global))
     }
 }
