@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
 		0E3659FF237EECE200294A40 /* MUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3659FE237EECE200294A40 /* MUI.swift */; };
+		0E5462AF241FAD560096ACB5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */; };
+		0E5462B2241FAD560096ACB5 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5462B1241FAD560096ACB5 /* TodayViewController.swift */; };
+		0E5462B5241FAD560096ACB5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E5462B3241FAD560096ACB5 /* MainInterface.storyboard */; };
+		0E5462B9241FAD560096ACB5 /* MalletWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0E5462AD241FAD560096ACB5 /* MalletWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0E9C5ED62382E883001AECA7 /* MUIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9C5ED52382E883001AECA7 /* MUIType.swift */; };
 		0E9F7E4723ABCC7E00C12CF1 /* EditorToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F7E4623ABCC7E00C12CF1 /* EditorToolBar.swift */; };
 		0E9F836823659A2C00994789 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F836723659A2C00994789 /* AppDelegate.swift */; };
@@ -70,6 +74,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0E5462B7241FAD560096ACB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E9F835C23659A2C00994789 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E5462AC241FAD560096ACB5;
+			remoteInfo = MalletWidget;
+		};
 		0E9F837B23659A2E00994789 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E9F835C23659A2C00994789 /* Project object */;
@@ -87,6 +98,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0E5462BA241FAD560096ACB5 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0E5462B9241FAD560096ACB5 /* MalletWidget.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E9F848A2365A9BB00994789 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,6 +126,11 @@
 /* Begin PBXFileReference section */
 		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		0E3659FE237EECE200294A40 /* MUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUI.swift; sourceTree = "<group>"; };
+		0E5462AD241FAD560096ACB5 /* MalletWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalletWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		0E5462B1241FAD560096ACB5 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		0E5462B4241FAD560096ACB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		0E5462B6241FAD560096ACB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E9C5ED52382E883001AECA7 /* MUIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIType.swift; sourceTree = "<group>"; };
 		0E9F7E4623ABCC7E00C12CF1 /* EditorToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBar.swift; sourceTree = "<group>"; };
 		0E9F836423659A2C00994789 /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,6 +198,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0E5462AA241FAD560096ACB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E5462AF241FAD560096ACB5 /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E9F836123659A2C00994789 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -197,12 +232,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E5462B0241FAD560096ACB5 /* MalletWidget */ = {
+			isa = PBXGroup;
+			children = (
+				0E5462B1241FAD560096ACB5 /* TodayViewController.swift */,
+				0E5462B3241FAD560096ACB5 /* MainInterface.storyboard */,
+				0E5462B6241FAD560096ACB5 /* Info.plist */,
+			);
+			path = MalletWidget;
+			sourceTree = "<group>";
+		};
 		0E9F835B23659A2C00994789 = {
 			isa = PBXGroup;
 			children = (
 				0E9F836623659A2C00994789 /* Mallet */,
 				0E9F837D23659A2E00994789 /* MalletTests */,
 				0E9F838823659A2E00994789 /* MalletUITests */,
+				0E5462B0241FAD560096ACB5 /* MalletWidget */,
 				0E9F836523659A2C00994789 /* Products */,
 				0E9F84832365A9BA00994789 /* Frameworks */,
 			);
@@ -214,6 +260,7 @@
 				0E9F836423659A2C00994789 /* Mallet.app */,
 				0E9F837A23659A2E00994789 /* MalletTests.xctest */,
 				0E9F838523659A2E00994789 /* MalletUITests.xctest */,
+				0E5462AD241FAD560096ACB5 /* MalletWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -346,6 +393,7 @@
 			children = (
 				0E9F84842365A9BB00994789 /* Realm.framework */,
 				0E9F84852365A9BB00994789 /* Swifter.framework */,
+				0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -392,6 +440,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E5462AC241FAD560096ACB5 /* MalletWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E5462BD241FAD560096ACB5 /* Build configuration list for PBXNativeTarget "MalletWidget" */;
+			buildPhases = (
+				0E5462A9241FAD560096ACB5 /* Sources */,
+				0E5462AA241FAD560096ACB5 /* Frameworks */,
+				0E5462AB241FAD560096ACB5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MalletWidget;
+			productName = MalletWidget;
+			productReference = 0E5462AD241FAD560096ACB5 /* MalletWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		0E9F836323659A2C00994789 /* Mallet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E9F838E23659A2E00994789 /* Build configuration list for PBXNativeTarget "Mallet" */;
@@ -401,10 +466,12 @@
 				0E9F836223659A2C00994789 /* Resources */,
 				0E9F848A2365A9BB00994789 /* Embed Frameworks */,
 				0E9F848B2365A9C800994789 /* ShellScript */,
+				0E5462BA241FAD560096ACB5 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				0E5462B8241FAD560096ACB5 /* PBXTargetDependency */,
 			);
 			name = Mallet;
 			productName = Mallet;
@@ -453,10 +520,13 @@
 		0E9F835C23659A2C00994789 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1110;
+				LastSwiftUpdateCheck = 1130;
 				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "Katsu Matsuda";
 				TargetAttributes = {
+					0E5462AC241FAD560096ACB5 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
 					0E9F836323659A2C00994789 = {
 						CreatedOnToolsVersion = 11.1;
 						LastSwiftMigration = 1110;
@@ -487,11 +557,20 @@
 				0E9F836323659A2C00994789 /* Mallet */,
 				0E9F837923659A2E00994789 /* MalletTests */,
 				0E9F838423659A2E00994789 /* MalletUITests */,
+				0E5462AC241FAD560096ACB5 /* MalletWidget */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0E5462AB241FAD560096ACB5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E5462B5241FAD560096ACB5 /* MainInterface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E9F836223659A2C00994789 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -541,6 +620,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E5462A9241FAD560096ACB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E5462B2241FAD560096ACB5 /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E9F836023659A2C00994789 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -618,6 +705,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0E5462B8241FAD560096ACB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E5462AC241FAD560096ACB5 /* MalletWidget */;
+			targetProxy = 0E5462B7241FAD560096ACB5 /* PBXContainerItemProxy */;
+		};
 		0E9F837C23659A2E00994789 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0E9F836323659A2C00994789 /* Mallet */;
@@ -631,6 +723,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0E5462B3241FAD560096ACB5 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0E5462B4241FAD560096ACB5 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		0E9F837223659A2E00994789 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -642,6 +742,48 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0E5462BB241FAD560096ACB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T437NKTG46;
+				INFOPLIST_FILE = MalletWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.MalletWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0E5462BC241FAD560096ACB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T437NKTG46;
+				INFOPLIST_FILE = MalletWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.MalletWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0E9F838C23659A2E00994789 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -759,6 +901,7 @@
 		0E9F838F23659A2E00994789 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Mallet/Mallet.entitlements;
@@ -789,6 +932,7 @@
 		0E9F839023659A2E00994789 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Mallet/Mallet.entitlements;
@@ -902,6 +1046,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E5462BD241FAD560096ACB5 /* Build configuration list for PBXNativeTarget "MalletWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E5462BB241FAD560096ACB5 /* Debug */,
+				0E5462BC241FAD560096ACB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0E9F835F23659A2C00994789 /* Build configuration list for PBXProject "Mallet" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
