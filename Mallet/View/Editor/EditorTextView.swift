@@ -40,6 +40,11 @@ struct EditorTextView: UIViewRepresentable {
         textView.isUserInteractionEnabled = true
         textView.backgroundColor = .clear
         textView.textAlignment = .center
+        if UITraitCollection.current.userInterfaceStyle == .light {
+            textView.overrideUserInterfaceStyle = .light
+        } else {
+            textView.overrideUserInterfaceStyle = .dark
+        }
 
         textView.becomeFirstResponder()
 
