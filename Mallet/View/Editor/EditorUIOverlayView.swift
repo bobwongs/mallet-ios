@@ -40,10 +40,10 @@ struct EditorUIOverlayView<Content: View>: View {
             }
         }
             .overlay(
-                Group {
-                    if editorViewModel.selectedUIID == uiData.uiID {
-                        if (editingText) {
-                            EditorTextView(backgroundData: $uiData.backgroundData, textData: $uiData.textData)
+                GeometryReader { geo in
+                    if self.editorViewModel.selectedUIID == self.uiData.uiID {
+                        if (self.editingText) {
+                            EditorTextView(backgroundData: self.$uiData.backgroundData, textData: self.$uiData.textData)
                                 .gesture(TapGesture())
                         } else {
                             Rectangle()
@@ -51,7 +51,7 @@ struct EditorUIOverlayView<Content: View>: View {
                                              .onChanged { value in
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
-                                                 self.editorViewModel.selectUI(id: self.uiData.uiID)
+                                                 self.selectUI(geo)
                                              })
                                 .gesture(TapGesture()
                                              .onEnded {
@@ -64,7 +64,7 @@ struct EditorUIOverlayView<Content: View>: View {
                         Rectangle()
                             .gesture(TapGesture()
                                          .onEnded {
-                                             self.editorViewModel.selectUI(id: self.uiData.uiID)
+                                             self.selectUI(geo)
                                          }
                             )
                     }
@@ -73,5 +73,11 @@ struct EditorUIOverlayView<Content: View>: View {
             )
             .background(Color.black.opacity(0.05))
             .position(x: frame.midX, y: frame.midY)
+    }
+
+    private func selectUI(_ geo: GeometryProxy) {
+        let frame = geo.frame(in: .global)
+        let pos = CGPoint(x: frame.midX, y: frame.midY)
+        editorViewModel.selectUI(id: uiData.uiID, pos: pos)
     }
 }

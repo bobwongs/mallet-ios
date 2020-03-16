@@ -81,7 +81,7 @@ struct UISelectionView: View {
                                          frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2
                                          frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2
 
-                                         self.editorViewModel.addUI(type: type, frame: frame)
+                                         self.editorViewModel.addUI(type: type, frame: frame, pos: CGPoint(x: self.selectedUIFrame.midX, y: self.selectedUIFrame.midY))
                                          self.selectedUIType = .space
                                          self.selectedUIFrame = CGRect.zero
                                      }

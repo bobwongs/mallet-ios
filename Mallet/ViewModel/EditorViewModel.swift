@@ -22,6 +22,8 @@ class EditorViewModel: ObservableObject {
 
     @Published var textEditingUIID: Int? = nil
 
+    @Published var selectedUIGlobalPos: CGPoint? = nil
+
     private var maxUIID: Int
 
     static var testModel: EditorViewModel {
@@ -42,14 +44,14 @@ class EditorViewModel: ObservableObject {
         }) ?? -1
     }
 
-    func addUI(type: MUIType, frame: MUIRect) {
+    func addUI(type: MUIType, frame: MUIRect, pos: CGPoint) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
         uiIDs.append(uiID)
         uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
 
-        selectUI(id: uiID)
+        selectUI(id: uiID, pos: pos)
 
         maxUIID += 1
     }
@@ -67,13 +69,15 @@ class EditorViewModel: ObservableObject {
         let uiName = "\(ui.uiType.rawValue)\(uiID)"
         var newUI = MUI.copyUIData(uiData: ui, uiID: uiID, uiName: uiName)
 
-        newUI.frameData.frame.x += 20
-        newUI.frameData.frame.y += 20
+        let diff = CGPoint(x: 20, y: 20)
+
+        newUI.frameData.frame.x += diff.x
+        newUI.frameData.frame.y += diff.y
 
         uiIDs.append(uiID)
         uiData[uiID] = newUI
 
-        selectUI(id: uiID)
+        selectUI(id: uiID, pos: CGPoint(x: (selectedUIGlobalPos?.x ?? 0) + diff.x, y: (selectedUIGlobalPos?.y ?? 0) + diff.y))
 
         maxUIID += 1
     }
@@ -86,7 +90,7 @@ class EditorViewModel: ObservableObject {
         uiData.removeValue(forKey: selectedUIID)
         uiIDs.removeAll(where: { $0 == selectedUIID })
 
-        selectUI(id: nil)
+        deselectUI()
     }
 
     func getUIDataOf(_ id: Int) -> Binding<MUI> {
@@ -104,9 +108,16 @@ class EditorViewModel: ObservableObject {
         }
     }
 
-    func selectUI(id: Int?) {
+    func selectUI(id: Int, pos: CGPoint) {
         selectedUIID = id
         textEditingUIID = nil
+        selectedUIGlobalPos = pos
+    }
+
+    func deselectUI() {
+        selectedUIID = nil
+        textEditingUIID = nil
+        selectedUIGlobalPos = nil
     }
 
     func editUIText(id: Int) {

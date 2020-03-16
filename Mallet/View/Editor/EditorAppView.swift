@@ -28,10 +28,11 @@ struct EditorAppView: View {
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 Group {
                     if id == self.editorViewModel.selectedUIID {
-                        UIFrameEditingView(frameData: self.editorViewModel.getUIDataOf(id).frameData,
+                        UIFrameEditingView(uiData: self.editorViewModel.getUIDataOf(id),
                                            appViewScale: self.$appViewScale) {
                             self.generateUI(id: id)
                         }
+                            .environmentObject(self.editorViewModel)
                     }
                 }
             }
@@ -41,13 +42,13 @@ struct EditorAppView: View {
                     .edgesIgnoringSafeArea(.all)
                     .frame(width: 2000, height: 2000)
                     .onTapGesture {
-                        self.editorViewModel.selectUI(id: nil)
+                        self.editorViewModel.deselectUI()
                     }
             )
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
-                self.editorViewModel.selectUI(id: nil)
+                self.editorViewModel.deselectUI()
             }
     }
 
