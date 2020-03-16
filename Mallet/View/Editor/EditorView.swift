@@ -28,15 +28,18 @@ struct EditorView: View {
 
     @State private var editorOffset: CGFloat = 0
 
+    @State private var spacerHeightAboveUIStyleEditor: CGFloat = 250
+
+    @State private var safeAreaTopInset: CGFloat = 0
+
     private let modalControlBarHeight: CGFloat = 30
 
     private let toolBarHeight: CGFloat = 40
 
     private let appViewPadding: CGFloat = 700
 
-    @State private var spacerHeightAboveUIStyleEditor: CGFloat = 250
+    private let scrollViewInvisibleHeight: CGFloat = 50
 
-    @State private var safeAreaTopInset: CGFloat = 0
 
     let closeEditor: () -> Void
 
@@ -46,26 +49,10 @@ struct EditorView: View {
 
             GeometryReader { screenGeo in
                 VStack(spacing: 0) {
-                    GeometryReader { geo in
-                        EditorAppScrollView(scale: self.$appViewScale,
-                                            offset: self.$appViewOffset,
-                                            scrollViewSize: geo.size,
-                                            contentSize: CGSize(width: screenGeo.size.width, height: screenGeo.size.height),
-                                            contentPadding: self.appViewPadding,
-                                            maxInsets: UIEdgeInsets(top: 20 + geo.safeAreaInsets.top, left: 20, bottom: 30, right: 20),
-                                            initialOffset: CGPoint(x: 0, y: 0)
-                        ) {
-                            EditorAppView(appViewScale: self.$appViewScale)
-                                .environmentObject(self.editorViewModel)
-                                .edgesIgnoringSafeArea(.all)
-                                .padding(self.appViewPadding)
-                        }
-                    }
-                        .offset(y: self.editorOffset)
-                        .edgesIgnoringSafeArea(.all)
+                    self.appView(screenGeo: screenGeo)
 
                     Spacer()
-                        .frame(height: screenGeo.safeAreaInsets.bottom + self.toolBarHeight + self.modalControlBarHeight - 10)
+                        .frame(height: screenGeo.safeAreaInsets.bottom + self.toolBarHeight + self.modalControlBarHeight - self.scrollViewInvisibleHeight)
                 }
             }
 
@@ -126,6 +113,31 @@ struct EditorView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
+    }
+
+    private func appView(screenGeo: GeometryProxy) -> some View {
+
+        let scrollViewVisibleHeight = screenGeo.size.height + screenGeo.safeAreaInsets.top - screenGeo.safeAreaInsets.bottom - self.toolBarHeight - modalControlBarHeight
+
+        let editorOffset = max(self.editorOffset, -(scrollViewVisibleHeight - self.spacerHeightAboveUIStyleEditor))
+
+        return GeometryReader { geo in
+            EditorAppScrollView(scale: self.$appViewScale,
+                                offset: self.$appViewOffset,
+                                scrollViewSize: geo.size,
+                                contentSize: CGSize(width: screenGeo.size.width, height: screenGeo.size.height),
+                                contentPadding: self.appViewPadding,
+                                maxInsets: UIEdgeInsets(top: 20 + geo.safeAreaInsets.top, left: 20, bottom: 20 + self.scrollViewInvisibleHeight, right: 20),
+                                initialOffset: CGPoint(x: 0, y: 0)
+            ) {
+                EditorAppView(appViewScale: self.$appViewScale)
+                    .environmentObject(self.editorViewModel)
+                    .edgesIgnoringSafeArea(.all)
+                    .padding(self.appViewPadding)
+            }
+        }
+            .offset(y: editorOffset)
+            .edgesIgnoringSafeArea(.all)
     }
 
     private func navigationBarLeadingUI() -> some View {
