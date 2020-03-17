@@ -15,7 +15,7 @@ struct ToggleStyleEditorView: View {
     var body: some View {
         Group {
             if toggleData.enabled {
-                UIStyleEditorSectionView(title: "Toggle") {
+                ListSection(title: "Toggle") {
                     BoolInputCell(value: self.$toggleData.value, title: "Value")
                 }
             }

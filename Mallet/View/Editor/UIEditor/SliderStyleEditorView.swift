@@ -15,7 +15,7 @@ struct SliderStyleEditorView: View {
     var body: some View {
         Group {
             if sliderData.enabled {
-                UIStyleEditorSectionView(title: "Slider") {
+                ListSection(title: "Slider") {
                     NumberInputCell(value: self.$sliderData.value, range: -CGFloat.infinity...CGFloat.infinity, title: "Value", step: 0.1, maxFractionalDigits: 5)
 
                     NumberInputCell(value: self.$sliderData.maxValue, range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", step: 0.1, maxFractionalDigits: 5)
