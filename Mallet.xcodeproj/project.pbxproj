@@ -52,6 +52,7 @@
 		611AC50EA2A477228B4622DC /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC61EE3818318051DCD7F /* RootView.swift */; };
 		611AC5917B898C359279FC19 /* ToggleStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2A2A7A789740A7D88B5 /* ToggleStyleEditorView.swift */; };
 		611AC68B8702EF0D2251080C /* ColorInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF9611443BCC90BF1809 /* ColorInputCell.swift */; };
+		611AC6B62D4E39EFF3E85331 /* ListSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC7A22C12AC5B37EE1287 /* ListSection.swift */; };
 		611AC6B89FF903118E206864 /* SliderStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC75A8D1CD8BE1C7D7FB9 /* BoolInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE678DC15B76BDF8339B /* BoolInputCell.swift */; };
@@ -60,12 +61,14 @@
 		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
 		611AC9C150CA778BB0396569 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACB488CDA865681A1829A /* Blur.swift */; };
 		611ACA516A1E86F6C30A69F0 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F14F3EA64CE779A531 /* TextStyleEditorView.swift */; };
+		611ACAE22513F260D3AFE7CA /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC285744BA870CD24B07F /* ListCell.swift */; };
 		611ACB3D5B5BFBFFF349363A /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC448E80C6D66D44BC08D /* EditorTextView.swift */; };
 		611ACB8BAAAEAE9A1AE12C67 /* MUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC15BA2B6F884AF2DE579 /* MUIColor.swift */; };
 		611ACC0878A0B45CFDCAA3EB /* TextAlignmentInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF0811A41B55A3A140AC /* TextAlignmentInputCell.swift */; };
 		611ACC20DB7AD930A7AAA1F1 /* TextInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACFAC6F29BE7FBB4F517D /* TextInputCell.swift */; };
 		611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC766B30678BEF162B6DC /* MUIRect.swift */; };
 		611ACCADA030EEAFD6E735FF /* BackgroundStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */; };
+		611ACCB66E5FA1AC9EC2C667 /* ListSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC7D974A4A617C33F38A7 /* ListSeparator.swift */; };
 		611ACDC2F1FA9EFF09FC1938 /* EditorUIOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */; };
 		611ACDE6FB3160FFD4CE0608 /* MUITextData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC016CEEB099431F48803 /* MUITextData.swift */; };
 		611ACE330837CE075338BECD /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */; };
@@ -164,6 +167,7 @@
 		611AC13337FC1A94FF6A229A /* MUIFrameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIFrameData.swift; sourceTree = "<group>"; };
 		611AC15BA2B6F884AF2DE579 /* MUIColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIColor.swift; sourceTree = "<group>"; };
 		611AC1A51F50DB4C7F806DB3 /* BackgroundStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundStyleEditorView.swift; sourceTree = "<group>"; };
+		611AC285744BA870CD24B07F /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		611AC2A2A7A789740A7D88B5 /* ToggleStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToggleStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC2B8B8B0E991F644C2FE /* NumberInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumberInputCell.swift; path = InputCell/NumberInputCell.swift; sourceTree = "<group>"; };
 		611AC2EF51B69FE10E99CC44 /* EditorUIOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorUIOverlayView.swift; sourceTree = "<group>"; };
@@ -179,7 +183,9 @@
 		611AC6A73FA259C538FD2D95 /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
 		611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
 		611AC766B30678BEF162B6DC /* MUIRect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIRect.swift; sourceTree = "<group>"; };
+		611AC7A22C12AC5B37EE1287 /* ListSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSection.swift; sourceTree = "<group>"; };
 		611AC7CDF3C67779B0A44312 /* MUISliderData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUISliderData.swift; sourceTree = "<group>"; };
+		611AC7D974A4A617C33F38A7 /* ListSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSeparator.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		611AC9723E4805003C713975 /* MUIBackgroundData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
 		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
@@ -325,6 +331,9 @@
 				611AC61EE3818318051DCD7F /* RootView.swift */,
 				611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */,
 				611ACB488CDA865681A1829A /* Blur.swift */,
+				611AC285744BA870CD24B07F /* ListCell.swift */,
+				611AC7A22C12AC5B37EE1287 /* ListSection.swift */,
+				611AC7D974A4A617C33F38A7 /* ListSeparator.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -683,6 +692,9 @@
 				611AC68B8702EF0D2251080C /* ColorInputCell.swift in Sources */,
 				611AC75A8D1CD8BE1C7D7FB9 /* BoolInputCell.swift in Sources */,
 				611AC5917B898C359279FC19 /* ToggleStyleEditorView.swift in Sources */,
+				611ACAE22513F260D3AFE7CA /* ListCell.swift in Sources */,
+				611AC6B62D4E39EFF3E85331 /* ListSection.swift in Sources */,
+				611ACCB66E5FA1AC9EC2C667 /* ListSeparator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

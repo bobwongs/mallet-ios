@@ -23,10 +23,12 @@ struct TextInputCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text(title)
-            TextField(placeholder, text: $text)
-                .multilineTextAlignment(.trailing)
+        ListCell {
+            HStack {
+                Text(self.title)
+                TextField(self.placeholder, text: self.$text)
+                    .multilineTextAlignment(.trailing)
+            }
         }
     }
 }

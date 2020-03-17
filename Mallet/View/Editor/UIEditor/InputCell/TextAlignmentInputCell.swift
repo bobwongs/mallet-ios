@@ -21,30 +21,34 @@ struct TextAlignmentInputCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text(title)
+        ListCell {
+            HStack {
+                Text(self.title)
 
-            Spacer()
+                Spacer()
 
-            HStack(spacing: 5) {
-                Group {
-                    alignmentButton(image: "text.alignleft", alignment: .leading)
+                HStack(spacing: 5) {
+                    Group {
+                        self.alignmentButton(image: "text.alignleft", alignment: .leading)
 
-                    alignmentButton(image: "text.aligncenter", alignment: .center)
+                        self.alignmentButton(image: "text.aligncenter", alignment: .center)
 
-                    alignmentButton(image: "text.alignright", alignment: .trailing)
+                        self.alignmentButton(image: "text.alignright", alignment: .trailing)
+                    }
+                        .cornerRadius(5)
                 }
-                    .cornerRadius(5)
             }
         }
     }
 
     private func alignmentButton(image: String, alignment: MUITextAlignment) -> some View {
-        Image(systemName: image)
-            .onTapGesture {
-                self.alignment = alignment
-            }
-            .padding(10)
+        Button(action: {
+            self.alignment = alignment
+        }) {
+            Image(systemName: image)
+                .padding(10)
+                .foregroundColor(.primary)
+        }
             .background(
                 Group {
                     if self.alignment == alignment {

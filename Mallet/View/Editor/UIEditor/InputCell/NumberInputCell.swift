@@ -41,14 +41,16 @@ struct NumberInputCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text(title)
-            Stepper(value: $value, in: range, step: step) {
-                TextField(self.placeholder,
-                          value: self.$value,
-                          formatter: FractionalNumberFormatter(self.range, minimumFractionDigits: self.minFractionalDigits, maximumFractionDigits: self.maxFractionalDigits))
-                    .keyboardType(.numbersAndPunctuation)
-                    .multilineTextAlignment(.trailing)
+        ListCell {
+            HStack {
+                Text(self.title)
+                Stepper(value: self.$value, in: self.range, step: self.step) {
+                    TextField(self.placeholder,
+                              value: self.$value,
+                              formatter: FractionalNumberFormatter(self.range, minimumFractionDigits: self.minFractionalDigits, maximumFractionDigits: self.maxFractionalDigits))
+                        .keyboardType(.numbersAndPunctuation)
+                        .multilineTextAlignment(.trailing)
+                }
             }
         }
     }

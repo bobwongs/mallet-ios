@@ -21,13 +21,15 @@ struct ColorInputCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text(title)
-            Spacer()
-            Rectangle()
-                .foregroundColor(color.toColor)
-                .frame(width: 30)
-                .cornerRadius(5)
+        ListCell {
+            HStack {
+                Text(self.title)
+                Spacer()
+                Rectangle()
+                    .foregroundColor(self.color.toColor)
+                    .frame(width: 50, height: 30)
+                    .cornerRadius(5)
+            }
         }
     }
 }

@@ -21,11 +21,13 @@ struct BoolInputCell: View {
     }
 
     var body: some View {
-        HStack {
-            Text(title)
-            Spacer()
-            Toggle("", isOn: $value)
-                .labelsHidden()
+        ListCell {
+            HStack {
+                Text(self.title)
+                Spacer()
+                Toggle("", isOn: self.$value)
+                    .labelsHidden()
+            }
         }
     }
 }

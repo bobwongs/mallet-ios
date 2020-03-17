@@ -15,7 +15,7 @@ struct TextStyleEditorView: View {
     var body: some View {
         Group {
             if textData.enabled {
-                UIStyleEditorSectionView(title: "Text") {
+                ListSection(title: "Text") {
                     TextInputCell(text: self.$textData.text, title: "Text", placeholder: "Text")
 
                     ColorInputCell(color: self.$textData.color, title: "Color")

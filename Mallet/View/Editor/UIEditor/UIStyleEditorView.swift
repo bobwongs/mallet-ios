@@ -30,21 +30,23 @@ struct UIStyleEditorView: View {
         VStack(spacing: 0) {
             topBar()
 
-            List {
+            ScrollView {
                 if editorViewModel.selectedUIID != nil {
-                    generalInfo()
+                    VStack(spacing: 0) {
+                        generalInfo()
 
-                    FrameStyleEditorView(frameData: uiDataBinding.frameData)
+                        FrameStyleEditorView(frameData: uiDataBinding.frameData)
 
-                    BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
+                        BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
 
-                    TextStyleEditorView(textData: uiDataBinding.textData)
+                        TextStyleEditorView(textData: uiDataBinding.textData)
 
-                    TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
+                        TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
 
-                    SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
+                        SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 
-                    ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
+                        ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
+                    }
                 }
             }
                 .id(uiData.uiID)
@@ -99,11 +101,7 @@ struct UIStyleEditorView: View {
     }
 
     private func generalInfo() -> some View {
-        HStack {
-            Text("Name")
-            TextField("UI Name", text: uiDataBinding.uiName)
-                .multilineTextAlignment(.trailing)
-        }
+        TextInputCell(text: uiDataBinding.uiName, title: "Name", placeholder: "UI Name")
     }
 
     private func onCloseEditor() {
