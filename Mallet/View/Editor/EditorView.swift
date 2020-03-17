@@ -76,13 +76,12 @@ struct EditorView: View {
                             .frame(height: self.spacerHeightAboveUIStyleEditor)
 
                         if self.showingUIStyleEditorView {
-                            UIStyleEditorView(closeEditor: { self.closeUIStyleEditor() })
+                            UIStyleEditorView(
+                                bottomInset: self.toolBarHeight + geo.safeAreaInsets.bottom,
+                                closeEditor: { self.closeUIStyleEditor() })
                                 .environmentObject(self.editorViewModel)
                                 .transition(.move(edge: .bottom))
                         }
-
-                        Spacer()
-                            .frame(height: self.toolBarHeight + geo.safeAreaInsets.bottom)
                     }
                         .edgesIgnoringSafeArea(.top)
                         .onAppear {
