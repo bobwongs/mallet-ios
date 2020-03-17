@@ -28,14 +28,11 @@ struct TextAlignmentInputCell: View {
                 Spacer()
 
                 HStack(spacing: 5) {
-                    Group {
-                        self.alignmentButton(image: "text.alignleft", alignment: .leading)
+                    self.alignmentButton(image: "text.alignleft", alignment: .leading)
 
-                        self.alignmentButton(image: "text.aligncenter", alignment: .center)
+                    self.alignmentButton(image: "text.aligncenter", alignment: .center)
 
-                        self.alignmentButton(image: "text.alignright", alignment: .trailing)
-                    }
-                        .cornerRadius(5)
+                    self.alignmentButton(image: "text.alignright", alignment: .trailing)
                 }
             }
         }
@@ -46,7 +43,8 @@ struct TextAlignmentInputCell: View {
             self.alignment = alignment
         }) {
             Image(systemName: image)
-                .padding(10)
+                .padding(.horizontal, 15)
+                .padding(.vertical, 10)
                 .foregroundColor(.primary)
         }
             .background(
@@ -58,5 +56,6 @@ struct TextAlignmentInputCell: View {
                     }
                 }
             )
+            .cornerRadius(5)
     }
 }
