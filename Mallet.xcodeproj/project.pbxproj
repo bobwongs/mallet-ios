@@ -56,6 +56,7 @@
 		611AC6B89FF903118E206864 /* SliderStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC75A8D1CD8BE1C7D7FB9 /* BoolInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE678DC15B76BDF8339B /* BoolInputCell.swift */; };
+		611AC7FCA802F6017AD788BE /* ArrangementInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC423050ED6D3F76E57ED /* ArrangementInputCell.swift */; };
 		611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */; };
 		611AC9158620C1D1D648EFFE /* UIStyleEditorSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACDA76CDD8CECEFA5706B /* UIStyleEditorSectionView.swift */; };
 		611AC9C0BB43470214DD0F0F /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5F2F836397244B9EE59 /* UIStyleEditorView.swift */; };
@@ -174,6 +175,7 @@
 		611AC3598949E016C699527F /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
 		611AC3B5E150EB6ECF6D34C3 /* EditorAppScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorAppScrollView.swift; sourceTree = "<group>"; };
 		611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFrameEditingView.swift; sourceTree = "<group>"; };
+		611AC423050ED6D3F76E57ED /* ArrangementInputCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArrangementInputCell.swift; path = InputCell/ArrangementInputCell.swift; sourceTree = "<group>"; };
 		611AC448E80C6D66D44BC08D /* EditorTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
 		611AC4E8B3E75DD153D5C2E4 /* CodeEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeEditorView.swift; sourceTree = "<group>"; };
 		611AC55A3032A86A35A595BC /* TextFieldStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldStyleEditorView.swift; sourceTree = "<group>"; };
@@ -426,6 +428,7 @@
 				611ACF9611443BCC90BF1809 /* ColorInputCell.swift */,
 				611ACE678DC15B76BDF8339B /* BoolInputCell.swift */,
 				611AC2A2A7A789740A7D88B5 /* ToggleStyleEditorView.swift */,
+				611AC423050ED6D3F76E57ED /* ArrangementInputCell.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -695,6 +698,7 @@
 				611ACAE22513F260D3AFE7CA /* ListCell.swift in Sources */,
 				611AC6B62D4E39EFF3E85331 /* ListSection.swift in Sources */,
 				611ACCB66E5FA1AC9EC2C667 /* ListSeparator.swift in Sources */,
+				611AC7FCA802F6017AD788BE /* ArrangementInputCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

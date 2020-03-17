@@ -39,6 +39,9 @@ struct UIStyleEditorView: View {
 
                         BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
 
+                        ArrangementInputCell()
+                            .environmentObject(editorViewModel)
+
                         TextStyleEditorView(textData: uiDataBinding.textData)
 
                         TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)

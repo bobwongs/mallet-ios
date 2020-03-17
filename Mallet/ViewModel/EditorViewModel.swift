@@ -130,4 +130,46 @@ class EditorViewModel: ObservableObject {
     func endEditingUIText() {
         textEditingUIID = nil
     }
+
+    func moveToFront() {
+        guard let uiID = selectedUIID else {
+            return
+        }
+
+        uiIDs.removeAll(where: { $0 == uiID })
+        uiIDs.append(uiID)
+    }
+
+    func moveForward() {
+        guard let uiID = selectedUIID else {
+            return
+        }
+
+        guard let idx = uiIDs.firstIndex(of: uiID) else {
+            return
+        }
+
+        uiIDs.swapAt(idx, min(idx + 1, uiIDs.count - 1))
+    }
+
+    func moveToBack() {
+        guard let uiID = selectedUIID else {
+            return
+        }
+
+        uiIDs.removeAll(where: { $0 == uiID })
+        uiIDs.insert(uiID, at: 0)
+    }
+
+    func moveBackward() {
+        guard let uiID = selectedUIID else {
+            return
+        }
+
+        guard let idx = uiIDs.firstIndex(of: uiID) else {
+            return
+        }
+
+        uiIDs.swapAt(idx, max(idx - 1, 0))
+    }
 }
