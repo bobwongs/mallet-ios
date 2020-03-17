@@ -62,8 +62,6 @@ struct EditorAppView: View {
 
         let backgroundData = uiData.wrappedValue.backgroundData
 
-        print(type)
-
         let uiView = Group {
             if type == .text {
                 MUIText(uiData: uiData)
