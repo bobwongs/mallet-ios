@@ -49,9 +49,15 @@ struct UIStyleEditorView: View {
             }
                 .id(uiData.uiID)
                 .onReceive(
-                    NotificationCenter.default.publisher(for: UIResponder.keyboardWillChangeFrameNotification)) { notification in
-                    self.keyboardWillChangeFrame(notification)
+                    NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
+                    self.keyboardWillShow(notification)
                 }
+
+                .onReceive(
+                    NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
+                    self.keyboardWillHide(notification)
+                }
+
 
             Spacer()
                 .frame(height: max(bottomInset, keyboardHeight))
@@ -60,17 +66,19 @@ struct UIStyleEditorView: View {
             .background(Blur(style: .systemThickMaterial))
     }
 
-    func keyboardWillChangeFrame(_ notification: Notification) {
-        guard  let beginFrame = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else {
-            return
-        }
-
-        guard  let endFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+    func keyboardWillShow(_ notification: Notification) {
+        guard  let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
 
         withAnimation {
-            keyboardHeight = max(0, beginFrame.cgRectValue.minY - endFrame.cgRectValue.minY)
+            keyboardHeight = frame.cgRectValue.height
+        }
+    }
+
+    func keyboardWillHide(_ notification: Notification) {
+        withAnimation {
+            keyboardHeight = 0
         }
     }
 
