@@ -62,6 +62,8 @@ struct EditorAppView: View {
 
         let backgroundData = uiData.wrappedValue.backgroundData
 
+        print(type)
+
         let uiView = Group {
             if type == .text {
                 MUIText(uiData: uiData)
@@ -74,7 +76,7 @@ struct EditorAppView: View {
             } else if type == .toggle {
                 MUIToggle(uiData: uiData)
             } else {
-                fatalError()
+                MUISpace()
             }
         }
 
