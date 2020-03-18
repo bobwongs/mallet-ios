@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E080AC02421E0F100BC1957 /* MalletStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E080ABF2421E0F100BC1957 /* MalletStorage.swift */; };
+		0E080AC62421E4E500BC1957 /* libMalletStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E080ABD2421E0F100BC1957 /* libMalletStorage.a */; };
 		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
 		0E3659FF237EECE200294A40 /* MUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3659FE237EECE200294A40 /* MUI.swift */; };
 		0E5462AF241FAD560096ACB5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */; };
@@ -23,13 +25,11 @@
 		0E9F837F23659A2E00994789 /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F837E23659A2E00994789 /* MalletTests.swift */; };
 		0E9F838A23659A2E00994789 /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F838923659A2E00994789 /* MalletUITests.swift */; };
 		0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A723659E4200994789 /* HapticFeedback.swift */; };
-		0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A923659E4200994789 /* RLMSupport.swift */; };
 		0E9F83B623659E4300994789 /* AddShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83AD23659E4200994789 /* AddShortcut.swift */; };
 		0E9F842023659EE800994789 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F841F23659EE800994789 /* StringExtension.swift */; };
-		0E9F84862365A9BB00994789 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84842365A9BB00994789 /* Realm.framework */; };
-		0E9F84872365A9BB00994789 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84842365A9BB00994789 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
-		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0EC2318124220EA600023A6F /* Swifter in Frameworks */ = {isa = PBXBuildFile; productRef = 0EC2318024220EA600023A6F /* Swifter */; };
+		0EC231842422110500023A6F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0EC231832422110500023A6F /* Realm */; };
+		0EC231862422110500023A6F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0EC231852422110500023A6F /* RealmSwift */; };
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
 		0ED82DC82393DCB30054BC4C /* EditorAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED82DC72393DCB30054BC4C /* EditorAppView.swift */; };
 		0EDC9CD42369D80500AD490B /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EDC9CD32369D80500AD490B /* EditorView.swift */; };
@@ -78,6 +78,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0E080AC72421E4E500BC1957 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E9F835C23659A2C00994789 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0E080ABC2421E0F100BC1957;
+			remoteInfo = MalletStorage;
+		};
 		0E5462B7241FAD560096ACB5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E9F835C23659A2C00994789 /* Project object */;
@@ -102,6 +109,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0E080ABB2421E0F100BC1957 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E5462BA241FAD560096ACB5 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -119,8 +135,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0E9F84872365A9BB00994789 /* Realm.framework in Embed Frameworks */,
-				0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -128,6 +142,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E080ABD2421E0F100BC1957 /* libMalletStorage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libMalletStorage.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E080ABF2421E0F100BC1957 /* MalletStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletStorage.swift; sourceTree = "<group>"; };
 		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		0E3659FE237EECE200294A40 /* MUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUI.swift; sourceTree = "<group>"; };
 		0E5462AD241FAD560096ACB5 /* MalletWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalletWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,12 +167,9 @@
 		0E9F838923659A2E00994789 /* MalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletUITests.swift; sourceTree = "<group>"; };
 		0E9F838B23659A2E00994789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E9F83A723659E4200994789 /* HapticFeedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
-		0E9F83A923659E4200994789 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		0E9F83AD23659E4200994789 /* AddShortcut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddShortcut.swift; sourceTree = "<group>"; };
 		0E9F841F23659EE800994789 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mallet-Bridging-Header.h"; sourceTree = "<group>"; };
-		0E9F84842365A9BB00994789 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
-		0E9F84852365A9BB00994789 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
 		0E9F848F2365BB5100994789 /* Mallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Mallet.entitlements; sourceTree = "<group>"; };
 		0ED5BC2023816A0A0080CABD /* MUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIView.swift; sourceTree = "<group>"; };
 		0ED82DC72393DCB30054BC4C /* EditorAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorAppView.swift; sourceTree = "<group>"; };
@@ -206,6 +219,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0E080ABA2421E0F100BC1957 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0EC231862422110500023A6F /* RealmSwift in Frameworks */,
+				0EC231842422110500023A6F /* Realm in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E5462AA241FAD560096ACB5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,8 +240,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E9F84862365A9BB00994789 /* Realm.framework in Frameworks */,
-				0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */,
+				0E080AC62421E4E500BC1957 /* libMalletStorage.a in Frameworks */,
+				0EC2318124220EA600023A6F /* Swifter in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +262,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E080ABE2421E0F100BC1957 /* MalletStorage */ = {
+			isa = PBXGroup;
+			children = (
+				0E080ABF2421E0F100BC1957 /* MalletStorage.swift */,
+			);
+			path = MalletStorage;
+			sourceTree = "<group>";
+		};
 		0E5462B0241FAD560096ACB5 /* MalletWidget */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +287,7 @@
 				0E9F837D23659A2E00994789 /* MalletTests */,
 				0E9F838823659A2E00994789 /* MalletUITests */,
 				0E5462B0241FAD560096ACB5 /* MalletWidget */,
+				0E080ABE2421E0F100BC1957 /* MalletStorage */,
 				0E9F836523659A2C00994789 /* Products */,
 				0E9F84832365A9BA00994789 /* Frameworks */,
 			);
@@ -269,6 +300,7 @@
 				0E9F837A23659A2E00994789 /* MalletTests.xctest */,
 				0E9F838523659A2E00994789 /* MalletUITests.xctest */,
 				0E5462AD241FAD560096ACB5 /* MalletWidget.appex */,
+				0E080ABD2421E0F100BC1957 /* libMalletStorage.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -287,7 +319,6 @@
 				0E9F837523659A2E00994789 /* Info.plist */,
 				0E9F83AD23659E4200994789 /* AddShortcut.swift */,
 				0E9F83A723659E4200994789 /* HapticFeedback.swift */,
-				0E9F83A923659E4200994789 /* RLMSupport.swift */,
 				0E9F841F23659EE800994789 /* StringExtension.swift */,
 				0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */,
 				0E9F836F23659A2E00994789 /* Preview Content */,
@@ -402,8 +433,6 @@
 		0E9F84832365A9BA00994789 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E9F84842365A9BB00994789 /* Realm.framework */,
-				0E9F84852365A9BB00994789 /* Swifter.framework */,
 				0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
@@ -452,6 +481,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E080ABC2421E0F100BC1957 /* MalletStorage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E080AC32421E0F100BC1957 /* Build configuration list for PBXNativeTarget "MalletStorage" */;
+			buildPhases = (
+				0E080AB92421E0F100BC1957 /* Sources */,
+				0E080ABA2421E0F100BC1957 /* Frameworks */,
+				0E080ABB2421E0F100BC1957 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MalletStorage;
+			packageProductDependencies = (
+				0EC231832422110500023A6F /* Realm */,
+				0EC231852422110500023A6F /* RealmSwift */,
+			);
+			productName = MalletStorage;
+			productReference = 0E080ABD2421E0F100BC1957 /* libMalletStorage.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		0E5462AC241FAD560096ACB5 /* MalletWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0E5462BD241FAD560096ACB5 /* Build configuration list for PBXNativeTarget "MalletWidget" */;
@@ -484,8 +534,12 @@
 			);
 			dependencies = (
 				0E5462B8241FAD560096ACB5 /* PBXTargetDependency */,
+				0E080AC82421E4E500BC1957 /* PBXTargetDependency */,
 			);
 			name = Mallet;
+			packageProductDependencies = (
+				0EC2318024220EA600023A6F /* Swifter */,
+			);
 			productName = Mallet;
 			productReference = 0E9F836423659A2C00994789 /* Mallet.app */;
 			productType = "com.apple.product-type.application";
@@ -536,6 +590,9 @@
 				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "Katsu Matsuda";
 				TargetAttributes = {
+					0E080ABC2421E0F100BC1957 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
 					0E5462AC241FAD560096ACB5 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
@@ -562,6 +619,10 @@
 				Base,
 			);
 			mainGroup = 0E9F835B23659A2C00994789;
+			packageReferences = (
+				0EC2317F24220EA600023A6F /* XCRemoteSwiftPackageReference "swifter" */,
+				0EC231822422110500023A6F /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = 0E9F836523659A2C00994789 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -570,6 +631,7 @@
 				0E9F837923659A2E00994789 /* MalletTests */,
 				0E9F838423659A2E00994789 /* MalletUITests */,
 				0E5462AC241FAD560096ACB5 /* MalletWidget */,
+				0E080ABC2421E0F100BC1957 /* MalletStorage */,
 			);
 		};
 /* End PBXProject section */
@@ -618,8 +680,6 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -627,11 +687,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\n/usr/local/bin/carthage copy-frameworks\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E080AB92421E0F100BC1957 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E080AC02421E0F100BC1957 /* MalletStorage.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0E5462A9241FAD560096ACB5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -657,7 +725,6 @@
 				0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */,
 				0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */,
 				0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */,
-				0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */,
 				0E9C5ED62382E883001AECA7 /* MUIType.swift in Sources */,
 				0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */,
 				611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */,
@@ -721,6 +788,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0E080AC82421E4E500BC1957 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E080ABC2421E0F100BC1957 /* MalletStorage */;
+			targetProxy = 0E080AC72421E4E500BC1957 /* PBXContainerItemProxy */;
+		};
 		0E5462B8241FAD560096ACB5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0E5462AC241FAD560096ACB5 /* MalletWidget */;
@@ -758,6 +830,36 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0E080AC12421E0F100BC1957 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T437NKTG46;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0E080AC22421E0F100BC1957 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T437NKTG46;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		0E5462BB241FAD560096ACB5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -925,10 +1027,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Mallet/Preview Content\"";
 				DEVELOPMENT_TEAM = T437NKTG46;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Mallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -956,10 +1055,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Mallet/Preview Content\"";
 				DEVELOPMENT_TEAM = T437NKTG46;
 				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Mallet/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1062,6 +1158,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E080AC32421E0F100BC1957 /* Build configuration list for PBXNativeTarget "MalletStorage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E080AC12421E0F100BC1957 /* Debug */,
+				0E080AC22421E0F100BC1957 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0E5462BD241FAD560096ACB5 /* Build configuration list for PBXNativeTarget "MalletWidget" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1108,6 +1213,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0EC2317F24220EA600023A6F /* XCRemoteSwiftPackageReference "swifter" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/httpswift/swifter.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.7;
+			};
+		};
+		0EC231822422110500023A6F /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.3.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0EC2318024220EA600023A6F /* Swifter */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0EC2317F24220EA600023A6F /* XCRemoteSwiftPackageReference "swifter" */;
+			productName = Swifter;
+		};
+		0EC231832422110500023A6F /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0EC231822422110500023A6F /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		0EC231852422110500023A6F /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0EC231822422110500023A6F /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0E9F835C23659A2C00994789 /* Project object */;
 }
