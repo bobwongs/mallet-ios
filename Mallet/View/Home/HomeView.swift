@@ -38,7 +38,7 @@ struct HomeView: View {
                 .navigationBarItems(trailing:
                                     HStack {
                                         Button(action: {
-                                            print("Add app")
+                                            Storage.createNewApp()
                                         }) {
                                             Image(systemName: "plus")
                                         }
