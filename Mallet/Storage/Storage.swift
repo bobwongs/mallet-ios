@@ -23,14 +23,14 @@ class AppRealmObject: Object {
 
 class Storage {
 
-    static let realm = try! Realm()
-
     static var maxAppID: Int {
-        realm.objects(AppRealmObject.self).max(ofProperty: "appID") ?? 0
+        let realm = try! Realm()
+        return realm.objects(AppRealmObject.self).max(ofProperty: "appID") ?? 0
     }
 
     static func allApps() -> Results<AppRealmObject> {
-        realm.objects(AppRealmObject.self)
+        let realm = try! Realm()
+        return realm.objects(AppRealmObject.self)
     }
 
     static func createNewApp() -> AppData {
@@ -47,6 +47,8 @@ class Storage {
     }
 
     static func loadApp(appID: Int) -> AppData {
+        let realm = try! Realm()
+
         guard let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appID)").first else {
             print("failed to load app")
             return createNewApp()
@@ -72,6 +74,8 @@ class Storage {
 
         DispatchQueue(label: "background").async {
             autoreleasepool {
+                let realm = try! Realm()
+
                 if let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appData.appID)").first {
                     do {
                         try realm.write {
@@ -107,6 +111,8 @@ class Storage {
     static func deleteApp(appID: Int) {
         DispatchQueue(label: "background").async {
             autoreleasepool {
+                let realm = try! Realm()
+
                 guard  let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appID)").first else {
                     return
                 }
