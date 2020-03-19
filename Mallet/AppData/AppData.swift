@@ -14,6 +14,8 @@ class AppData: Codable {
 
     let appID: Int
 
-    let uiData: [MUI]
+    let uiIDs: [Int]
+
+    let uiData: Dictionary<Int, MUI>
 
 }
