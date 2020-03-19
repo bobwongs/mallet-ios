@@ -60,7 +60,7 @@ struct HomeView: View {
 
     @ObservedObject var homeViewModel = HomeViewModel()
 
-    @State private var editorViewModel = EditorViewModel.testModel
+    @State private var editorViewModel = EditorViewModel()
 
     @State private var showingEditor = false
 
@@ -100,7 +100,7 @@ struct HomeView: View {
     }
 
     private func openEditor(appID: Int) {
-        editorViewModel = .testModel
+        editorViewModel = EditorViewModel(Storage.loadApp(appID: appID))
         showingEditor = true
     }
 
