@@ -27,7 +27,6 @@
 		0E9F837F23659A2E00994789 /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F837E23659A2E00994789 /* MalletTests.swift */; };
 		0E9F838A23659A2E00994789 /* MalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F838923659A2E00994789 /* MalletUITests.swift */; };
 		0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A723659E4200994789 /* HapticFeedback.swift */; };
-		0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A923659E4200994789 /* RLMSupport.swift */; };
 		0E9F83B623659E4300994789 /* AddShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83AD23659E4200994789 /* AddShortcut.swift */; };
 		0E9F842023659EE800994789 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F841F23659EE800994789 /* StringExtension.swift */; };
 		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
@@ -157,7 +156,6 @@
 		0E9F838923659A2E00994789 /* MalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletUITests.swift; sourceTree = "<group>"; };
 		0E9F838B23659A2E00994789 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0E9F83A723659E4200994789 /* HapticFeedback.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
-		0E9F83A923659E4200994789 /* RLMSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RLMSupport.swift; sourceTree = "<group>"; };
 		0E9F83AD23659E4200994789 /* AddShortcut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddShortcut.swift; sourceTree = "<group>"; };
 		0E9F841F23659EE800994789 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Mallet-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -296,7 +294,6 @@
 				0E9F837523659A2E00994789 /* Info.plist */,
 				0E9F83AD23659E4200994789 /* AddShortcut.swift */,
 				0E9F83A723659E4200994789 /* HapticFeedback.swift */,
-				0E9F83A923659E4200994789 /* RLMSupport.swift */,
 				0E9F841F23659EE800994789 /* StringExtension.swift */,
 				0E9F842123659F2400994789 /* Mallet-Bridging-Header.h */,
 				0E9F836F23659A2E00994789 /* Preview Content */,
@@ -668,7 +665,6 @@
 				0EFA0A6223841FAF00710FEA /* DefaultPreview.swift in Sources */,
 				0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */,
 				0EFA0A5E23841ECC00710FEA /* AppView.swift in Sources */,
-				0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */,
 				0E9C5ED62382E883001AECA7 /* MUIType.swift in Sources */,
 				0E9F83B023659E4300994789 /* HapticFeedback.swift in Sources */,
 				611ACC8E48EE25B5F7AC09DE /* MUIRect.swift in Sources */,
