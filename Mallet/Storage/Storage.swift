@@ -29,6 +29,9 @@ class Storage {
         realm.objects(AppRealmObject.self).max(ofProperty: "appID") ?? 0
     }
 
+    static func allApps() -> Results<AppRealmObject> {
+        realm.objects(AppRealmObject.self)
+    }
 
     static func createNewApp() -> AppData {
         let appID = maxAppID + 1

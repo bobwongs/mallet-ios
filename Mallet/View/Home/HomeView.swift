@@ -58,12 +58,7 @@ struct HomeAppCell: View {
 
 struct HomeView: View {
 
-    struct app {
-        let appID: Int
-        let appName: String
-    }
-
-    @State private var appData = [app]()
+    @ObservedObject var homeViewModel = HomeViewModel()
 
     @State private var editorViewModel = EditorViewModel.testModel
 
@@ -73,12 +68,12 @@ struct HomeView: View {
         VStack {
             ScrollView {
                 VStack {
-                    ForEach(self.appData, id: \.appID) { appData in
+                    ForEach(self.homeViewModel.apps, id: \.self) { (app: AppRealmObject) in
                         Group {
-                            HomeAppCell(appID: appData.appID,
-                                        appName: appData.appName,
+                            HomeAppCell(appID: app.appID,
+                                        appName: app.appName,
                                         runApp: {},
-                                        openEditor: { self.openEditor(appID: appData.appID) })
+                                        openEditor: { self.openEditor(appID: app.appID) })
                         }
                     }
                 }
@@ -102,13 +97,6 @@ struct HomeView: View {
                            isActive: $showingEditor,
                            label: { EmptyView() })
         }
-            .onAppear(perform: {
-                self.reloadAppData()
-            })
-    }
-
-    private func reloadAppData() {
-        self.appData = [app(appID: 0, appName: "Awesome App"), app(appID: 1, appName: "Cool App")]
     }
 
     private func openEditor(appID: Int) {
