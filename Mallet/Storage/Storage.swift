@@ -70,7 +70,7 @@ class Storage {
             return
         }
 
-        DispatchQueue.global().async {
+        DispatchQueue(label: "background").async {
             autoreleasepool {
                 if let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appData.appID)").first {
                     do {
@@ -105,7 +105,7 @@ class Storage {
     }
 
     static func deleteApp(appID: Int) {
-        DispatchQueue.global().async {
+        DispatchQueue(label: "background").async {
             autoreleasepool {
                 guard  let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appID)").first else {
                     return
