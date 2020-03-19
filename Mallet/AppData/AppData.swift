@@ -37,7 +37,7 @@ class AppData: Codable {
         }
     }
 
-    static func Json2UIData(jsonStr: String) -> Dictionary<Int, MUI>? {
+    static func json2UIData(jsonStr: String) -> Dictionary<Int, MUI>? {
         guard let data = jsonStr.data(using: .utf8) else {
             return nil
         }
