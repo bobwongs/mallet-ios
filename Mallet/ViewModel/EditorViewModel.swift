@@ -26,14 +26,11 @@ class EditorViewModel: ObservableObject {
 
     private var maxUIID: Int
 
-    static var testModel: EditorViewModel {
-        EditorViewModel(appName: "Yay",
-                        appID: 0,
-                        uiIDs: [],
-                        uiData: [:])
+    convenience init(_ appData: AppData) {
+        self.init(appID: appData.appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
     }
 
-    init(appName: String, appID: Int, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
+    init(appID: Int, appName: String, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
         self.appName = appName
         self.appID = appID
         self.uiIDs = uiIDs
