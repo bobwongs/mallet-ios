@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		0E2295B72374587E003DB56D /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2295B62374587E003DB56D /* AppSettingsView.swift */; };
 		0E3659FF237EECE200294A40 /* MUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3659FE237EECE200294A40 /* MUI.swift */; };
+		0E3F72C724223E0A009A5970 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3F729A24223B2D009A5970 /* Realm.framework */; };
+		0E3F72C824223E0A009A5970 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3F729A24223B2D009A5970 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0E3F72C924223E0E009A5970 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3F729C24223B3A009A5970 /* RealmSwift.framework */; };
+		0E3F72CA24223E0E009A5970 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3F729C24223B3A009A5970 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E5462AF241FAD560096ACB5 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */; };
 		0E5462B2241FAD560096ACB5 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E5462B1241FAD560096ACB5 /* TodayViewController.swift */; };
 		0E5462B5241FAD560096ACB5 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E5462B3241FAD560096ACB5 /* MainInterface.storyboard */; };
@@ -26,8 +30,6 @@
 		0E9F83B223659E4300994789 /* RLMSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83A923659E4200994789 /* RLMSupport.swift */; };
 		0E9F83B623659E4300994789 /* AddShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F83AD23659E4200994789 /* AddShortcut.swift */; };
 		0E9F842023659EE800994789 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9F841F23659EE800994789 /* StringExtension.swift */; };
-		0E9F84862365A9BB00994789 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84842365A9BB00994789 /* Realm.framework */; };
-		0E9F84872365A9BB00994789 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84842365A9BB00994789 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; };
 		0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0E9F84852365A9BB00994789 /* Swifter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0ED5BC2123816A0A0080CABD /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED5BC2023816A0A0080CABD /* MUIView.swift */; };
@@ -119,8 +121,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0E9F84872365A9BB00994789 /* Realm.framework in Embed Frameworks */,
+				0E3F72C824223E0A009A5970 /* Realm.framework in Embed Frameworks */,
 				0E9F84892365A9BB00994789 /* Swifter.framework in Embed Frameworks */,
+				0E3F72CA24223E0E009A5970 /* RealmSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,6 +133,9 @@
 /* Begin PBXFileReference section */
 		0E2295B62374587E003DB56D /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
 		0E3659FE237EECE200294A40 /* MUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUI.swift; sourceTree = "<group>"; };
+		0E3F72972422399B009A5970 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
+		0E3F729A24223B2D009A5970 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
+		0E3F729C24223B3A009A5970 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		0E5462AD241FAD560096ACB5 /* MalletWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalletWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		0E5462B1241FAD560096ACB5 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
@@ -218,8 +224,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E9F84862365A9BB00994789 /* Realm.framework in Frameworks */,
+				0E3F72C724223E0A009A5970 /* Realm.framework in Frameworks */,
 				0E9F84882365A9BB00994789 /* Swifter.framework in Frameworks */,
+				0E3F72C924223E0E009A5970 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +260,8 @@
 		0E9F835B23659A2C00994789 = {
 			isa = PBXGroup;
 			children = (
+				0E3F729C24223B3A009A5970 /* RealmSwift.framework */,
+				0E3F729A24223B2D009A5970 /* Realm.framework */,
 				0E9F836623659A2C00994789 /* Mallet */,
 				0E9F837D23659A2E00994789 /* MalletTests */,
 				0E9F838823659A2E00994789 /* MalletUITests */,
@@ -402,6 +411,7 @@
 		0E9F84832365A9BA00994789 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E3F72972422399B009A5970 /* RealmSwift.framework */,
 				0E9F84842365A9BB00994789 /* Realm.framework */,
 				0E9F84852365A9BB00994789 /* Swifter.framework */,
 				0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */,
@@ -620,6 +630,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 			);
 			outputFileListPaths = (
 			);
