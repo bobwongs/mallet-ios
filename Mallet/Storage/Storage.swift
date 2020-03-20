@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class AppRealmObject: Object {
+class AppObject: Object {
 
     @objc dynamic var appID = 0
 
@@ -21,16 +21,51 @@ class AppRealmObject: Object {
 
 }
 
+class AppList: Object {
+
+    @objc dynamic var listTitle = ""
+
+    var apps = List<AppObject>()
+
+    override class func primaryKey() -> String? {
+        "listTitle"
+    }
+}
+
 class Storage {
+
+    static let mainAppListTitle = "main"
+
 
     static var maxAppID: Int {
         let realm = try! Realm()
-        return realm.objects(AppRealmObject.self).max(ofProperty: "appID") ?? 0
+        return realm.objects(AppObject.self).max(ofProperty: "appID") ?? 0
     }
 
-    static func allApps() -> Results<AppRealmObject> {
+    static func allAppLists() -> Results<AppList> {
         let realm = try! Realm()
-        return realm.objects(AppRealmObject.self)
+        let allApps = realm.objects(AppList.self)
+
+        if allApps.count > 0 {
+            return allApps
+        }
+
+        do {
+            try realm.write {
+                let appList = AppList()
+                appList.listTitle = mainAppListTitle
+                realm.add(appList)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+
+        return realm.objects(AppList.self)
+    }
+
+    static func allApps() -> Results<AppObject> {
+        let realm = try! Realm()
+        return realm.objects(AppObject.self)
     }
 
     static func createNewApp() -> AppData {
@@ -49,16 +84,16 @@ class Storage {
     static func loadApp(appID: Int) -> AppData {
         let realm = try! Realm()
 
-        guard let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appID)").first else {
+        guard let appObject = realm.objects(AppObject.self).filter("appID == \(appID)").first else {
             print("failed to load app")
             return createNewApp()
         }
 
-        let appName = appRealmObject.appName
+        let appName = appObject.appName
         var uiIDs = [Int]()
-        appRealmObject.uiIDs.forEach({ uiIDs.append($0) })
+        appObject.uiIDs.forEach({ uiIDs.append($0) })
 
-        guard let uiData = AppData.json2UIData(jsonStr: appRealmObject.uiDataJson) else {
+        guard let uiData = AppData.json2UIData(jsonStr: appObject.uiDataJson) else {
             print("failed to load app")
             return createNewApp()
         }
@@ -76,29 +111,37 @@ class Storage {
             autoreleasepool {
                 let realm = try! Realm()
 
-                if let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appData.appID)").first {
+                guard  let appList = realm.object(ofType: AppList.self, forPrimaryKey: mainAppListTitle) else {
+                    return
+                }
+
+                if let appObject = realm.objects(AppObject.self).filter("appID == \(appData.appID)").first {
                     do {
                         try realm.write {
-                            appRealmObject.appName = appData.appName
-                            appRealmObject.uiDataJson = uiDataJson
+                            appObject.appName = appData.appName
+                            appObject.uiDataJson = uiDataJson
 
                             let uiIDs = List<Int>()
                             appData.uiIDs.forEach({ uiIDs.append($0) })
-                            appRealmObject.uiIDs = uiIDs
+                            appObject.uiIDs = uiIDs
+
+                            appList.apps.append(appObject)
                         }
                     } catch {
                         print(error.localizedDescription)
                     }
                 } else {
-                    let appRealmObject = AppRealmObject()
-                    appRealmObject.appID = appData.appID
-                    appRealmObject.appName = appData.appName
-                    appData.uiIDs.forEach({ appRealmObject.uiIDs.append($0) })
-                    appRealmObject.uiDataJson = uiDataJson
+                    let appObject = AppObject()
+                    appObject.appID = appData.appID
+                    appObject.appName = appData.appName
+                    appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
+                    appObject.uiDataJson = uiDataJson
 
                     do {
                         try realm.write {
-                            realm.add(appRealmObject)
+                            realm.add(appObject)
+
+                            appList.apps.append(appObject)
                         }
                     } catch {
                         print(error.localizedDescription)
@@ -113,13 +156,20 @@ class Storage {
             autoreleasepool {
                 let realm = try! Realm()
 
-                guard  let appRealmObject = realm.objects(AppRealmObject.self).filter("appID == \(appID)").first else {
+                guard  let appList = realm.object(ofType: AppList.self, forPrimaryKey: mainAppListTitle) else {
+                    return
+                }
+
+                guard  let appObject = realm.objects(AppObject.self).filter("appID == \(appID)").first else {
                     return
                 }
 
                 do {
                     try realm.write {
-                        realm.delete(appRealmObject)
+                        if let idx = appList.apps.index(matching: "appID == \(appID)") {
+                            appList.apps.remove(at: idx)
+                        }
+                        realm.delete(appObject)
                     }
                 } catch {
                     print(error.localizedDescription)

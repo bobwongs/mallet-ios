@@ -11,17 +11,28 @@ import RealmSwift
 
 class HomeViewModel: ObservableObject {
 
-    @Published var apps: Results<AppRealmObject> = Storage.allApps()
+    struct AppInfo {
+        let appID: Int
+        let appName: String
+    }
+
+    @Published var apps = [AppInfo]()
 
     private var notificationTokens: [NotificationToken] = []
 
     init() {
-        notificationTokens.append(apps.observe { change in
+        let appLists = Storage.allAppLists()
+
+        notificationTokens.append(appLists.observe { change in
             switch change {
             case let .initial(results):
-                self.apps = results
+                self.apps = results.first?.apps.map {
+                    AppInfo(appID: $0.appID, appName: $0.appName)
+                } ?? []
             case let .update(results, _, _, _):
-                self.apps = results
+                self.apps = results.first?.apps.map {
+                    AppInfo(appID: $0.appID, appName: $0.appName)
+                } ?? []
             case let .error(error):
                 print(error.localizedDescription)
             }
@@ -30,5 +41,9 @@ class HomeViewModel: ObservableObject {
 
     deinit {
         notificationTokens.forEach({ $0.invalidate() })
+    }
+
+    func getAppData(appID: Int) {
+
     }
 }

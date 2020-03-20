@@ -18,24 +18,26 @@ struct HomeView: View {
 
     var body: some View {
         VStack {
-            ScrollView {
-                VStack {
-                    ForEach(self.homeViewModel.apps, id: \.self) { (app: AppRealmObject) in
-                        Group {
-                            HomeAppCell(appID: app.appID,
-                                        appName: app.appName,
-                                        runApp: {},
-                                        openEditor: { self.openEditor(appID: app.appID) })
-                        }
-                    }
+            List {
+                ForEach(self.homeViewModel.apps, id: \.appID) { (app: HomeViewModel.AppInfo) in
+                    HomeAppCell(appID: app.appID,
+                                appName: app.appName,
+                                runApp: { print("Run App") },
+                                openEditor: { self.openEditor(appID: app.appID) },
+                                deleteApp: { Storage.deleteApp(appID: app.appID) }
+                    )
                 }
+                    .onMove { (from, to) in
 
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .padding(10)
-                    .padding(.top, 20)
+                    }
+                    .onDelete { idxs in
+
+                    }
             }
                 .navigationBarTitle("My Apps", displayMode: .large)
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading:
+                                    EditButton(),
+                                    trailing:
                                     HStack {
                                         Button(action: {
                                             Storage.createNewApp()
