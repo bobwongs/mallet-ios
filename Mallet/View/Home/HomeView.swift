@@ -56,6 +56,9 @@ struct HomeView: View {
                                         print("Settings")
                                     }) {
                                         Image(systemName: "gear")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 22, height: 22)
                                             .padding(10)
                                     }
                                 }
