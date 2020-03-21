@@ -79,6 +79,7 @@
 		611ACE330837CE075338BECD /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACCCCAC1F2D216903CC2D /* UISelectionView.swift */; };
 		611ACED9E7A11665634203A7 /* MUIFrameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC13337FC1A94FF6A229A /* MUIFrameData.swift */; };
 		611ACEE2EF2C87EA721EAB48 /* NumberInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC2B8B8B0E991F644C2FE /* NumberInputCell.swift */; };
+		611ACFD4385D7C439E1EA780 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9CEE1DE76CEFE7966AC /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,6 +201,7 @@
 		611AC7D974A4A617C33F38A7 /* ListSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSeparator.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		611AC9723E4805003C713975 /* MUIBackgroundData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
+		611AC9CEE1DE76CEFE7966AC /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611ACB488CDA865681A1829A /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
 		611ACB4F29319C2D5FCE6018 /* SemiModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				611AC285744BA870CD24B07F /* ListCell.swift */,
 				611AC7A22C12AC5B37EE1287 /* ListSection.swift */,
 				611AC7D974A4A617C33F38A7 /* ListSeparator.swift */,
+				611AC3D452C5A9494FEB3479 /* Settings */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -422,6 +425,14 @@
 				0E5462AE241FAD560096ACB5 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		611AC3D452C5A9494FEB3479 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				611AC9CEE1DE76CEFE7966AC /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		611AC5A522FB2290C61E7DD3 /* UIEditor */ = {
@@ -718,6 +729,7 @@
 				611AC08C463C45BE5F38D5B6 /* Storage.swift in Sources */,
 				611AC1535E2F3D9CB0F26EFB /* HomeViewModel.swift in Sources */,
 				611AC867D83033CD2A9983A8 /* HomeAppCell.swift in Sources */,
+				611ACFD4385D7C439E1EA780 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

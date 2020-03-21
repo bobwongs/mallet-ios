@@ -16,6 +16,8 @@ struct HomeView: View {
 
     @State private var showingEditor = false
 
+    @State private var showingSettings = false
+
     var body: some View {
         ZStack {
             NavigationLink(destination: EditorView(closeEditor: { self.closeEditor() }).environmentObject(editorViewModel),
@@ -47,13 +49,16 @@ struct HomeView: View {
                 }
             }
         }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
             .navigationBarTitle("My Apps", displayMode: .large)
             .navigationBarItems(leading:
                                 EditButton(),
                                 trailing:
                                 HStack {
                                     Button(action: {
-                                        print("Settings")
+                                        self.showingSettings = true
                                     }) {
                                         Image(systemName: "gear")
                                             .resizable()
