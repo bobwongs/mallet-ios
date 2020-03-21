@@ -73,7 +73,9 @@ struct HomeAppCell: View {
     private func appCellContextMenu() -> some View {
         Group {
             Button(action: {
-                self.deleteApp()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    self.deleteApp()
+                }
             }) {
                 HStack {
                     Text("Delete")
