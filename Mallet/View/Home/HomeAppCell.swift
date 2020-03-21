@@ -41,14 +41,16 @@ struct HomeAppCell: View {
             .aspectRatio(contentMode: .fit)
             .padding(15)
             .frame(width: 60, height: 60)
+            .foregroundColor(.white)
             .background(Color.orange)
             .cornerRadius(15)
     }
 
     private func appInfo() -> some View {
         HStack {
-            Text("\(self.appName) \(self.appID)")
+            Text(self.appName)
                 .foregroundColor(Color(.label))
+                .font(.system(size: 25))
                 .font(.title)
                 .fontWeight(.bold)
             Spacer()
@@ -57,7 +59,7 @@ struct HomeAppCell: View {
                 .padding(.vertical, 5)
                 .foregroundColor(Color(.systemFill))
             VStack {
-                Image(systemName: "gear")
+                Image(systemName: "pencil")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 25, height: 25)
