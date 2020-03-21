@@ -42,8 +42,4 @@ class HomeViewModel: ObservableObject {
     deinit {
         notificationTokens.forEach({ $0.invalidate() })
     }
-
-    func getAppData(appID: Int) {
-
-    }
 }

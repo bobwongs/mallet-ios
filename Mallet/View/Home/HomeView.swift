@@ -27,11 +27,19 @@ struct HomeView: View {
                                 deleteApp: { Storage.deleteApp(appID: app.appID) }
                     )
                 }
-                    .onMove { (from, to) in
-
+                    .onMove { (idxs, to) in
+                        for idx in idxs {
+                            if idx < to {
+                                Storage.moveApp(idx, to - 1)
+                            } else {
+                                Storage.moveApp(idx, to)
+                            }
+                        }
                     }
                     .onDelete { idxs in
-
+                        for idx in idxs {
+                            Storage.deleteApp(appID: self.homeViewModel.apps[idx].appID)
+                        }
                     }
             }
                 .navigationBarTitle("My Apps", displayMode: .large)

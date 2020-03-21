@@ -178,4 +178,25 @@ class Storage {
         }
     }
 
+    static func moveApp(_ from: Int, _ to: Int) {
+        DispatchQueue(label: "background").async {
+            autoreleasepool {
+                let realm = try! Realm()
+
+                guard  let appList = realm.object(ofType: AppList.self, forPrimaryKey: mainAppListTitle) else {
+                    return
+                }
+
+                do {
+                    try realm.write {
+                        appList.apps.move(from: from, to: to)
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+
+            }
+        }
+    }
+
 }
