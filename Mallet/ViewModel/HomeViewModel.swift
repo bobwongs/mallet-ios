@@ -16,9 +16,7 @@ class HomeViewModel: ObservableObject {
         let appName: String
     }
 
-    @Published var apps = Storage.allAppLists().first?.apps.map {
-        AppInfo(appID: $0.appID, appName: $0.appName)
-    } ?? []
+    @Published var apps = appLists2AppInfo(Storage.allAppLists())
 
     private var notificationTokens: [NotificationToken] = []
 
@@ -28,13 +26,9 @@ class HomeViewModel: ObservableObject {
         notificationTokens.append(appLists.observe { change in
             switch change {
             case let .initial(results):
-                self.apps = results.first?.apps.map {
-                    AppInfo(appID: $0.appID, appName: $0.appName)
-                } ?? []
+                self.apps = HomeViewModel.appLists2AppInfo(results)
             case let .update(results, _, _, _):
-                self.apps = results.first?.apps.map {
-                    AppInfo(appID: $0.appID, appName: $0.appName)
-                } ?? []
+                self.apps = HomeViewModel.appLists2AppInfo(results)
             case let .error(error):
                 print(error.localizedDescription)
             }
@@ -43,5 +37,11 @@ class HomeViewModel: ObservableObject {
 
     deinit {
         notificationTokens.forEach({ $0.invalidate() })
+    }
+
+    static func appLists2AppInfo(_ results: Results<AppList>) -> [AppInfo] {
+        results.first?.apps.map {
+            AppInfo(appID: $0.appID, appName: $0.appName)
+        } ?? []
     }
 }
