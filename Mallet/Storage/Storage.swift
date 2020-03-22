@@ -15,7 +15,7 @@ class AppObject: Object {
 
     @objc dynamic var appName = ""
 
-    var uiIDs = List<Int>()
+    let uiIDs = List<Int>()
 
     @objc dynamic var uiDataJson = ""
 
@@ -35,7 +35,6 @@ class AppList: Object {
 class Storage {
 
     static let mainAppListTitle = "main"
-
 
     static var maxAppID: Int {
         let realm = try! Realm()
@@ -90,8 +89,7 @@ class Storage {
         }
 
         let appName = appObject.appName
-        var uiIDs = [Int]()
-        appObject.uiIDs.forEach({ uiIDs.append($0) })
+        let uiIDs: [Int] = appObject.uiIDs.map({ $0 })
 
         guard let uiData = AppData.json2UIData(jsonStr: appObject.uiDataJson) else {
             print("failed to load app")
@@ -116,14 +114,17 @@ class Storage {
                 }
 
                 if let appObject = realm.objects(AppObject.self).filter("appID == \(appData.appID)").first {
+
+                    let uiIDs = List<Int>()
+                    appData.uiIDs.forEach({ uiIDs.append($0) })
+
                     do {
                         try realm.write {
                             appObject.appName = appData.appName
                             appObject.uiDataJson = uiDataJson
 
-                            let uiIDs = List<Int>()
-                            appData.uiIDs.forEach({ uiIDs.append($0) })
-                            appObject.uiIDs = uiIDs
+                            appObject.uiIDs.removeAll()
+                            appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
                         }
                     } catch {
                         print(error.localizedDescription)
