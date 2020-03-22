@@ -174,3 +174,16 @@ class EditorViewModel: ObservableObject {
         uiIDs.swapAt(idx, max(idx - 1, 0))
     }
 }
+
+extension EditorViewModel {
+
+    func saveApp() {
+        let appData = AppData(appID: appID,
+                              appName: appName,
+                              uiIDs: uiIDs,
+                              uiData: uiData)
+
+        Storage.saveApp(appData: appData)
+    }
+
+}
