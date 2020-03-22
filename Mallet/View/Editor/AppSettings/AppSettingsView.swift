@@ -55,6 +55,9 @@ struct AppSettingsView: View {
                 }
                 )
         }
+            .onDisappear {
+                self.editorViewModel.saveApp()
+            }
     }
 }
 

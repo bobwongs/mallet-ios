@@ -112,6 +112,10 @@ struct EditorView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
+            .onDisappear {
+                print("Yay")
+                self.editorViewModel.saveApp()
+            }
     }
 
     private func appView(screenGeo: GeometryProxy) -> some View {
@@ -141,6 +145,7 @@ struct EditorView: View {
 
     private func navigationBarLeadingUI() -> some View {
         Button(action: {
+            self.editorViewModel.saveApp()
             self.closeEditor()
         }) {
             Text("Done")
