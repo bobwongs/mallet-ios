@@ -16,7 +16,9 @@ class HomeViewModel: ObservableObject {
         let appName: String
     }
 
-    @Published var apps = [AppInfo]()
+    @Published var apps = Storage.allAppLists().first?.apps.map {
+        AppInfo(appID: $0.appID, appName: $0.appName)
+    } ?? []
 
     private var notificationTokens: [NotificationToken] = []
 
