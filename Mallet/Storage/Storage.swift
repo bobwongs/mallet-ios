@@ -125,7 +125,7 @@ class Storage {
                             appData.uiIDs.forEach({ uiIDs.append($0) })
                             appObject.uiIDs = uiIDs
 
-                            appList.apps.append(appObject)
+                            //appList.apps.append(appObject)
                         }
                     } catch {
                         print(error.localizedDescription)
@@ -139,7 +139,7 @@ class Storage {
 
                     do {
                         try realm.write {
-                            realm.add(appObject)
+                            //realm.add(appObject)
 
                             appList.apps.append(appObject)
                         }
