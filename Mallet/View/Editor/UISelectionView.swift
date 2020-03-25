@@ -53,42 +53,47 @@ struct UISelectionView: View {
             if type == .space {
                 Spacer()
                     .frame(width: width, height: height)
+                    .padding(10)
             } else {
-                GeometryReader { geo in
-                    UISelectionView.generateUI(type: type)
-                        .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
-                        //.frame(width: width, height: height)
-                        .background(MUI.defaultValue(type: type).backgroundData.color.toColor)
-                        .cornerRadius(MUI.defaultValue(type: type).backgroundData.cornerRadius)
-                        .gesture(DragGesture()
-                                     .onChanged { value in
-                                         self.closeModalView()
-                                         self.selectedUIType = type
-                                         self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
-                                         self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
-                                         self.selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
-                                     }
-                                     .onEnded { value in
-                                         var offset = self.appViewOffset
-                                         offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
-                                         offset.y += (self.editorGeo.size.height) * (1 - self.appViewScale) / 2
-                                         offset.y += self.editorGeo.safeAreaInsets.top
+                VStack {
+                    GeometryReader { geo in
+                        UISelectionView.generateUI(type: type)
+                            .position(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY)
+                            .background(MUI.defaultValue(type: type).backgroundData.color.toColor)
+                            .cornerRadius(MUI.defaultValue(type: type).backgroundData.cornerRadius)
+                            .gesture(DragGesture()
+                                         .onChanged { value in
+                                             self.closeModalView()
+                                             self.selectedUIType = type
+                                             self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
+                                             self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
+                                             self.selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
+                                         }
+                                         .onEnded { value in
+                                             var offset = self.appViewOffset
+                                             offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
+                                             offset.y += (self.editorGeo.size.height) * (1 - self.appViewScale) / 2
+                                             offset.y += self.editorGeo.safeAreaInsets.top
 
-                                         var frame = MUIRect(self.selectedUIFrame)
-                                         frame.x -= self.editorGeo.frame(in: .global).origin.x
-                                         frame.y -= self.editorGeo.frame(in: .global).origin.y
+                                             var frame = MUIRect(self.selectedUIFrame)
+                                             frame.x -= self.editorGeo.frame(in: .global).origin.x
+                                             frame.y -= self.editorGeo.frame(in: .global).origin.y
 
-                                         frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2
-                                         frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2
+                                             frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2
+                                             frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2
 
-                                         self.editorViewModel.addUI(type: type, frame: frame, globalFrame: self.selectedUIFrame)
-                                         self.selectedUIType = .space
-                                         self.selectedUIFrame = CGRect.zero
-                                     }
-                        )
+                                             self.editorViewModel.addUI(type: type, frame: frame, globalFrame: self.selectedUIFrame)
+                                             self.selectedUIType = .space
+                                             self.selectedUIFrame = CGRect.zero
+                                         }
+                            )
+                    }
                 }
                     .frame(width: width, height: height)
-                    .background(Color.white)
+                    .padding(10)
+                    .background(Color(.systemGray5).colorScheme(.light))
+                    .cornerRadius(10)
+
             }
 
             Spacer()
