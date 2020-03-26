@@ -27,45 +27,49 @@ struct UIStyleEditorView: View {
     }
 
     var body: some View {
-        NavigationView {
-            ScrollView {
-                if editorViewModel.selectedUIID != nil {
-                    VStack(spacing: 0) {
-                        generalInfo()
+        VStack(spacing: 0) {
+            NavigationView {
+                ScrollView {
+                    if editorViewModel.selectedUIID != nil {
+                        VStack(spacing: 0) {
+                            generalInfo()
 
-                        FrameStyleEditorView(frameData: uiDataBinding.frameData)
+                            FrameStyleEditorView(frameData: uiDataBinding.frameData)
 
-                        BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
+                            BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
 
-                        ArrangementInputCell()
-                            .environmentObject(editorViewModel)
+                            ArrangementInputCell()
+                                .environmentObject(editorViewModel)
 
-                        TextStyleEditorView(textData: uiDataBinding.textData)
+                            TextStyleEditorView(textData: uiDataBinding.textData)
 
-                        TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
+                            TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
 
-                        SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
+                            SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 
-                        ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
+                            ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
+                        }
                     }
                 }
+                    .id(uiData.uiID)
+                    .onReceive(
+                        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
+                        self.keyboardWillShow(notification)
+                    }
+                    .onReceive(
+                        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
+                        self.keyboardWillHide(notification)
+                    }
+                    .navigationBarTitle("", displayMode: .inline)
+                    .navigationBarItems(leading: leadingItems(), trailing: trailingItems())
+                    .navigationViewStyle(StackNavigationViewStyle())
             }
-                .id(uiData.uiID)
-                .navigationBarTitle("", displayMode: .inline)
-                .navigationBarItems(leading: leadingItems(), trailing: trailingItems())
-                .navigationViewStyle(StackNavigationViewStyle())
-                .onReceive(
-                    NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
-                    self.keyboardWillShow(notification)
-                }
-                .onReceive(
-                    NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
-                    self.keyboardWillHide(notification)
-                }
-
             Spacer()
                 .frame(height: max(bottomInset, keyboardHeight))
                 .edgesIgnoringSafeArea(.bottom)
+                .onAppear {
+                    print(self.bottomInset)
+                }
         }
             .background(Blur(style: .systemThickMaterial))
     }
