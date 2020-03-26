@@ -113,7 +113,6 @@ struct EditorView: View {
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
             .onDisappear {
-                print("Yay")
                 self.editorViewModel.saveApp()
             }
     }
