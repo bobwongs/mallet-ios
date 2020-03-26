@@ -27,9 +27,7 @@ struct UIStyleEditorView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            topBar()
-
+        NavigationView {
             ScrollView {
                 if editorViewModel.selectedUIID != nil {
                     VStack(spacing: 0) {
@@ -53,16 +51,17 @@ struct UIStyleEditorView: View {
                 }
             }
                 .id(uiData.uiID)
+                .navigationBarTitle("", displayMode: .inline)
+                .navigationBarItems(leading: leadingItems(), trailing: trailingItems())
+                .navigationViewStyle(StackNavigationViewStyle())
                 .onReceive(
                     NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
                     self.keyboardWillShow(notification)
                 }
-
                 .onReceive(
                     NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
                     self.keyboardWillHide(notification)
                 }
-
 
             Spacer()
                 .frame(height: max(bottomInset, keyboardHeight))
@@ -87,20 +86,18 @@ struct UIStyleEditorView: View {
         }
     }
 
-    private func topBar() -> some View {
-        HStack(alignment: .center) {
-            Text(uiData.uiName)
-                .fontWeight(.bold)
-            Spacer()
-            Button(action: {
-                self.onCloseEditor()
-            }) {
-                Text("Done")
-                    .fontWeight(.semibold)
-            }
+    private func leadingItems() -> some View {
+        Text(uiData.uiName)
+            .fontWeight(.bold)
+    }
+
+    private func trailingItems() -> some View {
+        Button(action: {
+            self.onCloseEditor()
+        }) {
+            Text("Done")
+                .fontWeight(.semibold)
         }
-            .frame(height: 40)
-            .padding([.leading, .trailing], 15)
     }
 
     private func generalInfo() -> some View {
