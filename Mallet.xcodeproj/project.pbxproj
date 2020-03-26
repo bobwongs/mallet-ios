@@ -59,6 +59,7 @@
 		611AC6B89FF903118E206864 /* SliderStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACF13886557C2F21E6431 /* SliderStyleEditorView.swift */; };
 		611AC6BF6A5C76E607028772 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC4002396421CCB0E21BB /* UIFrameEditingView.swift */; };
 		611AC75A8D1CD8BE1C7D7FB9 /* BoolInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611ACE678DC15B76BDF8339B /* BoolInputCell.swift */; };
+		611AC7D8D6FAEE381323188C /* ColorSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC9993ED12D371BB002FB /* ColorSelectView.swift */; };
 		611AC7FCA802F6017AD788BE /* ArrangementInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC423050ED6D3F76E57ED /* ArrangementInputCell.swift */; };
 		611AC84B20151EFFC9A1ECFF /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC75BD7C544992EDB7C47 /* FractionalNumberFormatter.swift */; };
 		611AC867D83033CD2A9983A8 /* HomeAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 611AC5BB04132C618053DE1F /* HomeAppCell.swift */; };
@@ -201,6 +202,7 @@
 		611AC7D974A4A617C33F38A7 /* ListSeparator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListSeparator.swift; sourceTree = "<group>"; };
 		611AC80DEACFC88D9AF2DBE5 /* EditorViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		611AC9723E4805003C713975 /* MUIBackgroundData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
+		611AC9993ED12D371BB002FB /* ColorSelectView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorSelectView.swift; path = InputCell/ColorSelectView.swift; sourceTree = "<group>"; };
 		611AC9CEE1DE76CEFE7966AC /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		611AC9F3622E3B5D5F218075 /* UIStyleEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStyleEditorView.swift; sourceTree = "<group>"; };
 		611ACB488CDA865681A1829A /* Blur.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				611ACE678DC15B76BDF8339B /* BoolInputCell.swift */,
 				611AC2A2A7A789740A7D88B5 /* ToggleStyleEditorView.swift */,
 				611AC423050ED6D3F76E57ED /* ArrangementInputCell.swift */,
+				611AC9993ED12D371BB002FB /* ColorSelectView.swift */,
 			);
 			path = UIEditor;
 			sourceTree = "<group>";
@@ -730,6 +733,7 @@
 				611AC1535E2F3D9CB0F26EFB /* HomeViewModel.swift in Sources */,
 				611AC867D83033CD2A9983A8 /* HomeAppCell.swift in Sources */,
 				611ACFD4385D7C439E1EA780 /* SettingsView.swift in Sources */,
+				611AC7D8D6FAEE381323188C /* ColorSelectView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
