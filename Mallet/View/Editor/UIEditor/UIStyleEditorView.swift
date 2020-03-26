@@ -67,9 +67,6 @@ struct UIStyleEditorView: View {
             Spacer()
                 .frame(height: max(bottomInset, keyboardHeight))
                 .edgesIgnoringSafeArea(.bottom)
-                .onAppear {
-                    print(self.bottomInset)
-                }
         }
             .background(Blur(style: .systemThickMaterial))
     }
