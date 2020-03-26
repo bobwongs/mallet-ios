@@ -37,6 +37,7 @@ struct EditorAppView: View {
                 }
             }
         }
+            //.background(Color.white)
             .background(
                 Color.white.opacity(0.001)
                     .edgesIgnoringSafeArea(.all)

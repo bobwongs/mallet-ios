@@ -16,17 +16,17 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     private let content: () -> Content
 
-    private let hosting: UIHostingController<Content>
+    private var hosting: UIHostingController<Content>
 
     private let scrollView: UIScrollView
 
-    private let scrollViewSize: CGSize
+    private var scrollViewSize: CGSize
 
-    private let contentSize: CGSize
+    private var contentSize: CGSize
 
     private let contentPadding: CGFloat
 
-    private let maxInsets: UIEdgeInsets
+    private var maxInsets: UIEdgeInsets
 
     private let initialOffset: CGPoint
 
@@ -72,7 +72,6 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         super.viewDidLoad()
 
         scrollView.delegate = self
-        scrollView.frame = CGRect(origin: CGPoint.zero, size: scrollViewSize)
         scrollView.backgroundColor = .clear
         scrollView.maximumZoomScale = 2.0
         scrollView.minimumZoomScale = 0.8
@@ -80,13 +79,12 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollView.showsVerticalScrollIndicator = false
         scrollView.contentInsetAdjustmentBehavior = .never
 
-        hosting.view.frame = CGRect(origin: .zero, size: CGSize(width: contentSize.width + contentPadding * 2, height: contentSize.height + contentPadding * 2))
         hosting.view.backgroundColor = .clear
 
         scrollView.addSubview(hosting.view)
         view.addSubview(scrollView)
 
-        scrollView.contentSize = CGSize(width: contentSize.width, height: contentSize.height)
+        updateSize(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets)
 
         scrollView.zoomScale = scale
 
@@ -99,6 +97,23 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         super.viewDidAppear(animated)
 
         scrollViewDidZoom(scrollView)
+    }
+
+    func updateSize(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets) {
+        self.scrollViewSize = scrollViewSize
+        self.contentSize = contentSize
+        self.maxInsets = maxInsets
+
+        scrollView.zoomScale = 1
+
+        scrollView.frame = CGRect(origin: .zero, size: scrollViewSize)
+
+        hosting.view.frame = CGRect(origin: .zero, size: CGSize(width: contentSize.width + contentPadding * 2, height: contentSize.height + contentPadding * 2))
+
+        scrollView.contentSize = CGSize(width: contentSize.width, height: contentSize.height)
+        scrollView.zoomScale = scale
+
+        updateScrollInset()
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -155,13 +170,13 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
 
     @Binding var offset: CGPoint
 
-    let scrollViewSize: CGSize
+    var scrollViewSize: CGSize
 
-    let contentSize: CGSize
+    var contentSize: CGSize
 
     let contentPadding: CGFloat
 
-    let maxInsets: UIEdgeInsets
+    var maxInsets: UIEdgeInsets
 
     let initialOffset: CGPoint
 
@@ -205,5 +220,6 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: EditorAppScrollViewController<Content>, context: Context) {
+        uiViewController.updateSize(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets)
     }
 }
