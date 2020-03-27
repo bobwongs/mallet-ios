@@ -21,14 +21,20 @@ struct ColorInputCell: View {
     }
 
     var body: some View {
-        ListCell {
-            HStack {
-                Text(self.title)
-                Spacer()
-                Rectangle()
-                    .foregroundColor(self.color.toColor)
-                    .frame(width: 50, height: 30)
-                    .cornerRadius(5)
+        NavigationLink(destination: ColorSelectView(color: $color)) {
+            ListCell {
+                HStack {
+                    Text(self.title)
+                        .foregroundColor(.primary)
+                    Spacer()
+                    Rectangle()
+                        .foregroundColor(self.color.toColor)
+                        .frame(width: 50, height: 30)
+                        .cornerRadius(5)
+                    Image(systemName: "chevron.right")
+                        .foregroundColor(.gray)
+                        .padding(.leading, 10)
+                }
             }
         }
     }

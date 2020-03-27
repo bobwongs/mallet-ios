@@ -30,8 +30,13 @@ struct ColorSelectView: View {
                 }, onCommit: {
 
                 })
+                    .multilineTextAlignment(.trailing)
 
             }
+                .padding(10)
+
+            Spacer()
         }
+            .navigationBarTitle("Select Color", displayMode: .inline)
     }
 }
