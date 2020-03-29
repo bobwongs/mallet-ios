@@ -32,6 +32,8 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     @State private var contentPos: CGPoint = .zero
 
+    private var updated = false
+
     init(scale: Binding<CGFloat>,
          offset: Binding<CGPoint>,
          scrollViewSize: CGSize,
@@ -100,6 +102,12 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
     }
 
     func updateSize(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets) {
+        if updated || contentSize == .zero {
+            return
+        }
+
+        updated = true
+
         self.scrollViewSize = scrollViewSize
         self.contentSize = contentSize
         self.maxInsets = maxInsets
