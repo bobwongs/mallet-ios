@@ -54,4 +54,9 @@ struct MUIColor: Codable {
     var toUIColor: UIColor {
         UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
+
+    var toHexCode: String {
+        ""
+    }
+
 }
