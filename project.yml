@@ -1,0 +1,48 @@
+name: Mallet
+
+options:
+  bundlePrefix: app.mallet
+  deploymentTarget:
+    iOS: "13.0"
+
+settings:
+  DEVELOPMENT_TEAM: T437NKTG46
+
+targets:
+  Mallet:
+    type: application
+    platform: iOS
+    sources: Mallet
+    dependencies:
+      - target: MalletWidget
+      - carthage: Realm
+      - carthage: RealmSwift
+      - carthage: Swifter
+    settings:
+      base:
+        MARKETING_VERSION: 0.2
+        PRODUCT_BUNDLE_IDENTIFIER: app.mallet.mallet
+
+  MalletWidget:
+    type: app-extension
+    platform: iOS
+    sources: MalletWidget
+    dependencies:
+      - sdk: NotificationCenter.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.mallet.mallet.malletwidget
+
+  MalletTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: MalletTests
+    dependencies:
+      - target: Mallet
+
+  MalletUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: MalletUITests
+    dependencies:
+      - target: Mallet
