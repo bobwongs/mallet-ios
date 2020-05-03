@@ -11,6 +11,11 @@ attributes:
 settings:
   DEVELOPMENT_TEAM: T437NKTG46
 
+packages:
+  XyloSwift:
+    url: https://github.com/katsd/xylo-swift
+    branch: master
+
 targets:
   Mallet:
     type: application
@@ -18,6 +23,7 @@ targets:
     sources: Mallet
     dependencies:
       - target: MalletWidget
+      - package: XyloSwift
       - carthage: Realm
       - carthage: RealmSwift
       - carthage: Swifter
