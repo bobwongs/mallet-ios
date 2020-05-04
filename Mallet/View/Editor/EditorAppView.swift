@@ -16,11 +16,12 @@ struct EditorAppView: View {
 
     var body: some View {
         ZStack {
-            Color.white
+            Color.white;
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 EditorUIOverlayView(uiData: self.editorViewModel.getUIDataOf(id)) {
-                    self.generateUI(id: id)
+                    //self.generateUI(id: id)
+                    MUI.generateView(uiData: self.editorViewModel.getUIDataOf(id))
                 }
                     .environmentObject(self.editorViewModel)
             }
@@ -30,7 +31,7 @@ struct EditorAppView: View {
                     if id == self.editorViewModel.selectedUIID {
                         UIFrameEditingView(uiData: self.editorViewModel.getUIDataOf(id),
                                            appViewScale: self.$appViewScale) {
-                            self.generateUI(id: id)
+                            MUI.generateView(uiData: self.editorViewModel.getUIDataOf(id))
                         }
                             .environmentObject(self.editorViewModel)
                     }
@@ -51,49 +52,5 @@ struct EditorAppView: View {
             .onTapGesture {
                 self.editorViewModel.deselectUI()
             }
-    }
-
-    func generateUI(id: Int) -> some View {
-
-        let uiData = editorViewModel.getUIDataOf(id)
-
-        let type = uiData.wrappedValue.uiType
-
-        let frameData = uiData.wrappedValue.frameData
-
-        let backgroundData = uiData.wrappedValue.backgroundData
-
-        let uiView = Group {
-            if type == .text {
-                MUIText(uiData: uiData)
-            } else if type == .button {
-                MUIButton(uiData: uiData)
-            } else if type == .textField {
-                MUITextField(uiData: uiData)
-            } else if type == .slider {
-                MUISlider(uiData: uiData)
-            } else if type == .toggle {
-                MUIToggle(uiData: uiData)
-            } else {
-                MUISpace()
-            }
-        }
-
-        return Group {
-            if frameData.lockWidth && frameData.lockHeight {
-                uiView
-            } else if frameData.lockWidth {
-                uiView
-                    .frame(height: frameData.frame.height)
-            } else if frameData.lockHeight {
-                uiView
-                    .frame(width: frameData.frame.width)
-            } else {
-                uiView
-                    .frame(width: frameData.frame.width, height: frameData.frame.height)
-            }
-        }
-            .background(backgroundData.color.toColor)
-            .cornerRadius(backgroundData.cornerRadius)
     }
 }
