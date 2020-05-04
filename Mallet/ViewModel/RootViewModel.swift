@@ -17,7 +17,8 @@ class RootViewModel: ObservableObject {
     }
 
     func runApp(id: Int) {
-
+        let appData = Storage.loadApp(appID: id)
+        runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
     }
 
     func exitApp(id: Int) {
