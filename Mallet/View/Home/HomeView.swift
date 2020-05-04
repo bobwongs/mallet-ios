@@ -12,16 +12,12 @@ struct HomeView: View {
 
     @EnvironmentObject var homeViewModel: HomeViewModel
 
-    @State private var editorViewModel = EditorViewModel()
-
-    @State private var showingEditor = false
-
     @State private var showingSettings = false
 
     var body: some View {
         ZStack {
-            NavigationLink(destination: EditorView(closeEditor: { self.closeEditor() }).environmentObject(editorViewModel),
-                           isActive: $showingEditor,
+            NavigationLink(destination: EditorView(closeEditor: homeViewModel.closeEditor).environmentObject(homeViewModel.editorViewModel),
+                           isActive: $homeViewModel.showingEditor,
                            label: { EmptyView() })
 
             appList()
@@ -31,8 +27,7 @@ struct HomeView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        self.editorViewModel = EditorViewModel(Storage.createNewApp())
-                        self.showingEditor = true
+                        self.homeViewModel.openEditor()
                     }) {
                         Circle()
                             .foregroundColor(.blue)
@@ -76,7 +71,7 @@ struct HomeView: View {
                 HomeAppCell(appID: app.appID,
                             appName: app.appName,
                             runApp: { self.homeViewModel.runApp(id: app.appID) },
-                            openEditor: { self.openEditor(appID: app.appID) },
+                            openEditor: { self.homeViewModel.openEditor(appID: app.appID) },
                             deleteApp: { Storage.deleteApp(appID: app.appID) }
                 )
             }
@@ -98,15 +93,6 @@ struct HomeView: View {
             Spacer()
                 .frame(height: 80)
         }
-    }
-
-    private func openEditor(appID: Int) {
-        editorViewModel = EditorViewModel(Storage.loadApp(appID: appID))
-        showingEditor = true
-    }
-
-    private func closeEditor() {
-        showingEditor = false
     }
 }
 
