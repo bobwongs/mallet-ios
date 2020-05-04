@@ -18,11 +18,18 @@ class AppViewModel: ObservableObject {
 
     @Published var uiData: Dictionary<Int, MUI>
 
+    init() {
+        appName = "Untitled App"
+        appId = -1
+        uiIDs = []
+        uiData = .init()
+    }
+
     init(_ appData: AppData) {
-        self.appName = appData.appName
-        self.appId = appData.appID
-        self.uiIDs = appData.uiIDs
-        self.uiData = appData.uiData
+        appName = appData.appName
+        appId = appData.appID
+        uiIDs = appData.uiIDs
+        uiData = appData.uiData
     }
 
     func getUIDataOf(_ id: Int) -> Binding<MUI> {
@@ -36,8 +43,8 @@ class AppViewModel: ObservableObject {
 extension AppViewModel: Hashable {
     static func ==(lhs: AppViewModel, rhs: AppViewModel) -> Bool {
         lhs.appName == rhs.appName &&
-        lhs.appId == rhs.appId &&
-        lhs.uiIDs == rhs.uiIDs
+            lhs.appId == rhs.appId &&
+            lhs.uiIDs == rhs.uiIDs
     }
 
     func hash(into hasher: inout Hasher) {
