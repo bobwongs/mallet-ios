@@ -13,7 +13,6 @@ class RootViewModel: ObservableObject {
     @Published var runningApps = [AppViewModel]()
 
     init() {
-        runningApps.append(AppViewModel(rootViewModel: self))
     }
 
     func runApp(id: Int) {
