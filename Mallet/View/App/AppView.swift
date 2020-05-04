@@ -33,6 +33,8 @@ struct AppView: View {
                                                 self.appViewModel.exitApp()
                                             }) {
                                                 Image(systemName: "xmark")
+                                                    .padding(.vertical, 10)
+                                                    .padding(.trailing, 20)
                                             })
                 }
                     .colorScheme(.light)
