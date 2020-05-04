@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: mainView)
+            window.rootViewController = HostingController(rootView: RootView())
             self.window = window
             window.makeKeyAndVisible()
         }
@@ -60,5 +60,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
+}
+
+private class HostingController: UIHostingController<RootView> {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        StatusBar.style
+    }
 }
 

@@ -20,6 +20,8 @@ class RootViewModel: ObservableObject {
         withAnimation {
             runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
         }
+
+        StatusBar.style = .darkContent
     }
 
     func exitApp(id: Int) {
@@ -28,6 +30,8 @@ class RootViewModel: ObservableObject {
                 $0.appId == id
             }
         }
+
+        StatusBar.style = .default
     }
 
 }
