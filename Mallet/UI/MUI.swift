@@ -88,3 +88,50 @@ struct MUI: Codable {
         return newUIData
     }
 }
+
+extension MUI {
+
+    static func generateView(uiData: Binding<MUI>) -> some View {
+
+        let type = uiData.wrappedValue.uiType
+
+        let frameData = uiData.wrappedValue.frameData
+
+        let backgroundData = uiData.wrappedValue.backgroundData
+
+        let uiView = Group {
+            if type == .text {
+                MUIText(uiData: uiData)
+            } else if type == .button {
+                MUIButton(uiData: uiData)
+            } else if type == .textField {
+                MUITextField(uiData: uiData)
+            } else if type == .slider {
+                MUISlider(uiData: uiData)
+            } else if type == .toggle {
+                MUIToggle(uiData: uiData)
+            } else {
+                MUISpace()
+            }
+        }
+
+        return Group {
+            if frameData.lockWidth && frameData.lockHeight {
+                uiView
+            } else if frameData.lockWidth {
+                uiView
+                    .frame(height: frameData.frame.height)
+            } else if frameData.lockHeight {
+                uiView
+                    .frame(width: frameData.frame.width)
+            } else {
+                uiView
+                    .frame(width: frameData.frame.width, height: frameData.frame.height)
+            }
+        }
+            .background(backgroundData.color.toColor)
+            .cornerRadius(backgroundData.cornerRadius)
+            .position(x: frameData.frame.midX, y: frameData.frame.midY)
+    }
+
+}
