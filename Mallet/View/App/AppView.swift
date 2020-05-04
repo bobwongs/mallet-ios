@@ -18,24 +18,13 @@ struct AppView: View {
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
-                if (self.hideAppView) {
-                    Color.clear
-                        .frame(height: geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom)
-                        .edgesIgnoringSafeArea(.all)
-                }
+                self.spacer(geo: geo)
                 NavigationView {
                     ZStack {
                         Spacer()
                     }
                         .navigationBarTitle(Text(self.appViewModel.appName), displayMode: .inline)
-                        .navigationBarItems(leading:
-                                            Button(action: {
-                                                self.appViewModel.exitApp()
-                                            }) {
-                                                Image(systemName: "xmark")
-                                                    .padding(.vertical, 10)
-                                                    .padding(.trailing, 20)
-                                            })
+                        .navigationBarItems(leading: self.leadingNavigationBarItems())
                 }
                     .colorScheme(.light)
             }
@@ -45,6 +34,26 @@ struct AppView: View {
                     self.hideAppView = false
                 }
             }
+    }
+
+    private func spacer(geo: GeometryProxy) -> some View {
+        Group {
+            if (self.hideAppView) {
+                Color.clear
+                    .frame(height: geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom)
+                    .edgesIgnoringSafeArea(.all)
+            }
+        }
+    }
+
+    private func leadingNavigationBarItems() -> some View {
+        Button(action: {
+            self.appViewModel.exitApp()
+        }) {
+            Image(systemName: "xmark")
+                .padding(.vertical, 10)
+                .padding(.trailing, 20)
+        }
     }
 
 }
