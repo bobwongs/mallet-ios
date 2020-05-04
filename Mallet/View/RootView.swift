@@ -19,10 +19,13 @@ struct RootView: View {
                     .environmentObject(HomeViewModel(rootViewModel: rootViewModel))
             }
                 .navigationViewStyle(StackNavigationViewStyle())
+                .zIndex(0)
 
             ForEach(rootViewModel.runningApps, id: \.self) { viewModel in
                 AppView()
                     .environmentObject(viewModel)
+                    .transition(.asymmetric(insertion: .identity, removal: .move(edge: .bottom)))
+                    .zIndex(1)
             }
         }
     }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2020 Katsu Matsuda. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
 class RootViewModel: ObservableObject {
 
@@ -17,12 +17,16 @@ class RootViewModel: ObservableObject {
 
     func runApp(id: Int) {
         let appData = Storage.loadApp(appID: id)
-        runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
+        withAnimation {
+            runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
+        }
     }
 
     func exitApp(id: Int) {
-        runningApps.removeAll {
-            $0.appId == id
+        withAnimation {
+            runningApps.removeAll {
+                $0.appId == id
+            }
         }
     }
 

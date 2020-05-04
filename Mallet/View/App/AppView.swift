@@ -12,21 +12,39 @@ struct AppView: View {
 
     @EnvironmentObject var appViewModel: AppViewModel
 
+    // workaround for the bug of NavigationView's transition
+    @State private var hideAppView = true
+
     var body: some View {
-        NavigationView {
-            ZStack {
-                Spacer()
+        GeometryReader { geo in
+            VStack(spacing: 0) {
+                if (self.hideAppView) {
+                    Color.clear
+                        .frame(height: geo.size.height + geo.safeAreaInsets.top + geo.safeAreaInsets.bottom)
+                        .edgesIgnoringSafeArea(.all)
+                }
+                NavigationView {
+                    ZStack {
+                        Spacer()
+                    }
+                        .navigationBarTitle(Text(self.appViewModel.appName), displayMode: .inline)
+                        .navigationBarItems(leading:
+                                            Button(action: {
+                                                self.appViewModel.exitApp()
+                                            }) {
+                                                Image(systemName: "xmark")
+                                            })
+                }
+                    .colorScheme(.light)
             }
-                .navigationBarTitle(Text(appViewModel.appName), displayMode: .inline)
-                .navigationBarItems(leading:
-                                    Button(action: {
-                                        self.appViewModel.exitApp()
-                                    }) {
-                                        Image(systemName: "xmark")
-                                    })
         }
-            .colorScheme(.light)
+            .onAppear {
+                withAnimation {
+                    self.hideAppView = false
+                }
+            }
     }
+
 }
 
 struct AppView_Previews: PreviewProvider {
