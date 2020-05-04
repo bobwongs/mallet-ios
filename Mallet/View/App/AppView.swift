@@ -21,7 +21,11 @@ struct AppView: View {
                 self.spacer(geo: geo)
                 NavigationView {
                     ZStack {
-                        Spacer()
+                        Color.white
+
+                        ForEach(self.appViewModel.uiIDs, id: \.self) { id in
+                            return MUI.generateView(uiData: self.appViewModel.getUIDataOf(id))
+                        }
                     }
                         .navigationBarTitle(Text(self.appViewModel.appName), displayMode: .inline)
                         .navigationBarItems(leading: self.leadingNavigationBarItems())
