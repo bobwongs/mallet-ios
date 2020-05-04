@@ -16,11 +16,15 @@ class HomeViewModel: ObservableObject {
         let appName: String
     }
 
+    private let rootViewModel: RootViewModel
+
     @Published var apps = appLists2AppInfo(Storage.allAppLists())
 
     private var notificationTokens: [NotificationToken] = []
 
-    init() {
+    init(rootViewModel: RootViewModel) {
+        self.rootViewModel = rootViewModel
+
         let appLists = Storage.allAppLists()
 
         notificationTokens.append(appLists.observe { change in
@@ -43,5 +47,9 @@ class HomeViewModel: ObservableObject {
         results.first?.apps.map {
             AppInfo(appID: $0.appID, appName: $0.appName)
         } ?? []
+    }
+
+    func runApp(id: Int) {
+        rootViewModel.runApp(id: id)
     }
 }

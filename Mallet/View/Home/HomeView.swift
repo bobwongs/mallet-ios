@@ -10,7 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
 
-    @ObservedObject var homeViewModel = HomeViewModel()
+    @EnvironmentObject var homeViewModel: HomeViewModel
 
     @State private var editorViewModel = EditorViewModel()
 
@@ -75,7 +75,7 @@ struct HomeView: View {
             ForEach(self.homeViewModel.apps, id: \.appID) { (app: HomeViewModel.AppInfo) in
                 HomeAppCell(appID: app.appID,
                             appName: app.appName,
-                            runApp: { print("Run App") },
+                            runApp: { self.homeViewModel.runApp(id: app.appID) },
                             openEditor: { self.openEditor(appID: app.appID) },
                             deleteApp: { Storage.deleteApp(appID: app.appID) }
                 )

@@ -16,6 +16,7 @@ struct RootView: View {
         ZStack {
             NavigationView {
                 HomeView()
+                    .environmentObject(HomeViewModel(rootViewModel: rootViewModel))
             }
                 .navigationViewStyle(StackNavigationViewStyle())
 
