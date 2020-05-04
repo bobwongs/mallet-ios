@@ -24,12 +24,13 @@ class HomeViewModel: ObservableObject {
 
     @Published var showingSettings = false
 
-    @Published var editorViewModel = EditorViewModel()
+    @Published var editorViewModel: EditorViewModel
 
     private var notificationTokens: [NotificationToken] = []
 
     init(rootViewModel: RootViewModel) {
         self.rootViewModel = rootViewModel
+        self.editorViewModel = EditorViewModel(rootViewModel: rootViewModel)
 
         let appLists = Storage.allAppLists()
 
@@ -61,9 +62,9 @@ class HomeViewModel: ObservableObject {
 
     func openEditor(appID: Int? = nil) {
         if let appID = appID {
-            editorViewModel = EditorViewModel(Storage.loadApp(appID: appID))
+            editorViewModel = EditorViewModel(Storage.loadApp(appID: appID), rootViewModel: rootViewModel)
         } else {
-            editorViewModel = EditorViewModel(Storage.createNewApp())
+            editorViewModel = EditorViewModel(Storage.createNewApp(), rootViewModel: rootViewModel)
         }
         showingEditor = true
     }

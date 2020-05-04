@@ -171,7 +171,7 @@ struct EditorView: View {
                 .frame(width: 20)
 
             Button(action: {
-                print("Run")
+                self.editorViewModel.runApp()
             }) {
                 Image(systemName: "play.fill")
                     .resizable()

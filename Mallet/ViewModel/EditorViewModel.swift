@@ -10,6 +10,8 @@ import SwiftUI
 
 class EditorViewModel: ObservableObject {
 
+    private let rootViewModel: RootViewModel
+
     @Published var appName: String
 
     @Published var appID: Int
@@ -26,15 +28,16 @@ class EditorViewModel: ObservableObject {
 
     private var maxUIID: Int
 
-    convenience init() {
-        self.init(appID: -1, appName: "Empty App", uiIDs: [], uiData: [:])
+    convenience init(rootViewModel: RootViewModel) {
+        self.init(appID: -1, appName: "Empty App", uiIDs: [], uiData: [:], rootViewModel: rootViewModel)
     }
 
-    convenience init(_ appData: AppData) {
-        self.init(appID: appData.appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
+    convenience init(_ appData: AppData, rootViewModel: RootViewModel) {
+        self.init(appID: appData.appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData, rootViewModel: rootViewModel)
     }
 
-    init(appID: Int, appName: String, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
+    init(appID: Int, appName: String, uiIDs: [Int], uiData: Dictionary<Int, MUI>, rootViewModel: RootViewModel) {
+        self.rootViewModel = rootViewModel
         self.appName = appName
         self.appID = appID
         self.uiIDs = uiIDs
@@ -43,6 +46,10 @@ class EditorViewModel: ObservableObject {
         maxUIID = uiIDs.max(by: { (l, r) -> Bool in
             return l < r
         }) ?? -1
+    }
+
+    func runApp() {
+        rootViewModel.runApp(id: appID)
     }
 
     func addUI(type: MUIType, frame: MUIRect, globalFrame: CGRect) {
