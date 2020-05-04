@@ -91,6 +91,12 @@ struct MUI: Codable {
 
 extension MUI {
 
+    static func putView(uiData: Binding<MUI>) -> some View {
+        generateView(uiData: uiData)
+            .position(x: uiData.wrappedValue.frameData.frame.midX,
+                      y: uiData.wrappedValue.frameData.frame.midY)
+    }
+
     static func generateView(uiData: Binding<MUI>) -> some View {
 
         let type = uiData.wrappedValue.uiType
@@ -131,7 +137,6 @@ extension MUI {
         }
             .background(backgroundData.color.toColor)
             .cornerRadius(backgroundData.cornerRadius)
-            .position(x: frameData.frame.midX, y: frameData.frame.midY)
     }
 
 }
