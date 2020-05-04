@@ -10,11 +10,20 @@ import SwiftUI
 
 struct RootView: View {
 
+    @ObservedObject var rootViewModel = RootViewModel()
+
     var body: some View {
-        NavigationView {
-            HomeView()
+        ZStack {
+            NavigationView {
+                HomeView()
+            }
+                .navigationViewStyle(StackNavigationViewStyle())
+
+            ForEach(rootViewModel.runningApps, id: \.self) { viewModel in
+                AppView()
+                    .environmentObject(viewModel)
+            }
         }
-            .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

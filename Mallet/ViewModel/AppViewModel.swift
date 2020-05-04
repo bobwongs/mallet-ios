@@ -10,6 +10,8 @@ import SwiftUI
 
 class AppViewModel: ObservableObject {
 
+    let rootViewModel: RootViewModel
+
     let appName: String
 
     let appId: Int
@@ -18,14 +20,16 @@ class AppViewModel: ObservableObject {
 
     @Published var uiData: Dictionary<Int, MUI>
 
-    init() {
+    init(rootViewModel: RootViewModel) {
+        self.rootViewModel = rootViewModel
         appName = "Untitled App"
         appId = -1
         uiIDs = []
         uiData = .init()
     }
 
-    init(_ appData: AppData) {
+    init(appData: AppData, rootViewModel: RootViewModel) {
+        self.rootViewModel = rootViewModel
         appName = appData.appName
         appId = appData.appID
         uiIDs = appData.uiIDs
@@ -37,6 +41,10 @@ class AppViewModel: ObservableObject {
             get: { self.uiData[id] ?? MUI.none },
             set: { self.uiData[id] = $0 }
         )
+    }
+
+    func exitApp() {
+        rootViewModel.exitApp(id: appId)
     }
 }
 
