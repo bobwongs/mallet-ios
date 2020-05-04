@@ -10,7 +10,7 @@ import SwiftUI
 
 class AppViewModel: ObservableObject {
 
-    let rootViewModel: RootViewModel
+    private let rootViewModel: RootViewModel
 
     let appName: String
 
