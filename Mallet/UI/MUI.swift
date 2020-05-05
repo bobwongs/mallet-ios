@@ -105,7 +105,7 @@ extension MUI {
 
         let backgroundData = uiData.wrappedValue.backgroundData
 
-        let uiView = Group {
+        let view = Group {
             if type == .text {
                 MUIText(uiData: uiData)
             } else if type == .button {
@@ -121,22 +121,30 @@ extension MUI {
             }
         }
 
-        return Group {
+        let viewWithFrame = Group {
             if frameData.lockWidth && frameData.lockHeight {
-                uiView
+                view
             } else if frameData.lockWidth {
-                uiView
+                view
                     .frame(height: frameData.frame.height)
             } else if frameData.lockHeight {
-                uiView
+                view
                     .frame(width: frameData.frame.width)
             } else {
-                uiView
+                view
                     .frame(width: frameData.frame.width, height: frameData.frame.height)
             }
         }
             .background(backgroundData.color.toColor)
-            .cornerRadius(backgroundData.cornerRadius)
+
+        return Group {
+            if backgroundData.cornerRadius == 0 {
+                viewWithFrame
+            } else {
+                viewWithFrame
+                    .cornerRadius(backgroundData.cornerRadius)
+            }
+        }
     }
 
 }
