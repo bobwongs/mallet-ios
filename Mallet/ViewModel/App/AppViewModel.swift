@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import XyloSwift
 
 class AppViewModel: ObservableObject {
 
@@ -45,6 +46,12 @@ class AppViewModel: ObservableObject {
 
     func exitApp() {
         rootViewModel.exitApp(id: appId)
+    }
+}
+
+extension AppViewModel {
+    func getUIData(_ obj: XyObj) -> Binding<MUI> {
+        getUIDataOf(obj.int())
     }
 }
 
