@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import XyloSwift
 
 struct MUITextData: Codable {
 
@@ -57,4 +58,24 @@ enum MUITextAlignment: Int, Codable {
         case .trailing: return .right
         }
     }
+}
+
+protocol MUITextController {
+
+    func setText(args: [XyObj]) -> XyObj
+
+    func getText(args: [XyObj]) -> XyObj
+
+    func setTextColor(args: [XyObj]) -> XyObj
+
+    func getTextColor(args: [XyObj]) -> XyObj
+
+    func setTextSize(args: [XyObj]) -> XyObj
+
+    func getTextSize(args: [XyObj]) -> XyObj
+
+    func setTextAlignment(args: [XyObj]) -> XyObj
+
+    func getTextAlignment(args: [XyObj]) -> XyObj
+
 }
