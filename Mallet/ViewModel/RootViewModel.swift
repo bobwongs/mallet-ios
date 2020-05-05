@@ -17,9 +17,7 @@ class RootViewModel: ObservableObject {
 
     func runApp(id: Int) {
         let appData = Storage.loadApp(appID: id)
-        withAnimation {
-            runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
-        }
+        runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
 
         StatusBar.style = .darkContent
     }
