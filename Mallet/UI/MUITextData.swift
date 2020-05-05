@@ -62,20 +62,36 @@ enum MUITextAlignment: Int, Codable {
 
 protocol MUITextController {
 
+    /// - Parameter args: [UIID, Text(String)]
+    /// - Returns: .zero
     func setText(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID]
+    /// - Returns: Text(String)
     func getText(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID, Color(String, Hex Code)]
+    /// - Returns: .zero
     func setTextColor(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID]
+    /// - Returns: Color(String, Hex Code)
     func getTextColor(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID, Size(Float)]
+    /// - Returns: .zero
     func setTextSize(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID]
+    /// - Returns: Size(Float)
     func getTextSize(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID, Text(String)]
+    /// - Returns: .zero
     func setTextAlignment(args: [XyObj]) -> XyObj
 
+    /// - Parameter args: [UIID]
+    /// - Returns: Text(String)
     func getTextAlignment(args: [XyObj]) -> XyObj
 
 }
