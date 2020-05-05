@@ -100,49 +100,53 @@ class Storage {
     }
 
     static func saveApp(appData: AppData) {
-        guard let uiDataJson = AppData.uiData2Json(uiData: appData.uiData) else {
-            print("failed to save app")
-            return
-        }
-
         DispatchQueue(label: "background").async {
-            autoreleasepool {
-                let realm = try! Realm()
+            saveAppSync(appData: appData)
+        }
+    }
 
-                guard  let appList = realm.object(ofType: AppList.self, forPrimaryKey: mainAppListTitle) else {
-                    return
+    static func saveAppSync(appData: AppData) {
+        autoreleasepool {
+            guard let uiDataJson = AppData.uiData2Json(uiData: appData.uiData) else {
+                print("failed to save app")
+                return
+            }
+
+            let realm = try! Realm()
+
+            guard  let appList = realm.object(ofType: AppList.self, forPrimaryKey: mainAppListTitle) else {
+                return
+            }
+
+            if let appObject = realm.objects(AppObject.self).filter("appID == \(appData.appID)").first {
+
+                let uiIDs = List<Int>()
+                appData.uiIDs.forEach({ uiIDs.append($0) })
+
+                do {
+                    try realm.write {
+                        appObject.appName = appData.appName
+                        appObject.uiDataJson = uiDataJson
+
+                        appObject.uiIDs.removeAll()
+                        appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
+                    }
+                } catch {
+                    print(error.localizedDescription)
                 }
+            } else {
+                let appObject = AppObject()
+                appObject.appID = appData.appID
+                appObject.appName = appData.appName
+                appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
+                appObject.uiDataJson = uiDataJson
 
-                if let appObject = realm.objects(AppObject.self).filter("appID == \(appData.appID)").first {
-
-                    let uiIDs = List<Int>()
-                    appData.uiIDs.forEach({ uiIDs.append($0) })
-
-                    do {
-                        try realm.write {
-                            appObject.appName = appData.appName
-                            appObject.uiDataJson = uiDataJson
-
-                            appObject.uiIDs.removeAll()
-                            appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
-                        }
-                    } catch {
-                        print(error.localizedDescription)
+                do {
+                    try realm.write {
+                        appList.apps.append(appObject)
                     }
-                } else {
-                    let appObject = AppObject()
-                    appObject.appID = appData.appID
-                    appObject.appName = appData.appName
-                    appData.uiIDs.forEach({ appObject.uiIDs.append($0) })
-                    appObject.uiDataJson = uiDataJson
-
-                    do {
-                        try realm.write {
-                            appList.apps.append(appObject)
-                        }
-                    } catch {
-                        print(error.localizedDescription)
-                    }
+                } catch {
+                    print(error.localizedDescription)
                 }
             }
         }

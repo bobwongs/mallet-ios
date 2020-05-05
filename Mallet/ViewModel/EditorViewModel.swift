@@ -46,7 +46,8 @@ class EditorViewModel: ObservableObject {
     }
 
     func runApp() {
-        AppController.runApp(id: appID)
+        saveAppSync()
+        AppController.runApp(id: self.appID)
     }
 
     func addUI(type: MUIType, frame: MUIRect, globalFrame: CGRect) {
@@ -181,13 +182,19 @@ class EditorViewModel: ObservableObject {
 
 extension EditorViewModel {
 
-    func saveApp() {
-        let appData = AppData(appID: appID,
-                              appName: appName,
-                              uiIDs: uiIDs,
-                              uiData: uiData)
+    var currentAppData: AppData {
+        AppData(appID: appID,
+                appName: appName,
+                uiIDs: uiIDs,
+                uiData: uiData)
+    }
 
-        Storage.saveApp(appData: appData)
+    func saveApp() {
+        Storage.saveApp(appData: currentAppData)
+    }
+
+    func saveAppSync() {
+        Storage.saveAppSync(appData: currentAppData)
     }
 
 }
