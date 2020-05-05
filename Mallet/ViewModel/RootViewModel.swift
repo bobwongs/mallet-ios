@@ -16,6 +16,10 @@ class RootViewModel: ObservableObject {
     }
 
     func runApp(id: Int) {
+        if runningApps.contains(where: { $0.appId == id }) {
+            return
+        }
+
         let appData = Storage.loadApp(appID: id)
         runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
 
