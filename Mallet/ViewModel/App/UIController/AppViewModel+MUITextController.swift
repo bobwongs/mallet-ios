@@ -35,10 +35,10 @@ extension AppViewModel: MUITextController {
     func getTextColor(args: [XyObj]) -> XyObj {
         let ui = getUIData(args[0])
         if ui.textData.enabled.wrappedValue {
-            return XyObj(getUIData([args[0]]).textData.color.wrappedValue.hexCode)
+            return XyObj(getUIData(args[0]).textData.color.wrappedValue.hexCode)
         }
         if ui.textFieldData.enabled.wrappedValue {
-            return XyObj(getUIData([args[0]]).textFieldData.color.wrappedValue.hexCode)
+            return XyObj(getUIData(args[0]).textFieldData.color.wrappedValue.hexCode)
         }
         return .zero
     }
