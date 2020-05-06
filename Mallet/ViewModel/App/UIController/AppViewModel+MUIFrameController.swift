@@ -97,5 +97,20 @@ extension AppViewModel: MUIFrameController {
         XyObj(Double(getUIData(args[0]).frameData.frame.height.wrappedValue))
     }
 
+    var muiFrameFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setFrame", argNum: 2, setFrame),
+            Xylo.Func(funcName: "setPosition", argNum: 2, setPosition),
+            Xylo.Func(funcName: "setSize", argNum: 2, setSize),
+            Xylo.Func(funcName: "setX", argNum: 2, setX),
+            Xylo.Func(funcName: "setY", argNum: 2, setY),
+            Xylo.Func(funcName: "setWidth", argNum: 2, setWidth),
+            Xylo.Func(funcName: "setHeight", argNum: 2, setHeight),
+            Xylo.Func(funcName: "getX", argNum: 1, getX),
+            Xylo.Func(funcName: "getY", argNum: 1, getY),
+            Xylo.Func(funcName: "getWidth", argNum: 1, getWidth),
+            Xylo.Func(funcName: "getHeight", argNum: 1, getHeight),
+        ]
+    }
 }
 

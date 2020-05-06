@@ -68,4 +68,6 @@ protocol MUIFrameController {
     /// - Returns: Height(Float)
     func getHeight(args: [XyObj]) -> XyObj
 
+    var muiFrameFuncs: [Xylo.Func] { get }
+
 }
