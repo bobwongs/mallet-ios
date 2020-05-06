@@ -84,7 +84,15 @@ struct MUIColor: Codable {
     }
 
     var hexCode: String {
-        ""
+        var code = String(r, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) +
+            String(g, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) +
+            String(b, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0)
+
+        if a != 255 {
+            code = String(a, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) + code
+        }
+
+        return code.uppercased()
     }
 
 }
