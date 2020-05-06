@@ -29,4 +29,12 @@ extension AppViewModel: MUIBackgroundController {
         XyObj(Double(getUIData(args[0]).backgroundData.cornerRadius.wrappedValue))
     }
 
+    var muiBackgroundFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setColor", argNum: 2, setColor),
+            Xylo.Func(funcName: "getColor", argNum: 1, getColor),
+            Xylo.Func(funcName: "setCornerRadius", argNum: 2, setCornerRadius),
+            Xylo.Func(funcName: "getCornerRadius", argNum: 1, getCornerRadius),
+        ]
+    }
 }

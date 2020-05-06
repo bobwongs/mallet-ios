@@ -41,4 +41,5 @@ protocol MUIBackgroundController {
     /// - Returns: Size(Float)
     func getCornerRadius(args: [XyObj]) -> XyObj
 
+    var muiBackgroundFuncs: [Xylo.Func] { get }
 }
