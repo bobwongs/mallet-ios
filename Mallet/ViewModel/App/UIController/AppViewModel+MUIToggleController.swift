@@ -33,4 +33,11 @@ extension AppViewModel: MUIToggleController {
         return .zero
     }
 
+    var muiToggleFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setValue", argNum: 2, setValue),
+            Xylo.Func(funcName: "getValue", argNum: 1, getValue),
+        ]
+    }
+
 }

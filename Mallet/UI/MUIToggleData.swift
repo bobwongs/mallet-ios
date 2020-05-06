@@ -35,4 +35,6 @@ protocol MUIToggleController {
     /// shared with MUISliderData
     func getValue(args: [XyObj]) -> XyObj
 
+    var muiToggleFuncs: [Xylo.Func] { get }
+
 }
