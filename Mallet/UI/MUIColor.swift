@@ -47,6 +47,34 @@ struct MUIColor: Codable {
         a = 0
     }
 
+    init(_ hexCode: String) {
+        let resizedString: String
+
+        if hexCode.count >= 8 {
+            resizedString = String(hexCode.prefix(8))
+        } else if hexCode.count >= 6 {
+            resizedString = "FF" + String(hexCode.prefix(6))
+        } else if hexCode.count >= 1 {
+            let subStr = String(hexCode.prefix(min(3, hexCode.count)))
+            resizedString = "FF" + subStr.map({ "\($0)\($0)" }).joined()
+        } else {
+            resizedString = "FFFFFFFF"
+        }
+
+        guard var number = Int(resizedString, radix: 16) else {
+            self.init(r: 0, g: 0, b: 0)
+            return
+        }
+
+        var colors = [Int]()
+        for _ in 0..<4 {
+            colors.append(number % 256)
+            number /= 256
+        }
+
+        self.init(r: colors[2], g: colors[1], b: colors[0], a: colors[3])
+    }
+
     var toColor: Color {
         Color(red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
     }
@@ -57,6 +85,14 @@ struct MUIColor: Codable {
 
     var toHexCode: String {
         ""
+    }
+
+}
+
+extension MUIColor: Equatable {
+
+    public static func ==(lhs: MUIColor, rhs: MUIColor) -> Bool {
+        (lhs.a, lhs.r, lhs.b, lhs.g) == (rhs.a, rhs.r, rhs.b, rhs.g)
     }
 
 }
