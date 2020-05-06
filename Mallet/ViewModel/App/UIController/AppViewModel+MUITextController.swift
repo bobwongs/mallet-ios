@@ -60,4 +60,17 @@ extension AppViewModel: MUITextController {
         fatalError("getTextAlignment(args:) has not been implemented")
     }
 
+    var muiTextFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setText", argNum: 2, setText),
+            Xylo.Func(funcName: "getText", argNum: 1, getText),
+            Xylo.Func(funcName: "setTextColor", argNum: 2, setTextColor),
+            Xylo.Func(funcName: "getTextColor", argNum: 1, getTextColor),
+            Xylo.Func(funcName: "setTextSize", argNum: 2, setTextSize),
+            Xylo.Func(funcName: "getTextSize", argNum: 1, getTextSize),
+            Xylo.Func(funcName: "setTextAlignment", argNum: 2, setTextAlignment),
+            Xylo.Func(funcName: "getTextAlignment", argNum: 1, getTextAlignment),
+        ]
+    }
+
 }

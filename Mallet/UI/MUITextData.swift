@@ -94,4 +94,6 @@ protocol MUITextController {
     /// - Returns: Text(String)
     func getTextAlignment(args: [XyObj]) -> XyObj
 
+    var muiTextFuncs: [Xylo.Func] { get }
+
 }
