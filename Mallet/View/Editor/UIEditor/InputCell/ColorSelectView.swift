@@ -14,9 +14,15 @@ struct ColorSelectView: View {
 
     @State private var colorCode = ""
 
-    private let defaultColors: [[UIColor]] = [[.init(red: 0, green: 0, blue: 0, alpha: 1), .init(red: 1, green: 1, blue: 1, alpha: 1), .systemGray],
-                                              [.systemYellow, .systemOrange, .systemRed],
-                                              [.systemPurple, .systemBlue, .systemGreen]]
+    private let colorPalette: [[MUIColor]] =
+        [
+            [.init("0098FF"), .init("17E4C8"), .init("57D22F"), .init("FADD2D"), .init("FF5845"), .init("ED549D")],
+            [.init("006BB1"), .init("069E93"), .init("1CA702"), .init("F8B002"), .init("EC1E10"), .init("C4246F")],
+            [.init("004474"), .init("02706A"), .init("036601"), .init("FF8702"), .init("AC1600"), .init("8E1853")],
+            [.init("002E58"), .init("01504E"), .init("014507"), .init("D15403"), .init("750F02"), .init("5A103E")],
+            [.init("FFFFFF"), .init("9F9F9F"), .init("616161"), .init("3B3B3B"), .init("000000"), .init("00000000")],
+        ]
+
 
     var body: some View {
         VStack {
@@ -38,29 +44,46 @@ struct ColorSelectView: View {
             }
                 .padding(10)
 
-            VStack {
-                ForEach(defaultColors, id: \.self) { colors in
-                    HStack {
-                        ForEach(colors, id: \.self) { (color: UIColor) in
+            VStack(spacing: 0) {
+                ForEach(colorPalette, id: \.self) { colors in
+                    HStack(spacing: 0) {
+                        ForEach(colors, id: \.self) { (color: MUIColor) in
                             Button(action: {
-                                self.color = MUIColor(color)
-                                self.colorCode = self.color.hexCode
+                                self.color = color
+                                self.colorCode = color.hexCode
                             }) {
-                                Color(color)
+                                if (color == MUIColor(r: 0, g: 0, b: 0, a: 0)) {
+                                    self.transparentButton()
+                                } else {
+                                    color.color
+                                }
                             }
-                                .frame(height: 50)
-                                .cornerRadius(5)
+                                .frame(height: 40)
+                                .cornerRadius(0)
                                 .colorScheme(.light)
                         }
                     }
                 }
             }
                 .padding(.horizontal, 10)
+
+            Spacer()
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
                 self.colorCode = self.color.hexCode
             }
     }
+
+    func transparentButton() -> some View {
+        GeometryReader { geo in
+            Path { path in
+                path.move(to: .zero)
+                path.addLine(to: CGPoint(x: geo.size.width, y: geo.size.height))
+            }
+                .stroke(Color.red, lineWidth: 5)
+        }
+    }
+
 
 }

@@ -104,3 +104,14 @@ extension MUIColor: Equatable {
     }
 
 }
+
+extension MUIColor: Hashable {
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(r)
+        hasher.combine(g)
+        hasher.combine(b)
+        hasher.combine(a)
+    }
+
+}
