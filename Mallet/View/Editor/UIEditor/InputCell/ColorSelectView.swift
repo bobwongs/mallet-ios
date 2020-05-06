@@ -25,7 +25,7 @@ struct ColorSelectView: View {
 
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 Rectangle()
                     .foregroundColor(color.color)
