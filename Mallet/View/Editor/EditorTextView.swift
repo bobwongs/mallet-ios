@@ -49,7 +49,7 @@ struct EditorTextView: UIViewRepresentable {
         textView.becomeFirstResponder()
 
         let view = UIViewWithTextView(textView)
-        view.backgroundColor = backgroundData.color.toUIColor
+        view.backgroundColor = backgroundData.color.uiColor
         view.layer.cornerRadius = backgroundData.cornerRadius
         view.addSubview(textView)
 
@@ -69,7 +69,7 @@ struct EditorTextView: UIViewRepresentable {
     func updateUIView(_ view: UIViewWithTextView, context: Context) {
         view.textView.text = textData.text
         view.textView.textAlignment = textData.alignment.toNSTextAlignment
-        view.textView.textColor = textData.color.toUIColor
+        view.textView.textColor = textData.color.uiColor
         view.textView.font = view.textView.font?.withSize(textData.size)
     }
 }

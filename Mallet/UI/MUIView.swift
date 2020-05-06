@@ -17,7 +17,7 @@ struct MUIText: View {
             .frame(width: uiData.frameData.frame.width,
                    height: uiData.frameData.frame.height,
                    alignment: uiData.textData.alignment.toAlignment)
-            .foregroundColor(uiData.textData.color.toColor)
+            .foregroundColor(uiData.textData.color.color)
             .font(.system(size: uiData.textData.size))
             .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)
     }
@@ -35,7 +35,7 @@ struct MUIButton: View {
                 .frame(width: uiData.frameData.frame.width,
                        height: uiData.frameData.frame.height,
                        alignment: uiData.textData.alignment.toAlignment)
-                .foregroundColor(uiData.textData.color.toColor)
+                .foregroundColor(uiData.textData.color.color)
                 .font(.system(size: uiData.textData.size))
                 .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)
         }
@@ -49,7 +49,7 @@ struct MUITextField: View {
     var body: some View {
         TextField(uiData.textFieldData.placeholder, text: $uiData.textFieldData.text)
             .textFieldStyle(RoundedBorderTextFieldStyle())
-            .foregroundColor(uiData.textFieldData.color.toColor)
+            .foregroundColor(uiData.textFieldData.color.color)
             .font(.system(size: uiData.textFieldData.size))
             .multilineTextAlignment(uiData.textFieldData.alignment.toTextAlignment)
     }

@@ -135,7 +135,7 @@ extension MUI {
                     .frame(width: frameData.frame.width, height: frameData.frame.height)
             }
         }
-            .background(backgroundData.color.toColor)
+            .background(backgroundData.color.color)
 
         return Group {
             if backgroundData.cornerRadius == 0 {

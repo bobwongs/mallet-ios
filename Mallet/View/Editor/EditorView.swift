@@ -99,7 +99,7 @@ struct EditorView: View {
                         UISelectionView.generateUI(type: self.selectedUIType)
                             .environmentObject(self.editorViewModel)
                             .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
-                            .background(MUI.defaultValue(type: self.selectedUIType).backgroundData.color.toColor)
+                            .background(MUI.defaultValue(type: self.selectedUIType).backgroundData.color.color)
                             .cornerRadius(MUI.defaultValue(type: self.selectedUIType).backgroundData.cornerRadius)
                             .scaleEffect(self.appViewScale)
                             .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,

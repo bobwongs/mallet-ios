@@ -75,15 +75,15 @@ struct MUIColor: Codable {
         self.init(r: colors[2], g: colors[1], b: colors[0], a: colors[3])
     }
 
-    var toColor: Color {
+    var color: Color {
         Color(red: Double(r) / 255, green: Double(g) / 255, blue: Double(b) / 255, opacity: Double(a) / 255)
     }
 
-    var toUIColor: UIColor {
+    var uiColor: UIColor {
         UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 
-    var toHexCode: String {
+    var hexCode: String {
         ""
     }
 

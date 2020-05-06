@@ -28,7 +28,7 @@ struct ColorInputCell: View {
                         .foregroundColor(.primary)
                     Spacer()
                     Rectangle()
-                        .foregroundColor(self.color.toColor)
+                        .foregroundColor(self.color.color)
                         .frame(width: 50, height: 30)
                         .cornerRadius(5)
                     Image(systemName: "chevron.right")
