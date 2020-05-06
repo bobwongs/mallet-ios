@@ -34,6 +34,7 @@ struct ColorSelectView: View {
                     self.color = MUIColor(self.colorCode)
                 })
                     .multilineTextAlignment(.trailing)
+                    .fixedSize()
             }
                 .padding(10)
 
