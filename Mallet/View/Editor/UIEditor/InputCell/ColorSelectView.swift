@@ -22,7 +22,7 @@ struct ColorSelectView: View {
         VStack {
             HStack {
                 Rectangle()
-                    .foregroundColor(color.toColor)
+                    .foregroundColor(color.color)
                     .frame(width: 50, height: 30)
                     .cornerRadius(5)
 
@@ -30,12 +30,10 @@ struct ColorSelectView: View {
 
                 Text("#")
                 TextField("", text: $colorCode, onEditingChanged: { _ in
-
                 }, onCommit: {
-                    self.string2ColorCode(self.colorCode)
+                    self.color = MUIColor(self.colorCode)
                 })
                     .multilineTextAlignment(.trailing)
-
             }
                 .padding(10)
 
@@ -45,6 +43,7 @@ struct ColorSelectView: View {
                         ForEach(colors, id: \.self) { (color: UIColor) in
                             Button(action: {
                                 self.color = MUIColor(color)
+                                self.colorCode = self.color.hexCode
                             }) {
                                 Color(color)
                             }
@@ -59,43 +58,8 @@ struct ColorSelectView: View {
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
-                self.colorCode =
-                    String(self.color.r, radix: 16) + String(self.color.g, radix: 16) + String(self.color.b, radix: 16)
-                if self.color.a != 0 {
-                    self.colorCode = String(self.color.a, radix: 16) + self.colorCode
-                }
-                self.colorCode = self.colorCode.uppercased()
+                self.colorCode = self.color.hexCode
             }
     }
 
-    private func string2ColorCode(_ string: String) {
-
-        let resizedString: String
-
-        if string.count >= 8 {
-            resizedString = String(string.prefix(8))
-        } else if string.count >= 6 {
-            resizedString = "FF" + String(string.prefix(6))
-        } else if string.count >= 1 {
-            let subStr = String(string.prefix(min(3, string.count)))
-            resizedString = "FF" + subStr.map({ "\($0)\($0)" }).joined()
-        } else {
-            resizedString = "FFFFFFFF"
-        }
-
-        guard var number = Int(resizedString, radix: 16) else {
-            return
-        }
-
-        color.b = number % 256
-        number /= 256
-
-        color.g = number % 256
-        number /= 256
-
-        color.r = number % 256
-        number /= 256
-
-        color.a = number % 256
-    }
 }
