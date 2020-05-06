@@ -49,4 +49,6 @@ protocol MUISliderController {
     /// - Returns: MaxValue(Float)
     func getMaxValue(args: [XyObj]) -> XyObj
 
+    var muiSliderFuncs: [Xylo.Func] { get }
+
 }

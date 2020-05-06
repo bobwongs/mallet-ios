@@ -29,5 +29,13 @@ extension AppViewModel: MUISliderController {
         XyObj(Double(getUIData(args[0]).sliderData.maxValue.wrappedValue))
     }
 
+    var muiSliderFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setMinValue", argNum: 2, setMinValue),
+            Xylo.Func(funcName: "getMinValue", argNum: 1, getMinValue),
+            Xylo.Func(funcName: "setMaxValue", argNum: 2, setMaxValue),
+            Xylo.Func(funcName: "getMaxValue", argNum: 1, getMaxValue),
+        ]
+    }
 
 }
