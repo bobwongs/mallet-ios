@@ -21,11 +21,26 @@ extension AppViewModel: MUITextController {
     }
 
     func setTextColor(args: [XyObj]) -> XyObj {
-        fatalError("setTextColor(args:) has not been implemented")
+        let ui = getUIData(args[0])
+        if ui.textData.enabled.wrappedValue {
+            getUIData(args[0]).textData.color.wrappedValue = MUIColor(args[1].string())
+
+        }
+        if ui.textFieldData.enabled.wrappedValue {
+            getUIData(args[0]).textFieldData.color.wrappedValue = MUIColor(args[1].string())
+        }
+        return .zero
     }
 
     func getTextColor(args: [XyObj]) -> XyObj {
-        fatalError("getTextColor(args:) has not been implemented")
+        let ui = getUIData(args[0])
+        if ui.textData.enabled.wrappedValue {
+            return XyObj(getUIData([args[0]]).textData.color.wrappedValue.hexCode)
+        }
+        if ui.textFieldData.enabled.wrappedValue {
+            return XyObj(getUIData([args[0]]).textFieldData.color.wrappedValue.hexCode)
+        }
+        return .zero
     }
 
     func setTextSize(args: [XyObj]) -> XyObj {
