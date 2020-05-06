@@ -63,4 +63,6 @@ protocol MUITextFieldController {
     // Implemented in MUITextController
     // func getTextAlignment(args: [XyObj]) -> XyObj
 
+    var muiTextFieldFuncs: [Xylo.Func] { get }
+
 }

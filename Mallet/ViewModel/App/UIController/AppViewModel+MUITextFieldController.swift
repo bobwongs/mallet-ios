@@ -20,4 +20,11 @@ extension AppViewModel: MUITextFieldController {
         XyObj(getUIData(args[0]).textFieldData.text.wrappedValue)
     }
 
+    var muiTextFieldFuncs: [Xylo.Func] {
+        [
+            Xylo.Func(funcName: "setPlaceHolder", argNum: 2, setPlaceHolder),
+            Xylo.Func(funcName: "getPlaceHolder", argNum: 1, getPlaceHolder),
+        ]
+    }
+
 }
