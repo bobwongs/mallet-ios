@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import XyloSwift
 
 struct MUISliderData: Codable {
 
@@ -21,5 +22,31 @@ struct MUISliderData: Codable {
     static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0)
 
     static let defaultValue = MUISliderData(value: 0.5, minValue: 0, maxValue: 1)
+
+}
+
+protocol MUISliderController {
+
+    // Implemented in MUIToggleData
+    // func setValue(args: [XyObj]) -> XyObj
+
+    // Implemented in MUIToggleData
+    // func getValue(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID, MinValue(Float)]
+    /// - Returns: .zero
+    func setMinValue(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID]
+    /// - Returns: Value(MinFloat)
+    func getMinValue(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID, MaxValue(Float)]
+    /// - Returns: .zero
+    func setMaxValue(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID]
+    /// - Returns: MaxValue(Float)
+    func getMaxValue(args: [XyObj]) -> XyObj
 
 }

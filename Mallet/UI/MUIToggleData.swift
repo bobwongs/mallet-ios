@@ -23,14 +23,16 @@ struct MUIToggleData: Codable {
 
 protocol MUIToggleController {
 
-    /// - Parameter args: [UIID, Value(Int)]
+    /// - Parameter args: [UIID, Value(Int or Float)]
     /// - Returns: .zero
     /// 0;false, other:true
+    /// shared with MUISliderData
     func setValue(args: [XyObj]) -> XyObj
 
     /// - Parameter args: [UIID]
-    /// - Returns: Value(Int)
+    /// - Returns: Value(Int or Float)
     /// true:1, false:0
+    /// shared with MUISliderData
     func getValue(args: [XyObj]) -> XyObj
 
 }
