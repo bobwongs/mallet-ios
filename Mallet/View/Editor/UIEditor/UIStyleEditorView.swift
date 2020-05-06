@@ -10,6 +10,8 @@ import SwiftUI
 
 struct UIStyleEditorView: View {
 
+    @ObservedObject var uiStyleEditorViewModel = UIStyleEditorViewModel()
+
     @EnvironmentObject var editorViewModel: EditorViewModel
 
     @State var keyboardHeight: CGFloat = 0
@@ -37,13 +39,16 @@ struct UIStyleEditorView: View {
                             FrameStyleEditorView(frameData: uiDataBinding.frameData)
 
                             BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
+                                .environmentObject(uiStyleEditorViewModel)
 
                             ArrangementInputCell()
                                 .environmentObject(editorViewModel)
 
                             TextStyleEditorView(textData: uiDataBinding.textData)
+                                .environmentObject(uiStyleEditorViewModel)
 
                             TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
+                                .environmentObject(uiStyleEditorViewModel)
 
                             SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 
@@ -72,6 +77,10 @@ struct UIStyleEditorView: View {
     }
 
     func keyboardWillShow(_ notification: Notification) {
+        if uiStyleEditorViewModel.showingSubEditor {
+            return
+        }
+
         guard  let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
@@ -82,6 +91,10 @@ struct UIStyleEditorView: View {
     }
 
     func keyboardWillHide(_ notification: Notification) {
+        if uiStyleEditorViewModel.showingSubEditor {
+            return
+        }
+
         withAnimation {
             keyboardHeight = 0
         }

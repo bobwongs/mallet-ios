@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ColorInputCell: View {
 
+    @EnvironmentObject var uiStyleEditorViewModel: UIStyleEditorViewModel
+
     @Binding private var color: MUIColor
 
     private let title: String
@@ -21,7 +23,15 @@ struct ColorInputCell: View {
     }
 
     var body: some View {
-        NavigationLink(destination: ColorSelectView(color: $color)) {
+        NavigationLink(destination:
+                       ColorSelectView(color: $color)
+                           .onAppear {
+                               self.uiStyleEditorViewModel.showingSubEditor = true
+                           }
+                           .onDisappear {
+                               self.uiStyleEditorViewModel.showingSubEditor = false
+                           }
+        ) {
             ListCell {
                 HStack {
                     Text(self.title)
