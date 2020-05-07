@@ -70,7 +70,7 @@ struct EditorToolBar: View {
             }
 
             Spacer()
-                .frame(width: 40)
+                .frame(width: 20)
 
             Button(action: {
                 print("redo")
@@ -91,6 +91,17 @@ struct EditorToolBar: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
             }
+
+            Spacer()
+                .frame(width: 20)
+
+            Button(action: {
+
+            }) {
+                Image(systemName: "chevron.left.slash.chevron.right")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
         }
     }
 
@@ -105,7 +116,7 @@ struct EditorToolBar: View {
             }
 
             Spacer()
-                .frame(width: 40)
+                .frame(width: 20)
 
             Button(action: {
                 self.editorViewModel.duplicateUI()
@@ -116,4 +127,5 @@ struct EditorToolBar: View {
             }
         }
     }
+
 }
