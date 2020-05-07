@@ -28,7 +28,9 @@ struct EditorView: View {
 
     @State private var editorOffset: CGFloat = 0
 
-    @State private var spacerHeightAboveUIStyleEditor: CGFloat = 250
+    private var spacerHeightAboveUIStyleEditor: CGFloat {
+        UIScreen.main.bounds.height - min(UIScreen.main.bounds.height * 0.7, 500)
+    }
 
     @State private var safeAreaTopInset: CGFloat = 0
 
@@ -85,7 +87,6 @@ struct EditorView: View {
                     }
                         .edgesIgnoringSafeArea(.top)
                         .onAppear {
-                            self.spacerHeightAboveUIStyleEditor += geo.safeAreaInsets.top
                             self.safeAreaTopInset = geo.safeAreaInsets.top
                         }
 

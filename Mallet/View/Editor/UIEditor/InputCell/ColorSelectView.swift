@@ -14,11 +14,7 @@ struct ColorSelectView: View {
 
     @State private var colorCode = ""
 
-    @State private var opacity: Float = 0 {
-        didSet {
-            print("didSet")
-        }
-    }
+    @State private var opacity: Float = 0
 
     private let colorPalette: [[MUIColor]] =
         [
@@ -66,7 +62,7 @@ struct ColorSelectView: View {
                                     color.color
                                 }
                             }
-                                .frame(height: 40)
+                                .frame(maxHeight: 40)
                                 .cornerRadius(0)
                                 .colorScheme(.light)
                         }
