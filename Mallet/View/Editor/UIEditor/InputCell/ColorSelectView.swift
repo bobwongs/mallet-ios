@@ -32,10 +32,13 @@ struct ColorSelectView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Rectangle()
+                RoundedRectangle(cornerRadius: 5)
                     .foregroundColor(color.color)
                     .frame(width: 50, height: 30)
-                    .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.primary, lineWidth: 1)
+                    )
 
                 Spacer()
 
