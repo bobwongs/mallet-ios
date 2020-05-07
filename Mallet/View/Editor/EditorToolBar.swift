@@ -32,7 +32,7 @@ struct EditorToolBar: View {
                             self.trailingContent()
                         }
                             .frame(height: 23)
-                            .padding([.leading, .trailing], 20)
+                            .padding([.leading, .trailing], 10)
                     }
                         .frame(height: self.height)
 
@@ -60,17 +60,15 @@ struct EditorToolBar: View {
     }
 
     private func leadingContent() -> some View {
-        HStack {
+        HStack(spacing: 0) {
             Button(action: {
                 print("undo")
             }) {
                 Image(systemName: "arrow.uturn.left.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
-
-            Spacer()
-                .frame(width: 20)
 
             Button(action: {
                 print("redo")
@@ -78,22 +76,21 @@ struct EditorToolBar: View {
                 Image(systemName: "arrow.uturn.right.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
         }
     }
 
     private func centerContent() -> some View {
-        HStack {
+        HStack(spacing: 0) {
             Button(action: {
                 self.toggleUIStyleEditor()
             }) {
                 Image(systemName: "slider.horizontal.3")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
-
-            Spacer()
-                .frame(width: 20)
 
             Button(action: {
 
@@ -101,22 +98,21 @@ struct EditorToolBar: View {
                 Image(systemName: "chevron.left.slash.chevron.right")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
         }
     }
 
     private func trailingContent() -> some View {
-        HStack {
+        HStack(spacing: 0) {
             Button(action: {
                 self.editorViewModel.deleteUI()
             }) {
                 Image(systemName: "trash")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
-
-            Spacer()
-                .frame(width: 20)
 
             Button(action: {
                 self.editorViewModel.duplicateUI()
@@ -124,6 +120,7 @@ struct EditorToolBar: View {
                 Image(systemName: "plus.square.on.square")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .padding(.horizontal, 12)
             }
         }
     }
