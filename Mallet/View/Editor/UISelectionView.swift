@@ -46,14 +46,15 @@ struct UISelectionView: View {
 
     private func uiSelectionCell(type: MUIType) -> some View {
 
-        let width: CGFloat = 80
-        let height: CGFloat = 50
+        let width: CGFloat = 75
+        let height: CGFloat = 45
+        let padding: CGFloat = 8
 
         return Group {
             if type == .space {
                 Spacer()
                     .frame(width: width, height: height)
-                    .padding(10)
+                    .padding(padding)
             } else {
                 VStack {
                     GeometryReader { geo in
@@ -90,7 +91,7 @@ struct UISelectionView: View {
                     }
                 }
                     .frame(width: width, height: height)
-                    .padding(10)
+                    .padding(padding)
                     .background(Color(.systemGray5).colorScheme(.light))
                     .cornerRadius(10)
 
