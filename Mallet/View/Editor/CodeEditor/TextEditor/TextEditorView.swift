@@ -10,8 +10,12 @@ import SwiftUI
 
 struct TextEditorView: View {
 
+    @Binding var uiData: MUI
+
+    @State var text = ""
+
     var body: some View {
-        Text("Text Editor")
+        TextEditorTextView(text: $text)
     }
 
 }

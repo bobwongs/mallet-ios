@@ -21,11 +21,13 @@ struct CodeEditorView: View {
 
     @State private var mode = EditorMode.text
 
+    @State var text = ""
+
     var body: some View {
         NavigationView {
             VStack {
                 if mode == .text {
-                    TextEditorView()
+                    TextEditorView(uiData: $uiData)
                 } else {
                     TremoloEditorView()
                 }
