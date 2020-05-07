@@ -18,6 +18,8 @@ struct EditorToolBar: View {
 
     let toggleUIStyleEditor: () -> Void
 
+    let openCodeEditor: () -> Void
+
     var body: some View {
         GeometryReader { geo in
             VStack {
@@ -93,7 +95,7 @@ struct EditorToolBar: View {
             }
 
             Button(action: {
-
+                self.openCodeEditor()
             }) {
                 Image(systemName: "chevron.left.slash.chevron.right")
                     .resizable()

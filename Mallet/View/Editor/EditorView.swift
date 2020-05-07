@@ -14,6 +14,8 @@ struct EditorView: View {
 
     @State private var showingUIStyleEditorView = false
 
+    @State private var showingCodeEditorView = false
+
     @State private var showingAppSettingsView = false
 
     @State private var appViewOffset = CGPoint.zero
@@ -92,7 +94,8 @@ struct EditorView: View {
 
                     EditorToolBar(offset: self.$modalOffset,
                                   height: self.toolBarHeight,
-                                  toggleUIStyleEditor: { self.toggleUIStyleEditor() }
+                                  toggleUIStyleEditor: { self.toggleUIStyleEditor() },
+                                  openCodeEditor: { self.openCodeEditor() }
                     )
                         .environmentObject(self.editorViewModel)
 
@@ -109,6 +112,9 @@ struct EditorView: View {
                 }
             }
         }
+            .sheet(isPresented: $showingCodeEditorView) {
+                CodeEditorView()
+            }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
@@ -224,6 +230,10 @@ struct EditorView: View {
             editorOffset = 0
             showingUIStyleEditorView = false
         }
+    }
+
+    private func openCodeEditor() {
+        showingCodeEditorView = true
     }
 
 }
