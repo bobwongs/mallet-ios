@@ -113,7 +113,7 @@ struct EditorView: View {
             }
         }
             .sheet(isPresented: $showingCodeEditorView) {
-                CodeEditorView()
+                CodeEditorView(uiData: self.editorViewModel.getSelectedUIData())
             }
             .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)

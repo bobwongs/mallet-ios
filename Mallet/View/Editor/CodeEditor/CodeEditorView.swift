@@ -10,8 +10,60 @@ import SwiftUI
 
 struct CodeEditorView: View {
 
+    enum EditorMode {
+        case text
+        case tremolo
+    }
+
+    @Environment(\.presentationMode) var presentationMode
+
+    @Binding var uiData: MUI
+
+    @State private var mode = EditorMode.text
+
     var body: some View {
-        Text("Tremolo")
+        NavigationView {
+            VStack {
+                if mode == .text {
+                    TextEditorView()
+                } else {
+                    TremoloEditorView()
+                }
+            }
+                .navigationBarTitle(Text(uiData.uiName), displayMode: .inline)
+                .navigationBarItems(leading: leadingBarItems(),
+                                    trailing: trailingBarItems())
+        }
+    }
+
+    private func leadingBarItems() -> some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            Text("Done")
+                .fontWeight(.semibold)
+                .padding(.vertical, 7)
+        }
+    }
+
+    private func trailingBarItems() -> some View {
+        Button(action: {
+            if self.mode == .text {
+                self.mode = .tremolo
+            } else {
+                self.mode = .text
+            }
+        }) {
+            Group {
+                if mode == .text {
+                    Image(systemName: "rectangle.grid.1x2.fill")
+                } else {
+                    Image(systemName: "text.alignleft")
+                }
+            }
+                .padding(.vertical, 7)
+                .padding(.trailing, 5)
+        }
     }
 
 }
