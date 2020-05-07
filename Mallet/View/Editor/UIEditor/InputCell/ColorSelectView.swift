@@ -14,6 +14,12 @@ struct ColorSelectView: View {
 
     @State private var colorCode = ""
 
+    @State private var opacity: Float = 0 {
+        didSet {
+            print("didSet")
+        }
+    }
+
     private let colorPalette: [[MUIColor]] =
         [
             [.init("0098FF"), .init("17E4C8"), .init("57D22F"), .init("FADD2D"), .init("FF5845"), .init("ED549D")],
@@ -22,7 +28,6 @@ struct ColorSelectView: View {
             [.init("002E58"), .init("01504E"), .init("014507"), .init("D15403"), .init("750F02"), .init("5A103E")],
             [.init("FFFFFF"), .init("9F9F9F"), .init("616161"), .init("3B3B3B"), .init("000000"), .init("00000000")],
         ]
-
 
     var body: some View {
         VStack(spacing: 0) {
@@ -38,10 +43,15 @@ struct ColorSelectView: View {
                 TextField("", text: $colorCode, onEditingChanged: { _ in
                 }, onCommit: {
                     self.color = MUIColor(self.colorCode)
+                    self.opacity = Float(self.color.a) / 2.55
+                    self.updateColorCode()
                 })
                     .multilineTextAlignment(.trailing)
                     .fixedSize()
             }
+                .padding(10)
+
+            opacitySlider()
                 .padding(10)
 
             VStack(spacing: 0) {
@@ -50,7 +60,7 @@ struct ColorSelectView: View {
                         ForEach(colors, id: \.self) { (color: MUIColor) in
                             Button(action: {
                                 self.color = color
-                                self.colorCode = color.hexCode
+                                self.colorCode = color.hexCode(withAlpha: false)
                             }) {
                                 if (color == MUIColor(r: 0, g: 0, b: 0, a: 0)) {
                                     self.transparentButton()
@@ -65,14 +75,36 @@ struct ColorSelectView: View {
                     }
                 }
             }
-                .padding(.horizontal, 10)
+                .padding(10)
 
             Spacer()
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
-                self.colorCode = self.color.hexCode
+                self.opacity = Float(self.color.a) / 255.0
+                self.updateColorCode()
             }
+    }
+
+    func opacitySlider() -> some View {
+        HStack {
+            Text("Opacity")
+
+            Slider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: { _ in
+                self.updateColorCode()
+            })
+
+            TextField("", value: $opacity,
+                      formatter: FractionalNumberFormatter(0.0...100.0, minimumFractionDigits: 0, maximumFractionDigits: 1)
+                , onCommit: {
+                self.updateColorCode()
+            })
+                .keyboardType(.numbersAndPunctuation)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 50)
+
+            Text("%")
+        }
     }
 
     func transparentButton() -> some View {
@@ -85,5 +117,9 @@ struct ColorSelectView: View {
         }
     }
 
+    func updateColorCode() {
+        self.color.a = Int(self.opacity * 2.55)
+        self.colorCode = self.color.hexCode(withAlpha: false)
+    }
 
 }

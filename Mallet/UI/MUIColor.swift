@@ -83,18 +83,17 @@ struct MUIColor: Codable {
         UIColor(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
     }
 
-    var hexCode: String {
+    func hexCode(withAlpha: Bool = true) -> String {
         var code = String(r, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) +
             String(g, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) +
             String(b, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0)
 
-        if a != 255 {
+        if withAlpha && a != 255 {
             code = String(a, radix: 16).padding(toLength: 2, withPad: "0", startingAt: 0) + code
         }
 
         return code.uppercased()
     }
-
 }
 
 extension MUIColor: Equatable {

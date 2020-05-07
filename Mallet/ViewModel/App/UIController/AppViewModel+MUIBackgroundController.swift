@@ -17,7 +17,7 @@ extension AppViewModel: MUIBackgroundController {
     }
 
     func getColor(args: [XyObj]) -> XyObj {
-        XyObj(getUIData(args[0]).backgroundData.color.wrappedValue.hexCode)
+        XyObj(getUIData(args[0]).backgroundData.color.wrappedValue.hexCode(withAlpha: true))
     }
 
     func setCornerRadius(args: [XyObj]) -> XyObj {
