@@ -10,9 +10,9 @@ import SwiftUI
 
 struct UIStyleEditorView: View {
 
-    @ObservedObject var uiStyleEditorViewModel = UIStyleEditorViewModel()
-
     @EnvironmentObject var editorViewModel: EditorViewModel
+
+    @State var showingSubEditor = false
 
     @State var keyboardHeight: CGFloat = 0
 
@@ -38,17 +38,14 @@ struct UIStyleEditorView: View {
 
                             FrameStyleEditorView(frameData: uiDataBinding.frameData)
 
-                            BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData)
-                                .environmentObject(uiStyleEditorViewModel)
+                            BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData, showingSubEditor: $showingSubEditor)
 
                             ArrangementInputCell()
                                 .environmentObject(editorViewModel)
 
-                            TextStyleEditorView(textData: uiDataBinding.textData)
-                                .environmentObject(uiStyleEditorViewModel)
+                            TextStyleEditorView(textData: uiDataBinding.textData, showingSubEditor: $showingSubEditor)
 
-                            TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData)
-                                .environmentObject(uiStyleEditorViewModel)
+                            TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData, showingSubEditor: $showingSubEditor)
 
                             SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 
@@ -77,7 +74,7 @@ struct UIStyleEditorView: View {
     }
 
     func keyboardWillShow(_ notification: Notification) {
-        if uiStyleEditorViewModel.showingSubEditor {
+        if showingSubEditor {
             return
         }
 
@@ -91,7 +88,7 @@ struct UIStyleEditorView: View {
     }
 
     func keyboardWillHide(_ notification: Notification) {
-        if uiStyleEditorViewModel.showingSubEditor {
+        if showingSubEditor {
             return
         }
 

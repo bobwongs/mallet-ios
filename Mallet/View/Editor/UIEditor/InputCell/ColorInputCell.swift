@@ -10,26 +10,26 @@ import SwiftUI
 
 struct ColorInputCell: View {
 
-    @EnvironmentObject var uiStyleEditorViewModel: UIStyleEditorViewModel
+    @Binding private var showingSubEditor: Bool
 
     @Binding private var color: MUIColor
 
     private let title: String
 
-    init(color: Binding<MUIColor>, title: String) {
+    init(color: Binding<MUIColor>, title: String, showingSubEditor: Binding<Bool>) {
         self._color = color
-
         self.title = title
+        self._showingSubEditor = showingSubEditor
     }
 
     var body: some View {
         NavigationLink(destination:
                        ColorSelectView(color: $color)
                            .onAppear {
-                               self.uiStyleEditorViewModel.showingSubEditor = true
+                               self.showingSubEditor = true
                            }
                            .onDisappear {
-                               self.uiStyleEditorViewModel.showingSubEditor = false
+                               self.showingSubEditor = false
                            }
         ) {
             ListCell {

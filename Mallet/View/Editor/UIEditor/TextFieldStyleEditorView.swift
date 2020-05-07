@@ -10,9 +10,9 @@ import SwiftUI
 
 struct TextFieldStyleEditorView: View {
 
-    @EnvironmentObject var uiStyleEditorViewModel: UIStyleEditorViewModel
-
     @Binding var textFieldData: MUITextFieldData
+
+    @Binding var showingSubEditor: Bool
 
     var body: some View {
         Group {
@@ -22,8 +22,7 @@ struct TextFieldStyleEditorView: View {
 
                     TextInputCell(text: self.$textFieldData.placeholder, title: "Placeholder", placeholder: "Placeholder")
 
-                    ColorInputCell(color: self.$textFieldData.color, title: "Color")
-                        .environmentObject(self.uiStyleEditorViewModel)
+                    ColorInputCell(color: self.$textFieldData.color, title: "Color", showingSubEditor: self.$showingSubEditor)
 
                     NumberInputCell(value: self.$textFieldData.size, range: 0.1...1000, title: "Size")
 

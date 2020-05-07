@@ -10,9 +10,9 @@ import SwiftUI
 
 struct TextStyleEditorView: View {
 
-    @EnvironmentObject var uiStyleEditorViewModel: UIStyleEditorViewModel
-
     @Binding var textData: MUITextData
+
+    @Binding var showingSubEditor: Bool
 
     var body: some View {
         Group {
@@ -20,8 +20,7 @@ struct TextStyleEditorView: View {
                 ListSection(title: "Text") {
                     TextInputCell(text: self.$textData.text, title: "Text", placeholder: "Text")
 
-                    ColorInputCell(color: self.$textData.color, title: "Color")
-                        .environmentObject(self.uiStyleEditorViewModel)
+                    ColorInputCell(color: self.$textData.color, title: "Color", showingSubEditor: self.$showingSubEditor)
 
                     NumberInputCell(value: self.$textData.size, range: 0.1...1000, title: "Size")
 

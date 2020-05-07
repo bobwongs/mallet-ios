@@ -10,15 +10,14 @@ import SwiftUI
 
 struct BackgroundStyleEditorView: View {
 
-    @EnvironmentObject var uiStyleEditorViewModel: UIStyleEditorViewModel
-
     @Binding var backgroundData: MUIBackgroundData
+
+    @Binding var showingSubEditor: Bool
 
     var body: some View {
         Group {
             if backgroundData.enabled {
-                ColorInputCell(color: $backgroundData.color, title: "Background Color")
-                    .environmentObject(uiStyleEditorViewModel)
+                ColorInputCell(color: $backgroundData.color, title: "Background Color", showingSubEditor: $showingSubEditor)
 
                 NumberInputCell(value: $backgroundData.cornerRadius, range: 0...10000, title: "Corner Radius")
             }
