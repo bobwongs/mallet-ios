@@ -20,6 +20,8 @@ struct MUI: Codable {
 
     var backgroundData = MUIBackgroundData.disabled
 
+    var buttonData = MUIButtonData.disabled
+
     var textData = MUITextData.disabled
 
     var textFieldData = MUITextFieldData.disabled
@@ -48,6 +50,7 @@ struct MUI: Codable {
 
         case .button:
             uiData.backgroundData = MUIBackgroundData(color: MUIColor(r: 0, g: 122, b: 255), cornerRadius: 10)
+            uiData.buttonData = .defaultValue
             uiData.textData = MUITextData(text: "Button", color: .white, size: 17, alignment: .center)
             break
 
@@ -80,6 +83,7 @@ struct MUI: Codable {
     static func copyUIData(uiData: MUI, uiID: Int, uiName: String) -> MUI {
         var newUIData = MUI(uiID: uiID, uiName: uiName, uiType: uiData.uiType, frameData: uiData.frameData)
         newUIData.backgroundData = uiData.backgroundData
+        newUIData.buttonData = uiData.buttonData
         newUIData.textData = uiData.textData
         newUIData.textFieldData = uiData.textFieldData
         newUIData.sliderData = uiData.sliderData
