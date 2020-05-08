@@ -35,7 +35,7 @@ struct MUI: Codable {
     }
 
     static func defaultValue(type: MUIType) -> MUI {
-        return MUI.defaultValue(uiID: 0, uiName: "", type: type, frame: .zero)
+        MUI.defaultValue(uiID: 0, uiName: "", type: type, frame: .zero)
     }
 
     static func defaultValue(uiID: Int, uiName: String, type: MUIType, frame: MUIRect) -> MUI {
