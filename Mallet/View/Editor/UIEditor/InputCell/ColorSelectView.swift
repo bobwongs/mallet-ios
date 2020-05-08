@@ -75,7 +75,7 @@ struct ColorSelectView: View {
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
-                self.opacity = Float(self.color.a) / 255.0
+                self.opacity = Float(self.color.a) / 2.55
                 self.updateColorCode()
             }
     }
