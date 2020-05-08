@@ -84,7 +84,7 @@ struct ColorSelectView: View {
         HStack {
             Text("Opacity")
 
-            Slider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: { _ in
+            YASlider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: {
                 self.updateColorCode()
             })
 
