@@ -47,6 +47,8 @@ struct UIStyleEditorView: View {
 
                             TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData, showingSubEditor: $showingSubEditor)
 
+                            ButtonStyleEditorView(buttonData: uiDataBinding.buttonData)
+
                             SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
 
                             ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
