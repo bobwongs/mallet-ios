@@ -152,3 +152,32 @@ extension MUI {
     }
 
 }
+
+extension MUI {
+
+    func getCode() -> [Binding<MUIAction>] {
+        var codes = [Binding<MUIAction>]()
+
+        if buttonData.enabled {
+            codes.append(
+                Binding(
+                    get: { self.buttonData.onTapped },
+                    set: { _ in }
+                )
+            )
+        }
+
+        return codes
+    }
+
+    static func getCode(from ui: Binding<MUI>) -> [Binding<MUIAction>] {
+        var codes = [Binding<MUIAction>]()
+
+        if ui.buttonData.enabled.wrappedValue {
+            codes.append(ui.buttonData.onTapped)
+        }
+
+        return codes
+    }
+
+}

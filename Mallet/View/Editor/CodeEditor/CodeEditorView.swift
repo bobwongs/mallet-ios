@@ -25,7 +25,7 @@ struct CodeEditorView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 0) {
                 if mode == .text {
                     TextEditorView(uiData: $uiData)
                 } else {

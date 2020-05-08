@@ -12,10 +12,10 @@ struct MUIButtonData: Codable {
 
     var enabled = true
 
+    var onTapped = MUIAction(name: "onTapped", args: [], code: "")
+
     static let disabled = MUIButtonData(enabled: false)
 
     static let defaultValue = MUIButtonData(enabled: true)
 
 }
-
-
