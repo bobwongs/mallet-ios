@@ -27,7 +27,7 @@ struct ColorSelectView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
+            HStack(spacing: 0) {
                 ColorView(color: $color)
                     .frame(width: 50, height: 30)
 
@@ -81,12 +81,13 @@ struct ColorSelectView: View {
     }
 
     func opacitySlider() -> some View {
-        HStack {
+        HStack(spacing: 0) {
             Text("Opacity")
 
             YASlider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: {
                 self.updateColorCode()
             })
+                .padding(.horizontal, 10)
 
             TextField("", value: $opacity,
                       formatter: FractionalNumberFormatter(0.0...100.0, minimumFractionDigits: 0, maximumFractionDigits: 1)
@@ -95,7 +96,7 @@ struct ColorSelectView: View {
             })
                 .keyboardType(.numbersAndPunctuation)
                 .multilineTextAlignment(.trailing)
-                .frame(width: 50)
+                .frame(width: 40)
 
             Text("%")
         }
