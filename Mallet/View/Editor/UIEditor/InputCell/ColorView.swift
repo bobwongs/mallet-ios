@@ -13,12 +13,43 @@ struct ColorView: View {
     @Binding var color: MUIColor
 
     var body: some View {
-        RoundedRectangle(cornerRadius: 5)
+        let cornerRadius: CGFloat = 5
+
+        return RoundedRectangle(cornerRadius: cornerRadius)
             .foregroundColor(color.color)
             .overlay(
-                RoundedRectangle(cornerRadius: 5)
+                RoundedRectangle(cornerRadius: cornerRadius)
                     .stroke(Color.gray, lineWidth: 1)
             )
+            .background(
+                background()
+                    .cornerRadius(cornerRadius)
+            )
+    }
+
+    private func background() -> some View {
+        GeometryReader { geo in
+            VStack(spacing: 0) {
+                ForEach(0..<4) { row in
+                    HStack(spacing: 0) {
+                        ForEach(0..<4) { col in
+                            self.pixel(row + col)
+                                .frame(width: geo.size.width / 4, height: geo.size.height / 4)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func pixel(_ dis: Int) -> some View {
+        Group {
+            if dis % 2 == 0 {
+                Color.gray
+            } else {
+                Color(.systemBackground)
+            }
+        }
     }
 
 }
