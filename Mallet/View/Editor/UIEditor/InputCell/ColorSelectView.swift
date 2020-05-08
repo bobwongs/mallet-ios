@@ -36,9 +36,7 @@ struct ColorSelectView: View {
                 Text("#")
                 TextField("", text: $colorCode, onEditingChanged: { _ in
                 }, onCommit: {
-                    self.color = MUIColor(self.colorCode)
-                    self.opacity = Float(self.color.a) / 2.55
-                    self.updateColorCode()
+                    self.updateColor(color: MUIColor(self.colorCode))
                 })
                     .multilineTextAlignment(.trailing)
                     .fixedSize()
@@ -53,14 +51,7 @@ struct ColorSelectView: View {
                     HStack(spacing: 0) {
                         ForEach(colors, id: \.self) { (color: MUIColor) in
                             Button(action: {
-                                self.color.r = color.r
-                                self.color.g = color.g
-                                self.color.b = color.b
-                                if color.a != 255 {
-                                    self.color.a = color.a
-                                    self.opacity = Float(color.a) / 2.55
-                                }
-                                self.colorCode = color.hexCode(withAlpha: false)
+                                self.updateColor(color: color, withAlpha: color.a != 255)
                             }) {
                                 if (color == .clear) {
                                     self.transparentButton()
@@ -81,8 +72,7 @@ struct ColorSelectView: View {
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
-                self.opacity = Float(self.color.a) / 2.55
-                self.updateColorCode()
+                self.updateColor(color: self.color)
             }
     }
 
@@ -91,14 +81,14 @@ struct ColorSelectView: View {
             Text("Opacity")
 
             YASlider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: {
-                self.updateColorCode()
+                self.updateOpacity()
             })
                 .padding(.horizontal, 10)
 
             TextField("", value: $opacity,
                       formatter: FractionalNumberFormatter(0.0...100.0, minimumFractionDigits: 0, maximumFractionDigits: 1)
                 , onCommit: {
-                self.updateColorCode()
+                self.updateOpacity()
             })
                 .keyboardType(.numbersAndPunctuation)
                 .multilineTextAlignment(.trailing)
@@ -118,7 +108,18 @@ struct ColorSelectView: View {
         }
     }
 
-    func updateColorCode() {
+    private func updateColor(color: MUIColor, withAlpha: Bool = true) {
+        self.color.r = color.r
+        self.color.g = color.g
+        self.color.b = color.b
+        if withAlpha {
+            self.color.a = color.a
+        }
+        self.opacity = Float(self.color.a) / 2.55
+        self.colorCode = self.color.hexCode(withAlpha: false)
+    }
+
+    func updateOpacity() {
         self.color.a = Int(self.opacity * 2.55)
         self.colorCode = self.color.hexCode(withAlpha: false)
     }
