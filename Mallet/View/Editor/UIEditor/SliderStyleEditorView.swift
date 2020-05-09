@@ -27,10 +27,10 @@ struct SliderStyleEditorView: View {
     }
 }
 
-extension SliderStyleEditorView {
+extension SliderStyleEditorView: Equatable {
 
     static func ==(lhs: SliderStyleEditorView, rhs: SliderStyleEditorView) -> Bool {
         lhs.sliderData == rhs.sliderData
     }
-    
+
 }
