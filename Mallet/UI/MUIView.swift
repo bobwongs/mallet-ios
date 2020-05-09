@@ -23,13 +23,20 @@ struct MUIText: View {
     }
 }
 
-struct MUIButton: View {
+struct MUIButton: View, MUIInteractive {
 
-    @Binding var uiData: MUI
+    @Binding private var uiData: MUI
+
+    var invokeAction: ((String) -> ())? = nil
+
+    init(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) {
+        self._uiData = uiData
+        self.invokeAction = invokeAction
+    }
 
     var body: some View {
         Button(action: {
-
+            self.invokeAction?(self.uiData.buttonData.onTapped.xyloFuncName(uiID: self.uiData.uiID))
         }) {
             Text(uiData.textData.text)
                 .frame(width: uiData.frameData.frame.width,
@@ -79,4 +86,10 @@ struct MUISpace: View {
     var body: some View {
         Spacer()
     }
+}
+
+protocol MUIInteractive {
+
+    var invokeAction: ((String) -> ())? { get set }
+
 }

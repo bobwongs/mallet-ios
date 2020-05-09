@@ -95,13 +95,13 @@ struct MUI: Codable {
 
 extension MUI {
 
-    static func putView(uiData: Binding<MUI>) -> some View {
-        generateView(uiData: uiData)
+    static func putView(uiData: Binding<MUI>, invokeAction: ((String) -> ())?) -> some View {
+        generateView(uiData: uiData, invokeAction: invokeAction)
             .position(x: uiData.wrappedValue.frameData.frame.midX,
                       y: uiData.wrappedValue.frameData.frame.midY)
     }
 
-    static func generateView(uiData: Binding<MUI>) -> some View {
+    static func generateView(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) -> some View {
 
         let type = uiData.wrappedValue.uiType
 
@@ -113,7 +113,7 @@ extension MUI {
             if type == .text {
                 MUIText(uiData: uiData)
             } else if type == .button {
-                MUIButton(uiData: uiData)
+                MUIButton(uiData: uiData, invokeAction: invokeAction)
             } else if type == .textField {
                 MUITextField(uiData: uiData)
             } else if type == .slider {

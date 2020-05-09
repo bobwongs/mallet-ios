@@ -74,6 +74,10 @@ extension AppViewModel {
         eval?.run()
     }
 
+    func runFunc(funcName: String, args: [XyObj] = []) {
+        eval?.runFunc(name: funcName)
+    }
+
     func xyloCode() -> String {
         String(uiData.flatMap { _, ui in ui.getCodeStr() })
     }

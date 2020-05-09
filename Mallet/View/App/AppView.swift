@@ -24,7 +24,7 @@ struct AppView: View {
                         Color.white
 
                         ForEach(self.appViewModel.uiIDs, id: \.self) { id in
-                            MUI.putView(uiData: self.appViewModel.getUIDataOf(id))
+                            MUI.putView(uiData: self.appViewModel.getUIDataOf(id), invokeAction: { self.appViewModel.runFunc(funcName: $0) })
                         }
                     }
                         .navigationBarTitle(Text(self.appViewModel.appName), displayMode: .inline)
