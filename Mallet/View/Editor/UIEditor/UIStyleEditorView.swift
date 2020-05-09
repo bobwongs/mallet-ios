@@ -37,21 +37,28 @@ struct UIStyleEditorView: View {
                             generalInfo()
 
                             FrameStyleEditorView(frameData: uiDataBinding.frameData)
+                                .equatable()
 
                             BackgroundStyleEditorView(backgroundData: uiDataBinding.backgroundData, showingSubEditor: $showingSubEditor)
+                                .equatable()
 
                             ArrangementInputCell()
                                 .environmentObject(editorViewModel)
 
                             TextStyleEditorView(textData: uiDataBinding.textData, showingSubEditor: $showingSubEditor)
+                                .equatable()
 
                             TextFieldStyleEditorView(textFieldData: uiDataBinding.textFieldData, showingSubEditor: $showingSubEditor)
+                                .equatable()
 
                             ButtonStyleEditorView(buttonData: uiDataBinding.buttonData)
+                                .equatable()
 
                             SliderStyleEditorView(sliderData: uiDataBinding.sliderData)
+                                .equatable()
 
                             ToggleStyleEditorView(toggleData: uiDataBinding.toggleData)
+                                .equatable()
                         }
                     }
                 }
