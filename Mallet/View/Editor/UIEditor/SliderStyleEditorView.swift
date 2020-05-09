@@ -26,3 +26,11 @@ struct SliderStyleEditorView: View {
         }
     }
 }
+
+extension SliderStyleEditorView {
+
+    static func ==(lhs: SliderStyleEditorView, rhs: SliderStyleEditorView) -> Bool {
+        lhs.sliderData == rhs.sliderData
+    }
+    
+}

@@ -27,6 +27,18 @@ struct MUITextData: Codable {
 
 }
 
+extension MUITextData: Equatable {
+
+    public static func ==(lhs: MUITextData, rhs: MUITextData) -> Bool {
+        lhs.enabled == rhs.enabled &&
+            lhs.text == rhs.text &&
+            lhs.color == rhs.color &&
+            lhs.size == rhs.size &&
+            lhs.alignment == rhs.alignment
+    }
+
+}
+
 enum MUITextAlignment: Int, Codable {
 
     case leading

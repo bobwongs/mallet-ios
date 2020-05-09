@@ -22,6 +22,16 @@ struct MUIFrameData: Codable {
     }
 }
 
+extension MUIFrameData: Equatable {
+
+    public static func ==(lhs: MUIFrameData, rhs: MUIFrameData) -> Bool {
+        lhs.frame == rhs.frame &&
+            lhs.lockHeight == rhs.lockHeight &&
+            lhs.lockWidth == rhs.lockWidth
+    }
+
+}
+
 protocol MUIFrameController {
 
     /// - Parameter args: [UIID, X(Float), Y(Float), Width(Float), Height(Float)]

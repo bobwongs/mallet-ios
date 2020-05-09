@@ -24,3 +24,11 @@ struct FrameStyleEditorView: View {
         }
     }
 }
+
+extension FrameStyleEditorView: Equatable {
+
+    static func ==(lhs: FrameStyleEditorView, rhs: FrameStyleEditorView) -> Bool {
+        lhs.frameData == rhs.frameData
+    }
+
+}

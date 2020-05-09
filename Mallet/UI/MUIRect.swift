@@ -41,3 +41,14 @@ struct MUIRect: Codable {
         MUIRect(x: 0, y: 0, width: 0, height: 0)
     }
 }
+
+extension MUIRect: Equatable {
+
+    public static func ==(lhs: MUIRect, rhs: MUIRect) -> Bool {
+        lhs.x == rhs.x &&
+            lhs.y == rhs.y &&
+            lhs.width == rhs.width &&
+            lhs.height == rhs.height
+    }
+
+}

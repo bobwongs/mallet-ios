@@ -22,3 +22,11 @@ struct ToggleStyleEditorView: View {
         }
     }
 }
+
+extension ToggleStyleEditorView: Equatable {
+
+    public static func ==(lhs: ToggleStyleEditorView, rhs: ToggleStyleEditorView) -> Bool {
+        lhs.toggleData == rhs.toggleData
+    }
+
+}

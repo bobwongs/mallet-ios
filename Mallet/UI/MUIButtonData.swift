@@ -19,3 +19,12 @@ struct MUIButtonData: Codable {
     static let defaultValue = MUIButtonData(enabled: true)
 
 }
+
+extension MUIButtonData: Equatable {
+
+    public static func ==(lhs: MUIButtonData, rhs: MUIButtonData) -> Bool {
+        lhs.enabled == rhs.enabled &&
+            lhs.onTapped == rhs.onTapped
+    }
+
+}

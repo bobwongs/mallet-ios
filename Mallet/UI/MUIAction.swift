@@ -17,3 +17,13 @@ struct MUIAction: Codable {
     var code: String
 
 }
+
+extension MUIAction: Equatable {
+
+    public static func ==(lhs: MUIAction, rhs: MUIAction) -> Bool {
+        lhs.name == rhs.name &&
+            lhs.args == rhs.args &&
+            lhs.code == rhs.code
+    }
+
+}

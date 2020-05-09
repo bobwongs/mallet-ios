@@ -30,3 +30,12 @@ struct TextStyleEditorView: View {
         }
     }
 }
+
+extension TextStyleEditorView: Equatable {
+
+    public static func ==(lhs: TextStyleEditorView, rhs: TextStyleEditorView) -> Bool {
+        lhs.textData == rhs.textData &&
+            lhs.showingSubEditor == rhs.showingSubEditor
+    }
+
+}

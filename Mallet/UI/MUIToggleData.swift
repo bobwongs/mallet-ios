@@ -21,6 +21,15 @@ struct MUIToggleData: Codable {
 
 }
 
+extension MUIToggleData: Equatable {
+
+    public static func ==(lhs: MUIToggleData, rhs: MUIToggleData) -> Bool {
+        lhs.enabled == rhs.value &&
+            lhs.value == rhs.value
+    }
+
+}
+
 protocol MUIToggleController {
 
     /// - Parameter args: [UIID, Value(Int or Float)]

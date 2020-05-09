@@ -25,6 +25,17 @@ struct MUISliderData: Codable {
 
 }
 
+extension MUISliderData: Equatable {
+
+    public static func ==(lhs: MUISliderData, rhs: MUISliderData) -> Bool {
+        lhs.enabled == rhs.enabled &&
+            lhs.value == rhs.value &&
+            lhs.minValue == rhs.minValue &&
+            lhs.maxValue == rhs.maxValue
+    }
+
+}
+
 protocol MUISliderController {
 
     // Implemented in MUIToggleData

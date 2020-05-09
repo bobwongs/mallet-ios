@@ -23,6 +23,16 @@ struct MUIBackgroundData: Codable {
 
 }
 
+extension MUIBackgroundData: Equatable {
+
+    public static func ==(lhs: MUIBackgroundData, rhs: MUIBackgroundData) -> Bool {
+        lhs.enabled == rhs.enabled &&
+            lhs.color == rhs.color &&
+            lhs.cornerRadius == rhs.cornerRadius
+    }
+
+}
+
 protocol MUIBackgroundController {
 
     /// - Parameter args: [UIID, Color(String, Hex Code)]

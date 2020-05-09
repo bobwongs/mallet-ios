@@ -24,3 +24,12 @@ struct BackgroundStyleEditorView: View {
         }
     }
 }
+
+extension BackgroundStyleEditorView: Equatable {
+
+    static func ==(lhs: BackgroundStyleEditorView, rhs: BackgroundStyleEditorView) -> Bool {
+        lhs.backgroundData == rhs.backgroundData &&
+            lhs.showingSubEditor == rhs.showingSubEditor
+    }
+
+}

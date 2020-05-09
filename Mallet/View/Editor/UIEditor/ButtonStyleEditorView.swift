@@ -19,5 +19,12 @@ struct ButtonStyleEditorView: View {
             }
         }
     }
+}
 
+extension ButtonStyleEditorView: Equatable {
+
+    static func ==(lhs: ButtonStyleEditorView, rhs: ButtonStyleEditorView) -> Bool {
+        lhs.buttonData == rhs.buttonData
+    }
+    
 }

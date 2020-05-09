@@ -29,6 +29,19 @@ struct MUITextFieldData: Codable {
 
 }
 
+extension MUITextFieldData: Equatable {
+
+    public static func ==(lhs: MUITextFieldData, rhs: MUITextFieldData) -> Bool {
+        lhs.enabled == rhs.enabled &&
+            lhs.text == rhs.text &&
+            lhs.placeholder == rhs.placeholder &&
+            lhs.color == rhs.color &&
+            lhs.size == rhs.size &&
+            lhs.alignment == rhs.alignment
+    }
+
+}
+
 protocol MUITextFieldController {
 
     // Implemented in MUITextController
