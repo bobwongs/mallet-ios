@@ -13,6 +13,8 @@ class AppViewModel: ObservableObject {
 
     private let rootViewModel: RootViewModel
 
+    private var eval: Xylo?
+
     let appName: String
 
     let appId: Int
@@ -21,12 +23,8 @@ class AppViewModel: ObservableObject {
 
     @Published var uiData: Dictionary<Int, MUI>
 
-    init(rootViewModel: RootViewModel) {
-        self.rootViewModel = rootViewModel
-        appName = "Untitled App"
-        appId = -1
-        uiIDs = []
-        uiData = .init()
+    convenience init(rootViewModel: RootViewModel) {
+        self.init(appData: AppData(appID: -1, appName: "Untitled App", uiIDs: [], uiData: .init()), rootViewModel: rootViewModel)
     }
 
     init(appData: AppData, rootViewModel: RootViewModel) {
@@ -35,6 +33,8 @@ class AppViewModel: ObservableObject {
         appId = appData.appID
         uiIDs = appData.uiIDs
         uiData = appData.uiData
+
+        eval = Xylo(source: "print(\"from Mallet\")", funcs: muiActions())
     }
 
     func getUIDataOf(_ id: Int) -> Binding<MUI> {
@@ -53,6 +53,28 @@ extension AppViewModel {
     func getUIData(_ obj: XyObj) -> Binding<MUI> {
         getUIDataOf(obj.int())
     }
+}
+
+extension AppViewModel {
+    func run() {
+        eval?.run()
+    }
+
+    private func muiActions() -> [Xylo.Func] {
+        var funcs = [Xylo.Func]()
+
+        [
+            muiBackgroundFuncs,
+            muiFrameFuncs,
+            muiSliderFuncs,
+            muiTextFuncs,
+            muiTextFieldFuncs,
+            muiToggleFuncs,
+        ].forEach { $0.forEach { funcs.append($0) } }
+
+        return funcs
+    }
+
 }
 
 extension AppViewModel: Hashable {

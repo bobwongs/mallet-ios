@@ -34,6 +34,9 @@ struct AppView: View {
             }
         }
             .onAppear {
+                self.appViewModel.run()
+            }
+            .onAppear {
                 withAnimation {
                     self.hideAppView = false
                 }
