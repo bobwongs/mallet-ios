@@ -73,6 +73,7 @@ struct EditorView: View {
                                         appViewScale: self.$appViewScale,
                                         appViewOffset: self.$appViewOffset
                         )
+                            .equatable()
                     }
 
                     VStack(spacing: 0) {

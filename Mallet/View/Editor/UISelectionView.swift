@@ -126,6 +126,15 @@ struct UISelectionView: View {
     }
 }
 
+extension UISelectionView: Equatable {
+
+    public static func ==(lhs: UISelectionView, rhs: UISelectionView) -> Bool {
+        lhs.appViewScale == rhs.appViewScale &&
+            lhs.appViewOffset == rhs.appViewOffset
+    }
+
+}
+
 /*
 struct MUISelectionView_Previews: PreviewProvider {
     static var previews: some View {
