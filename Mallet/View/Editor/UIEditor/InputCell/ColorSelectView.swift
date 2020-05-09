@@ -51,7 +51,7 @@ struct ColorSelectView: View {
                     HStack(spacing: 0) {
                         ForEach(colors, id: \.self) { (color: MUIColor) in
                             Button(action: {
-                                self.updateColor(color: color, withAlpha: color.a != 255)
+                                self.updateColor(color: color)
                             }) {
                                 if (color == .clear) {
                                     self.transparentButton()
