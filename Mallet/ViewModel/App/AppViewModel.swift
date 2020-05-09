@@ -34,7 +34,21 @@ class AppViewModel: ObservableObject {
         uiIDs = appData.uiIDs
         uiData = appData.uiData
 
-        eval = Xylo(source: "print(\"from Mallet\")", funcs: muiActions())
+        eval = Xylo(source: xyloCode(), funcs: muiActions())
+
+        #if DEBUG
+            print("""
+                  ###################
+                  ### Source Code ###
+                  ###################
+
+                  \(xyloCode())
+
+                  ###################
+                  ###################
+                  ###################
+                  """)
+        #endif
     }
 
     func getUIDataOf(_ id: Int) -> Binding<MUI> {
@@ -60,9 +74,11 @@ extension AppViewModel {
         eval?.run()
     }
 
-    private func muiActions() -> [Xylo.Func] {
-        var funcs = [Xylo.Func]()
+    func xyloCode() -> String {
+        String(uiData.flatMap { _, ui in ui.getCodeStr() })
+    }
 
+    private func muiActions() -> [Xylo.Func] {
         [
             muiBackgroundFuncs,
             muiFrameFuncs,
@@ -70,9 +86,7 @@ extension AppViewModel {
             muiTextFuncs,
             muiTextFieldFuncs,
             muiToggleFuncs,
-        ].forEach { $0.forEach { funcs.append($0) } }
-
-        return funcs
+        ].flatMap { $0 }
     }
 
 }

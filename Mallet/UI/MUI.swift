@@ -180,4 +180,14 @@ extension MUI {
         return codes
     }
 
+    func getCodeStr() -> String {
+        var code = ""
+
+        if buttonData.enabled {
+            code += buttonData.onTapped.xyloCodeStr(uiID: uiID)
+        }
+
+        return code
+    }
+
 }

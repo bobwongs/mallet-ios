@@ -16,6 +16,19 @@ struct MUIAction: Codable {
 
     var code: String
 
+    func xyloFuncName(uiID: Int) -> String {
+        "#\(name)_\(uiID)"
+    }
+
+    func xyloCodeStr(uiID: Int) -> String {
+        """
+        func \(xyloFuncName(uiID: uiID)) (\(args.enumerated().reduce("") { (a1, a2) in "\(a1 + a2.1) \(a2.0 == args.count - 1 ? "" : ",")" }))
+        {
+        \(code)
+        }
+        """
+    }
+
 }
 
 extension MUIAction: Equatable {
