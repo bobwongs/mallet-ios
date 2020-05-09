@@ -56,7 +56,7 @@ struct MUI: Codable {
 
         case .textField:
             uiData.frameData.lockHeight = true
-            uiData.textFieldData = .defaulValue
+            uiData.textFieldData = .defaultValue
             uiData.backgroundData = .disabled
             break
 
