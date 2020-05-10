@@ -27,7 +27,8 @@ struct AppSettingsView: View {
 
                 Section {
                     Button(action: {
-                        print("Add icon to home screen")
+                        self.presentationMode.wrappedValue.dismiss()
+                        AddShortcut().showShortcutScreen(appID: self.editorViewModel.appID, appName: self.editorViewModel.appName)
                     }) {
                         Text("Add icon to home screen")
                     }
