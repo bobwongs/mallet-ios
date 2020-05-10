@@ -70,6 +70,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 return
             }
 
+            let top = UIApplication.topViewController()
+            top?.dismiss(animated: false)
+
             AppController.runApp(id: appID)
 
         case "i":
@@ -77,6 +80,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let appID = AppController.installApp(base64Str: base64Str, sync: true) else {
                 return
             }
+
+            let top = UIApplication.topViewController()
+            top?.dismiss(animated: false)
+
             AppController.runApp(id: appID)
 
         default:
