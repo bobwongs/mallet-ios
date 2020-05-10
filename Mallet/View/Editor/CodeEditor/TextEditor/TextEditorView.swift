@@ -22,9 +22,15 @@ struct TextEditorView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            codeTabView()
-            TextEditorTextView(text: codes[selectedCodeIdx].code)
+        Group {
+            if codes.count == 0 {
+                Text("There is no code to edit.")
+            } else {
+                VStack(spacing: 0) {
+                    codeTabView()
+                    TextEditorTextView(text: codes[selectedCodeIdx].code)
+                }
+            }
         }
     }
 
