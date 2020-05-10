@@ -13,11 +13,17 @@ struct MUISliderData: Codable {
 
     var enabled = true
 
-    var value: CGFloat
+    var value: Float
 
-    var minValue: CGFloat
+    var minValue: Float
 
-    var maxValue: CGFloat
+    var maxValue: Float
+
+    var onChanged = MUIAction(name: "onChanged", args: [], code: "")
+
+    var onStarted = MUIAction(name: "onStarted", args: [], code: "")
+
+    var onEnded = MUIAction(name: "onEnded", args: [], code: "")
 
     static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0)
 

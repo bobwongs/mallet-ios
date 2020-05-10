@@ -17,7 +17,7 @@ extension AppViewModel: MUIToggleController {
             ui.toggleData.value.wrappedValue = args[1].int() == 0
         }
         if ui.sliderData.enabled.wrappedValue {
-            ui.sliderData.value.wrappedValue = CGFloat(args[1].float())
+            ui.sliderData.value.wrappedValue = Float(args[1].float())
         }
         return .zero
     }

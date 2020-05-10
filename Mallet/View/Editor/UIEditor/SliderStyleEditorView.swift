@@ -16,11 +16,26 @@ struct SliderStyleEditorView: View {
         Group {
             if sliderData.enabled {
                 ListSection(title: "Slider") {
-                    NumberInputCell(value: self.$sliderData.value, range: -CGFloat.infinity...CGFloat.infinity, title: "Value", step: 0.1, maxFractionalDigits: 5)
+                    NumberInputCell(value:
+                                    Binding(
+                                        get: { CGFloat(self.sliderData.value) },
+                                        set: { self.sliderData.value = Float($0) }
+                                    )
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Value", step: 0.1, maxFractionalDigits: 5)
 
-                    NumberInputCell(value: self.$sliderData.maxValue, range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", step: 0.1, maxFractionalDigits: 5)
+                    NumberInputCell(value:
+                                    Binding(
+                                        get: { CGFloat(self.sliderData.maxValue) },
+                                        set: { self.sliderData.maxValue = Float($0) }
+                                    )
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", step: 0.1, maxFractionalDigits: 5)
 
-                    NumberInputCell(value: self.$sliderData.minValue, range: -CGFloat.infinity...CGFloat.infinity, title: "Minimum Value", step: 0.1, maxFractionalDigits: 5)
+                    NumberInputCell(value:
+                                    Binding(
+                                        get: { CGFloat(self.sliderData.minValue) },
+                                        set: { self.sliderData.minValue = Float($0) }
+                                    )
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Minimum Value", step: 0.1, maxFractionalDigits: 5)
                 }
             }
         }

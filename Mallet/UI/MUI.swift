@@ -115,11 +115,11 @@ extension MUI {
             } else if type == .button {
                 MUIButton(uiData: uiData, invokeAction: invokeAction)
             } else if type == .textField {
-                MUITextField(uiData: uiData)
+                MUITextField(uiData: uiData, invokeAction: invokeAction)
             } else if type == .slider {
-                MUISlider(uiData: uiData)
+                MUISlider(uiData: uiData, invokeAction: invokeAction)
             } else if type == .toggle {
-                MUIToggle(uiData: uiData)
+                MUIToggle(uiData: uiData, invokeAction: invokeAction)
             } else {
                 MUISpace()
             }
@@ -177,6 +177,20 @@ extension MUI {
             codes.append(ui.buttonData.onTapped)
         }
 
+        if ui.textFieldData.enabled.wrappedValue {
+            codes.append(ui.textFieldData.onCommit)
+        }
+
+        if ui.sliderData.enabled.wrappedValue {
+            codes.append(ui.sliderData.onChanged)
+            codes.append(ui.sliderData.onStarted)
+            codes.append(ui.sliderData.onEnded)
+        }
+
+        if ui.toggleData.enabled.wrappedValue {
+            codes.append(ui.toggleData.onChanged)
+        }
+
         return codes
     }
 
@@ -185,6 +199,20 @@ extension MUI {
 
         if buttonData.enabled {
             code += buttonData.onTapped.xyloCodeStr(uiID: uiID)
+        }
+
+        if textFieldData.enabled {
+            code += textFieldData.onCommit.xyloCodeStr(uiID: uiID)
+        }
+
+        if sliderData.enabled {
+            code += sliderData.onChanged.xyloCodeStr(uiID: uiID)
+            code += sliderData.onStarted.xyloCodeStr(uiID: uiID)
+            code += sliderData.onEnded.xyloCodeStr(uiID: uiID)
+        }
+
+        if toggleData.enabled {
+            code += toggleData.onChanged.xyloCodeStr(uiID: uiID)
         }
 
         return code

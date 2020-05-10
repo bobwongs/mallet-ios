@@ -49,12 +49,21 @@ struct MUIButton: View, MUIInteractive {
     }
 }
 
-struct MUITextField: View {
+struct MUITextField: View, MUIInteractive {
 
     @Binding var uiData: MUI
 
+    var invokeAction: ((String) -> ())? = nil
+
+    init(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) {
+        self._uiData = uiData
+        self.invokeAction = invokeAction
+    }
+
     var body: some View {
-        TextField(uiData.textFieldData.placeholder, text: $uiData.textFieldData.text)
+        TextField(uiData.textFieldData.placeholder, text: $uiData.textFieldData.text, onCommit: {
+            self.invokeAction?(self.uiData.textFieldData.onCommit.xyloFuncName(uiID: self.uiData.uiID))
+        })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .foregroundColor(uiData.textFieldData.color.color)
             .font(.system(size: uiData.textFieldData.size))
@@ -62,22 +71,47 @@ struct MUITextField: View {
     }
 }
 
-struct MUISlider: View {
+struct MUISlider: View, MUIInteractive {
 
     @Binding var uiData: MUI
 
+    var invokeAction: ((String) -> ())? = nil
+
+    init(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) {
+        self._uiData = uiData
+        self.invokeAction = invokeAction
+    }
+
     var body: some View {
-        Slider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue)
+        YASlider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue,
+                 onEditingStarted: {
+                     self.invokeAction?(self.uiData.sliderData.onStarted.xyloFuncName(uiID: self.uiData.uiID))
+                 },
+                 onEditingChanged: {
+                     self.invokeAction?(self.uiData.sliderData.onChanged.xyloFuncName(uiID: self.uiData.uiID))
+                 },
+                 onEditingEnded: {
+                     self.invokeAction?(self.uiData.sliderData.onEnded.xyloFuncName(uiID: self.uiData.uiID))
+                 }
+        )
     }
 }
 
-struct MUIToggle: View {
+struct MUIToggle: View, MUIInteractive {
 
     @Binding var uiData: MUI
 
+    var invokeAction: ((String) -> ())? = nil
+
+    init(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) {
+        self._uiData = uiData
+        self.invokeAction = invokeAction
+    }
+
     var body: some View {
-        Toggle("", isOn: $uiData.toggleData.value)
-            .labelsHidden()
+        YAToggle(isOn: $uiData.toggleData.value, onChanged: {
+            self.invokeAction?(self.uiData.toggleData.onChanged.xyloFuncName(uiID: self.uiData.uiID))
+        })
             .padding(.trailing, 2)
     }
 }

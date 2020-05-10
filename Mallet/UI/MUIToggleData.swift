@@ -15,6 +15,8 @@ struct MUIToggleData: Codable {
 
     var value: Bool
 
+    var onChanged = MUIAction(name: "onChanged", args: [], code: "")
+
     static let disabled = MUIToggleData(enabled: false, value: false)
 
     static let defaultValue = MUIToggleData(value: true)

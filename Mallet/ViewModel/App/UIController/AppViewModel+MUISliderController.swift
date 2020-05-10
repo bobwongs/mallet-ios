@@ -12,7 +12,7 @@ import XyloSwift
 extension AppViewModel: MUISliderController {
 
     func setMinValue(args: [XyObj]) -> XyObj {
-        getUIData(args[0]).sliderData.minValue.wrappedValue = CGFloat(args[1].float())
+        getUIData(args[0]).sliderData.minValue.wrappedValue = Float(args[1].float())
         return .zero
     }
 
@@ -21,7 +21,7 @@ extension AppViewModel: MUISliderController {
     }
 
     func setMaxValue(args: [XyObj]) -> XyObj {
-        getUIData(args[0]).sliderData.maxValue.wrappedValue = CGFloat(args[1].float())
+        getUIData(args[0]).sliderData.maxValue.wrappedValue = Float(args[1].float())
         return .zero
     }
 

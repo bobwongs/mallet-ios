@@ -23,6 +23,8 @@ struct MUITextFieldData: Codable {
 
     var alignment: MUITextAlignment
 
+    var onCommit = MUIAction(name: "onCommit", args: [], code: "")
+
     static let disabled = MUITextFieldData(enabled: false, text: "", placeholder: "", color: .clear, size: 0, alignment: .center)
 
     static let defaultValue = MUITextFieldData(text: "", placeholder: "Text", color: .black, size: 17, alignment: .leading)
