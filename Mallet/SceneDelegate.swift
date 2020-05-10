@@ -72,10 +72,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             AppController.runApp(id: appID)
 
+        case "i":
+            let base64Str = String(url.path.suffix(url.path.count - 1))
+            guard let appID = AppController.installApp(base64Str: base64Str, sync: true) else {
+                return
+            }
+            AppController.runApp(id: appID)
+
         default:
             return
         }
-
     }
 }
 
