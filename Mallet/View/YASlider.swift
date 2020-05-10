@@ -14,7 +14,7 @@ struct YASlider: UIViewRepresentable {
 
     private let bounds: ClosedRange<Float>
 
-    private let step: Float
+    private let step: Float?
 
     let onEditingStarted: () -> Void
 
@@ -22,7 +22,7 @@ struct YASlider: UIViewRepresentable {
 
     let onEditingEnded: () -> Void
 
-    init(value: Binding<Float>, in bounds: ClosedRange<Float>, step: Float = 1,
+    init(value: Binding<Float>, in bounds: ClosedRange<Float>, step: Float? = nil,
          onEditingStarted: @escaping () -> Void = {},
          onEditingChanged: @escaping () -> Void = {},
          onEditingEnded: @escaping () -> Void = {}) {
@@ -54,7 +54,11 @@ struct YASlider: UIViewRepresentable {
     }
 
     func setValue(_ value: Float) {
-        self.value = round(value / step) * step
+        if let step = step {
+            self.value = round(value / step) * step
+        } else {
+            self.value = value
+        }
     }
 
 }
