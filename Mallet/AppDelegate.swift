@@ -11,69 +11,10 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
         addShortcuts(application: application)
-
-        return true
-    }
-
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-
-        /*
-        let appData: AppData!
-
-        switch url.host {
-
-        case "run":
-            guard let appID = Int(url.path.suffix(url.path.count - 1)) else {
-                return true
-            }
-
-            appData = AppDatabaseController.getApp(appID: appID)
-
-        case "i":
-
-            let base64Str = String(url.path.suffix(url.path.count - 1))
-            print(base64Str)
-
-            appData = AppDatabaseController.decodeAppShortcutURL(base64Str: base64Str)
-
-            AppDatabaseController.createNewApp(appName: appData.appName, uiData: appData.uiData, bytecode: appData.bytecode, globalVariableCode: appData.globalVariableCode).appID
-
-        default:
-            return true
-
-        }
-
-        let storyboard = UIStoryboard(name: "AppRunner", bundle: nil)
-
-        guard let appRunner = storyboard.instantiateInitialViewController() as? AppRunner else {
-            fatalError()
-        }
-
-        appRunner.appData = appData
-
-        let navigationController = UINavigationController(rootViewController: appRunner)
-
-        navigationController.modalPresentationStyle = .fullScreen
-
-        guard let topViewController = UIApplication.topViewController() else {
-            return true
-        }
-
-        if let appRunner = topViewController as? AppRunner {
-            if appData.appID == appRunner.appData?.appID {
-                return true
-            }
-        }
-
-        topViewController.modalPresentationStyle = .fullScreen
-
-        topViewController.present(navigationController, animated: false)
-        */
 
         return true
     }
