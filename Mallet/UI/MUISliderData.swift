@@ -29,7 +29,7 @@ struct MUISliderData: Codable {
 
     static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0, step: nil)
 
-    static let defaultValue = MUISliderData(value: 0.5, minValue: 0, maxValue: 1, step: nil)
+    static let defaultValue = MUISliderData(value: 5, minValue: 0, maxValue: 10, step: nil)
 
 }
 
