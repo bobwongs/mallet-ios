@@ -9,7 +9,7 @@
 			<string>app.mallet.mallet</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>mallet-shortcut</string>
+				<string>mallet</string>
 			</array>
 		</dict>
 	</array>
