@@ -23,31 +23,33 @@ struct TextEditorView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            codeTapView()
+            codeTabView()
             TextEditorTextView(text: codes[selectedCodeIdx].code)
         }
     }
 
-    private func codeTapView() -> some View {
+    private func codeTabView() -> some View {
         ScrollView(.horizontal) {
-            ForEach(0..<codes.count, id: \.self) { idx in
-                Button(action: {
-                    self.selectedCodeIdx = idx
-                }) {
-                    Text(self.codes[idx].wrappedValue.name)
-                        .padding(.horizontal, 10)
-                        .foregroundColor(.primary)
-                }
-                    .frame(height: 30)
-                    .background(
-                        Group {
-                            if self.selectedCodeIdx == idx {
-                                Color.gray.opacity(0.2)
-                            } else {
-                                Color.gray.opacity(0.1)
+            HStack(spacing: 0) {
+                ForEach(0..<codes.count, id: \.self) { idx in
+                    Button(action: {
+                        self.selectedCodeIdx = idx
+                    }) {
+                        Text(self.codes[idx].wrappedValue.name)
+                            .padding(.horizontal, 10)
+                            .foregroundColor(.primary)
+                    }
+                        .frame(height: 30)
+                        .background(
+                            Group {
+                                if self.selectedCodeIdx == idx {
+                                    Color.gray.opacity(0.2)
+                                } else {
+                                    Color.gray.opacity(0.1)
+                                }
                             }
-                        }
-                    )
+                        )
+                }
             }
         }
     }
