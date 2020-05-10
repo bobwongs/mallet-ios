@@ -14,6 +14,8 @@ struct AppSettingsView: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
+    @State private var showingAlert = false
+
     var body: some View {
         NavigationView {
             Form {
@@ -36,10 +38,17 @@ struct AppSettingsView: View {
 
                 Section {
                     Button(action: {
-                        print("Copy share link")
+                        guard let url = self.editorViewModel.currentAppData.shareURL() else {
+                            self.showingAlert = true
+                            return
+                        }
+                        ActivityView.show(items: [url])
                     }) {
                         Text("Copy share link")
                     }
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Failed to generate share link"))
+                        }
                 }
             }
                 .navigationBarTitle("App Settings", displayMode: .inline)
