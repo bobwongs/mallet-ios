@@ -59,7 +59,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard  let url = URLContexts.first?.url else {
+            return
+        }
 
+        switch url.host {
+        case "r":
+            guard  let appID = Int(url.path.suffix(url.path.count - 1)) else {
+                return
+            }
+
+            AppController.runApp(id: appID)
+
+        default:
+            return
+        }
+
+    }
 }
 
 private class HostingController: UIHostingController<RootView> {
