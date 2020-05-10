@@ -80,6 +80,19 @@ class Storage {
         return appData
     }
 
+    static func installApp(appData: AppData, sync: Bool = false) -> AppData {
+        let appID = maxAppID + 1
+        var newAppData = AppData(appID: appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
+
+        if sync {
+            saveAppSync(appData: appData)
+        } else {
+            saveApp(appData: appData)
+        }
+
+        return appData
+    }
+
     static func loadApp(appID: Int) -> AppData {
         let realm = try! Realm()
 
