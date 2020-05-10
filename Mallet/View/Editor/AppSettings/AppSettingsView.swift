@@ -16,36 +16,31 @@ struct AppSettingsView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                Group {
-                    Section {
-                        HStack {
-                            Text("App Name")
-                            TextField("App Name", text: $editorViewModel.appName)
-                                .multilineTextAlignment(.trailing)
-                        }
-                    }
-
-                    Section {
-                        Button(action: {
-                            print("Add icon to home screen")
-                        }) {
-                            Text("Add icon to home screen")
-                        }
-                    }
-
-                    Section {
-                        Button(action: {
-                            print("Copy share link")
-                        }) {
-                            Text("Copy share link")
-                        }
+            Form {
+                Section {
+                    HStack {
+                        Text("App Name")
+                        TextField("App Name", text: $editorViewModel.appName)
+                            .multilineTextAlignment(.trailing)
                     }
                 }
-                    .listRowBackground(Color(.tertiarySystemFill))
+
+                Section {
+                    Button(action: {
+                        print("Add icon to home screen")
+                    }) {
+                        Text("Add icon to home screen")
+                    }
+                }
+
+                Section {
+                    Button(action: {
+                        print("Copy share link")
+                    }) {
+                        Text("Copy share link")
+                    }
+                }
             }
-                .listStyle(GroupedListStyle())
-                .background(Color(.systemGroupedBackground))
                 .navigationBarTitle("App Settings", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
