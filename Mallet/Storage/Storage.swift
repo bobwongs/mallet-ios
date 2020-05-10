@@ -85,12 +85,12 @@ class Storage {
         var newAppData = AppData(appID: appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
 
         if sync {
-            saveAppSync(appData: appData)
+            saveAppSync(appData: newAppData)
         } else {
-            saveApp(appData: appData)
+            saveApp(appData: newAppData)
         }
 
-        return appData
+        return newAppData
     }
 
     static func loadApp(appID: Int) -> AppData {
