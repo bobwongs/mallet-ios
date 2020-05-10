@@ -79,4 +79,14 @@ class AppData: Codable {
         }
     }
 
+    func shareURL() -> String? {
+        let jsonStr = AppData.appData2Json(appData: self)
+        guard let data = jsonStr?.data(using: .utf8) else {
+            return nil
+        }
+        let base64Str = data.base64EncodedString()
+
+        return "mallet://i/\(base64Str)"
+    }
+
 }
