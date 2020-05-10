@@ -83,7 +83,7 @@ struct MUISlider: View, MUIInteractive {
     }
 
     var body: some View {
-        YASlider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue,
+        YASlider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue, step: uiData.sliderData.step,
                  onEditingStarted: {
                      self.invokeAction?(self.uiData.sliderData.onStarted.xyloFuncName(uiID: self.uiData.uiID))
                  },

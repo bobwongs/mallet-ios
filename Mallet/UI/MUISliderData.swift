@@ -19,15 +19,17 @@ struct MUISliderData: Codable {
 
     var maxValue: Float
 
+    var step: Float?
+
     var onChanged = MUIAction(name: "onChanged", args: [], code: "")
 
     var onStarted = MUIAction(name: "onStarted", args: [], code: "")
 
     var onEnded = MUIAction(name: "onEnded", args: [], code: "")
 
-    static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0)
+    static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0, step: nil)
 
-    static let defaultValue = MUISliderData(value: 0.5, minValue: 0, maxValue: 1)
+    static let defaultValue = MUISliderData(value: 0.5, minValue: 0, maxValue: 1, step: nil)
 
 }
 
@@ -37,7 +39,8 @@ extension MUISliderData: Equatable {
         lhs.enabled == rhs.enabled &&
             lhs.value == rhs.value &&
             lhs.minValue == rhs.minValue &&
-            lhs.maxValue == rhs.maxValue
+            lhs.maxValue == rhs.maxValue &&
+            lhs.step == rhs.step
     }
 
 }
@@ -65,6 +68,14 @@ protocol MUISliderController {
     /// - Parameter args: [UIID]
     /// - Returns: MaxValue(Float)
     func getMaxValue(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID, Step(Float)]
+    /// - Returns: .zero
+    func setStep(args: [XyObj]) -> XyObj
+
+    /// - Parameter args: [UIID]
+    /// - Returns: Step(Float)
+    func getStep(args: [XyObj]) -> XyObj
 
     var muiSliderFuncs: [Xylo.Func] { get }
 
