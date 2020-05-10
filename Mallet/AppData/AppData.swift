@@ -38,12 +38,15 @@ class AppData: Codable {
     }
 
     static func json2UIData(jsonStr: String) -> Dictionary<Int, MUI>? {
-        guard let data = jsonStr.data(using: .utf8) else {
+        guard let json = jsonStr.data(using: .utf8) else {
             return nil
         }
+        return json2UIData(json: json)
+    }
 
+    static func json2UIData(json: Data) -> Dictionary<Int, MUI>? {
         do {
-            let dictionary = try JSONDecoder().decode([Int: MUI].self, from: data)
+            let dictionary = try JSONDecoder().decode([Int: MUI].self, from: json)
             return dictionary
         } catch {
             print(error.localizedDescription)
