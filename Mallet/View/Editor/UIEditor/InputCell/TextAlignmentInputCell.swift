@@ -27,35 +27,14 @@ struct TextAlignmentInputCell: View {
 
                 Spacer()
 
-                HStack(spacing: 5) {
-                    self.alignmentButton(image: "text.alignleft", alignment: .leading)
-
-                    self.alignmentButton(image: "text.aligncenter", alignment: .center)
-
-                    self.alignmentButton(image: "text.alignright", alignment: .trailing)
+                Picker(selection: self.$alignment, label: Text("Label")) {
+                    Image(systemName: "text.alignleft").tag(MUITextAlignment.leading)
+                    Image(systemName: "text.aligncenter").tag(MUITextAlignment.center)
+                    Image(systemName: "text.alignright").tag(MUITextAlignment.trailing)
                 }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .frame(maxWidth: 200)
             }
         }
-    }
-
-    private func alignmentButton(image: String, alignment: MUITextAlignment) -> some View {
-        Button(action: {
-            self.alignment = alignment
-        }) {
-            Image(systemName: image)
-                .padding(.horizontal, 15)
-                .padding(.vertical, 10)
-                .foregroundColor(.primary)
-        }
-            .background(
-                Group {
-                    if self.alignment == alignment {
-                        Color.blue
-                    } else {
-                        Color(.tertiarySystemFill)
-                    }
-                }
-            )
-            .cornerRadius(5)
     }
 }
