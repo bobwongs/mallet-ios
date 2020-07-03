@@ -6,6 +6,7 @@
 //  Copyright © 2019 Katsu Matsuda. All rights reserved.
 //
 
+/*
 import UIKit
 import Swifter
 import SafariServices
@@ -161,3 +162,4 @@ class AddShortcut {
     }
 
 }
+*/

@@ -27,6 +27,7 @@ struct AppSettingsView: View {
                     }
                 }
 
+                /*
                 Section {
                     Button(action: {
                         self.presentationMode.wrappedValue.dismiss()
@@ -35,6 +36,7 @@ struct AppSettingsView: View {
                         Text("Add icon to home screen")
                     }
                 }
+                */
 
                 Section {
                     Button(action: {
