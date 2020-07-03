@@ -17,6 +17,13 @@
 		091CD0F0D1E81C1F17D4C961 /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5FEE2FA71F36C9343FF187 /* FractionalNumberFormatter.swift */; };
 		0E0D756D24AF632B001401B5 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0E0D756C24AF632B001401B5 /* Realm */; };
 		0E0D756F24AF632B001401B5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E0D756E24AF632B001401B5 /* RealmSwift */; };
+		0E0D757624AF667E001401B5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757524AF667E001401B5 /* WidgetKit.framework */; };
+		0E0D757824AF667E001401B5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757724AF667E001401B5 /* SwiftUI.framework */; };
+		0E0D757B24AF667E001401B5 /* MalletWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757A24AF667E001401B5 /* MalletWidget.swift */; };
+		0E0D757E24AF667F001401B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0E0D757D24AF667F001401B5 /* Assets.xcassets */; };
+		0E0D758024AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
+		0E0D758124AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
+		0E0D758424AF667F001401B5 /* MalletWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1184D26360115AFD65B09615 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4EE9743D901A72DCBE7AA /* Storage.swift */; };
 		11914AA0E40143961F49F4D4 /* ButtonStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EB19A13AE7A01AA2C9951 /* ButtonStyleEditorView.swift */; };
 		1872F8BE7F8ED20B05DC551D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDF509EECE57FCC1A8AAF74 /* HomeView.swift */; };
@@ -47,7 +54,6 @@
 		5F9F6D5FAD1A070E49B89422 /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8968578F8AFC83B04D8A71BF /* StatusBar.swift */; };
 		62221364C6EF2EB05B3D4790 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FCB524D37732A17095229B /* RootViewModel.swift */; };
 		675629FFB6D4BD6A2DA03346 /* MalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1391295CB0773F2C8D8988DD /* MalletTests.swift */; };
-		677DCCBC962BEFFB36A3A027 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EDD191E51A3DE51E9B1E6C1C /* MainInterface.storyboard */; };
 		69F61C630B5195DEBD36676E /* AppViewModel+MUITextFieldController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745A0AA7F9F16F710F5462A /* AppViewModel+MUITextFieldController.swift */; };
 		6B9FC5D8789BD19101B240C7 /* MUIAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2FCB04D06F0BA2510E9EDAC /* MUIAction.swift */; };
 		6D33B4070F34C0159671E720 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62A60DB562FC70F45010AFA5 /* LaunchScreen.storyboard */; };
@@ -58,7 +64,6 @@
 		7A2CC37B95234CC951965FCD /* MUIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435982C67999A586FA219835 /* MUIType.swift */; };
 		7AC7CCBEA19BA5969B4905CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5B2CC05A22ABBE0E9BBE7AC1 /* Assets.xcassets */; };
 		7BEA19CF81F81EB0FDA01C82 /* MUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0974063AB095D1093A5220 /* MUIColor.swift */; };
-		7D589363FFB2A3ABDFC8F295 /* MalletWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 05A5571CA1B6EB2E3EE08E1F /* MalletWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7E486E0BFDA79B91D210B796 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D93EAB1292A63346CC24A68 /* SceneDelegate.swift */; };
 		7FC2C3064C223596B639F318 /* TextFieldStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A108217C91C94738C4AEEA8 /* TextFieldStyleEditorView.swift */; };
 		80256F265E82D35315EB7E99 /* TextStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31BF62AAFA0A345E32C771B /* TextStyleEditorView.swift */; };
@@ -75,7 +80,6 @@
 		9BF81CF1DAF8105A5A17F7D2 /* AppViewModel+MUIToggleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEEC0B377F95B9B17BA65724 /* AppViewModel+MUIToggleController.swift */; };
 		9E9C11FAAD1BF90F4A7381C4 /* EditorAppScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3835376824FDD13EBA869F75 /* EditorAppScrollView.swift */; };
 		9F021EB57F9D3EB156D2B077 /* NumberInputCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D0041723CD8CCA8B4FB86 /* NumberInputCell.swift */; };
-		A10B2E0AFE6110A7A5E7B982 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7882B63353D1F9E880998084 /* TodayViewController.swift */; };
 		A75C14ED85240DCF1C7B53A1 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DB51DF95623F113BDFD6947 /* ActivityView.swift */; };
 		AC419788AAEC0BBBC77AB234 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CBA2984DDCE841581E4CFA /* AppView.swift */; };
 		B228C01337C2D616E626A4A9 /* MUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB8D9AC74CE7F4862A2344CA /* MUIView.swift */; };
@@ -94,18 +98,17 @@
 		D9AE97CCB5C13FFDECF8470D /* YASlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EF6955C7144DD9CE503853C /* YASlider.swift */; };
 		DA991ADF442230D6EB9FE1D0 /* SemiModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3F4FA2D1EC66A758686E2D /* SemiModalView.swift */; };
 		DC27FF4A6F2BD3A7A6EE6E3D /* MUISliderData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4030B2205BA32D121BD6D83C /* MUISliderData.swift */; };
-		F4A6BF835F1DC24F98BB18D9 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79C6D3A234634B0AEB63DAB6 /* NotificationCenter.framework */; };
 		F66209E904082B4E7E2D53B6 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACADC96BA3E8001488BA6F79 /* AppSettingsView.swift */; };
 		FAA3A266AA2BB06BBE64CB26 /* HomeAppCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B685D6518F78C7BC5AA23DC9 /* HomeAppCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		1661B8825BE7764823594DBD /* PBXContainerItemProxy */ = {
+		0E0D758224AF667F001401B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FFC44EA34E053E72814B53E7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 35C9F5EAB2455FEC847A2BB8;
-			remoteInfo = MalletWidget;
+			remoteGlobalIDString = 0E0D757324AF667E001401B5;
+			remoteInfo = MalletWidgetExtension;
 		};
 		2F1E83F3824AA48AD3D4A6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -130,7 +133,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				7D589363FFB2A3ABDFC8F295 /* MalletWidget.appex in Embed App Extensions */,
+				0E0D758424AF667F001401B5 /* MalletWidgetExtension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,10 +144,16 @@
 		01379A170AFD8336E7BE020B /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
 		02FA53E2AB12F739A6EB3717 /* YAToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAToggle.swift; sourceTree = "<group>"; };
 		03BD6673FBF6137B95D5DD95 /* UIApplication+topViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+topViewController.swift"; sourceTree = "<group>"; };
-		05A5571CA1B6EB2E3EE08E1F /* MalletWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = MalletWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A1F950273FE51204C866123 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		0ACEBEA36042286FF71DF78D /* MUIBackgroundData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
 		0DB51DF95623F113BDFD6947 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = MalletWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0D757524AF667E001401B5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		0E0D757724AF667E001401B5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		0E0D757A24AF667E001401B5 /* MalletWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletWidget.swift; sourceTree = "<group>"; };
+		0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = MalletWidget.intentdefinition; sourceTree = "<group>"; };
+		0E0D757D24AF667F001401B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0E0D757F24AF667F001401B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1391295CB0773F2C8D8988DD /* MalletTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MalletTests.swift; sourceTree = "<group>"; };
 		14FCB524D37732A17095229B /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		1F48DA620DB3D69644CB0ED5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -156,7 +165,6 @@
 		2C4AC8572C0AC01313FE13E7 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		2EDB4CDA79D19814B2A1A0E8 /* SliderStyleEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderStyleEditorView.swift; sourceTree = "<group>"; };
 		2EDF509EECE57FCC1A8AAF74 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		2FCA903C2ACA99EE5F29AD0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		3158CB4B9FA0920760CA553E /* TextAlignmentInputCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAlignmentInputCell.swift; sourceTree = "<group>"; };
 		3380C29865E01A76C896E5F6 /* TextEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorView.swift; sourceTree = "<group>"; };
 		35435DDED8EDD9D3F7A0BFF6 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
@@ -175,7 +183,6 @@
 		6CAE4F368CE646EBF4DA076E /* MalletTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		719D23DC764B35793A0101C4 /* EditorToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorToolBar.swift; sourceTree = "<group>"; };
 		745964262E7B3FA64F34FDE3 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
-		7882B63353D1F9E880998084 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		7997444651023D70768B263F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		79C6D3A234634B0AEB63DAB6 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		7B5FEE2FA71F36C9343FF187 /* FractionalNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FractionalNumberFormatter.swift; sourceTree = "<group>"; };
@@ -222,11 +229,10 @@
 		DBFD4F9E567378EEE3C50D8C /* ColorSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectView.swift; sourceTree = "<group>"; };
 		DD3F4FA2D1EC66A758686E2D /* SemiModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemiModalView.swift; sourceTree = "<group>"; };
 		DD4B70DA6CC06A48E6BA4115 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
-		DD5A78980E3F8EA103128F7A /* Mallet.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD5A78980E3F8EA103128F7A /* Mallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E01C042E950AD363CD36C381 /* EditorTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorTextView.swift; sourceTree = "<group>"; };
 		E15A184F087300EA5FE574B5 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		E37F87C4E3ED28F0B4AC293F /* DefaultPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPreview.swift; sourceTree = "<group>"; };
-		E6BF2AB96D4A49F863AF2FBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		EEE436A098B2D3C36DC3DC5B /* AddShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddShortcut.swift; sourceTree = "<group>"; };
 		EF1637F675A23A1DB4C284E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		F02E3108B96003EA448FB1BE /* AppViewModel+MUISliderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppViewModel+MUISliderController.swift"; sourceTree = "<group>"; };
@@ -236,11 +242,12 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		576EB352B39C821D6ECB8838 /* Frameworks */ = {
+		0E0D757124AF667E001401B5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F4A6BF835F1DC24F98BB18D9 /* NotificationCenter.framework in Frameworks */,
+				0E0D757824AF667E001401B5 /* SwiftUI.framework in Frameworks */,
+				0E0D757624AF667E001401B5 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +278,17 @@
 				7997444651023D70768B263F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0E0D757924AF667E001401B5 /* MalletWidget */ = {
+			isa = PBXGroup;
+			children = (
+				0E0D757A24AF667E001401B5 /* MalletWidget.swift */,
+				0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */,
+				0E0D757D24AF667F001401B5 /* Assets.xcassets */,
+				0E0D757F24AF667F001401B5 /* Info.plist */,
+			);
+			path = MalletWidget;
 			sourceTree = "<group>";
 		};
 		160D6C8719B44DE217439F7C /* AppData */ = {
@@ -363,7 +381,7 @@
 				DD5A78980E3F8EA103128F7A /* Mallet.app */,
 				6CAE4F368CE646EBF4DA076E /* MalletTests.xctest */,
 				A244E728CD44364C75AAE105 /* MalletUITests.xctest */,
-				05A5571CA1B6EB2E3EE08E1F /* MalletWidget.appex */,
+				0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -476,20 +494,12 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
-		97BD94C452D273F03A8809E7 /* MalletWidget */ = {
-			isa = PBXGroup;
-			children = (
-				2FCA903C2ACA99EE5F29AD0D /* Info.plist */,
-				EDD191E51A3DE51E9B1E6C1C /* MainInterface.storyboard */,
-				7882B63353D1F9E880998084 /* TodayViewController.swift */,
-			);
-			path = MalletWidget;
-			sourceTree = "<group>";
-		};
 		A248F98CD170990BA958CE4E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				79C6D3A234634B0AEB63DAB6 /* NotificationCenter.framework */,
+				0E0D757524AF667E001401B5 /* WidgetKit.framework */,
+				0E0D757724AF667E001401B5 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -500,7 +510,7 @@
 				2C9358F8832966A22C6A390B /* Mallet */,
 				CED6ACF944D22DF3C2FFAB98 /* MalletTests */,
 				69440EFED8A66174B0300DC8 /* MalletUITests */,
-				97BD94C452D273F03A8809E7 /* MalletWidget */,
+				0E0D757924AF667E001401B5 /* MalletWidget */,
 				A248F98CD170990BA958CE4E /* Frameworks */,
 				3A0CBC5695FEB26160C7E3D1 /* Products */,
 			);
@@ -577,6 +587,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0E0D757324AF667E001401B5 /* MalletWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0D758524AF667F001401B5 /* Build configuration list for PBXNativeTarget "MalletWidgetExtension" */;
+			buildPhases = (
+				0E0D757024AF667E001401B5 /* Sources */,
+				0E0D757124AF667E001401B5 /* Frameworks */,
+				0E0D757224AF667E001401B5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MalletWidgetExtension;
+			productName = MalletWidgetExtension;
+			productReference = 0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		11E61E1A0A5EA70F43F901F3 /* Mallet */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7E9FFEE1757AEC5214FD8DBA /* Build configuration list for PBXNativeTarget "Mallet" */;
@@ -589,7 +616,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				823ACA3C1230D82000205F58 /* PBXTargetDependency */,
+				0E0D758324AF667F001401B5 /* PBXTargetDependency */,
 			);
 			name = Mallet;
 			packageProductDependencies = (
@@ -600,23 +627,6 @@
 			productName = Mallet;
 			productReference = DD5A78980E3F8EA103128F7A /* Mallet.app */;
 			productType = "com.apple.product-type.application";
-		};
-		35C9F5EAB2455FEC847A2BB8 /* MalletWidget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 59F0177C58AC30E461FD6205 /* Build configuration list for PBXNativeTarget "MalletWidget" */;
-			buildPhases = (
-				ED154462C20BC4AD5E36DFBE /* Sources */,
-				F426D54483BB15BF3FF1E861 /* Resources */,
-				576EB352B39C821D6ECB8838 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MalletWidget;
-			productName = MalletWidget;
-			productReference = 05A5571CA1B6EB2E3EE08E1F /* MalletWidget.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		7A1F9BD6CB9A70901E4E9345 /* MalletUITests */ = {
 			isa = PBXNativeTarget;
@@ -656,13 +666,14 @@
 		FFC44EA34E053E72814B53E7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Katsu Matsuda";
 				TargetAttributes = {
-					11E61E1A0A5EA70F43F901F3 = {
-						DevelopmentTeam = T437NKTG46;
+					0E0D757324AF667E001401B5 = {
+						CreatedOnToolsVersion = 12.0;
 					};
-					35C9F5EAB2455FEC847A2BB8 = {
+					11E61E1A0A5EA70F43F901F3 = {
 						DevelopmentTeam = T437NKTG46;
 					};
 					7A1F9BD6CB9A70901E4E9345 = {
@@ -693,12 +704,20 @@
 				11E61E1A0A5EA70F43F901F3 /* Mallet */,
 				C9EB2747B7FC4017A8558157 /* MalletTests */,
 				7A1F9BD6CB9A70901E4E9345 /* MalletUITests */,
-				35C9F5EAB2455FEC847A2BB8 /* MalletWidget */,
+				0E0D757324AF667E001401B5 /* MalletWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0E0D757224AF667E001401B5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0D757E24AF667F001401B5 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5388D196C052E17136FC3D18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -709,17 +728,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F426D54483BB15BF3FF1E861 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				677DCCBC962BEFFB36A3A027 /* MainInterface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0E0D757024AF667E001401B5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0E0D757B24AF667E001401B5 /* MalletWidget.swift in Sources */,
+				0E0D758024AF667F001401B5 /* MalletWidget.intentdefinition in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		5925A202AE2BAF893C8A4DC5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -759,6 +779,7 @@
 				1A86377B7DA77156B429CBFA /* FrameStyleEditorView.swift in Sources */,
 				83929CFAEB943B3A9D29743B /* HapticFeedback.swift in Sources */,
 				FAA3A266AA2BB06BBE64CB26 /* HomeAppCell.swift in Sources */,
+				0E0D758124AF667F001401B5 /* MalletWidget.intentdefinition in Sources */,
 				1872F8BE7F8ED20B05DC551D /* HomeView.swift in Sources */,
 				7510F40273AFC3984A87945A /* HomeViewModel.swift in Sources */,
 				CCC59CE7A5170C05E85D826D /* ListCell.swift in Sources */,
@@ -821,17 +842,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ED154462C20BC4AD5E36DFBE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A10B2E0AFE6110A7A5E7B982 /* TodayViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0E0D758324AF667F001401B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0E0D757324AF667E001401B5 /* MalletWidgetExtension */;
+			targetProxy = 0E0D758224AF667F001401B5 /* PBXContainerItemProxy */;
+		};
 		535CB58DACFFBE9512383F03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 11E61E1A0A5EA70F43F901F3 /* Mallet */;
@@ -841,11 +859,6 @@
 			isa = PBXTargetDependency;
 			target = 11E61E1A0A5EA70F43F901F3 /* Mallet */;
 			targetProxy = 5BC889B3828010FFF17CE0FB /* PBXContainerItemProxy */;
-		};
-		823ACA3C1230D82000205F58 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 35C9F5EAB2455FEC847A2BB8 /* MalletWidget */;
-			targetProxy = 1661B8825BE7764823594DBD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -858,28 +871,60 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
-		EDD191E51A3DE51E9B1E6C1C /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E6BF2AB96D4A49F863AF2FBA /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1B13A4F2AC47755FECDA6E88 /* Release */ = {
+		0E0D758624AF667F001401B5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				INFOPLIST_FILE = MalletWidget/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.malletwidget;
-				SDKROOT = iphoneos;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.MalletWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0E0D758724AF667F001401B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MalletWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.MalletWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -887,6 +932,7 @@
 		1DE14A6D3B0CA8F1F95B44FB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Mallet/Info.plist;
@@ -970,21 +1016,6 @@
 			};
 			name = Release;
 		};
-		65B201B5AAD212142A9F7F09 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				INFOPLIST_FILE = MalletWidget/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.mallet.mallet.malletwidget;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		6EC2EF72D1647CF2F037F783 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1004,6 +1035,7 @@
 		7DB22ACDF2766B695C88C8ED /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Mallet/Info.plist;
@@ -1114,20 +1146,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E0D758524AF667F001401B5 /* Build configuration list for PBXNativeTarget "MalletWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0E0D758624AF667F001401B5 /* Debug */,
+				0E0D758724AF667F001401B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		53F45922056244A1115C8666 /* Build configuration list for PBXNativeTarget "MalletTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FC21C8B684AF1FBBDDAA715 /* Debug */,
 				B990E3C940EC2AB2863F85CE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		59F0177C58AC30E461FD6205 /* Build configuration list for PBXNativeTarget "MalletWidget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				65B201B5AAD212142A9F7F09 /* Debug */,
-				1B13A4F2AC47755FECDA6E88 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
