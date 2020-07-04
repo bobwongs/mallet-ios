@@ -17,7 +17,7 @@ struct MUIAction: Codable {
     var code: String
 
     func xyloFuncName(uiID: Int) -> String {
-        "#\(name)_\(uiID)"
+        "$\(name)_\(uiID)"
     }
 
     func xyloCodeStr(uiID: Int) -> String {
