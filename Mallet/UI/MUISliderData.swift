@@ -23,8 +23,6 @@ struct MUISliderData: Codable {
 
     var onChanged = MUIAction(name: "onChanged", args: [], code: "")
 
-    var onStarted = MUIAction(name: "onStarted", args: [], code: "")
-
     var onEnded = MUIAction(name: "onEnded", args: [], code: "")
 
     static let disabled = MUISliderData(enabled: false, value: 0, minValue: 0, maxValue: 0, step: nil)

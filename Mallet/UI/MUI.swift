@@ -183,7 +183,6 @@ extension MUI {
 
         if ui.sliderData.enabled.wrappedValue {
             codes.append(ui.sliderData.onChanged)
-            codes.append(ui.sliderData.onStarted)
             codes.append(ui.sliderData.onEnded)
         }
 
@@ -207,7 +206,6 @@ extension MUI {
 
         if sliderData.enabled {
             code += sliderData.onChanged.xyloCodeStr(uiID: uiID)
-            code += sliderData.onStarted.xyloCodeStr(uiID: uiID)
             code += sliderData.onEnded.xyloCodeStr(uiID: uiID)
         }
 

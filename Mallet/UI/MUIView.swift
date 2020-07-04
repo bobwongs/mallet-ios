@@ -83,17 +83,20 @@ struct MUISlider: View, MUIInteractive {
     }
 
     var body: some View {
-        YASlider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue, step: uiData.sliderData.step,
-                 onEditingStarted: {
-                     self.invokeAction?(self.uiData.sliderData.onStarted.xyloFuncName(uiID: self.uiData.uiID))
-                 },
-                 onEditingChanged: {
-                     self.invokeAction?(self.uiData.sliderData.onChanged.xyloFuncName(uiID: self.uiData.uiID))
-                 },
-                 onEditingEnded: {
-                     self.invokeAction?(self.uiData.sliderData.onEnded.xyloFuncName(uiID: self.uiData.uiID))
-                 }
-        )
+        Group {
+            if let step = uiData.sliderData.step {
+                Slider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue, step: step) { _ in
+                    invokeAction?(uiData.sliderData.onEnded.xyloFuncName(uiID: uiData.uiID))
+                }
+            } else {
+                Slider(value: $uiData.sliderData.value, in: uiData.sliderData.minValue...uiData.sliderData.maxValue) { _ in
+                    invokeAction?(uiData.sliderData.onEnded.xyloFuncName(uiID: uiData.uiID))
+                }
+            }
+        }
+            .onChange(of: uiData.sliderData.value) { _ in
+                invokeAction?(uiData.sliderData.onChanged.xyloFuncName(uiID: uiData.uiID))
+            }
     }
 }
 

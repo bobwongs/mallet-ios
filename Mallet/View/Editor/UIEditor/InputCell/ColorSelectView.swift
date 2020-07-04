@@ -1,7 +1,7 @@
 //
 //  ColorSelectView.swift
 //  Mallet
-//  
+//
 //  Created by Katsu Matsuda on 2020/03/23.
 //  Copyright (c) 2020 Katsu Matsuda. All rights reserved.
 //
@@ -80,9 +80,10 @@ struct ColorSelectView: View {
         HStack(spacing: 0) {
             Text("Opacity")
 
-            YASlider(value: $opacity, in: 0.0...100.0, step: 1, onEditingChanged: {
-                self.updateOpacity()
-            })
+            Slider(value: $opacity, in: 0.0...100.0, step: 1)
+                .onChange(of: opacity) { _ in
+                    updateOpacity()
+                }
                 .padding(.horizontal, 10)
 
             TextField("", value: $opacity,
