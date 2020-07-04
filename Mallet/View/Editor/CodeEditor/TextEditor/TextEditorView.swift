@@ -14,6 +14,9 @@ struct TextEditorView: View {
 
     @State private var selectedCodeIdx = 0
 
+    // workaround?
+    @State private var selectedCode = ""
+
     private let codes: [Binding<MUIAction>]
 
     init(uiData: Binding<MUI>) {
@@ -28,7 +31,10 @@ struct TextEditorView: View {
             } else {
                 VStack(spacing: 0) {
                     codeTabView()
-                    TextEditorTextView(text: codes[selectedCodeIdx].code)
+                    TextEditorTextView(text: $selectedCode)
+                        .onChange(of: selectedCode) { _ in
+                            codes[selectedCodeIdx].code.wrappedValue = selectedCode
+                        }
                 }
             }
         }
@@ -39,7 +45,8 @@ struct TextEditorView: View {
             HStack(spacing: 0) {
                 ForEach(0..<codes.count, id: \.self) { idx in
                     Button(action: {
-                        self.selectedCodeIdx = idx
+                        selectedCodeIdx = idx
+                        selectedCode = codes[selectedCodeIdx].code.wrappedValue
                     }) {
                         Text(self.codes[idx].wrappedValue.name)
                             .padding(.horizontal, 10)
