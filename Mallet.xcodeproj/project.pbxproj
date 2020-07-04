@@ -15,7 +15,6 @@
 		05A6D8BB9E5800912B639DDE /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D240DA61B77AAEB41B2FA1A0 /* UISelectionView.swift */; };
 		087026E0E1AFAA38F072DC5D /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37F87C4E3ED28F0B4AC293F /* DefaultPreview.swift */; };
 		091CD0F0D1E81C1F17D4C961 /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5FEE2FA71F36C9343FF187 /* FractionalNumberFormatter.swift */; };
-		0E0D756F24AF632B001401B5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E0D756E24AF632B001401B5 /* RealmSwift */; };
 		0E0D757624AF667E001401B5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757524AF667E001401B5 /* WidgetKit.framework */; };
 		0E0D757824AF667E001401B5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757724AF667E001401B5 /* SwiftUI.framework */; };
 		0E0D757B24AF667E001401B5 /* MalletWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757A24AF667E001401B5 /* MalletWidget.swift */; };
@@ -23,7 +22,6 @@
 		0E0D758024AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
 		0E0D758124AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
 		0E0D758424AF667F001401B5 /* MalletWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0EB907C124B0865E00E5A125 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB907C024B0865E00E5A125 /* Realm */; };
 		1184D26360115AFD65B09615 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4EE9743D901A72DCBE7AA /* Storage.swift */; };
 		11914AA0E40143961F49F4D4 /* ButtonStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EB19A13AE7A01AA2C9951 /* ButtonStyleEditorView.swift */; };
 		1872F8BE7F8ED20B05DC551D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDF509EECE57FCC1A8AAF74 /* HomeView.swift */; };
@@ -33,7 +31,6 @@
 		21728ACEA1E2F4EF01B7C9E9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22E38210790B4A030832B4C /* SettingsView.swift */; };
 		26316382B03E0A5C8ADC5747 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7997444651023D70768B263F /* Preview Assets.xcassets */; };
 		2939EA7FC03CC22BBECD89D9 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15A184F087300EA5FE574B5 /* StringExtension.swift */; };
-		2E91E29A699DF74E0D6B8843 /* YAToggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FA53E2AB12F739A6EB3717 /* YAToggle.swift */; };
 		3346CBDBD9807E833F46AC85 /* UIFrameEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C932F2B493DCBBA5E63A4EF /* UIFrameEditingView.swift */; };
 		3431719EACBF9279C08708E6 /* EditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E01C042E950AD363CD36C381 /* EditorTextView.swift */; };
 		3633F86940EBAE7CA4354FCB /* MUIToggleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7883B1251CDA71093CCEF3 /* MUIToggleData.swift */; };
@@ -42,7 +39,6 @@
 		400639128A1F884449E8A756 /* UIApplication+topViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03BD6673FBF6137B95D5DD95 /* UIApplication+topViewController.swift */; };
 		42C382731B88248708363A8E /* UIStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA87207150811051213DCAF /* UIStyleEditorView.swift */; };
 		44042A30E99B8A84A750AD2F /* EditorAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BE22BD59DC1FC9BA451643 /* EditorAppView.swift */; };
-		4630EFC1CD674C85485E22EA /* XyloSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C774BE794C522DB3AAC6E408 /* XyloSwift */; };
 		468C83E42C374BF069D83C63 /* TextEditorTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AEDDFB83B3CFBB74E42644 /* TextEditorTextView.swift */; };
 		480A44D002BA85C56053D7B9 /* SliderStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDB4CDA79D19814B2A1A0E8 /* SliderStyleEditorView.swift */; };
 		4891659BA171D3245D8BD80B /* AppViewModel+MUITextController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEA003ADE83AAFA4079707F /* AppViewModel+MUITextController.swift */; };
@@ -142,7 +138,6 @@
 
 /* Begin PBXFileReference section */
 		01379A170AFD8336E7BE020B /* FrameStyleEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameStyleEditorView.swift; sourceTree = "<group>"; };
-		02FA53E2AB12F739A6EB3717 /* YAToggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YAToggle.swift; sourceTree = "<group>"; };
 		03BD6673FBF6137B95D5DD95 /* UIApplication+topViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+topViewController.swift"; sourceTree = "<group>"; };
 		0A1F950273FE51204C866123 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		0ACEBEA36042286FF71DF78D /* MUIBackgroundData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MUIBackgroundData.swift; sourceTree = "<group>"; };
@@ -255,9 +250,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0EB907C124B0865E00E5A125 /* Realm in Frameworks */,
-				0E0D756F24AF632B001401B5 /* RealmSwift in Frameworks */,
-				4630EFC1CD674C85485E22EA /* XyloSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +302,6 @@
 				D6066E934D4092DEED97A89C /* RootView.swift */,
 				DD3F4FA2D1EC66A758686E2D /* SemiModalView.swift */,
 				7EF6955C7144DD9CE503853C /* YASlider.swift */,
-				02FA53E2AB12F739A6EB3717 /* YAToggle.swift */,
 				71658174BA8F7E4908311639 /* App */,
 				834884B643F647AA55B30753 /* Editor */,
 				4B00B09E79A379F5860F95FB /* Home */,
@@ -620,9 +611,9 @@
 			);
 			name = Mallet;
 			packageProductDependencies = (
-				C774BE794C522DB3AAC6E408 /* XyloSwift */,
-				0E0D756E24AF632B001401B5 /* RealmSwift */,
-				0EB907C024B0865E00E5A125 /* Realm */,
+				C774BE794C522DB3AAC6E408,
+				0E0D756E24AF632B001401B5,
+				0EB907C024B0865E00E5A125,
 			);
 			productName = Mallet;
 			productReference = DD5A78980E3F8EA103128F7A /* Mallet.app */;
@@ -692,8 +683,8 @@
 			);
 			mainGroup = A354F7D36407C97605502837;
 			packageReferences = (
-				2F4B86E93D26870BBA6E4346 /* XCRemoteSwiftPackageReference "xylo-swift" */,
-				0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				2F4B86E93D26870BBA6E4346,
+				0E0D756B24AF632B001401B5,
 			);
 			projectDirPath = "";
 			projectRoot = "";
@@ -818,7 +809,6 @@
 				05A6D8BB9E5800912B639DDE /* UISelectionView.swift in Sources */,
 				42C382731B88248708363A8E /* UIStyleEditorView.swift in Sources */,
 				D9AE97CCB5C13FFDECF8470D /* YASlider.swift in Sources */,
-				2E91E29A699DF74E0D6B8843 /* YAToggle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,7 +1195,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+		0E0D756B24AF632B001401B5 = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
 			requirement = {
@@ -1213,7 +1203,7 @@
 				minimumVersion = 5.2.0;
 			};
 		};
-		2F4B86E93D26870BBA6E4346 /* XCRemoteSwiftPackageReference "xylo-swift" */ = {
+		2F4B86E93D26870BBA6E4346 = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/katsd/xylo-swift";
 			requirement = {
@@ -1224,19 +1214,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0E0D756E24AF632B001401B5 /* RealmSwift */ = {
+		0E0D756E24AF632B001401B5 = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			package = 0E0D756B24AF632B001401B5;
 			productName = RealmSwift;
 		};
-		0EB907C024B0865E00E5A125 /* Realm */ = {
+		0EB907C024B0865E00E5A125 = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			package = 0E0D756B24AF632B001401B5;
 			productName = Realm;
 		};
-		C774BE794C522DB3AAC6E408 /* XyloSwift */ = {
+		C774BE794C522DB3AAC6E408 = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2F4B86E93D26870BBA6E4346 /* XCRemoteSwiftPackageReference "xylo-swift" */;
+			package = 2F4B86E93D26870BBA6E4346;
 			productName = XyloSwift;
 		};
 /* End XCSwiftPackageProductDependency section */

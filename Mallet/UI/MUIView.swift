@@ -109,10 +109,12 @@ struct MUIToggle: View, MUIInteractive {
     }
 
     var body: some View {
-        YAToggle(isOn: $uiData.toggleData.value, onChanged: {
-            self.invokeAction?(self.uiData.toggleData.onChanged.xyloFuncName(uiID: self.uiData.uiID))
-        })
+        Toggle("", isOn: $uiData.toggleData.value)
+            .labelsHidden()
             .padding(.trailing, 2)
+            .onChange(of: uiData.toggleData.value) { value in
+                invokeAction?(uiData.toggleData.onChanged.xyloFuncName(uiID: uiData.uiID))
+            }
     }
 }
 
