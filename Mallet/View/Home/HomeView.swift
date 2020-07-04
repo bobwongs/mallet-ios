@@ -55,7 +55,7 @@ struct HomeView: View {
                                     Button(action: {
                                         self.showingSettings = true
                                     }) {
-                                        Image(systemName: "gear")
+                                        Image(systemName: "gearshape")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 22, height: 22)
