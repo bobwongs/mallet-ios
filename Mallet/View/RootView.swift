@@ -30,11 +30,13 @@ private struct RunningAppView: View {
     @ObservedObject var rootViewModel = AppController.rootViewModel
 
     var body: some View {
-        ForEach(rootViewModel.runningApps, id: \.self) { viewModel in
-            AppView()
-                .environmentObject(viewModel)
-                .transition(.asymmetric(insertion: .identity, removal: .move(edge: .bottom)))
-        }
+        Spacer()
+            .fullScreenCover(isPresented: $rootViewModel.showingApp) {
+                if let app = rootViewModel.frontApp {
+                    AppView()
+                        .environmentObject(app)
+                }
+            }
     }
 
 }

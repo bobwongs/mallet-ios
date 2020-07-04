@@ -10,7 +10,11 @@ import SwiftUI
 
 class RootViewModel: ObservableObject {
 
-    @Published var runningApps = [AppViewModel]()
+    @Published var showingApp = false
+
+    @Published var frontApp: AppViewModel? = nil
+
+    private var runningApps = [AppViewModel]()
 
     init() {
     }
@@ -20,20 +24,33 @@ class RootViewModel: ObservableObject {
             return
         }
 
+        if !showingApp {
+            withAnimation {
+                showingApp = true
+                StatusBar.style = .darkContent
+            }
+        }
+
         let appData = Storage.loadApp(appID: id)
-        runningApps.append(AppViewModel(appData: appData, rootViewModel: self))
+        let appViewModel = AppViewModel(appData: appData, rootViewModel: self)
+        runningApps.append(appViewModel)
+        frontApp = appViewModel
 
         StatusBar.style = .darkContent
     }
 
     func exitApp(id: Int) {
-        withAnimation {
-            runningApps.removeAll {
-                $0.appId == id
+        runningApps.removeLast()
+
+        if let preAppViewModel = runningApps.last {
+            frontApp = preAppViewModel
+        } else {
+            frontApp = nil
+            withAnimation {
+                showingApp = false
+                StatusBar.style = .default
             }
         }
-
-        StatusBar.style = .default
     }
 
 }
