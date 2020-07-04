@@ -70,7 +70,7 @@ struct EditorTextView: UIViewRepresentable {
         view.textView.text = textData.text
         view.textView.textAlignment = textData.alignment.toNSTextAlignment
         view.textView.textColor = textData.color.uiColor
-        view.textView.font = view.textView.font?.withSize(textData.size)
+        view.textView.font = .systemFont(ofSize: textData.size)
     }
 }
 

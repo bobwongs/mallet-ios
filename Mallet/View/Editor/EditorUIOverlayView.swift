@@ -42,7 +42,7 @@ struct EditorUIOverlayView<Content: View>: View {
             .overlay(
                 GeometryReader { geo in
                     if self.editorViewModel.selectedUIID == self.uiData.uiID {
-                        if (self.editingText) {
+                        if self.editingText {
                             EditorTextView(backgroundData: self.$uiData.backgroundData, textData: self.$uiData.textData)
                                 .gesture(TapGesture())
                         } else {
