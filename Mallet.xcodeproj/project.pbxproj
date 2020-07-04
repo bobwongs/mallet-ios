@@ -15,7 +15,6 @@
 		05A6D8BB9E5800912B639DDE /* UISelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D240DA61B77AAEB41B2FA1A0 /* UISelectionView.swift */; };
 		087026E0E1AFAA38F072DC5D /* DefaultPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37F87C4E3ED28F0B4AC293F /* DefaultPreview.swift */; };
 		091CD0F0D1E81C1F17D4C961 /* FractionalNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B5FEE2FA71F36C9343FF187 /* FractionalNumberFormatter.swift */; };
-		0E0D756D24AF632B001401B5 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0E0D756C24AF632B001401B5 /* Realm */; };
 		0E0D756F24AF632B001401B5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E0D756E24AF632B001401B5 /* RealmSwift */; };
 		0E0D757624AF667E001401B5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757524AF667E001401B5 /* WidgetKit.framework */; };
 		0E0D757824AF667E001401B5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E0D757724AF667E001401B5 /* SwiftUI.framework */; };
@@ -24,6 +23,7 @@
 		0E0D758024AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
 		0E0D758124AF667F001401B5 /* MalletWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D757C24AF667E001401B5 /* MalletWidget.intentdefinition */; };
 		0E0D758424AF667F001401B5 /* MalletWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0E0D757424AF667E001401B5 /* MalletWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0EB907C124B0865E00E5A125 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0EB907C024B0865E00E5A125 /* Realm */; };
 		1184D26360115AFD65B09615 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6A4EE9743D901A72DCBE7AA /* Storage.swift */; };
 		11914AA0E40143961F49F4D4 /* ButtonStyleEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 890EB19A13AE7A01AA2C9951 /* ButtonStyleEditorView.swift */; };
 		1872F8BE7F8ED20B05DC551D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDF509EECE57FCC1A8AAF74 /* HomeView.swift */; };
@@ -255,8 +255,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EB907C124B0865E00E5A125 /* Realm in Frameworks */,
 				0E0D756F24AF632B001401B5 /* RealmSwift in Frameworks */,
-				0E0D756D24AF632B001401B5 /* Realm in Frameworks */,
 				4630EFC1CD674C85485E22EA /* XyloSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,8 +621,8 @@
 			name = Mallet;
 			packageProductDependencies = (
 				C774BE794C522DB3AAC6E408 /* XyloSwift */,
-				0E0D756C24AF632B001401B5 /* Realm */,
 				0E0D756E24AF632B001401B5 /* RealmSwift */,
+				0EB907C024B0865E00E5A125 /* Realm */,
 			);
 			productName = Mallet;
 			productReference = DD5A78980E3F8EA103128F7A /* Mallet.app */;
@@ -1224,15 +1224,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0E0D756C24AF632B001401B5 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
-			productName = Realm;
-		};
 		0E0D756E24AF632B001401B5 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		0EB907C024B0865E00E5A125 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0E0D756B24AF632B001401B5 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
 		};
 		C774BE794C522DB3AAC6E408 /* XyloSwift */ = {
 			isa = XCSwiftPackageProductDependency;
