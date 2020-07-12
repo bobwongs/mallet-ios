@@ -21,7 +21,7 @@ struct Provider: IntentTimelineProvider {
 
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
+        for hourOffset in 0..<5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate, configuration: configuration)
             entries.append(entry)
@@ -37,17 +37,17 @@ struct SimpleEntry: TimelineEntry {
     public let configuration: ConfigurationIntent
 }
 
-struct PlaceholderView : View {
+struct PlaceholderView: View {
     var body: some View {
-        Text("Placeholder View")
+        Text("Mallet Widget Placeholder")
     }
 }
 
-struct MalletWidgetEntryView : View {
+struct MalletWidgetEntryView: View {
     var entry: Provider.Entry
 
     var body: some View {
-        Text(entry.date, style: .time)
+        Text("Mallet Widget")
     }
 }
 
@@ -59,7 +59,6 @@ struct MalletWidget: Widget {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider(), placeholder: PlaceholderView()) { entry in
             MalletWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+            .configurationDisplayName("Mallet Widget")
     }
 }
