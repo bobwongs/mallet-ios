@@ -58,6 +58,7 @@ struct EditorToolBar: View {
                     )
             }
                 .offset(y: self.offset)
+                .edgesIgnoringSafeArea(.bottom)
         }
     }
 

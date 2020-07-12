@@ -116,7 +116,6 @@ struct EditorView: View {
             .sheet(isPresented: $showingCodeEditorView) {
                 CodeEditorView(uiData: self.editorViewModel.getSelectedUIData())
             }
-            .edgesIgnoringSafeArea(.bottom)
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())

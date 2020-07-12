@@ -83,9 +83,9 @@ struct SemiModalView<Content: View>: View {
                     self.offset = self.minOffset
                 }
                 .edgesIgnoringSafeArea(.bottom)
-                .frame(height: self.height + geo.safeAreaInsets.bottom)
+                .frame(height: self.height)
                 .position(x: geo.size.width / 2,
-                          y: geo.size.height + (self.height + geo.safeAreaInsets.bottom) / 2 - (self.minHeight + geo.safeAreaInsets.bottom))
+                          y: geo.size.height + self.height / 2 - self.minHeight)
                 .offset(y: -self.offset)
         }
     }
