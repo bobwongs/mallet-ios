@@ -27,10 +27,6 @@ class HomeViewModel: ObservableObject {
     private var notificationTokens: [NotificationToken] = []
 
     init() {
-        #if DEBUG
-            print(Realm.Configuration.defaultConfiguration.fileURL)
-        #endif
-
         self.editorViewModel = EditorViewModel()
 
         let appLists = Storage.allAppLists()

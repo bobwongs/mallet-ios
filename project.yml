@@ -1,0 +1,57 @@
+name: Mallet
+
+options:
+  bundlePrefix: app.mallet
+  deploymentTarget:
+    iOS: "14.0"
+
+attributes:
+  ORGANIZATIONNAME: Katsu Matsuda
+
+settings:
+  DEVELOPMENT_TEAM: T437NKTG46
+
+packages:
+  XyloSwift:
+    url: https://github.com/katsd/xylo-swift
+    branch: master
+
+targets:
+  Mallet:
+    type: application
+    platform: iOS
+    sources: Mallet
+    dependencies:
+      - target: MalletWidget
+      - package: XyloSwift
+      - carthage: Realm
+      - carthage: RealmSwift
+    settings:
+      base:
+        MARKETING_VERSION: 0.2
+        PRODUCT_BUNDLE_IDENTIFIER: app.mallet.mallet
+
+  MalletWidget:
+    type: app-extension
+    platform: iOS
+    sources: MalletWidget
+    dependencies:
+      - sdk: SwiftUI.framework
+      - sdk: NotificationCenter.framework
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.mallet.mallet.malletwidget
+
+  MalletTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: MalletTests
+    dependencies:
+      - target: Mallet
+
+  MalletUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: MalletUITests
+    dependencies:
+      - target: Mallet

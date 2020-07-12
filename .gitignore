@@ -197,4 +197,5 @@ DerivedData/
 Carthage/Build
 Carthage/Checkouts
 
-# *.xcodeproj
+.build
+*.xcodeproj
