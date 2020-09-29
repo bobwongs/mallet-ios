@@ -16,7 +16,7 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
     private let content: () -> Content
 
-    private var hosting: UIHostingController<Content>
+    private let hosting: UIHostingController<Content>
 
     private let scrollView: UIScrollView
 
@@ -31,8 +31,6 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
     private let initialOffset: CGPoint
 
     @State private var contentPos: CGPoint = .zero
-
-    private var updated = false
 
     init(scale: Binding<CGFloat>,
          offset: Binding<CGPoint>,
@@ -49,9 +47,9 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
         self.content = content
 
-        self.hosting = UIHostingController(rootView: content())
+        hosting = UIHostingController(rootView: content())
 
-        self.scrollView = UIScrollView()
+        scrollView = UIScrollView()
 
         self.scrollViewSize = scrollViewSize
 
@@ -86,7 +84,7 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollView.addSubview(hosting.view)
         view.addSubview(scrollView)
 
-        updateSize(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets)
+        update(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets, swiftUIView: content)
 
         scrollView.zoomScale = scale
 
@@ -101,12 +99,12 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollViewDidZoom(scrollView)
     }
 
-    func updateSize(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets) {
-        if updated || contentSize == .zero {
+    func update(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets, swiftUIView: @escaping () -> Content) {
+        if contentSize == self.contentSize || contentSize == .zero {
             return
         }
 
-        updated = true
+        hosting.rootView = swiftUIView()
 
         self.scrollViewSize = scrollViewSize
         self.contentSize = contentSize
@@ -118,14 +116,14 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
         hosting.view.frame = CGRect(origin: .zero, size: CGSize(width: contentSize.width + contentPadding * 2, height: contentSize.height + contentPadding * 2))
 
-        scrollView.contentSize = CGSize(width: contentSize.width, height: contentSize.height)
+        scrollView.contentSize = contentSize
         scrollView.zoomScale = scale
 
         updateScrollInset()
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return hosting.view
+        hosting.view
     }
 
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
@@ -216,18 +214,18 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
     }
 
     func makeUIViewController(context: Context) -> EditorAppScrollViewController<Content> {
-        return EditorAppScrollViewController(scale: $scale,
-                                             offset: $offset,
-                                             scrollViewSize: scrollViewSize,
-                                             contentSize: contentSize,
-                                             contentPadding: contentPadding,
-                                             maxInsets: maxInsets,
-                                             initialOffset: initialOffset) {
-            self.content()
+        EditorAppScrollViewController(scale: $scale,
+                                      offset: $offset,
+                                      scrollViewSize: scrollViewSize,
+                                      contentSize: contentSize,
+                                      contentPadding: contentPadding,
+                                      maxInsets: maxInsets,
+                                      initialOffset: initialOffset) {
+            content()
         }
     }
 
     func updateUIViewController(_ uiViewController: EditorAppScrollViewController<Content>, context: Context) {
-        uiViewController.updateSize(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets)
+        uiViewController.update(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets, swiftUIView: content)
     }
 }
