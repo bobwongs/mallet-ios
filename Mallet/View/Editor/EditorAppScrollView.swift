@@ -84,7 +84,7 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollView.addSubview(hosting.view)
         view.addSubview(scrollView)
 
-        update(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets, swiftUIView: content)
+        update(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets, swiftUIView: content, forceUpdate: true)
 
         scrollView.zoomScale = scale
 
@@ -99,8 +99,8 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
         scrollViewDidZoom(scrollView)
     }
 
-    func update(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets, swiftUIView: @escaping () -> Content) {
-        if contentSize == self.contentSize || contentSize == .zero {
+    func update(scrollViewSize: CGSize, contentSize: CGSize, maxInsets: UIEdgeInsets, swiftUIView: @escaping () -> Content, forceUpdate: Bool = false) {
+        if !forceUpdate && (contentSize == self.contentSize || contentSize == .zero) {
             return
         }
 
