@@ -29,7 +29,7 @@ struct TremoloEditorView: View {
             if codes.count == 0 {
                 Text("There is no code to edit.")
             } else {
-                VStack {
+                VStack(spacing: 0) {
                     TabBar(tabNames: codes.map { $0.wrappedValue.name }, selectedIdx: $selectedCodeIdx) { idx in
 
                     }
@@ -88,7 +88,7 @@ extension TremoloEditorView {
 
     static let blockStyles: [Type: BlockStyle] = [
         .void: .defaultStyle,
-        .custom("value"): BlockStyle(color: .systemTeal, textColor: .black, argumentAreaColor: .systemTeal)
+        .custom("value"): BlockStyle(color: .systemTeal, textColor: .black, argumentAreaColor: UIColor(white: 0, alpha: 0.1))
     ]
 }
 
