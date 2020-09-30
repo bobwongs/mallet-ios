@@ -21,7 +21,7 @@ struct TextEditorView: View {
 
     init(uiData: Binding<MUI>) {
         self._uiData = uiData
-        self.codes = MUI.getCode(from: uiData)
+        codes = MUI.getCode(from: uiData)
     }
 
     var body: some View {
@@ -48,14 +48,14 @@ struct TextEditorView: View {
                         selectedCodeIdx = idx
                         selectedCode = codes[selectedCodeIdx].code.wrappedValue
                     }) {
-                        Text(self.codes[idx].wrappedValue.name)
+                        Text(codes[idx].wrappedValue.name)
                             .padding(.horizontal, 10)
                             .foregroundColor(.primary)
                     }
                         .frame(height: 30)
                         .background(
                             Group {
-                                if self.selectedCodeIdx == idx {
+                                if selectedCodeIdx == idx {
                                     Color.gray.opacity(0.2)
                                 } else {
                                     Color.gray.opacity(0.1)

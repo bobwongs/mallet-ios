@@ -29,7 +29,7 @@ struct CodeEditorView: View {
                 if mode == .text {
                     TextEditorView(uiData: $uiData)
                 } else {
-                    TremoloEditorView()
+                    TremoloEditorView(uiData: $uiData)
                 }
             }
                 .navigationBarTitle(Text(uiData.uiName), displayMode: .inline)
