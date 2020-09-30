@@ -19,7 +19,7 @@ struct CodeEditorView: View {
 
     @Binding var uiData: MUI
 
-    @State private var mode = EditorMode.text
+    @State private var mode = EditorMode.tremolo
 
     @State var text = ""
 
