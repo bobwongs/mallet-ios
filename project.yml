@@ -12,6 +12,9 @@ settings:
   DEVELOPMENT_TEAM: T437NKTG46
 
 packages:
+  Tremolo:
+    url: https://github.com/katsd/tremolo-ios
+    branch: master
   XyloSwift:
     url: https://github.com/katsd/xylo-swift
     branch: master
@@ -23,6 +26,7 @@ targets:
     sources: Mallet
     dependencies:
       - target: MalletWidget
+      - package: Tremolo
       - package: XyloSwift
       - carthage: Realm
       - carthage: RealmSwift
