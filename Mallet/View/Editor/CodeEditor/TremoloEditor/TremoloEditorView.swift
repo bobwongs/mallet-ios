@@ -11,7 +11,7 @@ import Tremolo
 
 struct TremoloEditorView: View {
 
-    @StateObject var tremolo = Self.tremolo
+    @StateObject var tremolo = Self.tremolo()
 
     @Binding private var uiData: MUI
 
@@ -31,24 +31,30 @@ struct TremoloEditorView: View {
             } else {
                 VStack(spacing: 0) {
                     TabBar(tabNames: codes.map { $0.wrappedValue.name }, selectedIdx: $selectedCodeIdx) { idx in
-
                     }
                     TremoloView(tremolo)
                 }
+                    .onChange(of: selectedCodeIdx) { [selectedCodeIdx] newIdx in
+                        codes[selectedCodeIdx].code.wrappedValue = tremolo.getCode()
+                    }
+                    .onDisappear {
+                        codes[selectedCodeIdx].code.wrappedValue = tremolo.getCode()
+                    }
             }
         }
     }
-
 }
 
 extension TremoloEditorView {
 
-    static let tremolo = Tremolo(
-        blockCategories: blockCategories,
-        blocks: [],
-        variables: [],
-        blockStyles: blockStyles
-    )
+    static func tremolo() -> Tremolo {
+        Tremolo(
+            blockCategories: blockCategories,
+            blocks: [],
+            variables: [],
+            blockStyles: blockStyles
+        )
+    }
 
     static let blockCategories: [BlockCategory] =
         [
@@ -106,7 +112,7 @@ extension TremoloEditorView {
         BlockTemplate(
             name: "setText",
             type: .void,
-            argTypes: [.value, .value],
+            argTypes: [.mathValue, .value],
             contents: [[.label("Set text of"), .arg(0), .label("to"), .arg(1)]]
         )
 
@@ -114,7 +120,7 @@ extension TremoloEditorView {
         BlockTemplate(
             name: "getText",
             type: .custom("value"),
-            argTypes: [.value],
+            argTypes: [.mathValue],
             contents: [[.label("Get text of"), .arg(0)]]
         )
 
@@ -122,15 +128,15 @@ extension TremoloEditorView {
         BlockTemplate(
             name: "setValue",
             type: .void,
-            argTypes: [.value, .mathValue],
+            argTypes: [.mathValue, .mathValue],
             contents: [[.label("Set value of"), .arg(0), .label("to"), .arg(1)]]
         )
 
     static let bGetValue =
         BlockTemplate(
-            name: "getText",
+            name: "getValue",
             type: .custom("value"),
-            argTypes: [.value],
+            argTypes: [.mathValue],
             contents: [[.label("Get value of"), .arg(0)]]
         )
     static let bString =
