@@ -101,6 +101,7 @@ struct EditorView: View {
                                   openCodeEditor: { openCodeEditor() }
                     )
                         .environmentObject(editorViewModel)
+                        .ignoresSafeArea(.keyboard)
 
                     if selectedUIType != .space {
                         UISelectionView.generateUI(type: selectedUIType)

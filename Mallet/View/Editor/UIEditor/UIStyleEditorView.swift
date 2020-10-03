@@ -14,8 +14,6 @@ struct UIStyleEditorView: View {
 
     @State var showingSubEditor = false
 
-    @State var keyboardHeight: CGFloat = 0
-
     let bottomInset: CGFloat
 
     let closeEditor: () -> Void
@@ -63,47 +61,12 @@ struct UIStyleEditorView: View {
                     }
                 }
                     .id(uiData.uiID)
-                    .onReceive(
-                        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { notification in
-                        self.keyboardWillShow(notification)
-                    }
-                    .onReceive(
-                        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { notification in
-                        self.keyboardWillHide(notification)
-                    }
                     .navigationBarTitle("", displayMode: .inline)
                     .navigationBarItems(leading: leadingItems(), trailing: trailingItems())
                     .navigationViewStyle(StackNavigationViewStyle())
             }
-            Spacer()
-                .frame(height: max(bottomInset, keyboardHeight))
-                .edgesIgnoringSafeArea(.bottom)
         }
             .background(Blur(style: .systemThickMaterial))
-    }
-
-    func keyboardWillShow(_ notification: Notification) {
-        if showingSubEditor {
-            return
-        }
-
-        guard  let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-
-        withAnimation {
-            keyboardHeight = frame.cgRectValue.height
-        }
-    }
-
-    func keyboardWillHide(_ notification: Notification) {
-        if showingSubEditor {
-            return
-        }
-
-        withAnimation {
-            keyboardHeight = 0
-        }
     }
 
     private func leadingItems() -> some View {
