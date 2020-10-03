@@ -22,7 +22,7 @@ struct ListSection<Content: View>: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(self.title)
+                Text(title)
                     .fontWeight(.semibold)
                 Spacer()
             }

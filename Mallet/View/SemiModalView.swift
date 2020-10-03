@@ -36,11 +36,11 @@ struct SemiModalView<Content: View>: View {
         self.minHeight = minHeight + controlBarHeight
         self.controlBarHeight = controlBarHeight
         self._offset = offset
-        self.maxOffset = self.height - self.minHeight
+        maxOffset = self.height - self.minHeight
     }
 
     var body: some View {
-        self.modalView()
+        modalView()
     }
 
     private func modalView() -> some View {

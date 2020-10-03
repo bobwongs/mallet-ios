@@ -40,7 +40,7 @@ struct AppSettingsView: View {
 
                 Section {
                     Button(action: {
-                        guard let url = self.editorViewModel.currentAppData.shareURL() else {
+                        guard let url = editorViewModel.currentAppData.shareURL() else {
                             self.showingAlert = true
                             return
                         }
@@ -55,7 +55,7 @@ struct AppSettingsView: View {
             }
                 .navigationBarTitle("App Settings", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Done")
                         .fontWeight(.semibold)
@@ -63,7 +63,7 @@ struct AppSettingsView: View {
                 )
         }
             .onDisappear {
-                self.editorViewModel.saveApp()
+                editorViewModel.saveApp()
             }
     }
 }

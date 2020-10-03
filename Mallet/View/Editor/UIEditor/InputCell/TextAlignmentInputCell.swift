@@ -23,7 +23,7 @@ struct TextAlignmentInputCell: View {
     var body: some View {
         ListCell {
             HStack {
-                Text(self.title)
+                Text(title)
 
                 Spacer()
 

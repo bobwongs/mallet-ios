@@ -25,8 +25,8 @@ struct TextInputCell: View {
     var body: some View {
         ListCell {
             HStack {
-                Text(self.title)
-                TextField(self.placeholder, text: self.$text)
+                Text(title)
+                TextField(placeholder, text: self.$text)
                     .multilineTextAlignment(.trailing)
             }
         }

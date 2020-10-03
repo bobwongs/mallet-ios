@@ -28,10 +28,10 @@ struct HomeAppCell: View {
         }
             .padding(.vertical, 10)
             .onTapGesture {
-                self.runApp()
+                runApp()
             }
             .contextMenu {
-                self.appCellContextMenu()
+                appCellContextMenu()
             }
     }
 
@@ -48,7 +48,7 @@ struct HomeAppCell: View {
 
     private func appInfo() -> some View {
         HStack {
-            Text(self.appName)
+            Text(appName)
                 .foregroundColor(Color(.label))
                 .font(.system(size: 25))
                 .font(.title)
@@ -67,7 +67,7 @@ struct HomeAppCell: View {
                     .foregroundColor(.blue)
             }
                 .onTapGesture {
-                    self.openEditor()
+                    openEditor()
                 }
         }
     }
@@ -76,7 +76,7 @@ struct HomeAppCell: View {
         Group {
             Button(action: {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    self.deleteApp()
+                    deleteApp()
                 }
             }) {
                 HStack {

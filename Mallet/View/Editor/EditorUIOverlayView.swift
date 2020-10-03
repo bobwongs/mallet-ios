@@ -41,8 +41,8 @@ struct EditorUIOverlayView<Content: View>: View {
         }
             .overlay(
                 GeometryReader { geo in
-                    if self.editorViewModel.selectedUIID == self.uiData.uiID {
-                        if self.editingText {
+                    if editorViewModel.selectedUIID == uiData.uiID {
+                        if editingText {
                             EditorTextView(backgroundData: self.$uiData.backgroundData, textData: self.$uiData.textData)
                                 .gesture(TapGesture())
                         } else {
@@ -51,12 +51,12 @@ struct EditorUIOverlayView<Content: View>: View {
                                              .onChanged { value in
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
-                                                 self.selectUI(geo)
+                                                 selectUI(geo)
                                              })
                                 .gesture(TapGesture()
                                              .onEnded {
-                                                 if self.uiData.textData.enabled {
-                                                     self.editorViewModel.editUIText(id: self.uiData.uiID)
+                                                 if uiData.textData.enabled {
+                                                     editorViewModel.editUIText(id: uiData.uiID)
                                                  }
                                              })
                         }
@@ -64,7 +64,7 @@ struct EditorUIOverlayView<Content: View>: View {
                         Rectangle()
                             .gesture(TapGesture()
                                          .onEnded {
-                                             self.selectUI(geo)
+                                             selectUI(geo)
                                          }
                             )
                     }

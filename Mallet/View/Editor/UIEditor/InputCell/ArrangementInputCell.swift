@@ -20,13 +20,13 @@ struct ArrangementInputCell: View {
                 Spacer()
 
                 HStack(spacing: 5) {
-                    self.arrangementButton(image: "arrow.down.to.line.alt", action: { self.editorViewModel.moveToBack() })
+                    arrangementButton(image: "arrow.down.to.line.alt", action: { editorViewModel.moveToBack() })
 
-                    self.arrangementButton(image: "arrow.down", action: { self.editorViewModel.moveBackward() })
+                    arrangementButton(image: "arrow.down", action: { editorViewModel.moveBackward() })
 
-                    self.arrangementButton(image: "arrow.up", action: { self.editorViewModel.moveForward() })
+                    arrangementButton(image: "arrow.up", action: { editorViewModel.moveForward() })
 
-                    self.arrangementButton(image: "arrow.up.to.line.alt", action: { self.editorViewModel.moveToFront() })
+                    arrangementButton(image: "arrow.up.to.line.alt", action: { editorViewModel.moveToFront() })
                 }
             }
         }

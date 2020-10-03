@@ -23,7 +23,7 @@ struct BoolInputCell: View {
     var body: some View {
         ListCell {
             HStack {
-                Text(self.title)
+                Text(title)
                 Spacer()
                 Toggle("", isOn: self.$value)
                     .labelsHidden()

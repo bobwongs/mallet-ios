@@ -64,11 +64,11 @@ struct EditorView: View {
             GeometryReader { geo in
                 ZStack {
                     SemiModalView(height: 200,
-                                  minHeight: self.toolBarHeight,
-                                  controlBarHeight: self.modalControlBarHeight,
+                                  minHeight: toolBarHeight,
+                                  controlBarHeight: modalControlBarHeight,
                                   offset: self.$modalOffset) {
                         UISelectionView(editorGeo: geo,
-                                        closeModalView: { self.closeModalView() },
+                                        closeModalView: { closeModalView() },
                                         selectedUIType: self.$selectedUIType,
                                         selectedUIFrame: self.$selectedUIFrame,
                                         appViewScale: self.$appViewScale,
@@ -79,13 +79,13 @@ struct EditorView: View {
 
                     VStack(spacing: 0) {
                         Spacer()
-                            .frame(height: self.spacerHeightAboveUIStyleEditor)
+                            .frame(height: spacerHeightAboveUIStyleEditor)
 
-                        if self.showingUIStyleEditorView {
+                        if showingUIStyleEditorView {
                             UIStyleEditorView(
-                                bottomInset: self.toolBarHeight + geo.safeAreaInsets.bottom,
-                                closeEditor: { self.closeUIStyleEditor() })
-                                .environmentObject(self.editorViewModel)
+                                bottomInset: toolBarHeight + geo.safeAreaInsets.bottom,
+                                closeEditor: { closeUIStyleEditor() })
+                                .environmentObject(editorViewModel)
                                 .transition(.move(edge: .bottom))
                         }
                     }
@@ -95,33 +95,33 @@ struct EditorView: View {
                         }
 
                     EditorToolBar(offset: self.$modalOffset,
-                                  height: self.toolBarHeight,
-                                  toggleUIStyleEditor: { self.toggleUIStyleEditor() },
-                                  openCodeEditor: { self.openCodeEditor() }
+                                  height: toolBarHeight,
+                                  toggleUIStyleEditor: { toggleUIStyleEditor() },
+                                  openCodeEditor: { openCodeEditor() }
                     )
-                        .environmentObject(self.editorViewModel)
+                        .environmentObject(editorViewModel)
 
-                    if self.selectedUIType != .space {
-                        UISelectionView.generateUI(type: self.selectedUIType)
-                            .environmentObject(self.editorViewModel)
-                            .frame(width: self.selectedUIFrame.width, height: self.selectedUIFrame.height)
-                            .background(MUI.defaultValue(type: self.selectedUIType).backgroundData.color.color)
-                            .cornerRadius(MUI.defaultValue(type: self.selectedUIType).backgroundData.cornerRadius)
-                            .scaleEffect(self.appViewScale)
-                            .position(x: self.selectedUIFrame.midX - geo.frame(in: .global).origin.x,
-                                      y: self.selectedUIFrame.midY - geo.frame(in: .global).origin.y)
+                    if selectedUIType != .space {
+                        UISelectionView.generateUI(type: selectedUIType)
+                            .environmentObject(editorViewModel)
+                            .frame(width: selectedUIFrame.width, height: selectedUIFrame.height)
+                            .background(MUI.defaultValue(type: selectedUIType).backgroundData.color.color)
+                            .cornerRadius(MUI.defaultValue(type: selectedUIType).backgroundData.cornerRadius)
+                            .scaleEffect(appViewScale)
+                            .position(x: selectedUIFrame.midX - geo.frame(in: .global).origin.x,
+                                      y: selectedUIFrame.midY - geo.frame(in: .global).origin.y)
                     }
                 }
             }
         }
             .sheet(isPresented: $showingCodeEditorView) {
-                CodeEditorView(uiData: self.editorViewModel.getSelectedUIData())
+                CodeEditorView(uiData: editorViewModel.getSelectedUIData())
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitle("\(editorViewModel.appName)", displayMode: .inline)
             .navigationBarItems(leading: navigationBarLeadingUI(), trailing: navigationBarTrailingUI())
             .onDisappear {
-                self.editorViewModel.saveApp()
+                editorViewModel.saveApp()
             }
     }
 
@@ -150,8 +150,8 @@ struct EditorView: View {
 
     private func navigationBarLeadingUI() -> some View {
         Button(action: {
-            self.editorViewModel.saveApp()
-            self.closeEditor()
+            editorViewModel.saveApp()
+            closeEditor()
         }) {
             Text("Done")
                 .fontWeight(.semibold)
@@ -170,14 +170,14 @@ struct EditorView: View {
             }
                 .sheet(isPresented: $showingAppSettingsView) {
                     AppSettingsView()
-                        .environmentObject(self.editorViewModel)
+                        .environmentObject(editorViewModel)
                 }
 
             Spacer()
                 .frame(width: 20)
 
             Button(action: {
-                self.editorViewModel.runApp()
+                editorViewModel.runApp()
             }) {
                 Image(systemName: "play.fill")
                     .resizable()
@@ -185,10 +185,6 @@ struct EditorView: View {
             }
         }
             .frame(height: 20)
-    }
-
-    private func generateUI() -> some View {
-        return Text("UI")
     }
 
     private func closeModalView() {
@@ -235,12 +231,4 @@ struct EditorView: View {
         showingCodeEditorView = true
     }
 
-}
-
-struct EditorView_Previews: PreviewProvider {
-    static var previews: some View {
-        DefaultPreview {
-            EditorView(closeEditor: {})
-        }
-    }
 }

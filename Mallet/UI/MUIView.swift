@@ -36,7 +36,7 @@ struct MUIButton: View, MUIInteractive {
 
     var body: some View {
         Button(action: {
-            self.invokeAction?(self.uiData.buttonData.onTapped.xyloFuncName(uiID: self.uiData.uiID))
+            invokeAction?(uiData.buttonData.onTapped.xyloFuncName(uiID: uiData.uiID))
         }) {
             Text(uiData.textData.text)
                 .frame(width: uiData.frameData.frame.width,
@@ -62,7 +62,7 @@ struct MUITextField: View, MUIInteractive {
 
     var body: some View {
         TextField(uiData.textFieldData.placeholder, text: $uiData.textFieldData.text, onCommit: {
-            self.invokeAction?(self.uiData.textFieldData.onCommit.xyloFuncName(uiID: self.uiData.uiID))
+            invokeAction?(uiData.textFieldData.onCommit.xyloFuncName(uiID: uiData.uiID))
         })
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .foregroundColor(uiData.textFieldData.color.color)

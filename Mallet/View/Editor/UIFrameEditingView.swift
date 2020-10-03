@@ -40,7 +40,7 @@ fileprivate struct UIFrameDot: View {
 
     var body: some View {
         Circle()
-            .foregroundColor(self.dotColor)
+            .foregroundColor(dotColor)
             .frame(width: size, height: size)
             .overlay(
                 Circle()
@@ -48,11 +48,11 @@ fileprivate struct UIFrameDot: View {
                     .frame(width: size * 2, height: size * 2)
                     .gesture(DragGesture()
                                  .onChanged { value in
-                                     self.frame.x += min(self.frameFactors.x.rawValue * value.translation.width, self.frame.width - self.minWidth)
-                                     self.frame.y += min(self.frameFactors.y.rawValue * value.translation.height, self.frame.height - self.minHeight)
-                                     self.frame.width = max(self.frame.width + self.frameFactors.width.rawValue * value.translation.width, self.minWidth)
-                                     self.frame.height = max(self.frame.height + self.frameFactors.height.rawValue * value.translation.height, self.minHeight)
-                                     self.onChanged()
+                                     self.frame.x += min(frameFactors.x.rawValue * value.translation.width, frame.width - minWidth)
+                                     self.frame.y += min(frameFactors.y.rawValue * value.translation.height, frame.height - minHeight)
+                                     self.frame.width = max(frame.width + frameFactors.width.rawValue * value.translation.width, minWidth)
+                                     self.frame.height = max(frame.height + frameFactors.height.rawValue * value.translation.height, minHeight)
+                                     onChanged()
                                  }
                     )
             )
@@ -77,13 +77,13 @@ struct UIFrameEditingView<Content: View>: View {
 
     private var dotSize: Binding<CGFloat> {
         Binding(
-            get: { 8 / self.appViewScale },
+            get: { 8 / appViewScale },
             set: { _ in }
         )
     }
 
     private var borderWidth: CGFloat {
-        1 / self.appViewScale
+        1 / appViewScale
     }
 
     init(uiData: Binding<MUI>, appViewScale: Binding<CGFloat>, @ViewBuilder content: @escaping () -> Content) {
@@ -97,20 +97,20 @@ struct UIFrameEditingView<Content: View>: View {
     }
 
     var body: some View {
-        self.content()
+        content()
             .hidden()
             .overlay(
                 ZStack {
                     Color.clear
-                        .padding(self.borderWidth / 2)
-                        .border(Color.blue, width: self.borderWidth)
+                        .padding(borderWidth / 2)
+                        .border(Color.blue, width: borderWidth)
 
                     GeometryReader { geo in
-                        self.dotView(size: geo.size, onChanged: { self.updateFrame(geo) })
+                        dotView(size: geo.size, onChanged: { updateFrame(geo) })
                     }
                 }
             )
-            .position(x: self.frameData.frame.midX, y: self.frameData.frame.midY)
+            .position(x: frameData.frame.midX, y: frameData.frame.midY)
     }
 
     private func dotView(size: CGSize, onChanged: @escaping () -> Void) -> some View {

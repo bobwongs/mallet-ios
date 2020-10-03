@@ -16,11 +16,11 @@ struct MUIRect: Codable {
     var height: CGFloat
 
     var midX: CGFloat {
-        return self.x + self.width / 2
+        x + width / 2
     }
 
     var midY: CGFloat {
-        return self.y + self.height / 2
+        y + height / 2
     }
 
     init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat) {
@@ -31,10 +31,10 @@ struct MUIRect: Codable {
     }
 
     init(_ frame: CGRect) {
-        self.x = frame.origin.x
-        self.y = frame.origin.y
-        self.width = frame.width
-        self.height = frame.height
+        x = frame.origin.x
+        y = frame.origin.y
+        width = frame.width
+        height = frame.height
     }
 
     static var zero: MUIRect {

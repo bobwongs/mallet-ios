@@ -21,7 +21,7 @@ struct UIStyleEditorView: View {
     let closeEditor: () -> Void
 
     private var uiDataBinding: Binding<MUI> {
-        self.editorViewModel.getSelectedUIData()
+        editorViewModel.getSelectedUIData()
     }
 
     private var uiData: MUI {
@@ -113,7 +113,7 @@ struct UIStyleEditorView: View {
 
     private func trailingItems() -> some View {
         Button(action: {
-            self.onCloseEditor()
+            onCloseEditor()
         }) {
             Text("Done")
                 .fontWeight(.semibold)

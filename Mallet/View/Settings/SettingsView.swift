@@ -21,7 +21,7 @@ struct SettingsView: View {
                 .navigationViewStyle(StackNavigationViewStyle())
                 .navigationBarTitle("Settings", displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Done")
                         .fontWeight(.semibold)

@@ -16,32 +16,32 @@ class FractionalNumberFormatter: NumberFormatter {
 
     init(_ range: ClosedRange<CGFloat>, minimumFractionDigits: Int, maximumFractionDigits: Int) {
         super.init()
-        self.minimum = NSNumber(value: Float(range.lowerBound))
-        self.maximum = NSNumber(value: Float(range.upperBound))
+        minimum = NSNumber(value: Float(range.lowerBound))
+        maximum = NSNumber(value: Float(range.upperBound))
         self.minimumFractionDigits = minimumFractionDigits
         self.maximumFractionDigits = maximumFractionDigits
     }
 
     init(_ range: ClosedRange<Float>, minimumFractionDigits: Int, maximumFractionDigits: Int) {
         super.init()
-        self.minimum = NSNumber(value: range.lowerBound)
-        self.maximum = NSNumber(value: range.upperBound)
+        minimum = NSNumber(value: range.lowerBound)
+        maximum = NSNumber(value: range.upperBound)
         self.minimumFractionDigits = minimumFractionDigits
         self.maximumFractionDigits = maximumFractionDigits
     }
 
     init(_ range: ClosedRange<Double>, minimumFractionDigits: Int, maximumFractionDigits: Int) {
         super.init()
-        self.minimum = NSNumber(value: range.lowerBound)
-        self.maximum = NSNumber(value: range.upperBound)
+        minimum = NSNumber(value: range.lowerBound)
+        maximum = NSNumber(value: range.upperBound)
         self.minimumFractionDigits = minimumFractionDigits
         self.maximumFractionDigits = maximumFractionDigits
     }
 
     init(_ range: ClosedRange<Int>, minimumFractionDigits: Int, maximumFractionDigits: Int) {
         super.init()
-        self.minimum = NSNumber(value: range.lowerBound)
-        self.maximum = NSNumber(value: range.upperBound)
+        minimum = NSNumber(value: range.lowerBound)
+        maximum = NSNumber(value: range.upperBound)
         self.minimumFractionDigits = minimumFractionDigits
         self.maximumFractionDigits = maximumFractionDigits
     }

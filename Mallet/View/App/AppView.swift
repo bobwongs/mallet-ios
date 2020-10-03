@@ -19,23 +19,23 @@ struct AppView: View {
             ZStack {
                 Color.white
 
-                ForEach(self.appViewModel.uiIDs, id: \.self) { id in
-                    MUI.putView(uiData: self.appViewModel.getUIDataOf(id), invokeAction: { self.appViewModel.runFunc(funcName: $0) })
+                ForEach(appViewModel.uiIDs, id: \.self) { id in
+                    MUI.putView(uiData: appViewModel.getUIDataOf(id), invokeAction: { appViewModel.runFunc(funcName: $0) })
                 }
             }
-                .navigationBarTitle(Text(self.appViewModel.appName), displayMode: .inline)
-                .navigationBarItems(leading: self.leadingNavigationBarItems())
+                .navigationBarTitle(Text(appViewModel.appName), displayMode: .inline)
+                .navigationBarItems(leading: leadingNavigationBarItems())
         }
             .colorScheme(.light)
             .onAppear {
-                self.appViewModel.run()
+                appViewModel.run()
             }
     }
 
     private func leadingNavigationBarItems() -> some View {
         Button(action: {
             presentationMode.wrappedValue.dismiss()
-            self.appViewModel.exitApp()
+            appViewModel.exitApp()
         }) {
             Image(systemName: "xmark")
                 .padding(.vertical, 10)

@@ -27,7 +27,7 @@ class HomeViewModel: ObservableObject {
     private var notificationTokens: [NotificationToken] = []
 
     init() {
-        self.editorViewModel = EditorViewModel()
+        editorViewModel = EditorViewModel()
 
         let appLists = Storage.allAppLists()
 

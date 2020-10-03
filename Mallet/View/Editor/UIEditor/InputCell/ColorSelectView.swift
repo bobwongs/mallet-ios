@@ -36,7 +36,7 @@ struct ColorSelectView: View {
                 Text("#")
                 TextField("", text: $colorCode, onEditingChanged: { _ in
                 }, onCommit: {
-                    self.updateColor(color: MUIColor(self.colorCode))
+                    updateColor(color: MUIColor(colorCode))
                 })
                     .multilineTextAlignment(.trailing)
                     .fixedSize()
@@ -51,10 +51,10 @@ struct ColorSelectView: View {
                     HStack(spacing: 0) {
                         ForEach(colors, id: \.self) { (color: MUIColor) in
                             Button(action: {
-                                self.updateColor(color: color)
+                                updateColor(color: color)
                             }) {
                                 if (color == .clear) {
-                                    self.transparentButton()
+                                    transparentButton()
                                 } else {
                                     color.color
                                 }
@@ -72,7 +72,7 @@ struct ColorSelectView: View {
         }
             .navigationBarTitle("Select Color", displayMode: .inline)
             .onAppear {
-                self.updateColor(color: self.color)
+                updateColor(color: color)
             }
     }
 
@@ -89,7 +89,7 @@ struct ColorSelectView: View {
             TextField("", value: $opacity,
                       formatter: FractionalNumberFormatter(0.0...100.0, minimumFractionDigits: 0, maximumFractionDigits: 1)
                 , onCommit: {
-                self.updateOpacity()
+                updateOpacity()
             })
                 .keyboardType(.numbersAndPunctuation)
                 .multilineTextAlignment(.trailing)
@@ -121,8 +121,8 @@ struct ColorSelectView: View {
     }
 
     func updateOpacity() {
-        self.color.a = Int(self.opacity * 2.55)
-        self.colorCode = self.color.hexCode(withAlpha: false)
+        self.color.a = Int(opacity * 2.55)
+        self.colorCode = color.hexCode(withAlpha: false)
     }
 
 }

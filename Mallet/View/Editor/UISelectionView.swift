@@ -64,26 +64,26 @@ struct UISelectionView: View {
                             .cornerRadius(MUI.defaultValue(type: type).backgroundData.cornerRadius)
                             .gesture(DragGesture()
                                          .onChanged { value in
-                                             self.closeModalView()
+                                             closeModalView()
                                              self.selectedUIType = type
                                              self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
                                              self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
                                              self.selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
                                          }
                                          .onEnded { value in
-                                             var offset = self.appViewOffset
-                                             offset.x += self.editorGeo.size.width * (1 - self.appViewScale) / 2
-                                             offset.y += (self.editorGeo.size.height) * (1 - self.appViewScale) / 2
-                                             offset.y += self.editorGeo.safeAreaInsets.top
+                                             var offset = appViewOffset
+                                             offset.x += editorGeo.size.width * (1 - appViewScale) / 2
+                                             offset.y += (editorGeo.size.height) * (1 - appViewScale) / 2
+                                             offset.y += editorGeo.safeAreaInsets.top
 
-                                             var frame = MUIRect(self.selectedUIFrame)
-                                             frame.x -= self.editorGeo.frame(in: .global).origin.x
-                                             frame.y -= self.editorGeo.frame(in: .global).origin.y
+                                             var frame = MUIRect(selectedUIFrame)
+                                             frame.x -= editorGeo.frame(in: .global).origin.x
+                                             frame.y -= editorGeo.frame(in: .global).origin.y
 
-                                             frame.x = self.editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - self.editorGeo.size.width / 2) / self.appViewScale - frame.width / 2
-                                             frame.y = self.editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - self.editorGeo.size.height / 2) / self.appViewScale - frame.height / 2
+                                             frame.x = editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - editorGeo.size.width / 2) / appViewScale - frame.width / 2
+                                             frame.y = editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - editorGeo.size.height / 2) / appViewScale - frame.height / 2
 
-                                             self.editorViewModel.addUI(type: type, frame: frame, globalFrame: self.selectedUIFrame)
+                                             editorViewModel.addUI(type: type, frame: frame, globalFrame: selectedUIFrame)
                                              self.selectedUIType = .space
                                              self.selectedUIFrame = CGRect.zero
                                          }

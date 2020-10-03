@@ -84,7 +84,7 @@ extension EditorTextView {
         }
 
         func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            return true
+            true
         }
 
         func textViewDidChange(_ textView: UITextView) {

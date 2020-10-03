@@ -27,7 +27,7 @@ struct HomeView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        self.homeViewModel.openEditor()
+                        homeViewModel.openEditor()
                     }) {
                         Circle()
                             .foregroundColor(.blue)
@@ -67,11 +67,11 @@ struct HomeView: View {
 
     private func appList() -> some View {
         List {
-            ForEach(self.homeViewModel.apps, id: \.appID) { (app: HomeViewModel.AppInfo) in
+            ForEach(homeViewModel.apps, id: \.appID) { (app: HomeViewModel.AppInfo) in
                 HomeAppCell(appID: app.appID,
                             appName: app.appName,
-                            runApp: { self.homeViewModel.runApp(id: app.appID) },
-                            openEditor: { self.homeViewModel.openEditor(appID: app.appID) },
+                            runApp: { homeViewModel.runApp(id: app.appID) },
+                            openEditor: { homeViewModel.openEditor(appID: app.appID) },
                             deleteApp: { Storage.deleteApp(appID: app.appID) }
                 )
             }
@@ -86,7 +86,7 @@ struct HomeView: View {
                 }
                 .onDelete { idxs in
                     for idx in idxs {
-                        Storage.deleteApp(appID: self.homeViewModel.apps[idx].appID)
+                        Storage.deleteApp(appID: homeViewModel.apps[idx].appID)
                     }
                 }
 

@@ -18,35 +18,35 @@ struct SliderStyleEditorView: View {
                 ListSection(title: "Slider") {
                     NumberInputCell(value:
                                     Binding(
-                                        get: { CGFloat(self.sliderData.value) },
+                                        get: { CGFloat(sliderData.value) },
                                         set: { self.sliderData.value = Float($0) }
                                     )
                         , range: -CGFloat.infinity...CGFloat.infinity, title: "Value", step: 0.1, maxFractionalDigits: 5)
 
                     NumberInputCell(value:
                                     Binding(
-                                        get: { CGFloat(self.sliderData.maxValue) },
+                                        get: { CGFloat(sliderData.maxValue) },
                                         set: { self.sliderData.maxValue = Float($0) }
                                     )
                         , range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", step: 0.1, maxFractionalDigits: 5)
 
                     NumberInputCell(value:
                                     Binding(
-                                        get: { CGFloat(self.sliderData.minValue) },
+                                        get: { CGFloat(sliderData.minValue) },
                                         set: { self.sliderData.minValue = Float($0) }
                                     )
                         , range: -CGFloat.infinity...CGFloat.infinity, title: "Minimum Value", step: 0.1, maxFractionalDigits: 5)
 
                     BoolInputCell(value:
                                   Binding(
-                                      get: { self.sliderData.step != nil },
+                                      get: { sliderData.step != nil },
                                       set: { self.sliderData.step = $0 ? 1 : nil }
                                   ), title: "Set Step")
 
-                    if self.sliderData.step != nil {
+                    if sliderData.step != nil {
                         NumberInputCell(value:
                                         Binding(
-                                            get: { CGFloat(self.sliderData.step ?? 0) },
+                                            get: { CGFloat(sliderData.step ?? 0) },
                                             set: { self.sliderData.step = Float($0) }
                                         )
                             , range: 0.01...CGFloat.infinity, title: "Step", step: 0.1, maxFractionalDigits: 3)

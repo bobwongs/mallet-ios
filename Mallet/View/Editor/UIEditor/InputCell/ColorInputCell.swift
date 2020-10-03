@@ -34,7 +34,7 @@ struct ColorInputCell: View {
         ) {
             ListCell {
                 HStack {
-                    Text(self.title)
+                    Text(title)
                         .foregroundColor(.primary)
                     Spacer()
                     ColorView(color: self.$color)

@@ -40,7 +40,7 @@ struct CodeEditorView: View {
 
     private func leadingBarItems() -> some View {
         Button(action: {
-            self.presentationMode.wrappedValue.dismiss()
+            presentationMode.wrappedValue.dismiss()
         }) {
             Text("Done")
                 .fontWeight(.semibold)
@@ -50,7 +50,7 @@ struct CodeEditorView: View {
 
     private func trailingBarItems() -> some View {
         Button(action: {
-            if self.mode == .text {
+            if mode == .text {
                 self.mode = .tremolo
             } else {
                 self.mode = .text

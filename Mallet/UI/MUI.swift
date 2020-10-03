@@ -161,7 +161,7 @@ extension MUI {
         if buttonData.enabled {
             codes.append(
                 Binding(
-                    get: { self.buttonData.onTapped },
+                    get: { buttonData.onTapped },
                     set: { _ in }
                 )
             )

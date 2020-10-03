@@ -19,21 +19,21 @@ struct EditorAppView: View {
             Color.white;
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
-                EditorUIOverlayView(uiData: self.editorViewModel.getUIDataOf(id)) {
+                EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id)) {
                     //self.generateUI(id: id)
-                    MUI.generateView(uiData: self.editorViewModel.getUIDataOf(id))
+                    MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                 }
-                    .environmentObject(self.editorViewModel)
+                    .environmentObject(editorViewModel)
             }
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 Group {
-                    if id == self.editorViewModel.selectedUIID {
-                        UIFrameEditingView(uiData: self.editorViewModel.getUIDataOf(id),
+                    if id == editorViewModel.selectedUIID {
+                        UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
                                            appViewScale: self.$appViewScale) {
-                            MUI.generateView(uiData: self.editorViewModel.getUIDataOf(id))
+                            MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                         }
-                            .environmentObject(self.editorViewModel)
+                            .environmentObject(editorViewModel)
                     }
                 }
             }
@@ -44,13 +44,13 @@ struct EditorAppView: View {
                     .edgesIgnoringSafeArea(.all)
                     .frame(width: 2000, height: 2000)
                     .onTapGesture {
-                        self.editorViewModel.deselectUI()
+                        editorViewModel.deselectUI()
                     }
             )
             .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
-                self.editorViewModel.deselectUI()
+                editorViewModel.deselectUI()
             }
     }
 }

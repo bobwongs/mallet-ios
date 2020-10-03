@@ -27,16 +27,16 @@ struct EditorToolBar: View {
                 VStack(spacing: 0) {
                     HStack {
                         HStack {
-                            self.leadingContent()
+                            leadingContent()
                             Spacer()
-                            self.centerContent()
+                            centerContent()
                             Spacer()
-                            self.trailingContent()
+                            trailingContent()
                         }
                             .frame(height: 23)
                             .padding([.leading, .trailing], 10)
                     }
-                        .frame(height: self.height)
+                        .frame(height: height)
 
                     Color.white
                         .opacity(0.001)
@@ -57,7 +57,7 @@ struct EditorToolBar: View {
                         }
                     )
             }
-                .offset(y: self.offset)
+                .offset(y: offset)
                 .edgesIgnoringSafeArea(.bottom)
         }
     }
@@ -87,7 +87,7 @@ struct EditorToolBar: View {
     private func centerContent() -> some View {
         HStack(spacing: 0) {
             Button(action: {
-                self.toggleUIStyleEditor()
+                toggleUIStyleEditor()
             }) {
                 Image(systemName: "slider.horizontal.3")
                     .resizable()
@@ -96,7 +96,7 @@ struct EditorToolBar: View {
             }
 
             Button(action: {
-                self.openCodeEditor()
+                openCodeEditor()
             }) {
                 Image(systemName: "chevron.left.slash.chevron.right")
                     .resizable()
@@ -109,7 +109,7 @@ struct EditorToolBar: View {
     private func trailingContent() -> some View {
         HStack(spacing: 0) {
             Button(action: {
-                self.editorViewModel.deleteUI()
+                editorViewModel.deleteUI()
             }) {
                 Image(systemName: "trash")
                     .resizable()
@@ -118,7 +118,7 @@ struct EditorToolBar: View {
             }
 
             Button(action: {
-                self.editorViewModel.duplicateUI()
+                editorViewModel.duplicateUI()
             }) {
                 Image(systemName: "plus.square.on.square")
                     .resizable()

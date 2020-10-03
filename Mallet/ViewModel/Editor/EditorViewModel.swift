@@ -41,13 +41,13 @@ class EditorViewModel: ObservableObject {
         self.uiData = uiData
 
         maxUIID = uiIDs.max(by: { (l, r) -> Bool in
-            return l < r
+            l < r
         }) ?? -1
     }
 
     func runApp() {
         saveAppSync()
-        AppController.runApp(id: self.appID)
+        AppController.runApp(id: appID)
     }
 
     func addUI(type: MUIType, frame: MUIRect, globalFrame: CGRect) {
@@ -63,7 +63,7 @@ class EditorViewModel: ObservableObject {
     }
 
     func duplicateUI() {
-        guard  let selectedUIID = self.selectedUIID else {
+        guard  let selectedUIID = selectedUIID else {
             return
         }
 
@@ -92,7 +92,7 @@ class EditorViewModel: ObservableObject {
     }
 
     func deleteUI() {
-        guard let selectedUIID = self.selectedUIID else {
+        guard let selectedUIID = selectedUIID else {
             return
         }
 
