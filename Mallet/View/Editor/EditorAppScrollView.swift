@@ -47,7 +47,7 @@ class EditorAppScrollViewController<Content: View>: UIViewController, UIScrollVi
 
         self.content = content
 
-        hosting = UIHostingController(rootView: content())
+        hosting = UIHostingController(rootView: content(), ignoreSafeArea: true)
 
         scrollView = UIScrollView()
 
@@ -229,3 +229,4 @@ struct EditorAppScrollView<Content: View>: UIViewControllerRepresentable {
         uiViewController.update(scrollViewSize: scrollViewSize, contentSize: contentSize, maxInsets: maxInsets, swiftUIView: content)
     }
 }
+

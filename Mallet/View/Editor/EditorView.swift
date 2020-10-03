@@ -52,14 +52,15 @@ struct EditorView: View {
             Color.gray
                 .ignoresSafeArea(edges: .bottom)
 
-            GeometryReader { screenGeo in
+            GeometryReader { appScreenGeo in
                 VStack(spacing: 0) {
-                    appView(screenGeo: screenGeo)
+                    appView(appScreenGeo: appScreenGeo)
                     Spacer()
-                        .frame(height: screenGeo.safeAreaInsets.bottom + toolBarHeight + modalControlBarHeight - scrollViewInvisibleHeight)
+                        .frame(height: appScreenGeo.safeAreaInsets.bottom + toolBarHeight + modalControlBarHeight - scrollViewInvisibleHeight)
                 }
                     .ignoresSafeArea(edges: .all)
             }
+                .ignoresSafeArea(.keyboard)
 
             GeometryReader { geo in
                 ZStack {
@@ -125,9 +126,9 @@ struct EditorView: View {
             }
     }
 
-    private func appView(screenGeo: GeometryProxy) -> some View {
+    private func appView(appScreenGeo: GeometryProxy) -> some View {
 
-        let scrollViewVisibleHeight = screenGeo.size.height + screenGeo.safeAreaInsets.top - screenGeo.safeAreaInsets.bottom - toolBarHeight - modalControlBarHeight
+        let scrollViewVisibleHeight = appScreenGeo.size.height + appScreenGeo.safeAreaInsets.top - appScreenGeo.safeAreaInsets.bottom - toolBarHeight - modalControlBarHeight
 
         let editorOffset = max(self.editorOffset, -(scrollViewVisibleHeight - spacerHeightAboveUIStyleEditor))
 
@@ -135,12 +136,13 @@ struct EditorView: View {
             EditorAppScrollView(scale: self.$appViewScale,
                                 offset: self.$appViewOffset,
                                 scrollViewSize: geo.size,
-                                contentSize: screenGeo.size,
+                                contentSize: appScreenGeo.size,
                                 contentPadding: appViewPadding,
-                                maxInsets: UIEdgeInsets(top: 20 + screenGeo.safeAreaInsets.top, left: 20, bottom: 20 + scrollViewInvisibleHeight, right: 20),
+                                maxInsets: UIEdgeInsets(top: 20 + appScreenGeo.safeAreaInsets.top, left: 20, bottom: 20 + scrollViewInvisibleHeight, right: 20),
                                 initialOffset: CGPoint(x: 0, y: 0)
             ) {
                 EditorAppView(appViewScale: self.$appViewScale)
+                    .frame(width: appScreenGeo.size.width, height: appScreenGeo.size.height)
                     .environmentObject(editorViewModel)
                     .padding(appViewPadding)
             }

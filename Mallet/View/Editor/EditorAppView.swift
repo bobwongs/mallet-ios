@@ -38,7 +38,6 @@ struct EditorAppView: View {
                 }
             }
         }
-            //.background(Color.white)
             .background(
                 Color.white.opacity(0.001)
                     .edgesIgnoringSafeArea(.all)
@@ -47,7 +46,6 @@ struct EditorAppView: View {
                         editorViewModel.deselectUI()
                     }
             )
-            .edgesIgnoringSafeArea(.bottom)
             .colorScheme(.light)
             .onTapGesture {
                 editorViewModel.deselectUI()
