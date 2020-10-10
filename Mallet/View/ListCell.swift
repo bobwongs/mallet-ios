@@ -21,7 +21,6 @@ struct ListCell<Content: View>: View {
             content()
                 .padding(.horizontal, 15)
                 .frame(height: 44)
-            ListSeparator()
         }
     }
 }
