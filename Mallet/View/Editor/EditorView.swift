@@ -90,7 +90,7 @@ struct EditorView: View {
                                 .transition(.move(edge: .bottom))
                         }
                     }
-                        .edgesIgnoringSafeArea(.top)
+                        .ignoresSafeArea(.all, edges: .all)
                         .onAppear {
                             self.safeAreaTopInset = geo.safeAreaInsets.top
                         }
@@ -101,7 +101,6 @@ struct EditorView: View {
                                   openCodeEditor: { openCodeEditor() }
                     )
                         .environmentObject(editorViewModel)
-                        .ignoresSafeArea(.keyboard)
 
                     if selectedUIType != .space {
                         UISelectionView.generateUI(type: selectedUIType)
@@ -115,6 +114,7 @@ struct EditorView: View {
                     }
                 }
             }
+                .ignoresSafeArea(.keyboard)
         }
             .sheet(isPresented: $showingCodeEditorView) {
                 CodeEditorView(uiData: editorViewModel.getSelectedUIData())

@@ -61,10 +61,16 @@ struct UIStyleEditorView: View {
                     }
                 }
                     .id(uiData.uiID)
-                    .navigationBarTitle("", displayMode: .inline)
-                    .navigationBarItems(leading: leadingItems(), trailing: trailingItems())
+                    .navigationBarTitle(uiData.uiName, displayMode: .inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            trailingItems()
+                        }
+                    }
                     .navigationViewStyle(StackNavigationViewStyle())
             }
+            Spacer()
+                .frame(height: bottomInset)
         }
             .background(Blur(style: .systemThickMaterial))
     }
