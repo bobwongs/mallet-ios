@@ -22,8 +22,12 @@ struct ColorView: View {
                     .stroke(Color.gray, lineWidth: 1)
             )
             .background(
-                background()
-                    .cornerRadius(cornerRadius)
+                Group {
+                    if color.a < 255 {
+                        background()
+                            .cornerRadius(cornerRadius)
+                    }
+                }
             )
     }
 
