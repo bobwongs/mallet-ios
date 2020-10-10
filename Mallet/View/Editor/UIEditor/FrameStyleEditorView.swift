@@ -13,13 +13,13 @@ struct FrameStyleEditorView: View {
     @Binding var frameData: MUIFrameData
 
     var body: some View {
-        Group {
+        VStack(spacing: 0) {
             if !frameData.lockWidth {
-                NumberInputCell(value: self.$frameData.frame.width, range: 0...1000, title: "Width")
+                NumberInputCell(value: self.$frameData.frame.width, range: 0...1000, title: "Width", symbol: "arrow.left.and.right.square")
             }
 
             if !frameData.lockHeight {
-                NumberInputCell(value: self.$frameData.frame.height, range: 0...1000, title: "Height")
+                NumberInputCell(value: self.$frameData.frame.height, range: 0...1000, title: "Height", symbol: "arrow.up.and.down.square")
             }
         }
     }

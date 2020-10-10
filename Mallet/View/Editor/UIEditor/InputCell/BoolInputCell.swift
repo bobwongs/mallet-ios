@@ -14,15 +14,20 @@ struct BoolInputCell: View {
 
     private let title: String
 
-    init(value: Binding<Bool>, title: String) {
-        self._value = value
+    private let symbol: String?
 
+    init(value: Binding<Bool>, title: String, symbol: String? = nil) {
+        self._value = value
         self.title = title
+        self.symbol = symbol
     }
 
     var body: some View {
         ListCell {
             HStack {
+                if let symbol = symbol {
+                    Image(systemName: symbol)
+                }
                 Text(title)
                 Spacer()
                 Toggle("", isOn: self.$value)

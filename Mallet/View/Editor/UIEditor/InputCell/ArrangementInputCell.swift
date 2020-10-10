@@ -15,7 +15,7 @@ struct ArrangementInputCell: View {
     var body: some View {
         ListCell {
             HStack {
-                Text("Arrangement")
+                Label("Arrangement", systemImage: "square.3.stack.3d")
 
                 Spacer()
 

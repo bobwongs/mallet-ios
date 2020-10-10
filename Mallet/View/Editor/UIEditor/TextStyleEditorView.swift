@@ -18,13 +18,13 @@ struct TextStyleEditorView: View {
         Group {
             if textData.enabled {
                 ListSection(title: "Text") {
-                    TextInputCell(text: self.$textData.text, title: "Text", placeholder: "Text")
+                    TextInputCell(text: self.$textData.text, title: "Text", symbol: "text.justify", placeholder: "Text")
 
-                    ColorInputCell(color: self.$textData.color, title: "Color", showingSubEditor: self.$showingSubEditor)
+                    ColorInputCell(color: self.$textData.color, title: "Color", symbol: "paintpalette", showingSubEditor: self.$showingSubEditor)
 
-                    NumberInputCell(value: self.$textData.size, range: 0.1...1000, title: "Size")
+                    NumberInputCell(value: self.$textData.size, range: 0.1...1000, title: "Size", symbol: "magnifyingglass")
 
-                    TextAlignmentInputCell(alignment: self.$textData.alignment, title: "Alignment")
+                    TextAlignmentInputCell(alignment: self.$textData.alignment, title: "Alignment", symbol: "text.alignleft")
                 }
             }
         }

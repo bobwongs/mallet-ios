@@ -14,15 +14,20 @@ struct TextAlignmentInputCell: View {
 
     private let title: String
 
-    init(alignment: Binding<MUITextAlignment>, title: String) {
-        self._alignment = alignment
+    private let symbol: String?
 
+    init(alignment: Binding<MUITextAlignment>, title: String, symbol: String? = nil) {
+        self._alignment = alignment
         self.title = title
+        self.symbol = symbol
     }
 
     var body: some View {
         ListCell {
             HStack {
+                if let symbol = symbol {
+                    Image(systemName: symbol)
+                }
                 Text(title)
 
                 Spacer()

@@ -22,11 +22,14 @@ struct NumberInputCell: View {
 
     private let title: String
 
+    private let symbol: String?
+
     private let placeholder: String
 
     init(value: Binding<CGFloat>,
          range: ClosedRange<CGFloat>,
          title: String,
+         symbol: String? = nil,
          placeholder: String = "",
          step: CGFloat = 1,
          minFractionalDigits: Int = 0,
@@ -37,12 +40,16 @@ struct NumberInputCell: View {
         self.minFractionalDigits = minFractionalDigits
         self.maxFractionalDigits = maxFractionalDigits
         self.title = title
+        self.symbol = symbol
         self.placeholder = placeholder
     }
 
     var body: some View {
         ListCell {
             HStack {
+                if let symbol = symbol {
+                    Image(systemName: symbol)
+                }
                 Text(title)
                 Stepper(value: self.$value, in: range, step: step) {
                     TextField(placeholder,

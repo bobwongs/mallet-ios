@@ -16,9 +16,12 @@ struct ColorInputCell: View {
 
     private let title: String
 
-    init(color: Binding<MUIColor>, title: String, showingSubEditor: Binding<Bool>) {
+    private let symbol: String?
+
+    init(color: Binding<MUIColor>, title: String, symbol: String? = nil, showingSubEditor: Binding<Bool>) {
         self._color = color
         self.title = title
+        self.symbol = symbol
         self._showingSubEditor = showingSubEditor
     }
 
@@ -34,7 +37,12 @@ struct ColorInputCell: View {
         ) {
             ListCell {
                 HStack {
-                    Text(title)
+                    Group {
+                        if let symbol = symbol {
+                            Image(systemName: symbol)
+                        }
+                        Text(title)
+                    }
                         .foregroundColor(.primary)
                     Spacer()
                     ColorView(color: self.$color)

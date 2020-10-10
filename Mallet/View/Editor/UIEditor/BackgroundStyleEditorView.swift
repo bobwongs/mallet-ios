@@ -15,11 +15,11 @@ struct BackgroundStyleEditorView: View {
     @Binding var showingSubEditor: Bool
 
     var body: some View {
-        Group {
+        VStack(spacing: 0) {
             if backgroundData.enabled {
-                ColorInputCell(color: $backgroundData.color, title: "Background Color", showingSubEditor: $showingSubEditor)
+                ColorInputCell(color: $backgroundData.color, title: "Background Color", symbol: "paintpalette", showingSubEditor: $showingSubEditor)
 
-                NumberInputCell(value: $backgroundData.cornerRadius, range: 0...10000, title: "Corner Radius")
+                NumberInputCell(value: $backgroundData.cornerRadius, range: 0...10000, title: "Corner Radius", symbol: "square")
             }
         }
     }
