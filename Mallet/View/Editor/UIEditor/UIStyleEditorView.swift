@@ -90,7 +90,7 @@ struct UIStyleEditorView: View {
     }
 
     private func generalInfo() -> some View {
-        TextInputCell(text: uiDataBinding.uiName, title: "Name", placeholder: "UI Name")
+        TextInputCell(text: uiDataBinding.uiName, title: "Name", symbol: "tag", placeholder: "UI Name")
     }
 
     private func onCloseEditor() {

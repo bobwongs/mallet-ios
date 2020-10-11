@@ -18,15 +18,15 @@ struct TextFieldStyleEditorView: View {
         Group {
             if textFieldData.enabled {
                 ListSection(title: "Text Field") {
-                    TextInputCell(text: self.$textFieldData.text, title: "Text", placeholder: "Text")
+                    TextInputCell(text: self.$textFieldData.text, title: "Text", symbol: "pencil", placeholder: "Text")
 
-                    TextInputCell(text: self.$textFieldData.placeholder, title: "Placeholder", placeholder: "Placeholder")
+                    TextInputCell(text: self.$textFieldData.placeholder, title: "Placeholder", symbol: "pencil", placeholder: "Placeholder")
 
-                    ColorInputCell(color: self.$textFieldData.color, title: "Color", showingSubEditor: self.$showingSubEditor)
+                    ColorInputCell(color: self.$textFieldData.color, title: "Color", symbol: "paintpalette", showingSubEditor: self.$showingSubEditor)
 
-                    NumberInputCell(value: self.$textFieldData.size, range: 0.1...1000, title: "Size")
+                    NumberInputCell(value: self.$textFieldData.size, range: 0.1...1000, title: "Size", symbol: "magnifyingglass")
 
-                    TextAlignmentInputCell(alignment: self.$textFieldData.alignment, title: "Alignment")
+                    TextAlignmentInputCell(alignment: self.$textFieldData.alignment, title: "Alignment", symbol: "text.alignleft")
                 }
             }
         }

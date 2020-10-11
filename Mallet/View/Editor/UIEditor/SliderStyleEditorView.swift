@@ -21,21 +21,21 @@ struct SliderStyleEditorView: View {
                                         get: { CGFloat(sliderData.value) },
                                         set: { self.sliderData.value = Float($0) }
                                     )
-                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Value", step: 0.1, maxFractionalDigits: 5)
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Value", symbol: "slider.vertical.3", step: 0.1, maxFractionalDigits: 5)
 
                     NumberInputCell(value:
                                     Binding(
                                         get: { CGFloat(sliderData.maxValue) },
                                         set: { self.sliderData.maxValue = Float($0) }
                                     )
-                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", step: 0.1, maxFractionalDigits: 5)
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Maximum Value", symbol: "chevron.right.2", step: 0.1, maxFractionalDigits: 5)
 
                     NumberInputCell(value:
                                     Binding(
                                         get: { CGFloat(sliderData.minValue) },
                                         set: { self.sliderData.minValue = Float($0) }
                                     )
-                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Minimum Value", step: 0.1, maxFractionalDigits: 5)
+                        , range: -CGFloat.infinity...CGFloat.infinity, title: "Minimum Value", symbol: "chevron.left.2", step: 0.1, maxFractionalDigits: 5)
 
                     BoolInputCell(value:
                                   Binding(
@@ -49,7 +49,7 @@ struct SliderStyleEditorView: View {
                                             get: { CGFloat(sliderData.step ?? 0) },
                                             set: { self.sliderData.step = Float($0) }
                                         )
-                            , range: 0.01...CGFloat.infinity, title: "Step", step: 0.1, maxFractionalDigits: 3)
+                            , range: 0.01...CGFloat.infinity, title: "Step", symbol: "plus.slash.minus", step: 0.1, maxFractionalDigits: 3)
                     }
                 }
             }

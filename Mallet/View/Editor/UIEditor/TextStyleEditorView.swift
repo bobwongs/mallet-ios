@@ -18,7 +18,7 @@ struct TextStyleEditorView: View {
         Group {
             if textData.enabled {
                 ListSection(title: "Text") {
-                    TextInputCell(text: self.$textData.text, title: "Text", symbol: "text.justify", placeholder: "Text")
+                    TextInputCell(text: self.$textData.text, title: "Text", symbol: "pencil", placeholder: "Text")
 
                     ColorInputCell(color: self.$textData.color, title: "Color", symbol: "paintpalette", showingSubEditor: self.$showingSubEditor)
 

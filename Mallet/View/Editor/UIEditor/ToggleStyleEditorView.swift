@@ -16,7 +16,7 @@ struct ToggleStyleEditorView: View {
         Group {
             if toggleData.enabled {
                 ListSection(title: "Toggle") {
-                    BoolInputCell(value: self.$toggleData.value, title: "Value")
+                    BoolInputCell(value: self.$toggleData.value, title: "Value", symbol: "switch.2")
                 }
             }
         }
