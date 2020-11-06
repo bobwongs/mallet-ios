@@ -16,7 +16,9 @@ struct EditorAppView: View {
 
     var body: some View {
         ZStack {
-            Color.white;
+            Color.white
+
+            grid()
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id)) {
@@ -51,4 +53,24 @@ struct EditorAppView: View {
                 editorViewModel.deselectUI()
             }
     }
+
+    private func grid() -> some View {
+        ZStack {
+            HStack(spacing: 0) {
+                ForEach(0..<editorViewModel.screen.gridW, id: \.self) { _ in
+                    Color.white
+                        .hidden()
+                        .border(Color.black, width: 0.5)
+                }
+            }
+            VStack(spacing: 0) {
+                ForEach(0..<editorViewModel.screen.gridH, id: \.self) { _ in
+                    Color.white
+                        .hidden()
+                        .border(Color.black, width: 0.5)
+                }
+            }
+        }
+    }
+
 }

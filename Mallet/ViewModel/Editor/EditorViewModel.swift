@@ -14,6 +14,8 @@ class EditorViewModel: ObservableObject {
 
     @Published var appID: Int
 
+    @Published var screen: Screen
+
     @Published var uiIDs: [Int]
 
     @Published var uiData: Dictionary<Int, MUI>
@@ -27,18 +29,21 @@ class EditorViewModel: ObservableObject {
     private var maxUIID: Int
 
     convenience init() {
-        self.init(appID: -1, appName: "Empty App", uiIDs: [], uiData: [:])
+        self.init(appID: -1, appName: "Empty App", screen: .zero, uiIDs: [], uiData: [:])
     }
 
     convenience init(_ appData: AppData) {
-        self.init(appID: appData.appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
+        self.init(appID: appData.appID, appName: appData.appName, screen: appData.screen, uiIDs: appData.uiIDs, uiData: appData.uiData)
     }
 
-    init(appID: Int, appName: String, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
+    init(appID: Int, appName: String, screen: Screen, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
         self.appName = appName
         self.appID = appID
+        self.screen = screen
         self.uiIDs = uiIDs
         self.uiData = uiData
+
+        print(screen.gridW, screen.gridH)
 
         maxUIID = uiIDs.max(by: { (l, r) -> Bool in
             l < r
@@ -185,6 +190,7 @@ extension EditorViewModel {
     var currentAppData: AppData {
         AppData(appID: appID,
                 appName: appName,
+                screen: screen,
                 uiIDs: uiIDs,
                 uiData: uiData)
     }
