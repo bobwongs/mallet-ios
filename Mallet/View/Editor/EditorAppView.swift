@@ -18,25 +18,24 @@ struct EditorAppView: View {
         ZStack {
             Color.white
 
-            grid()
+            GeometryReader { geo in
+                grid(screenSize: geo.size)
+            }
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
                 EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id)) {
-                    //self.generateUI(id: id)
                     MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                 }
                     .environmentObject(editorViewModel)
             }
 
             ForEach(editorViewModel.uiIDs, id: \.self) { id in
-                Group {
-                    if id == editorViewModel.selectedUIID {
-                        UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
-                                           appViewScale: self.$appViewScale) {
-                            MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
-                        }
-                            .environmentObject(editorViewModel)
+                if id == editorViewModel.selectedUIID {
+                    UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
+                                       appViewScale: self.$appViewScale) {
+                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                     }
+                        .environmentObject(editorViewModel)
                 }
             }
         }
@@ -54,20 +53,35 @@ struct EditorAppView: View {
             }
     }
 
-    private func grid() -> some View {
-        ZStack {
+    private func grid(screenSize: CGSize) -> some View {
+        let padding = EditorAppViewInfo.gridRectPadding(screenSize: screenSize)
+        let spacerHeight = EditorAppViewInfo.gridSpacerHeight(screenSize: screenSize, rectPadding: padding)
+
+        return VStack(spacing: 0) {
+            subGrid(gridHeight: EditorAppViewInfo.gridHeight1, padding: padding)
+            Spacer()
+                .frame(height: spacerHeight)
+            subGrid(gridHeight: EditorAppViewInfo.gridHeight2, padding: padding)
+        }
+    }
+
+    private func subGrid(gridHeight: Int, padding: CGFloat) -> some View {
+        ForEach(0..<gridHeight) { _ in
             HStack(spacing: 0) {
-                ForEach(0..<editorViewModel.screen.gridW, id: \.self) { _ in
-                    Color.white
-                        .hidden()
-                        .border(Color.black, width: 0.5)
-                }
-            }
-            VStack(spacing: 0) {
-                ForEach(0..<editorViewModel.screen.gridH, id: \.self) { _ in
-                    Color.white
-                        .hidden()
-                        .border(Color.black, width: 0.5)
+                ForEach(0..<EditorAppViewInfo.gridWidth) { _ in
+                    Rectangle()
+                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .frame(width: EditorAppViewInfo.gridRectSize, height: EditorAppViewInfo.gridRectSize)
+                        .overlay(
+                            GeometryReader { geo in
+                                if let selectedUIGlobalFrame = editorViewModel.selectedUIGlobalFrame {
+                                    if geo.frame(in: .global).intersects(selectedUIGlobalFrame) {
+                                        Color.blue.opacity(0.3)
+                                    }
+                                }
+                            }
+                        )
+                        .padding(padding)
                 }
             }
         }
