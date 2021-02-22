@@ -270,7 +270,7 @@ extension EditorViewModel {
 
         left = max(1, min(EditorAppViewInfo.gridWidth, Int((uiFrameInAppView.minX + padding) / gridRectSizeWithPadding) + 1))
 
-        right = max(1, min(EditorAppViewInfo.gridWidth, EditorAppViewInfo.gridWidth - Int((appViewGeo.size.width - uiFrameInAppView.maxX + padding) / (gridRectSizeWithPadding))))
+        right = max(1, min(EditorAppViewInfo.gridWidth, EditorAppViewInfo.gridWidth - Int((appViewGeo.size.width - uiFrameInAppView.maxX + padding) / gridRectSizeWithPadding)))
 
         return MUIRectInGrid(top: top, left: left, bottom: bottom, right: right)
     }
