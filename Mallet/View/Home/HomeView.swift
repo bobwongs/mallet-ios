@@ -39,7 +39,7 @@ struct HomeView: View {
                                     .foregroundColor(.white)
                             )
                             .frame(width: 50, height: 50)
-                            .padding(.trailing, 20)
+                            .padding(20)
                     }
                 }
             }
