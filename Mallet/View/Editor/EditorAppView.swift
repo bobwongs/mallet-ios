@@ -15,40 +15,41 @@ struct EditorAppView: View {
     @Binding var appViewScale: CGFloat
 
     var body: some View {
-        ZStack {
-            Color.white
+        GeometryReader { geo in
+            ZStack {
+                Color.white
 
-            GeometryReader { geo in
                 grid(screenSize: geo.size)
-            }
 
-            ForEach(editorViewModel.uiIDs, id: \.self) { id in
-                EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id)) {
-                    MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
-                }
-                    .environmentObject(editorViewModel)
-            }
-
-            if let id = editorViewModel.selectedUIID {
-                UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
-                                   appViewScale: self.$appViewScale) {
-                    MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
-                }
-                    .environmentObject(editorViewModel)
-            }
-        }
-            .background(
-                Color.white.opacity(0.001)
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width: 2000, height: 2000)
-                    .onTapGesture {
-                        editorViewModel.deselectUI()
+                ForEach(editorViewModel.uiIDs, id: \.self) { id in
+                    EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id), appViewGeo: geo) {
+                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                     }
-            )
-            .colorScheme(.light)
-            .onTapGesture {
-                editorViewModel.deselectUI()
+                        .environmentObject(editorViewModel)
+                }
+
+                if let id = editorViewModel.selectedUIID {
+                    UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
+                                       appViewScale: self.$appViewScale,
+                                       appViewGeo: geo) {
+                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
+                    }
+                        .environmentObject(editorViewModel)
+                }
             }
+                .background(
+                    Color.white.opacity(0.001)
+                        .edgesIgnoringSafeArea(.all)
+                        .frame(width: 2000, height: 2000)
+                        .onTapGesture {
+                            editorViewModel.deselectUI()
+                        }
+                )
+                .colorScheme(.light)
+                .onTapGesture {
+                    editorViewModel.deselectUI()
+                }
+        }
     }
 
     private func grid(screenSize: CGSize) -> some View {

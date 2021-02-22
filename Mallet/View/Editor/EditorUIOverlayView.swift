@@ -18,14 +18,18 @@ struct EditorUIOverlayView<Content: View>: View {
 
     @Binding var frame: MUIRect
 
+    let appViewGeo: GeometryProxy
+
     private var editingText: Bool {
         editorViewModel.textEditingUIID == uiData.uiID
     }
 
-    init(uiData: Binding<MUI>, @ViewBuilder content: @escaping () -> Content) {
+    init(uiData: Binding<MUI>, appViewGeo: GeometryProxy, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
 
         self._frame = uiData.frameData.frame
+
+        self.appViewGeo = appViewGeo
 
         self.content = content
     }
@@ -52,7 +56,11 @@ struct EditorUIOverlayView<Content: View>: View {
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
                                                  selectUI(geo)
-                                             })
+                                             }
+                                             .onEnded { _ in
+                                                 print(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
+                                             }
+                                )
                                 .gesture(TapGesture()
                                              .onEnded {
                                                  if uiData.textData.enabled {
