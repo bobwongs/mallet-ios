@@ -76,7 +76,7 @@ struct EditorAppView: View {
                             GeometryReader { geo in
                                 if let selectedUIGlobalFrame = editorViewModel.selectedUIGlobalFrame {
                                     if geo.frame(in: .global).intersects(selectedUIGlobalFrame) {
-                                        Color.blue.opacity(0.3)
+                                        Color.blue.opacity(0.1)
                                     }
                                 }
                             }
