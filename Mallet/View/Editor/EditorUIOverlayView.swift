@@ -55,7 +55,6 @@ struct EditorUIOverlayView<Content: View>: View {
                                              .onChanged { value in
                                                  self.frame.x += value.translation.width
                                                  self.frame.y += value.translation.height
-                                                 selectUI(geo)
                                              }
                                              .onEnded { _ in
                                                  print(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
@@ -67,6 +66,9 @@ struct EditorUIOverlayView<Content: View>: View {
                                                      editorViewModel.editUIText(id: uiData.uiID)
                                                  }
                                              })
+                                .onChange(of: geo.frame(in: .global)) { _ in
+                                    selectUI(geo)
+                                }
                         }
                     } else {
                         Rectangle()
