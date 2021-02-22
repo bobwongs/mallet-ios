@@ -29,14 +29,12 @@ struct EditorAppView: View {
                     .environmentObject(editorViewModel)
             }
 
-            ForEach(editorViewModel.uiIDs, id: \.self) { id in
-                if id == editorViewModel.selectedUIID {
-                    UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
-                                       appViewScale: self.$appViewScale) {
-                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
-                    }
-                        .environmentObject(editorViewModel)
+            if let id = editorViewModel.selectedUIID {
+                UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
+                                   appViewScale: self.$appViewScale) {
+                    MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
                 }
+                    .environmentObject(editorViewModel)
             }
         }
             .background(
