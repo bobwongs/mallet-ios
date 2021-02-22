@@ -214,6 +214,7 @@ extension EditorViewModel {
         let padding = EditorAppViewInfo.gridRectPadding(screenSize: appViewGeo.size)
         let spacerHeight = EditorAppViewInfo.gridSpacerHeight(screenSize: appViewGeo.size, rectPadding: padding)
         let gridMaxHeight = EditorAppViewInfo.gridHeight1 + EditorAppViewInfo.gridHeight2
+        let gridRectSizeWithPadding = EditorAppViewInfo.gridRectSize + padding * 2
 
         let globalUIFrame = uiGeo.frame(in: .global)
         let globalAppViewFrame = appViewGeo.frame(in: .global)
@@ -228,27 +229,48 @@ extension EditorViewModel {
         let bottom: Int
         let right: Int
 
-        let _top = Int((uiFrameInAppView.minY + padding) / (EditorAppViewInfo.gridRectSize + padding * 2)) + 1
+        let tempTop: Int
+        let tempBottom: Int
+
+        var isTopInSpacer = false
+        var isBottomInSpacer = false
+
+        let _top = Int((uiFrameInAppView.minY + padding) / gridRectSizeWithPadding) + 1
         if _top <= EditorAppViewInfo.gridHeight1 {
-            top = max(1, _top)
-        } else if uiFrameInAppView.minY < (EditorAppViewInfo.gridRectSize + padding * 2) * CGFloat(EditorAppViewInfo.gridHeight1) + spacerHeight + padding {
-            top = EditorAppViewInfo.gridHeight1
+            tempTop = max(1, _top)
+        } else if uiFrameInAppView.minY < gridRectSizeWithPadding * CGFloat(EditorAppViewInfo.gridHeight1) + spacerHeight + padding {
+            tempTop = EditorAppViewInfo.gridHeight1 + 1
+            isTopInSpacer = true
         } else {
-            top = min(gridMaxHeight, Int((uiFrameInAppView.minY + padding - spacerHeight) / (EditorAppViewInfo.gridRectSize + padding * 2)) + 1)
+            tempTop = min(gridMaxHeight, Int((uiFrameInAppView.minY + padding - spacerHeight) / gridRectSizeWithPadding) + 1)
         }
 
-        let _bottom = gridMaxHeight - Int((appViewGeo.size.height - uiFrameInAppView.maxY + padding) / (EditorAppViewInfo.gridRectSize + padding * 2))
+        let _bottom = gridMaxHeight - Int((appViewGeo.size.height - uiFrameInAppView.maxY + padding) / gridRectSizeWithPadding)
         if _bottom > EditorAppViewInfo.gridHeight1 {
-            bottom = min(gridMaxHeight, _bottom)
-        } else if uiFrameInAppView.maxY > (EditorAppViewInfo.gridRectSize + padding * 2) * CGFloat(EditorAppViewInfo.gridHeight1) - padding {
-            bottom = EditorAppViewInfo.gridHeight1
+            tempBottom = min(gridMaxHeight, _bottom)
+        } else if uiFrameInAppView.maxY > gridRectSizeWithPadding * CGFloat(EditorAppViewInfo.gridHeight1) - padding {
+            tempBottom = EditorAppViewInfo.gridHeight1
+            isBottomInSpacer = true
         } else {
-            bottom = max(1, EditorAppViewInfo.gridHeight1 - Int(((EditorAppViewInfo.gridRectSize + padding * 2) * CGFloat(EditorAppViewInfo.gridHeight1) - uiFrameInAppView.maxY + padding) / (EditorAppViewInfo.gridRectSize + padding * 2)))
+            tempBottom = max(1, EditorAppViewInfo.gridHeight1 - Int((gridRectSizeWithPadding * CGFloat(EditorAppViewInfo.gridHeight1) - uiFrameInAppView.maxY + padding) / gridRectSizeWithPadding))
         }
 
-        left = max(1, min(EditorAppViewInfo.gridWidth, Int((uiFrameInAppView.minX + padding) / (EditorAppViewInfo.gridRectSize + padding * 2)) + 1))
+        if isTopInSpacer && isBottomInSpacer {
+            if uiFrameInAppView.midY <= gridRectSizeWithPadding * CGFloat(EditorAppViewInfo.gridHeight1) + spacerHeight / 2 {
+                top = EditorAppViewInfo.gridHeight1
+                bottom = EditorAppViewInfo.gridHeight1
+            } else {
+                top = EditorAppViewInfo.gridHeight1 + 1
+                bottom = EditorAppViewInfo.gridHeight1 + 1
+            }
+        } else {
+            top = tempTop
+            bottom = tempBottom
+        }
 
-        right = max(1, min(EditorAppViewInfo.gridWidth, EditorAppViewInfo.gridWidth - Int((appViewGeo.size.width - uiFrameInAppView.maxX + padding) / (EditorAppViewInfo.gridRectSize + padding * 2))))
+        left = max(1, min(EditorAppViewInfo.gridWidth, Int((uiFrameInAppView.minX + padding) / gridRectSizeWithPadding) + 1))
+
+        right = max(1, min(EditorAppViewInfo.gridWidth, EditorAppViewInfo.gridWidth - Int((appViewGeo.size.width - uiFrameInAppView.maxX + padding) / (gridRectSizeWithPadding))))
 
         return MUIRectInGrid(top: top, left: left, bottom: bottom, right: right)
     }
