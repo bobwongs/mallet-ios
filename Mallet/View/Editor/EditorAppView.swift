@@ -29,12 +29,14 @@ struct EditorAppView: View {
                 }
 
                 if let id = editorViewModel.selectedUIID {
-                    UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
-                                       appViewScale: self.$appViewScale,
-                                       appViewGeo: geo) {
-                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
+                    if id != MUI.none.uiID {
+                        UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
+                                           appViewScale: self.$appViewScale,
+                                           appViewGeo: geo) {
+                            MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
+                        }
+                            .environmentObject(editorViewModel)
                     }
-                        .environmentObject(editorViewModel)
                 }
             }
                 .background(

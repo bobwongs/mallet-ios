@@ -65,10 +65,11 @@ struct UISelectionView: View {
                             .gesture(DragGesture()
                                          .onChanged { value in
                                              closeModalView()
-                                             self.selectedUIType = type
-                                             self.selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
-                                             self.selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
-                                             self.selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
+                                             selectedUIType = type
+                                             selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
+                                             selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
+                                             selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
+                                             editorViewModel.selectUI(id: MUI.none.uiID, frame: selectedUIFrame)
                                          }
                                          .onEnded { value in
                                              var offset = appViewOffset
@@ -84,8 +85,8 @@ struct UISelectionView: View {
                                              frame.y = editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - editorGeo.size.height / 2) / appViewScale - frame.height / 2
 
                                              editorViewModel.addUI(type: type, frame: frame, globalFrame: selectedUIFrame)
-                                             self.selectedUIType = .space
-                                             self.selectedUIFrame = CGRect.zero
+                                             selectedUIType = .space
+                                             selectedUIFrame = CGRect.zero
                                          }
                             )
                     }
