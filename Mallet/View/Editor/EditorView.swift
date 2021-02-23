@@ -104,6 +104,15 @@ struct EditorView: View {
 
                     if selectedUIType != .space {
                         UISelectionView.generateUI(type: selectedUIType)
+                            .overlay(
+                                GeometryReader { geo in
+                                    Spacer()
+                                        .onChange(of: geo.frame(in: .global)) { frame in
+                                            editorViewModel.selectUI(id: MUI.none.uiID)
+                                            editorViewModel.setSelectedUIGlobalFrame(geo.frame(in: .global))
+                                        }
+                                }
+                            )
                             .environmentObject(editorViewModel)
                             .frame(width: selectedUIFrame.width, height: selectedUIFrame.height)
                             .background(MUI.defaultValue(type: selectedUIType).backgroundData.color.color)

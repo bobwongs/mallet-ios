@@ -55,14 +55,14 @@ class EditorViewModel: ObservableObject {
         AppController.runApp(id: appID)
     }
 
-    func addUI(type: MUIType, frame: MUIRect, globalFrame: CGRect) {
+    func addUI(type: MUIType, frame: MUIRect) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
         uiIDs.append(uiID)
         uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
 
-        selectUI(id: uiID, frame: globalFrame)
+        selectedUIID = uiID
 
         maxUIID += 1
     }
@@ -88,10 +88,7 @@ class EditorViewModel: ObservableObject {
         uiIDs.append(uiID)
         uiData[uiID] = newUI
 
-        selectUI(id: uiID, frame: CGRect(x: (selectedUIGlobalFrame?.origin.x ?? 0) + diff.x,
-                                         y: (selectedUIGlobalFrame?.origin.x ?? 0) + diff.y,
-                                         width: selectedUIGlobalFrame?.width ?? 0,
-                                         height: selectedUIGlobalFrame?.height ?? 0))
+        self.selectedUIID = uiID
 
         maxUIID += 1
     }
@@ -122,9 +119,12 @@ class EditorViewModel: ObservableObject {
         }
     }
 
-    func selectUI(id: Int, frame: CGRect) {
+    func selectUI(id: Int) {
         selectedUIID = id
         textEditingUIID = nil
+    }
+
+    func setSelectedUIGlobalFrame(_ frame: CGRect) {
         selectedUIGlobalFrame = frame
     }
 

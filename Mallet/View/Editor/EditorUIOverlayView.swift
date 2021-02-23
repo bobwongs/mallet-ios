@@ -67,14 +67,25 @@ struct EditorUIOverlayView<Content: View>: View {
                                                  }
                                              })
                                 .onChange(of: geo.frame(in: .global)) { _ in
-                                    selectUI(geo)
+                                    editorViewModel.setSelectedUIGlobalFrame(geo.frame(in: .global))
+                                }
+                                .onChange(of: editorViewModel.selectedUIID) { id in
+                                    if uiData.uiID == id {
+                                        editorViewModel.setSelectedUIGlobalFrame(geo.frame(in: .global))
+                                    }
+                                }
+                                .onAppear {
+                                    if uiData.uiID == editorViewModel.selectedUIID {
+                                        editorViewModel.setSelectedUIGlobalFrame(geo.frame(in: .global))
+                                    }
                                 }
                         }
                     } else {
                         Rectangle()
                             .gesture(TapGesture()
                                          .onEnded {
-                                             selectUI(geo)
+                                             selectUI()
+                                             editorViewModel.setSelectedUIGlobalFrame(geo.frame(in: .global))
                                          }
                             )
                     }
@@ -84,7 +95,7 @@ struct EditorUIOverlayView<Content: View>: View {
             .position(x: frame.midX, y: frame.midY)
     }
 
-    private func selectUI(_ geo: GeometryProxy) {
-        editorViewModel.selectUI(id: uiData.uiID, frame: geo.frame(in: .global))
+    private func selectUI() {
+        editorViewModel.selectUI(id: uiData.uiID)
     }
 }

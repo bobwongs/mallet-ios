@@ -69,7 +69,6 @@ struct UISelectionView: View {
                                              selectedUIFrame.origin.x = geo.frame(in: .global).origin.x + value.translation.width
                                              selectedUIFrame.origin.y = geo.frame(in: .global).origin.y + value.translation.height
                                              selectedUIFrame.size = CGSize(width: geo.size.width, height: geo.size.height)
-                                             editorViewModel.selectUI(id: MUI.none.uiID, frame: selectedUIFrame)
                                          }
                                          .onEnded { value in
                                              var offset = appViewOffset
@@ -84,7 +83,7 @@ struct UISelectionView: View {
                                              frame.x = editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - editorGeo.size.width / 2) / appViewScale - frame.width / 2
                                              frame.y = editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - editorGeo.size.height / 2) / appViewScale - frame.height / 2
 
-                                             editorViewModel.addUI(type: type, frame: frame, globalFrame: selectedUIFrame)
+                                             editorViewModel.addUI(type: type, frame: frame)
                                              selectedUIType = .space
                                              selectedUIFrame = CGRect.zero
                                          }
