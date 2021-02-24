@@ -26,11 +26,17 @@ fileprivate struct UIFrameDot: View {
 
     @Binding var frame: MUIRect
 
-    @Binding var size: CGFloat
+    @Binding var defaultDotSize: CGFloat
 
     let frameFactors: FrameFactors
 
     let onEnded: () -> ()
+
+    @State private var selected = false
+
+    private var dotSize: CGFloat {
+        selected ? defaultDotSize * 1.5 : defaultDotSize
+    }
 
     private let dotColor = Color.blue
 
@@ -40,20 +46,32 @@ fileprivate struct UIFrameDot: View {
 
     var body: some View {
         Circle()
-            .foregroundColor(dotColor)
-            .frame(width: size, height: size)
+            .foregroundColor(.white)
+            .frame(width: dotSize, height: dotSize)
+            .overlay(
+                Circle()
+                    .foregroundColor(dotColor)
+                    .frame(width: dotSize * 0.8, height: dotSize * 0.8)
+                    .shadow(radius: 1)
+            )
             .overlay(
                 Circle()
                     .foregroundColor(Color.white.opacity(0.001))
-                    .frame(width: size * 2, height: size * 2)
-                    .gesture(DragGesture()
+                    .frame(width: defaultDotSize * 2, height: defaultDotSize * 2)
+                    .gesture(DragGesture(minimumDistance: 0)
                                  .onChanged { value in
+                                     withAnimation(.easeIn(duration: 0.05)) {
+                                         selected = true
+                                     }
                                      self.frame.x += min(frameFactors.x.rawValue * value.translation.width, frame.width - minWidth)
                                      self.frame.y += min(frameFactors.y.rawValue * value.translation.height, frame.height - minHeight)
                                      self.frame.width = max(frame.width + frameFactors.width.rawValue * value.translation.width, minWidth)
                                      self.frame.height = max(frame.height + frameFactors.height.rawValue * value.translation.height, minHeight)
                                  }
                                  .onEnded { _ in
+                                     withAnimation(.easeOut(duration: 0.05)) {
+                                         selected = false
+                                     }
                                      onEnded()
                                  }
                     )
@@ -81,7 +99,7 @@ struct UIFrameEditingView<Content: View>: View {
 
     private var dotSize: Binding<CGFloat> {
         Binding(
-            get: { 8 / appViewScale },
+            get: { 10 / appViewScale },
             set: { _ in }
         )
     }
@@ -126,39 +144,39 @@ struct UIFrameEditingView<Content: View>: View {
         ZStack {
             if !(frameData.lockHeight || frameData.lockWidth) {
                 // LT
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative), onEnded: onEnded)
                     .position(x: 0, y: 0)
 
                 // RT
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative), onEnded: onEnded)
                     .position(x: size.width, y: 0)
 
                 // RB
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive), onEnded: onEnded)
                     .position(x: size.width, y: size.height)
 
                 // LB
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive), onEnded: onEnded)
                     .position(x: 0, y: size.height)
             }
 
             if !frameData.lockHeight {
                 // T
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative), onEnded: onEnded)
                     .position(x: size.width / 2, y: 0)
 
                 // B
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive), onEnded: onEnded)
                     .position(x: size.width / 2, y: size.height)
             }
 
             if !frameData.lockWidth {
                 // R
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero), onEnded: onEnded)
                     .position(x: size.width, y: size.height / 2)
 
                 // L
-                UIFrameDot(frame: $frameData.frame, size: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero), onEnded: onEnded)
+                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero), onEnded: onEnded)
                     .position(x: 0, y: size.height / 2)
             }
         }
