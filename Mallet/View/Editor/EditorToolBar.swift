@@ -10,15 +10,17 @@ import SwiftUI
 
 struct EditorToolBar: View {
 
-    @EnvironmentObject var editorViewModel: EditorViewModel
-
     @Binding var offset: CGFloat
 
     let height: CGFloat
 
-    let toggleUIStyleEditor: () -> Void
+    let toggleUIStyleEditor: () -> ()
 
-    let openCodeEditor: () -> Void
+    let openCodeEditor: () -> ()
+
+    let deleteUI: () -> ()
+
+    let duplicateUI: () -> ()
 
     var body: some View {
         GeometryReader { geo in
@@ -109,7 +111,7 @@ struct EditorToolBar: View {
     private func trailingContent() -> some View {
         HStack(spacing: 0) {
             Button(action: {
-                editorViewModel.deleteUI()
+                deleteUI()
             }) {
                 Image(systemName: "trash")
                     .resizable()
@@ -118,7 +120,7 @@ struct EditorToolBar: View {
             }
 
             Button(action: {
-                editorViewModel.duplicateUI()
+                duplicateUI()
             }) {
                 Image(systemName: "plus.square.on.square")
                     .resizable()
@@ -128,4 +130,11 @@ struct EditorToolBar: View {
         }
     }
 
+}
+
+extension EditorToolBar: Equatable {
+    public static func ==(lhs: EditorToolBar, rhs: EditorToolBar) -> Bool {
+        lhs.offset == rhs.offset &&
+            lhs.height == rhs.height
+    }
 }

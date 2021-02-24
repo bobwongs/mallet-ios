@@ -8,7 +8,8 @@
 
 import SwiftUI
 
-struct SemiModalView<Content: View>: View {
+struct SemiModalView<Content: View>: View
+    where Content: Equatable {
 
     let content: () -> Content
 
@@ -40,10 +41,6 @@ struct SemiModalView<Content: View>: View {
     }
 
     var body: some View {
-        modalView()
-    }
-
-    private func modalView() -> some View {
         GeometryReader { geo in
             VStack {
                 VStack {
@@ -52,67 +49,68 @@ struct SemiModalView<Content: View>: View {
                         .cornerRadius(2)
                         .foregroundColor(Color(.systemGray3))
                 }
-                    .frame(height: self.controlBarHeight)
+                    .frame(height: controlBarHeight)
 
-                self.content()
+                content()
+                    .equatable()
             }
                 .background(Blur(style: .systemThickMaterial))
-                .cornerRadius(self.cornerRadius)
+                .cornerRadius(cornerRadius)
                 .shadow(color: Color.black.opacity(0.1), radius: 3)
                 .overlay(
                     ZStack {
                         VStack {
                             Spacer()
                             Color(.tertiarySystemBackground)
-                                .frame(height: self.cornerRadius)
+                                .frame(height: cornerRadius)
                         }
 
-                        RoundedRectangle(cornerRadius: self.cornerRadius)
+                        RoundedRectangle(cornerRadius: cornerRadius)
                             .stroke(Color(.opaqueSeparator), lineWidth: 0.2)
                     }
                 )
                 .gesture(DragGesture(minimumDistance: 0)
                              .onChanged({ value in
-                                 self.dragGestureOnChanged(value: value)
+                                 dragGestureOnChanged(value: value)
                              })
                              .onEnded({ _ in
-                                 self.dragGestureOnEnded()
+                                 dragGestureOnEnded()
                              })
                 )
                 .onAppear {
-                    self.offset = self.minOffset
+                    self.offset = minOffset
                 }
                 .edgesIgnoringSafeArea(.bottom)
-                .frame(height: self.height)
+                .frame(height: height)
                 .position(x: geo.size.width / 2,
-                          y: geo.size.height + self.height / 2 - self.minHeight)
-                .offset(y: -self.offset)
+                          y: geo.size.height + height / 2 - minHeight)
+                .offset(y: -offset)
         }
     }
 
     private func dragGestureOnChanged(value: DragGesture.Value) {
-        self.dragGestureDiffHeight = value.translation.height - self.dragGestureCurrentTranslationHeight
+        self.dragGestureDiffHeight = value.translation.height - dragGestureCurrentTranslationHeight
         self.dragGestureCurrentTranslationHeight = value.translation.height
 
         self.offset =
-            max(self.minOffset,
-                min(self.maxOffset, self.offset - value.translation.height))
+            max(minOffset,
+                min(maxOffset, offset - value.translation.height))
     }
 
     private func dragGestureOnEnded() {
-        if abs(self.dragGestureDiffHeight) < 2 {
-            if self.offset > (self.maxOffset + self.minOffset) / 2 {
-                self.openModalView()
+        if abs(dragGestureDiffHeight) < 2 {
+            if offset > (maxOffset + minOffset) / 2 {
+                openModalView()
             } else {
-                self.closeModalView()
+                closeModalView()
             }
             return
         }
 
-        if self.dragGestureDiffHeight < 0 {
-            self.openModalView()
+        if dragGestureDiffHeight < 0 {
+            openModalView()
         } else {
-            self.closeModalView()
+            closeModalView()
         }
 
     }

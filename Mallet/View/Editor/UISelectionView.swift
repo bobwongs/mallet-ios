@@ -10,11 +10,11 @@ import SwiftUI
 
 struct UISelectionView: View {
 
-    @EnvironmentObject var editorViewModel: EditorViewModel
-
     let editorGeo: GeometryProxy
 
-    let closeModalView: () -> Void
+    let closeModalView: () -> ()
+
+    let addUI: (MUIType, MUIRect) -> ()
 
     @Binding var selectedUIType: MUIType
 
@@ -45,7 +45,6 @@ struct UISelectionView: View {
     }
 
     private func uiSelectionCell(type: MUIType) -> some View {
-
         let width: CGFloat = 75
         let height: CGFloat = 45
         let padding: CGFloat = 8
@@ -83,7 +82,7 @@ struct UISelectionView: View {
                                              frame.x = editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - editorGeo.size.width / 2) / appViewScale - frame.width / 2
                                              frame.y = editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - editorGeo.size.height / 2) / appViewScale - frame.height / 2
 
-                                             editorViewModel.addUI(type: type, frame: frame)
+                                             addUI(type, frame)
                                              selectedUIType = .space
                                              selectedUIFrame = CGRect.zero
                                          }
@@ -129,22 +128,11 @@ struct UISelectionView: View {
 extension UISelectionView: Equatable {
 
     public static func ==(lhs: UISelectionView, rhs: UISelectionView) -> Bool {
-        lhs.appViewScale == rhs.appViewScale &&
+        lhs.editorGeo.frame(in: .global) == rhs.editorGeo.frame(in: .global) &&
+            lhs.selectedUIType == rhs.selectedUIType &&
+            lhs.selectedUIFrame == rhs.selectedUIFrame &&
+            lhs.appViewScale == rhs.appViewScale &&
             lhs.appViewOffset == rhs.appViewOffset
     }
 
 }
-
-/*
-struct MUISelectionView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            MUISelectionView(selectedUIType: .constant(.space), selectedUIFrame: .constant(CGRect.zero))
-                .colorScheme(.light)
-
-            MUISelectionView(selectedUIType: .constant(.space), selectedUIFrame: .constant(CGRect.zero))
-                .colorScheme(.dark)
-        }
-    }
-}
-*/

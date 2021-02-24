@@ -69,13 +69,13 @@ struct EditorView: View {
                                   controlBarHeight: modalControlBarHeight,
                                   offset: self.$modalOffset) {
                         UISelectionView(editorGeo: geo,
-                                        closeModalView: { closeModalView() },
+                                        closeModalView: closeModalView,
+                                        addUI: editorViewModel.addUI,
                                         selectedUIType: self.$selectedUIType,
                                         selectedUIFrame: self.$selectedUIFrame,
                                         appViewScale: self.$appViewScale,
                                         appViewOffset: self.$appViewOffset
                         )
-                            .equatable()
                     }
 
                     VStack(spacing: 0) {
@@ -97,10 +97,12 @@ struct EditorView: View {
 
                     EditorToolBar(offset: self.$modalOffset,
                                   height: toolBarHeight,
-                                  toggleUIStyleEditor: { toggleUIStyleEditor() },
-                                  openCodeEditor: { openCodeEditor() }
+                                  toggleUIStyleEditor: toggleUIStyleEditor,
+                                  openCodeEditor: openCodeEditor,
+                                  deleteUI: editorViewModel.deleteUI,
+                                  duplicateUI: editorViewModel.duplicateUI
                     )
-                        .environmentObject(editorViewModel)
+                        .equatable()
 
                     if selectedUIType != .space {
                         UISelectionView.generateUI(type: selectedUIType)
