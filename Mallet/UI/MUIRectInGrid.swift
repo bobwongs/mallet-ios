@@ -22,6 +22,14 @@ struct MUIRectInGrid: Codable {
         MUIRectInGrid(top: 0, left: 0, bottom: 0, right: 0)
     }
 
+    var width: Int {
+        right - left + 1
+    }
+
+    var height: Int {
+        bottom - top + 1
+    }
+
 }
 
 extension MUIRectInGrid: Equatable {
