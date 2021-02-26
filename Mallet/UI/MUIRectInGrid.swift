@@ -6,7 +6,7 @@
 //  Copyright (c) 2021 Katsu Matsuda. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct MUIRectInGrid: Codable {
 
@@ -28,6 +28,29 @@ struct MUIRectInGrid: Codable {
 
     var height: Int {
         bottom - top + 1
+    }
+
+    func muiRect(screenSize: CGSize) -> MUIRect {
+        let padding = EditorAppViewInfo.gridRectPadding(screenSize: screenSize)
+        let spacerHeight = EditorAppViewInfo.gridSpacerHeight(screenSize: screenSize, rectPadding: padding)
+
+        let tl = gridRectFrame(x: left, y: top, padding: padding, spacerHeight: spacerHeight)
+        let br = gridRectFrame(x: right, y: bottom, padding: padding, spacerHeight: spacerHeight)
+
+        return MUIRect(x: tl.minX, y: tl.minY, width: br.maxX - tl.minX, height: br.maxY - tl.minY)
+    }
+
+    func gridRectFrame(x: Int, y: Int, padding: CGFloat, spacerHeight: CGFloat) -> CGRect {
+        let rectSize = EditorAppViewInfo.gridRectSize + padding * 2
+        let minX = rectSize * CGFloat(x - 1) + padding
+        let minY: CGFloat
+        if y > EditorAppViewInfo.gridHeight1 {
+            minY = rectSize * CGFloat(y - 1) + padding + spacerHeight
+        } else {
+            minY = rectSize * CGFloat(y - 1) + padding
+        }
+
+        return CGRect(x: minX, y: minY, width: EditorAppViewInfo.gridRectSize, height: EditorAppViewInfo.gridRectSize)
     }
 
 }

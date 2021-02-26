@@ -55,12 +55,17 @@ class EditorViewModel: ObservableObject {
         AppController.runApp(id: appID)
     }
 
-    func addUI(type: MUIType, frame: MUIRect) {
+    func addUI(type: MUIType, uiGeo: GeometryProxy, appViewGeo: GeometryProxy) {
         let uiID = maxUIID + 1
         let uiName = "\(type.rawValue)\(uiID)"
 
+        //print("###\(frame)")
+
         uiIDs.append(uiID)
-        uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
+        //uiData[uiID] = .defaultValue(uiID: uiID, uiName: uiName, type: type, frame: frame)
+        //FIXME:
+
+        //print("***\(uiData[uiID]?.frameData)")
 
         selectedUIID = uiID
 
@@ -82,8 +87,11 @@ class EditorViewModel: ObservableObject {
 
         let diff = CGPoint(x: 20, y: 20)
 
-        newUI.frameData.frame.x += diff.x
-        newUI.frameData.frame.y += diff.y
+        fatalError()
+        /*
+        newUI.frameData.rect.x += diff.x
+        newUI.frameData.rect.y += diff.y
+        */
 
         uiIDs.append(uiID)
         uiData[uiID] = newUI

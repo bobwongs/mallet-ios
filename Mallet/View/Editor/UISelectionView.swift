@@ -14,7 +14,7 @@ struct UISelectionView: View {
 
     let closeModalView: () -> ()
 
-    let addUI: (MUIType, MUIRect) -> ()
+    let addUI: (MUIType, GeometryProxy) -> ()
 
     @Binding var selectedUIType: MUIType
 
@@ -82,7 +82,7 @@ struct UISelectionView: View {
                                              frame.x = editorGeo.size.width / 2 + ((frame.x + offset.x + frame.width / 2) - editorGeo.size.width / 2) / appViewScale - frame.width / 2
                                              frame.y = editorGeo.size.height / 2 + ((frame.y + offset.y + frame.height / 2) - editorGeo.size.height / 2) / appViewScale - frame.height / 2
 
-                                             addUI(type, frame)
+                                             addUI(type, geo)
                                              selectedUIType = .space
                                              selectedUIFrame = CGRect.zero
                                          }
@@ -103,7 +103,7 @@ struct UISelectionView: View {
     static func generateUI(type: MUIType) -> some View {
 
         var uiData = MUI.defaultValue(type: type)
-        uiData.frameData.frame = MUIRect(x: 0, y: 0, width: 80, height: 50)
+        uiData.frameData = .init(MUIRect(x: 0, y: 0, width: 80, height: 50))
 
         return Group {
             if type == .text {

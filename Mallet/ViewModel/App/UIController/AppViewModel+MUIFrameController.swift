@@ -12,6 +12,7 @@ import XyloSwift
 extension AppViewModel: MUIFrameController {
 
     func setFrame(args: [XyObj]) -> XyObj {
+        /*
         let x = CGFloat(args[1].float())
         let y = CGFloat(args[2].float())
         let width = CGFloat(args[3].float())
@@ -21,9 +22,12 @@ extension AppViewModel: MUIFrameController {
             MUIRect(x: x, y: y, width: width, height: height)
 
         return .zero
+        */
+        fatalError()
     }
 
     func setPosition(args: [XyObj]) -> XyObj {
+        /*
         let x = CGFloat(args[1].float())
         let y = CGFloat(args[2].float())
 
@@ -32,9 +36,12 @@ extension AppViewModel: MUIFrameController {
         frame.y.wrappedValue = y
 
         return .zero
+        */
+        fatalError()
     }
 
     func setSize(args: [XyObj]) -> XyObj {
+        /*
         let width = CGFloat(args[1].float())
         let height = CGFloat(args[2].float())
 
@@ -43,58 +50,76 @@ extension AppViewModel: MUIFrameController {
         frame.height.wrappedValue = height
 
         return .zero
+        */
+        fatalError()
     }
 
     func setX(args: [XyObj]) -> XyObj {
+        /*
         let x = CGFloat(args[1].float())
 
         let frame = getUIData(args[0]).frameData.frame
         frame.x.wrappedValue = x
 
         return .zero
+        */
+        fatalError()
     }
 
     func setY(args: [XyObj]) -> XyObj {
+        /*
         let y = CGFloat(args[1].float())
 
         let frame = getUIData(args[0]).frameData.frame
         frame.y.wrappedValue = y
 
         return .zero
+        */
+        fatalError()
     }
 
     func setWidth(args: [XyObj]) -> XyObj {
+        /*
         let width = CGFloat(args[1].float())
 
         let frame = getUIData(args[0]).frameData.frame
         frame.width.wrappedValue = width
 
         return .zero
+        */
+        fatalError()
     }
 
     func setHeight(args: [XyObj]) -> XyObj {
+        /*
         let height = CGFloat(args[1].float())
 
         let frame = getUIData(args[0]).frameData.frame
         frame.height.wrappedValue = height
 
         return .zero
+        */
+        fatalError()
     }
 
     func getX(args: [XyObj]) -> XyObj {
-        XyObj(Double(getUIData(args[0]).frameData.frame.x.wrappedValue))
+        //XyObj(Double(getUIData(args[0]).frameData.frame.x.wrappedValue))
+        fatalError()
     }
 
     func getY(args: [XyObj]) -> XyObj {
-        XyObj(Double(getUIData(args[0]).frameData.frame.y.wrappedValue))
+        //XyObj(Double(getUIData(args[0]).frameData.frame.y.wrappedValue))
+        fatalError()
     }
 
     func getWidth(args: [XyObj]) -> XyObj {
-        XyObj(Double(getUIData(args[0]).frameData.frame.width.wrappedValue))
+        //XyObj(Double(getUIData(args[0]).frameData.frame.width.wrappedValue))
+        fatalError()
     }
 
     func getHeight(args: [XyObj]) -> XyObj {
-        XyObj(Double(getUIData(args[0]).frameData.frame.height.wrappedValue))
+        //XyObj(Double(getUIData(args[0]).frameData.frame.height.wrappedValue))
+        fatalError()
     }
 
     var muiFrameFuncs: [Xylo.Func] {

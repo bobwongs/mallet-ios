@@ -14,9 +14,11 @@ struct MUIText: View {
 
     var body: some View {
         Text(uiData.textData.text)
-            .frame(width: uiData.frameData.frame.width,
-                   height: uiData.frameData.frame.height,
+            /*
+            .frame(width: uiData.frameData.rect.width,
+                   height: uiData.frameData.rect.height,
                    alignment: uiData.textData.alignment.toAlignment)
+            */
             .foregroundColor(uiData.textData.color.color)
             .font(.system(size: uiData.textData.size))
             .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)
@@ -39,9 +41,11 @@ struct MUIButton: View, MUIInteractive {
             invokeAction?(uiData.buttonData.onTapped.xyloFuncName(uiID: uiData.uiID))
         }) {
             Text(uiData.textData.text)
-                .frame(width: uiData.frameData.frame.width,
-                       height: uiData.frameData.frame.height,
+                /*
+                .frame(width: uiData.frameData.rect.width,
+                       height: uiData.frameData.rect.height,
                        alignment: uiData.textData.alignment.toAlignment)
+                */
                 .foregroundColor(uiData.textData.color.color)
                 .font(.system(size: uiData.textData.size))
                 .multilineTextAlignment(uiData.textData.alignment.toTextAlignment)

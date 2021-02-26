@@ -11,21 +11,35 @@ import XyloSwift
 
 struct MUIFrameData: Codable {
 
-    var frame: MUIRect
+    var rect: MUIRectType
 
     var lockHeight = false
 
     var lockWidth = false
 
-    init(_ frame: MUIRect) {
-        self.frame = frame
+    init(_ rect: MUIRectInGrid) {
+        self.rect = .grid(rect)
     }
+
+    init(_ rect: MUIRect) {
+        self.rect = .free(rect)
+    }
+
+    func frame(screenSize: CGSize) -> MUIRect {
+        switch rect {
+        case .free(let value):
+            return value
+        case .grid(let value):
+            return value.muiRect(screenSize: screenSize)
+        }
+    }
+
 }
 
 extension MUIFrameData: Equatable {
 
     public static func ==(lhs: MUIFrameData, rhs: MUIFrameData) -> Bool {
-        lhs.frame == rhs.frame &&
+        lhs.rect == rhs.rect &&
             lhs.lockHeight == rhs.lockHeight &&
             lhs.lockWidth == rhs.lockWidth
     }

@@ -85,9 +85,9 @@ struct UIFrameEditingView<Content: View>: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
-    @Binding var uiData: MUI
+    @State var frame: MUIRect = .zero
 
-    @Binding var frameData: MUIFrameData
+    @Binding var uiData: MUI
 
     @Binding var appViewScale: CGFloat
 
@@ -111,72 +111,70 @@ struct UIFrameEditingView<Content: View>: View {
     init(uiData: Binding<MUI>, appViewScale: Binding<CGFloat>, appViewGeo: GeometryProxy, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
 
-        self._frameData = uiData.frameData
-
         self._appViewScale = appViewScale
 
         self.appViewGeo = appViewGeo
 
         self.content = content
+
+        frame = uiData.frameData.wrappedValue.frame(screenSize: appViewGeo.size)
     }
 
     var body: some View {
-        content()
-            .hidden()
-            .overlay(
-                ZStack {
-                    Color.clear
-                        .padding(borderWidth / 2)
-                        .border(Color.blue, width: borderWidth)
+        ZStack {
+            Color.clear
+                .padding(borderWidth / 2)
+                .border(Color.blue, width: borderWidth)
 
-                    GeometryReader { geo in
-                        dotView(size: geo.size,
-                                onEnded: {
-                                    print(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
-                                })
-                    }
-                }
-            )
-            .position(x: frameData.frame.midX, y: frameData.frame.midY)
+            GeometryReader { geo in
+                dotView(size: geo.size,
+                        onEnded: {
+                            uiData.frameData = .init(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
+                            //TODO: .free
+                        })
+            }
+        }
+            .frame(width: frame.width, height: frame.height)
+            .position(x: frame.midX, y: frame.midY)
     }
 
     private func dotView(size: CGSize, onEnded: @escaping () -> ()) -> some View {
         ZStack {
-            if !(frameData.lockHeight || frameData.lockWidth) {
+            if !(uiData.frameData.lockHeight || uiData.frameData.lockWidth) {
                 // LT
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .positive, width: .negative, height: .negative), onEnded: onEnded)
                     .position(x: 0, y: 0)
 
                 // RT
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .positive, height: .negative), onEnded: onEnded)
                     .position(x: size.width, y: 0)
 
                 // RB
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .positive), onEnded: onEnded)
                     .position(x: size.width, y: size.height)
 
                 // LB
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .positive), onEnded: onEnded)
                     .position(x: 0, y: size.height)
             }
 
-            if !frameData.lockHeight {
+            if !uiData.frameData.lockHeight {
                 // T
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .positive, width: .zero, height: .negative), onEnded: onEnded)
                     .position(x: size.width / 2, y: 0)
 
                 // B
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .zero, height: .positive), onEnded: onEnded)
                     .position(x: size.width / 2, y: size.height)
             }
 
-            if !frameData.lockWidth {
+            if !uiData.frameData.lockWidth {
                 // R
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .zero, y: .zero, width: .positive, height: .zero), onEnded: onEnded)
                     .position(x: size.width, y: size.height / 2)
 
                 // L
-                UIFrameDot(frame: $frameData.frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero), onEnded: onEnded)
+                UIFrameDot(frame: $frame, defaultDotSize: dotSize, frameFactors: FrameFactors(x: .positive, y: .zero, width: .negative, height: .zero), onEnded: onEnded)
                     .position(x: 0, y: size.height / 2)
             }
         }

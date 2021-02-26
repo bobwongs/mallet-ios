@@ -16,15 +16,17 @@ struct AppView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
-                Color.white
+            GeometryReader { appViewGeo in
+                ZStack {
+                    Color.white
 
-                ForEach(appViewModel.uiIDs, id: \.self) { id in
-                    MUI.putView(uiData: appViewModel.getUIDataOf(id), invokeAction: { appViewModel.runFunc(funcName: $0) })
+                    ForEach(appViewModel.uiIDs, id: \.self) { id in
+                        MUI.putView(uiData: appViewModel.getUIDataOf(id), screenSize: appViewGeo.size, invokeAction: { appViewModel.runFunc(funcName: $0) })
+                    }
                 }
+                    .navigationBarTitle(Text(appViewModel.appName), displayMode: .inline)
+                    .navigationBarItems(leading: leadingNavigationBarItems())
             }
-                .navigationBarTitle(Text(appViewModel.appName), displayMode: .inline)
-                .navigationBarItems(leading: leadingNavigationBarItems())
         }
             .colorScheme(.light)
             .onAppear {

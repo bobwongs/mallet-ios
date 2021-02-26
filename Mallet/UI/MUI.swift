@@ -31,7 +31,7 @@ struct MUI: Codable {
     var toggleData = MUIToggleData.disabled
 
     static var none: MUI {
-        MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrameData(.zero))
+        MUI(uiID: -1, uiName: "", uiType: .space, frameData: MUIFrameData(MUIRect.zero))
     }
 
     static func defaultValue(type: MUIType) -> MUI {
@@ -95,14 +95,13 @@ struct MUI: Codable {
 
 extension MUI {
 
-    static func putView(uiData: Binding<MUI>, invokeAction: ((String) -> ())?) -> some View {
-        generateView(uiData: uiData, invokeAction: invokeAction)
-            .position(x: uiData.wrappedValue.frameData.frame.midX,
-                      y: uiData.wrappedValue.frameData.frame.midY)
+    static func putView(uiData: Binding<MUI>, screenSize: CGSize, invokeAction: ((String) -> ())?) -> some View {
+        generateView(uiData: uiData, screenSize: screenSize, invokeAction: invokeAction)
+            .position(x: uiData.wrappedValue.frameData.frame(screenSize: screenSize).midX,
+                      y: uiData.wrappedValue.frameData.frame(screenSize: screenSize).midY)
     }
 
-    static func generateView(uiData: Binding<MUI>, invokeAction: ((String) -> ())? = nil) -> some View {
-
+    static func generateView(uiData: Binding<MUI>, screenSize: CGSize, invokeAction: ((String) -> ())? = nil) -> some View {
         let type = uiData.wrappedValue.uiType
 
         let frameData = uiData.wrappedValue.frameData
@@ -130,13 +129,13 @@ extension MUI {
                 view
             } else if frameData.lockWidth {
                 view
-                    .frame(height: frameData.frame.height)
+                    .frame(height: frameData.frame(screenSize: screenSize).height)
             } else if frameData.lockHeight {
                 view
-                    .frame(width: frameData.frame.width)
+                    .frame(width: frameData.frame(screenSize: screenSize).width)
             } else {
                 view
-                    .frame(width: frameData.frame.width, height: frameData.frame.height)
+                    .frame(width: frameData.frame(screenSize: screenSize).width, height: frameData.frame(screenSize: screenSize).height)
             }
         }
             .background(backgroundData.color.color)

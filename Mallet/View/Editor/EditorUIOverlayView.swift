@@ -14,11 +14,13 @@ struct EditorUIOverlayView<Content: View>: View {
 
     @EnvironmentObject var editorViewModel: EditorViewModel
 
+    @State var frame: MUIRect = .zero
+
     @Binding var uiData: MUI
 
-    @Binding var frame: MUIRect
-
     let appViewGeo: GeometryProxy
+
+    let screenSize: CGSize
 
     private var editingText: Bool {
         editorViewModel.textEditingUIID == uiData.uiID
@@ -27,11 +29,14 @@ struct EditorUIOverlayView<Content: View>: View {
     init(uiData: Binding<MUI>, appViewGeo: GeometryProxy, @ViewBuilder content: @escaping () -> Content) {
         self._uiData = uiData
 
-        self._frame = uiData.frameData.frame
-
         self.appViewGeo = appViewGeo
 
+        screenSize = appViewGeo.size
+
         self.content = content
+
+        frame = uiData.frameData.wrappedValue.frame(screenSize: screenSize)
+        print(frame)
     }
 
     var body: some View {
@@ -53,11 +58,19 @@ struct EditorUIOverlayView<Content: View>: View {
                             Rectangle()
                                 .gesture(DragGesture(minimumDistance: 0.5)
                                              .onChanged { value in
-                                                 self.frame.x += value.translation.width
-                                                 self.frame.y += value.translation.height
+                                                 frame.x += value.translation.width
+                                                 frame.y += value.translation.height
                                              }
                                              .onEnded { _ in
-                                                 print(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
+                                                 uiData.frameData = .init(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
+                                                 /*
+                                                 switch uiData.frameData.rect {
+                                                 case .grid(_):
+                                                     uiData.frameData = .init(editorViewModel.findUIPosInGrid(uiGeo: geo, appViewGeo: appViewGeo))
+                                                 case .free(_):
+                                                     uiData.frameData = .init(frame)
+                                                 }
+                                                 */
                                              }
                                 )
                                 .gesture(TapGesture()

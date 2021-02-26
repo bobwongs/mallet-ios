@@ -59,6 +59,9 @@ struct EditorView: View {
                         .frame(height: appScreenGeo.safeAreaInsets.bottom + toolBarHeight + modalControlBarHeight - scrollViewInvisibleHeight)
                 }
                     .ignoresSafeArea(edges: .all)
+                    .onChange(of: appScreenGeo.frame(in: .global)) { value in
+                        print(value)
+                    }
             }
                 .ignoresSafeArea(.keyboard)
 
@@ -70,7 +73,9 @@ struct EditorView: View {
                                   offset: self.$modalOffset) {
                         UISelectionView(editorGeo: geo,
                                         closeModalView: closeModalView,
-                                        addUI: editorViewModel.addUI,
+                                        addUI: { (type: MUIType, uiGeo: GeometryProxy) in
+                                            //editorViewModel.addUI(type: type, uiGeo: uiGeo, appViewGeo: )
+                                        },
                                         selectedUIType: self.$selectedUIType,
                                         selectedUIFrame: self.$selectedUIFrame,
                                         appViewScale: self.$appViewScale,

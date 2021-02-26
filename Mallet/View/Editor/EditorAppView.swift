@@ -23,7 +23,7 @@ struct EditorAppView: View {
 
                 ForEach(editorViewModel.uiIDs, id: \.self) { id in
                     EditorUIOverlayView(uiData: editorViewModel.getUIDataOf(id), appViewGeo: geo) {
-                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
+                        MUI.generateView(uiData: editorViewModel.getUIDataOf(id), screenSize: geo.size)
                     }
                         .environmentObject(editorViewModel)
                 }
@@ -33,7 +33,7 @@ struct EditorAppView: View {
                         UIFrameEditingView(uiData: editorViewModel.getUIDataOf(id),
                                            appViewScale: self.$appViewScale,
                                            appViewGeo: geo) {
-                            MUI.generateView(uiData: editorViewModel.getUIDataOf(id))
+                            MUI.generateView(uiData: editorViewModel.getUIDataOf(id), screenSize: geo.size)
                         }
                             .environmentObject(editorViewModel)
                     }

@@ -14,6 +14,8 @@ struct FrameStyleEditorView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Text("//TODO:")
+            /*
             if !frameData.lockWidth {
                 NumberInputCell(value: self.$frameData.frame.width, range: 0...1000, title: "Width", symbol: "arrow.left.and.right.square")
             }
@@ -21,6 +23,7 @@ struct FrameStyleEditorView: View {
             if !frameData.lockHeight {
                 NumberInputCell(value: self.$frameData.frame.height, range: 0...1000, title: "Height", symbol: "arrow.up.and.down.square")
             }
+            */
         }
     }
 }
