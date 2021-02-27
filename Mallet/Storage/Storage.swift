@@ -15,10 +15,6 @@ class AppObject: Object {
 
     @objc dynamic var appName = ""
 
-    @objc dynamic var gridW = 0
-
-    @objc dynamic var gridH = 0
-
     let uiIDs = List<Int>()
 
     @objc dynamic var uiDataJson = ""
@@ -74,11 +70,10 @@ class Storage {
     static func createNewApp() -> AppData {
         let appID = maxAppID + 1
         let appName = "New App"
-        let screen = Screen.zero
         let uiIDs = [Int]()
         let uiData = Dictionary<Int, MUI>()
 
-        let appData = AppData(appID: appID, appName: appName, screen: screen, uiIDs: uiIDs, uiData: uiData)
+        let appData = AppData(appID: appID, appName: appName, uiIDs: uiIDs, uiData: uiData)
 
         saveApp(appData: appData)
 
@@ -87,7 +82,7 @@ class Storage {
 
     static func installApp(appData: AppData, sync: Bool = false) -> AppData {
         let appID = maxAppID + 1
-        var newAppData = AppData(appID: appID, appName: appData.appName, screen: appData.screen, uiIDs: appData.uiIDs, uiData: appData.uiData)
+        var newAppData = AppData(appID: appID, appName: appData.appName, uiIDs: appData.uiIDs, uiData: appData.uiData)
 
         if sync {
             saveAppSync(appData: newAppData)
@@ -107,7 +102,6 @@ class Storage {
         }
 
         let appName = appObject.appName
-        let screen = Screen(gridW: appObject.gridW, gridH: appObject.gridH)
         let uiIDs: [Int] = appObject.uiIDs.map({ $0 })
 
         guard let uiData = AppData.json2UIData(jsonStr: appObject.uiDataJson) else {
@@ -115,7 +109,7 @@ class Storage {
             return createNewApp()
         }
 
-        return AppData(appID: appID, appName: appName, screen: screen, uiIDs: uiIDs, uiData: uiData)
+        return AppData(appID: appID, appName: appName, uiIDs: uiIDs, uiData: uiData)
     }
 
     static func saveApp(appData: AppData) {
@@ -145,8 +139,6 @@ class Storage {
                 do {
                     try realm.write {
                         appObject.appName = appData.appName
-                        appObject.gridW = appData.screen.gridW
-                        appObject.gridH = appData.screen.gridH
                         appObject.uiDataJson = uiDataJson
 
                         appObject.uiIDs.removeAll()

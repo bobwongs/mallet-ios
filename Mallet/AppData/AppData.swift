@@ -14,16 +14,13 @@ class AppData: Codable {
 
     let appName: String
 
-    let screen: Screen
-
     let uiIDs: [Int]
 
     let uiData: Dictionary<Int, MUI>
 
-    init(appID: Int, appName: String, screen: Screen, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
+    init(appID: Int, appName: String, uiIDs: [Int], uiData: Dictionary<Int, MUI>) {
         self.appID = appID
         self.appName = appName
-        self.screen = screen
         self.uiIDs = uiIDs
         self.uiData = uiData
     }

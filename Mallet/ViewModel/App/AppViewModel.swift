@@ -24,7 +24,7 @@ class AppViewModel: ObservableObject {
     @Published var uiData: Dictionary<Int, MUI>
 
     convenience init(rootViewModel: RootViewModel) {
-        self.init(appData: AppData(appID: -1, appName: "Untitled App", screen: .zero, uiIDs: [], uiData: .init()), rootViewModel: rootViewModel)
+        self.init(appData: AppData(appID: -1, appName: "Untitled App", uiIDs: [], uiData: .init()), rootViewModel: rootViewModel)
     }
 
     init(appData: AppData, rootViewModel: RootViewModel) {
